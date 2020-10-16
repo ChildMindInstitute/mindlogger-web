@@ -15,7 +15,6 @@ export default (state = initialState, action = {}) => {
         auth: action.payload,
       };
     case USER_CONSTANTS.SET_INFO:
-      console.log(action.payload);
       return {
         ...state,
         info: action.payload,

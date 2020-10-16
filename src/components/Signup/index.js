@@ -11,14 +11,11 @@ export default function SignUp() {
     const onSubmit = body => {
         return signUp({...body})
             .then((response) => {
-                console.log(response)
                 response.privateKey = getPrivateKey({ userId: response._id, email: body.email, password: body.password });
                 response.email = body.email;
                 dispatch(signUpSuccessful(response));
             })
             .catch((e) => {
-                console.log(e)
-                console.log("I am here")
                 setError("password", {
                     type: "manual",
                     message: "Sign up failed: username may already be in use."

@@ -6,7 +6,6 @@ import {
 import { push } from 'connected-react-router'
 export const signInSuccessful = response => {
   return (dispatch) => {
-    console.log(response.user);
   dispatch(setInfo(response.user));
   dispatch(setAuth(response.authToken));
   dispatch(push('/profile'))

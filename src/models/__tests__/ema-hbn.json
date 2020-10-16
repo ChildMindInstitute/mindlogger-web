@@ -1,0 +1,1526 @@
+{
+  "activities": {
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNEvening/ema_evening_schema.jsonld": {
+      "@id": "/ema_evening_schema",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Activity.jsonld"
+      ],
+      "_id": "activity/5cba23ab86fafd5df796d90c",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "Evening Questions"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNEvening/ema_evening_schema.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "reprolib:terms/preamble": [
+        {
+          "@language": "en",
+          "@value": ""
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "ema_evening_schema"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "EMA: Evening"
+        }
+      ],
+      "reprolib:terms/order": [
+        {
+          "@list": [
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNEvening/items/stressful_day.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNEvening/items/sources_of_stress.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNEvening/items/good_bad_day.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNEvening/items/enjoyed_day.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNEvening/items/energy.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNEvening/items/health.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNEvening/items/negative_event.jsonld"
+            }
+          ]
+        }
+      ],
+      "reprolib:terms/scoringLogic": [],
+      "reprolib:terms/shuffle": [
+        {
+          "@type": "schema:Boolean",
+          "@value": false
+        }
+      ],
+      "reprolib:terms/visibility": [
+        {
+          "@index": "energy",
+          "@value": true
+        },
+        {
+          "@index": "enjoyed_day",
+          "@value": true
+        },
+        {
+          "@index": "good_bad_day",
+          "@value": true
+        },
+        {
+          "@index": "health",
+          "@value": true
+        },
+        {
+          "@index": "negative_event",
+          "@value": true
+        },
+        {
+          "@index": "sources_of_stress",
+          "@language": "en",
+          "@value": "stressful_day"
+        },
+        {
+          "@index": "stressful_day",
+          "@value": true
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNMorning/ema_morning_schema.jsonld": {
+      "@id": "/ema_morning_schema",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Activity.jsonld"
+      ],
+      "_id": "activity/5cba070386fafd5df796d908",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "Morning Questions"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNMorning/ema_morning_schema.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "reprolib:terms/preamble": [
+        {
+          "@language": "en",
+          "@value": ""
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "ema_morning_schema"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "EMA: Morning"
+        }
+      ],
+      "reprolib:terms/order": [
+        {
+          "@list": [
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNMorning/items/time_in_bed.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNMorning/items/nightmares.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNMorning/items/sleeping_aids.jsonld"
+            }
+          ]
+        }
+      ],
+      "reprolib:terms/addProperties": [
+        {
+          "variableName": "nightmares",
+          "isAbout": "nightmares",
+          "isVis": true
+        },
+        {
+          "variableName": "sleeping_aids",
+          "isAbout": "sleeping_aids",
+          "isVis": true
+        },
+        {
+          "variableName": "time_in_bed",
+          "isAbout": "time_in_bed",
+          "isVis": true
+        }
+      ],
+      "reprolib:terms/scoringLogic": [],
+      "reprolib:terms/shuffle": [
+        {
+          "@type": "schema:Boolean",
+          "@value": false
+        }
+      ]
+    }
+  },
+  "applet": {
+    "@id": "/ema-hbn_schema",
+    "@type": [
+      "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/ActivitySet.jsonld"
+    ],
+    "_id": "applet/5ca5314fd27b4e0459cee21f",
+    "groups": ["12345"],
+    "responseDates": [],
+    "schedule": {},
+    "reprolib:terms/landingPage":[{"@language": "en", "@value": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activity-sets/ema-hbn/README.md"}],
+    "schema:image": "https://childmindinstitute.github.io/mindlogger-assets/illustrations/undraw/hbn_ema_image.svg",
+    "schema:description": [
+      {
+        "@language": "en",
+        "@value": "Daily questions about your child's physical and mental health"
+      }
+    ],
+    "schema:schemaVersion": [
+      {
+        "@language": "en",
+        "@value": "0.0.1"
+      }
+    ],
+    "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activity-sets/ema-hbn/ema-hbn_schema.jsonld",
+    "schema:version": [
+      {
+        "@language": "en",
+        "@value": "0.0.1"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#altLabel": [
+      {
+        "@language": "en",
+        "@value": "ema-hbn"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#prefLabel": [
+      {
+        "@language": "en",
+        "@value": "Healthy Brain Network: EMA"
+      }
+    ],
+    "reprolib:terms/activity_display_name": [
+      {
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNEvening/ema_evening_schema.jsonld": [
+          {
+            "@id": "/Evening"
+          }
+        ],
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNMorning/ema_morning_schema.jsonld": [
+          {
+            "@id": "/Morning"
+          }
+        ]
+      }
+    ],
+    "reprolib:terms/addProperties": [
+      {
+        "reprolib:terms/isAbout": [
+          {
+            "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNMorning/ema_morning_schema.jsonld"
+          }
+        ],
+        "reprolib:terms/isVis": [
+          {
+            "@value": true
+          }
+        ],
+        "reprolib:terms/variableName": [
+          {
+            "@language": "en",
+            "@value": "ema_evening"
+          }
+        ]
+      },
+      {
+        "reprolib:terms/isAbout": [
+          {
+            "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNEvening/ema_evening_schema.jsonld"
+          }
+        ],
+        "reprolib:terms/isVis": [
+          {
+            "@value": true
+          }
+        ],
+        "reprolib:terms/variableName": [
+          {
+            "@language": "en",
+            "@value": "ema_morning"
+          }
+        ]
+      }
+    ],
+    "reprolib:terms/order": [
+      {
+        "@list": [
+          {
+            "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNMorning/ema_morning_schema.jsonld"
+          },
+          {
+            "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNEvening/ema_evening_schema.jsonld"
+          }
+        ]
+      }
+    ],
+    "reprolib:terms/shuffle": [
+      {
+        "@type": "schema:Boolean",
+        "@value": false
+      }
+    ]
+  },
+  "items": {
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNEvening/items/energy.jsonld": {
+      "@id": "/energy",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf992086fafd5189aee258",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "how energetic your child was today"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "How tired vs energetic did you child seem today?"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNEvening/items/energy.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "energy"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "Energy level"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "slider"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "@type": [
+            "http://www.w3.org/2001/XMLSchema#integer"
+          ],
+          "schema:itemListElement": [
+            {
+              "@list": [
+                {
+                  "schema:image": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F634.svg?sanitize=true",
+                  "schema:name": [
+                    {
+                      "@language": "en",
+                      "@value": "1"
+                    }
+                  ],
+                  "schema:value": [
+                    {
+                      "@value": 1
+                    }
+                  ]
+                },
+                {
+                  "schema:name": [
+                    {
+                      "@language": "en",
+                      "@value": "2"
+                    }
+                  ],
+                  "schema:value": [
+                    {
+                      "@value": 2
+                    }
+                  ]
+                },
+                {
+                  "schema:name": [
+                    {
+                      "@language": "en",
+                      "@value": "3"
+                    }
+                  ],
+                  "schema:value": [
+                    {
+                      "@value": 3
+                    }
+                  ]
+                },
+                {
+                  "schema:name": [
+                    {
+                      "@language": "en",
+                      "@value": "4"
+                    }
+                  ],
+                  "schema:value": [
+                    {
+                      "@value": 4
+                    }
+                  ]
+                },
+                {
+                  "schema:image": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F606.svg?sanitize=true",
+                  "schema:name": [
+                    {
+                      "@language": "en",
+                      "@value": "5"
+                    }
+                  ],
+                  "schema:value": [
+                    {
+                      "@value": 5
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "schema:maxValue": [
+            {
+              "@language": "en",
+              "@value": "high energy"
+            }
+          ],
+          "schema:minValue": [
+            {
+              "@language": "en",
+              "@value": "very tired"
+            }
+          ],
+          "reprolib:terms/required": [
+            {
+              "@type": "schema:Boolean",
+              "@value": false
+            }
+          ]
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNEvening/items/enjoyed_day.jsonld": {
+      "@id": "/enjoyed_day",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf992086fafd5189aee257",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "whether or not your child took sleeping aids to fall asleep last night"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Did your child seem like they enjoyed the day?"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNEvening/items/enjoyed_day.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "enjoyed_day"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "Enjoyed the day"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "slider"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "@type": [
+            "http://www.w3.org/2001/XMLSchema#integer"
+          ],
+          "schema:itemListElement": [
+            {
+              "@list": [
+                {
+                  "schema:image": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F621.svg?sanitize=true",
+                  "schema:name": [
+                    {
+                      "@language": "en",
+                      "@value": "0"
+                    }
+                  ],
+                  "schema:value": [
+                    {
+                      "@value": 0
+                    }
+                  ]
+                },
+                {
+                  "schema:name": [
+                    {
+                      "@language": "en",
+                      "@value": "1"
+                    }
+                  ],
+                  "schema:value": [
+                    {
+                      "@value": 1
+                    }
+                  ]
+                },
+                {
+                  "schema:name": [
+                    {
+                      "@language": "en",
+                      "@value": "2"
+                    }
+                  ],
+                  "schema:value": [
+                    {
+                      "@value": 2
+                    }
+                  ]
+                },
+                {
+                  "schema:name": [
+                    {
+                      "@language": "en",
+                      "@value": "3"
+                    }
+                  ],
+                  "schema:value": [
+                    {
+                      "@value": 3
+                    }
+                  ]
+                },
+                {
+                  "schema:name": [
+                    {
+                      "@language": "en",
+                      "@value": "4"
+                    }
+                  ],
+                  "schema:value": [
+                    {
+                      "@value": 4
+                    }
+                  ]
+                },
+                {
+                  "schema:image": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F601.svg?sanitize=true",
+                  "schema:name": [
+                    {
+                      "@language": "en",
+                      "@value": "5"
+                    }
+                  ],
+                  "schema:value": [
+                    {
+                      "@value": 5
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "schema:maxValue": [
+            {
+              "@language": "en",
+              "@value": "Really enjoying things"
+            }
+          ],
+          "schema:minValue": [
+            {
+              "@language": "en",
+              "@value": "No enjoyment or pleasure"
+            }
+          ],
+          "reprolib:terms/required": [
+            {
+              "@type": "schema:Boolean",
+              "@value": false
+            }
+          ]
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNEvening/items/good_bad_day.jsonld": {
+      "@id": "/good_bad_day",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf991f86fafd5189aee256",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "did you child have a good or bad day"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Did your child have a good day or bad day today?"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNEvening/items/good_bad_day.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "good_bad_day"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "Good or Bad day"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "radio"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "@type": [
+            "http://www.w3.org/2001/XMLSchema#anyURI"
+          ],
+          "schema:itemListElement": [
+            {
+              "@list": [
+                {
+                  "@type": [
+                    "schema:Boolean"
+                  ],
+                  "schema:image": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F44E.svg?sanitize=true",
+                  "schema:name": [
+                    {
+                      "@language": "en",
+                      "@value": "Bad Day"
+                    }
+                  ],
+                  "schema:value": [
+                    {
+                      "@value": 0
+                    }
+                  ]
+                },
+                {
+                  "@type": [
+                    "schema:Boolean"
+                  ],
+                  "schema:image": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F44D.svg?sanitize=true",
+                  "schema:name": [
+                    {
+                      "@language": "en",
+                      "@value": "Good Day"
+                    }
+                  ],
+                  "schema:value": [
+                    {
+                      "@value": 1
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "schema:maxValue": [
+            {
+              "@value": 1
+            }
+          ],
+          "schema:minValue": [
+            {
+              "@value": 0
+            }
+          ],
+          "reprolib:terms/multipleChoice": [
+            {
+              "@type": "schema:Boolean",
+              "@value": false
+            }
+          ]
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNEvening/items/health.jsonld": {
+      "@id": "/health",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf992186fafd5189aee259",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "was your child in good health today"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Was your child in good health today?"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNEvening/items/health.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "health"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "General Health"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "radio"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "@type": [
+            "http://www.w3.org/2001/XMLSchema#anyURI"
+          ],
+          "schema:itemListElement": [
+            {
+              "@list": [
+                {
+                  "@type": [
+                    "schema:Boolean"
+                  ],
+                  "schema:image": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F915.svg?sanitize=true",
+                  "schema:name": [
+                    {
+                      "@language": "en",
+                      "@value": "No"
+                    }
+                  ],
+                  "schema:value": [
+                    {
+                      "@value": 0
+                    }
+                  ]
+                },
+                {
+                  "@type": [
+                    "schema:Boolean"
+                  ],
+                  "schema:image": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/263A.svg?sanitize=true",
+                  "schema:name": [
+                    {
+                      "@language": "en",
+                      "@value": "Yes"
+                    }
+                  ],
+                  "schema:value": [
+                    {
+                      "@value": 1
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "schema:maxValue": [
+            {
+              "@value": 1
+            }
+          ],
+          "schema:minValue": [
+            {
+              "@value": 0
+            }
+          ],
+          "reprolib:terms/multipleChoice": [
+            {
+              "@type": "schema:Boolean",
+              "@value": false
+            }
+          ]
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNEvening/items/negative_event.jsonld": {
+      "@id": "/sleeping_aids",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf992186fafd5189aee25a",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "whether or not your child took sleeping aids to fall asleep last night"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Please think of ONE event that may have affected your child the most today (positively or negatively), no matter how slightly. In what context did the event occur?"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNEvening/items/negative_event.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "sleeping_aids"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "Sleeping Aids"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "radio"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "@type": [
+            "http://www.w3.org/2001/XMLSchema#anyURI"
+          ],
+          "schema:itemListElement": [
+            {
+              "@list": [
+                {
+                  "@type": [
+                    "schema:Boolean"
+                  ],
+                  "schema:name": [
+                    {
+                      "@language": "en",
+                      "@value": "No"
+                    }
+                  ],
+                  "schema:value": [
+                    {
+                      "@value": 0
+                    }
+                  ]
+                },
+                {
+                  "@type": [
+                    "schema:Boolean"
+                  ],
+                  "schema:name": [
+                    {
+                      "@language": "en",
+                      "@value": "Yes"
+                    }
+                  ],
+                  "schema:value": [
+                    {
+                      "@value": 1
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "schema:maxValue": [
+            {
+              "@value": 1
+            }
+          ],
+          "schema:minValue": [
+            {
+              "@value": 0
+            }
+          ],
+          "reprolib:terms/multipleChoice": [
+            {
+              "@type": "schema:Boolean",
+              "@value": true
+            }
+          ]
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNEvening/items/sources_of_stress.jsonld": {
+      "@id": "/sources_of_stress",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf991f86fafd5189aee255",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "your child's sources of stress"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Choose the source(s) of your child's stress today:"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNEvening/items/sources_of_stress.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "source_of_stress"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "Sources of Stress"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "radio"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "@type": [
+            "http://www.w3.org/2001/XMLSchema#anyURI"
+          ],
+          "schema:itemListElement": [
+            {
+              "@list": [
+                {
+                  "@type": [
+                    "schema:option"
+                  ],
+                  "schema:image": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F915.svg?sanitize=true",
+                  "schema:name": [
+                    {
+                      "@language": "en",
+                      "@value": "Didn't feel well"
+                    }
+                  ],
+                  "schema:value": [
+                    {
+                      "@value": 0
+                    }
+                  ]
+                },
+                {
+                  "@type": [
+                    "schema:option"
+                  ],
+                  "schema:image": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F469-200D-1F3EB.svg?sanitize=true",
+                  "schema:name": [
+                    {
+                      "@language": "en",
+                      "@value": "Classroom learning"
+                    }
+                  ],
+                  "schema:value": [
+                    {
+                      "@value": 1
+                    }
+                  ]
+                },
+                {
+                  "@type": [
+                    "schema:option"
+                  ],
+                  "schema:image": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F4DD.svg?sanitize=true",
+                  "schema:name": [
+                    {
+                      "@language": "en",
+                      "@value": "A test or quiz at school"
+                    }
+                  ],
+                  "schema:value": [
+                    {
+                      "@value": 2
+                    }
+                  ]
+                },
+                {
+                  "@type": [
+                    "schema:option"
+                  ],
+                  "schema:image": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F47F.svg?sanitize=true",
+                  "schema:name": [
+                    {
+                      "@language": "en",
+                      "@value": "Bullying"
+                    }
+                  ],
+                  "schema:value": [
+                    {
+                      "@value": 3
+                    }
+                  ]
+                },
+                {
+                  "@type": [
+                    "schema:option"
+                  ],
+                  "schema:image": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/E246.svg?sanitize=true",
+                  "schema:name": [
+                    {
+                      "@language": "en",
+                      "@value": "Online relationships"
+                    }
+                  ],
+                  "schema:value": [
+                    {
+                      "@value": 4
+                    }
+                  ]
+                },
+                {
+                  "@type": [
+                    "schema:option"
+                  ],
+                  "schema:image": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/2764.svg?sanitize=true",
+                  "schema:name": [
+                    {
+                      "@language": "en",
+                      "@value": "Death of a loved one"
+                    }
+                  ],
+                  "schema:value": [
+                    {
+                      "@value": 5
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "schema:maxValue": [
+            {
+              "@value": 2
+            }
+          ],
+          "schema:minValue": [
+            {
+              "@value": 0
+            }
+          ],
+          "reprolib:terms/multipleChoice": [
+            {
+              "@type": "schema:Boolean",
+              "@value": true
+            }
+          ]
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNEvening/items/stressful_day.jsonld": {
+      "@id": "/stressful_day",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf991e86fafd5189aee254",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "whether or not your child took sleeping aids to fall asleep last night"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Do you think your child had a stressful day today?"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNEvening/items/stressful_day.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "stressful_day"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "Stress"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "radio"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "@type": [
+            "http://www.w3.org/2001/XMLSchema#anyURI"
+          ],
+          "schema:itemListElement": [
+            {
+              "@list": [
+                {
+                  "@type": [
+                    "schema:Boolean"
+                  ],
+                  "schema:image": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F60A.svg?sanitize=true",
+                  "schema:name": [
+                    {
+                      "@language": "en",
+                      "@value": "No"
+                    }
+                  ],
+                  "schema:value": [
+                    {
+                      "@value": 0
+                    }
+                  ]
+                },
+                {
+                  "@type": [
+                    "schema:Boolean"
+                  ],
+                  "schema:image": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F630.svg?sanitize=true",
+                  "schema:name": [
+                    {
+                      "@language": "en",
+                      "@value": "Yes"
+                    }
+                  ],
+                  "schema:value": [
+                    {
+                      "@value": 1
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "schema:maxValue": [
+            {
+              "@value": 1
+            }
+          ],
+          "schema:minValue": [
+            {
+              "@value": 0
+            }
+          ],
+          "reprolib:terms/multipleChoice": [
+            {
+              "@type": "schema:Boolean",
+              "@value": false
+            }
+          ]
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNMorning/items/nightmares.jsonld": {
+      "@id": "/nightmares",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf991e86fafd5189aee252",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "whether or not your child experience nightmares or night terrors"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Did your child have any nightmares or night terrors last night?"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNMorning/items/nightmares.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "nightmares"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "Nightmares"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "radio"
+        }
+      ],
+      "reprolib:terms/responseOptions": [
+        {
+          "@type": [
+            "http://www.w3.org/2001/XMLSchema#anyURI"
+          ],
+          "schema:itemListElement": [
+            {
+              "@type": [
+                "schema:Boolean"
+              ],
+              "schema:image": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F634.svg?sanitize=true",
+              "schema:name": [
+                {
+                  "@language": "en",
+                  "@value": "No"
+                }
+              ],
+              "schema:value": [
+                {
+                  "@value": 0
+                }
+              ]
+            },
+            {
+              "@type": [
+                "schema:Boolean"
+              ],
+              "schema:image": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F62B.svg?sanitize=true",
+              "schema:name": [
+                {
+                  "@language": "en",
+                  "@value": "Yes"
+                }
+              ],
+              "schema:value": [
+                {
+                  "@value": 1
+                }
+              ]
+            }
+          ],
+          "schema:maxValue": [
+            {
+              "@value": 1
+            }
+          ],
+          "schema:minValue": [
+            {
+              "@value": 0
+            }
+          ],
+          "reprolib:terms/multipleChoice": [
+            {
+              "@type": "schema:Boolean",
+              "@value": false
+            }
+          ]
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNMorning/items/sleeping_aids.jsonld": {
+      "@id": "/sleeping_aids",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf991e86fafd5189aee253",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "whether or not your child took sleeping aids to fall asleep last night"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Did your child take sleeping pills or anything else to help their sleep last night?"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNMorning/items/sleeping_aids.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "sleeping_aids"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "Sleeping Aids"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "radio"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "@type": [
+            "http://www.w3.org/2001/XMLSchema#anyURI"
+          ],
+          "schema:itemListElement": [
+            {
+              "@list": [
+                {
+                  "@type": [
+                    "schema:Boolean"
+                  ],
+                  "schema:image": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F6CF.svg?sanitize=true",
+                  "schema:name": [
+                    {
+                      "@language": "en",
+                      "@value": "No"
+                    }
+                  ],
+                  "schema:value": [
+                    {
+                      "@value": 0
+                    }
+                  ]
+                },
+                {
+                  "@type": [
+                    "schema:Boolean"
+                  ],
+                  "schema:image": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F48A.svg?sanitize=true",
+                  "schema:name": [
+                    {
+                      "@language": "en",
+                      "@value": "Yes"
+                    }
+                  ],
+                  "schema:value": [
+                    {
+                      "@value": 1
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "schema:maxValue": [
+            {
+              "@value": 1
+            }
+          ],
+          "schema:minValue": [
+            {
+              "@value": 0
+            }
+          ],
+          "reprolib:terms/multipleChoice": [
+            {
+              "@type": "schema:Boolean",
+              "@value": false
+            }
+          ]
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNMorning/items/time_in_bed.jsonld": {
+      "@id": "/time_in_bed",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf991d86fafd5189aee251",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "time spent in bed"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Mark the hours that your child was in bed"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNMorning/items/time_in_bed.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "time_in_bed"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "Time in bed"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "timeRange"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {}
+      ]
+    }
+  }
+}

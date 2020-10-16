@@ -1,0 +1,3601 @@
+{
+  "activities": {
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/NDA/nda_guid.jsonld": {
+      "@id": "/nda_guid",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Activity.jsonld"
+      ],
+      "_id": "activity/5cba3c1f86fafd5df796d913",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "schema describing terms needed to generate NDA guid"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/NDA/nda_guid.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "nda_guid"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "NDA guid"
+        }
+      ],
+      "reprolib:terms/allow": [
+        {
+          "@list": [
+            {
+              "@id": "reprolib:terms/refused_to_answer"
+            }
+          ]
+        }
+      ],
+      "reprolib:terms/addProperties": [
+        {
+          "variableName": "countryOfBirth",
+          "isAbout": "countryOfBirth",
+          "isVis": true
+        },
+        {
+          "variableName": "gender",
+          "isAbout": "gender",
+          "isVis": true
+        },
+        {
+          "variableName": "healthCondition",
+          "isAbout": "healthCondition",
+          "isVis": true
+        },
+        {
+          "variableName": "medication",
+          "isAbout": "medication",
+          "isVis": true
+        },
+        {
+          "variableName": "mentalHealth",
+          "isAbout": "mentalHealth",
+          "isVis": true
+        },
+        {
+          "variableName": "nativeLanguage",
+          "isAbout": "nativeLanguage",
+          "isVis": true
+        },
+        {
+          "variableName": "raceEthnicity",
+          "isAbout": "raceEthnicity",
+          "isVis": true
+        },
+        {
+          "variableName": "state",
+          "isAbout": "state",
+          "isVis": true
+        },
+        {
+          "variableName": "yearOfBirth",
+          "isAbout": "yearOfBirth",
+          "isVis": true
+        }
+      ],
+      "reprolib:terms/order": [
+        {
+          "@list": [
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/NDA/items/yearOfBirth.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/NDA/items/raceEthnicity.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/NDA/items/gender.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/NDA/items/state.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/NDA/items/countryOfBirth.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/NDA/items/nativeLanguage.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/NDA/items/mentalHealth.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/NDA/items/healthCondition.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/NDA/items/medication.jsonld"
+            }
+          ]
+        }
+      ],
+      "reprolib:terms/shuffle": [
+        {
+          "@type": "schema:Boolean",
+          "@value": false
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-8/phq8_schema.jsonld": {
+      "@id": "/phq8_schema",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Activity.jsonld"
+      ],
+      "_id": "activity/5cbf866d86fafd5189aee229",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "PHQ-8 assessment schema"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-8/phq8_schema.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "reprolib:terms/preamble": [
+        {
+          "@language": "en",
+          "@value": "Over the last 2 weeks, how often have you been bothered by any of the following problems? (Use “✔” to indicate your answer)"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "phq8_schema"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "PHQ-8 Assessment"
+        }
+      ],
+      "reprolib:terms/branchLogic": [
+        {
+          "@index": "javascript",
+          "@language": "en",
+          "@value": "if (phq8_1 != 0 | phq8_2 != 0 | phq8_3 !=0 | phq8_4 !=0 | phq8_5 !=0 | phq8_6 !=0 | phq8_7 !=0 | phq8_8 !=0) { phq8_10.ui.hidden = false }"
+        }
+      ],
+      "reprolib:terms/order": [
+        {
+          "@list": [
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-8/items/phq8_1.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-8/items/phq8_2.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-8/items/phq8_3.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-8/items/phq8_4.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-8/items/phq8_5.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-8/items/phq8_6.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-8/items/phq8_7.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-8/items/phq8_8.jsonld"
+            }
+          ]
+        }
+      ],
+      "reprolib:terms/scoringLogic": [
+        {
+          "@index": "javascript",
+          "@language": "en",
+          "@value": "phq8_total_score = phq8_1 + phq8_2 + phq8_3 + phq8_4 + phq8_5 + phq8_6 + phq8_7 + phq8_8"
+        }
+      ],
+      "reprolib:terms/shuffle": [
+        {
+          "@type": "schema:Boolean",
+          "@value": false
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/phq9_schema.jsonld": {
+      "@id": "/phq9_schema",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Activity.jsonld"
+      ],
+      "_id": "activity/5cba3c0a86fafd5df796d90e",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "PHQ-9 assessment schema"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/phq9_schema.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "reprolib:terms/preamble": [
+        {
+          "@language": "en",
+          "@value": "Over the last 2 weeks, how often have you been bothered by any of the following problems?"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "phq9_schema"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "PHQ-9 Assessment"
+        }
+      ],
+      "reprolib:terms/order": [
+        {
+          "@list": [
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/items/phq9_1.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/items/phq9_2.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/items/phq9_3.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/items/phq9_4.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/items/phq9_5.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/items/phq9_6.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/items/phq9_7.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/items/phq9_8.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/items/phq9_9.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/items/phq9_10.jsonld"
+            }
+          ]
+        }
+      ],
+      "reprolib:terms/scoringLogic": [
+        {
+          "@index": "phq9_total_score",
+          "@language": "en",
+          "@value": "phq9_1 + phq9_2 + phq9_3 + phq9_4 + phq9_5 + phq9_6 + phq9_7 + phq9_8 + phq9_9"
+        }
+      ],
+      "reprolib:terms/shuffle": [
+        {
+          "@type": "schema:Boolean",
+          "@value": false
+        }
+      ],
+      "reprolib:terms/variableMap": [
+        {
+          "@list": [
+            {
+              "reprolib:terms/isAbout": [
+                {
+                  "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/items/phq9_1.jsonld"
+                }
+              ],
+              "reprolib:terms/variableName": [
+                {
+                  "@language": "en",
+                  "@value": "phq9_1"
+                }
+              ]
+            },
+            {
+              "reprolib:terms/isAbout": [
+                {
+                  "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/items/phq9_2.jsonld"
+                }
+              ],
+              "reprolib:terms/variableName": [
+                {
+                  "@language": "en",
+                  "@value": "phq9_2"
+                }
+              ]
+            },
+            {
+              "reprolib:terms/isAbout": [
+                {
+                  "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/items/phq9_3.jsonld"
+                }
+              ],
+              "reprolib:terms/variableName": [
+                {
+                  "@language": "en",
+                  "@value": "phq9_3"
+                }
+              ]
+            },
+            {
+              "reprolib:terms/isAbout": [
+                {
+                  "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/items/phq9_4.jsonld"
+                }
+              ],
+              "reprolib:terms/variableName": [
+                {
+                  "@language": "en",
+                  "@value": "phq9_4"
+                }
+              ]
+            },
+            {
+              "reprolib:terms/isAbout": [
+                {
+                  "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/items/phq9_5.jsonld"
+                }
+              ],
+              "reprolib:terms/variableName": [
+                {
+                  "@language": "en",
+                  "@value": "phq9_5"
+                }
+              ]
+            },
+            {
+              "reprolib:terms/isAbout": [
+                {
+                  "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/items/phq9_6.jsonld"
+                }
+              ],
+              "reprolib:terms/variableName": [
+                {
+                  "@language": "en",
+                  "@value": "phq9_6"
+                }
+              ]
+            },
+            {
+              "reprolib:terms/isAbout": [
+                {
+                  "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/items/phq9_7.jsonld"
+                }
+              ],
+              "reprolib:terms/variableName": [
+                {
+                  "@language": "en",
+                  "@value": "phq9_7"
+                }
+              ]
+            },
+            {
+              "reprolib:terms/isAbout": [
+                {
+                  "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/items/phq9_8.jsonld"
+                }
+              ],
+              "reprolib:terms/variableName": [
+                {
+                  "@language": "en",
+                  "@value": "phq9_8"
+                }
+              ]
+            },
+            {
+              "reprolib:terms/isAbout": [
+                {
+                  "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/items/phq9_9.jsonld"
+                }
+              ],
+              "reprolib:terms/variableName": [
+                {
+                  "@language": "en",
+                  "@value": "phq9_9"
+                }
+              ]
+            },
+            {
+              "reprolib:terms/isAbout": [
+                {
+                  "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/items/phq9_10.jsonld"
+                }
+              ],
+              "reprolib:terms/variableName": [
+                {
+                  "@language": "en",
+                  "@value": "phq9_10"
+                }
+              ]
+            },
+            {
+              "reprolib:terms/isAbout": [
+                {
+                  "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/items/phq9_total_score.jsonld"
+                }
+              ],
+              "reprolib:terms/variableName": [
+                {
+                  "@language": "en",
+                  "@value": "phq9_total_score"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "reprolib:terms/visibility": [
+        {
+          "@index": "phq9_1",
+          "@value": true
+        },
+        {
+          "@index": "phq9_10",
+          "@language": "en",
+          "@value": "phq9_1 > 0 ||  phq9_2 > 0 || phq9_3 > 0 || phq9_4 > 0 || phq9_5 > 0 || phq9_6 > 0 || phq9_7 > 0 || phq9_8 > 0 || phq9_9 > 0"
+        },
+        {
+          "@index": "phq9_2",
+          "@value": true
+        },
+        {
+          "@index": "phq9_3",
+          "@value": true
+        },
+        {
+          "@index": "phq9_4",
+          "@value": true
+        },
+        {
+          "@index": "phq9_5",
+          "@value": true
+        },
+        {
+          "@index": "phq9_6",
+          "@value": true
+        },
+        {
+          "@index": "phq9_7",
+          "@value": true
+        },
+        {
+          "@index": "phq9_8",
+          "@value": true
+        },
+        {
+          "@index": "phq9_9",
+          "@value": true
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9a/phq9a_schema.jsonld": {
+      "@id": "/phq9a_schema",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Activity.jsonld"
+      ],
+      "_id": "activity/5cbf866c86fafd5189aee227",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "PHQ-9a assessment schema"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9a/phq9a_schema.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "reprolib:terms/preamble": [
+        {
+          "@language": "en",
+          "@value": "Over the last 1 week, how often have you been bothered by any of the following problems? (Use “✔” to indicate your answer)"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "phq9a_schema"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "PHQ-9a Assessment"
+        }
+      ],
+      "reprolib:terms/branchLogic": [
+        {
+          "@index": "javascript",
+          "@language": "en",
+          "@value": "if (phq9a_1 != 0 | phq9a_2 != 0 | phq9a_3 !=0 | phq9a_4 !=0 | phq9a_5 !=0 | phq9a_6 !=0 | phq9a_7 !=0 | phq9a_8 !=0 | phq9a_9 != 0) { phq9a_10.ui.hidden = false }"
+        }
+      ],
+      "reprolib:terms/order": [
+        {
+          "@list": [
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9a/items/phq9a_1.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9a/items/phq9a_2.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9a/items/phq9a_3.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9a/items/phq9a_4.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9a/items/phq9a_5.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9a/items/phq9a_6.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9a/items/phq9a_7.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9a/items/phq9a_8.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9a/items/phq9a_9.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9a/items/phq9a_10.jsonld"
+            }
+          ]
+        }
+      ],
+      "reprolib:terms/scoringLogic": [
+        {
+          "@index": "javascript",
+          "@language": "en",
+          "@value": "phq9a_total_score = phq9a_1 + phq9a_2 + phq9a_3 + phq9a_4 + phq9a_5 + phq9a_6 + phq9a_7 + phq9a_8 + phq9a_9"
+        }
+      ],
+      "reprolib:terms/shuffle": [
+        {
+          "@type": "schema:Boolean",
+          "@value": false
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/voice_task/voice_task_schema.jsonld": {
+      "@id": "/voice_task_schema",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Activity.jsonld"
+      ],
+      "_id": "activity/5cba425486fafd5df796d919",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "Voice tasks"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/voice_task/voice_task_schema.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "reprolib:terms/preamble": [
+        {
+          "@language": "en",
+          "@value": "For each task, you should hit the record button before speaking and then stop once you are done speaking. You may hit play to hear what was recorded."
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "voice tasks"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "voice tasks"
+        }
+      ],
+      "reprolib:terms/allow": [
+        {
+          "@list": [
+            {
+              "@id": "reprolib:terms/refused_to_answer"
+            },
+            {
+              "@id": "reprolib:terms/dont_know_answer"
+            }
+          ]
+        }
+      ],
+      "reprolib:terms/branchLogic": [],
+      "reprolib:terms/order": [
+        {
+          "@list": [
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/voice_task/items/say_ah.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/voice_task/items/pataka.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/voice_task/items/guided_speech.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/voice_task/items/free_speech.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/voice_task/items/describe_image.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/voice_task/multipart_voice_schema.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/voice_task/items/phonetic.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/voice_task/items/rainbow_passage.jsonld"
+            }
+          ]
+        }
+      ],
+      "reprolib:terms/scoringLogic": [],
+      "reprolib:terms/shuffle": [
+        {
+          "@type": "schema:Boolean",
+          "@value": false
+        }
+      ]
+    }
+  },
+  "applet": {
+    "@id": "/nda_phq_schema",
+    "@type": [
+      "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/ActivitySet.jsonld"
+    ],
+    "_id": "applet/5ca3a5dfd27b4e3dd5db30b4",
+    "schema:description": [
+      {
+        "@language": "en",
+        "@value": "activity set for NDA-PHQ Assessments"
+      }
+    ],
+    "schema:schemaVersion": [
+      {
+        "@language": "en",
+        "@value": "0.0.1"
+      }
+    ],
+    "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activity-sets/example/nda-phq.jsonld",
+    "schema:version": [
+      {
+        "@language": "en",
+        "@value": "0.0.1"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#altLabel": [
+      {
+        "@language": "en",
+        "@value": "nda_phq"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#prefLabel": [
+      {
+        "@language": "en",
+        "@value": "NDA PHQ Assessment"
+      }
+    ],
+    "reprolib:terms/order": [
+      {
+        "@list": [
+          {
+            "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/NDA/nda_guid.jsonld"
+          },
+          {
+            "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/phq9_schema.jsonld"
+          },
+          {
+            "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9a/phq9a_schema.jsonld"
+          },
+          {
+            "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-8/phq8_schema.jsonld"
+          },
+          {
+            "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/voice_task/voice_task_schema.jsonld"
+          }
+        ]
+      }
+    ],
+    "reprolib:terms/shuffle": [
+      {
+        "@type": "schema:Boolean",
+        "@value": false
+      }
+    ]
+  },
+  "items": {
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/NDA/items/countryOfBirth.jsonld": {
+      "@id": "/birthCountry",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf850786fafd4e422e8c2a",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "schema for Country of birth of participant"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Country of birth"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/NDA/items/countryOfBirth.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "birthCountry"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "Country of birth(as in birth certificate)"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "select"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "reprolib:terms/required": [
+            {
+              "@type": "schema:Boolean",
+              "@value": true
+            }
+          ]
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/NDA/items/gender.jsonld": {
+      "@id": "/gender",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf850686fafd4e422e8c28",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "schema for Sex of the subject"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Sex"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/NDA/items/gender.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "gender"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "Sex of the subject"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "radio"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "@type": [
+            "http://www.w3.org/2001/XMLSchema#anyURI"
+          ],
+          "schema:itemListElement": [
+            {
+              "@list": [
+                {
+                  "@type": [
+                    "schema:Female"
+                  ],
+                  "schema:name": [
+                    {
+                      "@language": "en",
+                      "@value": "Female"
+                    }
+                  ],
+                  "schema:value": [
+                    {
+                      "@value": 0
+                    }
+                  ]
+                },
+                {
+                  "@type": [
+                    "schema:Male"
+                  ],
+                  "schema:name": [
+                    {
+                      "@language": "en",
+                      "@value": "Male"
+                    }
+                  ],
+                  "schema:value": [
+                    {
+                      "@value": 1
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "schema:maxValue": [
+            {
+              "@value": 1
+            }
+          ],
+          "schema:minValue": [
+            {
+              "@value": 0
+            }
+          ],
+          "reprolib:terms/multipleChoice": [
+            {
+              "@type": "schema:Boolean",
+              "@value": false
+            }
+          ],
+          "reprolib:terms/required": [
+            {
+              "@type": "schema:Boolean",
+              "@value": true
+            }
+          ]
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/NDA/items/healthCondition.jsonld": {
+      "@id": "/health_condition",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf850986fafd4e422e8c2d",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "schema for health condition information of participant"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Any health condition?"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/NDA/items/healthCondition.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "health_condition"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "Health Condition of participant"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "text"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {}
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/NDA/items/medication.jsonld": {
+      "@id": "/medication",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf850986fafd4e422e8c2e",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "schema for medication of participant"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Medication"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/NDA/items/medication.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "medication"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "medication of participant"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "text"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {}
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/NDA/items/mentalHealth.jsonld": {
+      "@id": "/mental_health",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf850886fafd4e422e8c2c",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "schema for mental health of participant"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Diagnosed with any mental-health disorder?"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/NDA/items/mentalHealth.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "mental_health"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "mental health diagnosis of participant"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "text"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {}
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/NDA/items/nativeLanguage.jsonld": {
+      "@id": "/nativeLanguage",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf850886fafd4e422e8c2b",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "schema for native language of participant"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Native Language"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/NDA/items/nativeLanguage.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "nativeLanguage"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "Native language of participant"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "select"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "reprolib:terms/required": [
+            {
+              "@type": "schema:Boolean",
+              "@value": false
+            }
+          ]
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/NDA/items/raceEthnicity.jsonld": {
+      "@id": "/raceEthnicity",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf850686fafd4e422e8c27",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "schema for race or Ethnicity of participant"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Race/Ethnicity"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/NDA/items/raceEthnicity.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "raceEthnicity"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "Race or Ethnicity"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "select"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "schema:itemListElement": [
+            {
+              "@list": [
+                {
+                  "schema:name": [
+                    {
+                      "@language": "en",
+                      "@value": "American Indian or Alaska Native"
+                    }
+                  ],
+                  "schema:value": [
+                    {
+                      "@value": 0
+                    }
+                  ]
+                },
+                {
+                  "schema:name": [
+                    {
+                      "@language": "en",
+                      "@value": "Asian"
+                    }
+                  ],
+                  "schema:value": [
+                    {
+                      "@value": 1
+                    }
+                  ]
+                },
+                {
+                  "schema:name": [
+                    {
+                      "@language": "en",
+                      "@value": "Black or African American"
+                    }
+                  ],
+                  "schema:value": [
+                    {
+                      "@value": 2
+                    }
+                  ]
+                },
+                {
+                  "schema:name": [
+                    {
+                      "@language": "en",
+                      "@value": "Native Hawaiian or Other Pacific Islander"
+                    }
+                  ],
+                  "schema:value": [
+                    {
+                      "@value": 3
+                    }
+                  ]
+                },
+                {
+                  "schema:name": [
+                    {
+                      "@language": "en",
+                      "@value": "White"
+                    }
+                  ],
+                  "schema:value": [
+                    {
+                      "@value": 4
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "reprolib:terms/required": [
+            {
+              "@type": "schema:Boolean",
+              "@value": false
+            }
+          ]
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/NDA/items/state.jsonld": {
+      "@id": "/state",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf850786fafd4e422e8c29",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "schema for state of residence of participant"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "State of residence"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/NDA/items/state.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "state"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "State of residence"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "select"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "reprolib:terms/required": [
+            {
+              "@type": "schema:Boolean",
+              "@value": false
+            }
+          ]
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/NDA/items/yearOfBirth.jsonld": {
+      "@id": "/birthYear",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf850586fafd4e422e8c26",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "schema for Year of birth YYYY"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Year of birth"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/NDA/items/yearOfBirth.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "birthYear"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "year of birth"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "date"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "schema:maxValue": [
+            {
+              "@language": "en",
+              "@value": "new Date()"
+            }
+          ],
+          "reprolib:terms/required": [
+            {
+              "@type": "schema:Boolean",
+              "@value": true
+            }
+          ]
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-8/items/phq8_1.jsonld": {
+      "@id": "/phq8_1",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf867986fafd5189aee23e",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "Q1 of the PHQ-8 Assessment"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Little interest or pleasure in doing things"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-8/items/phq8_1.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "phq8_1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "PHQ-8 Questionnaire"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "radio"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-8/valueConstraints.jsonld"
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-8/items/phq8_2.jsonld": {
+      "@id": "/phq8_1",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf867a86fafd5189aee23f",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "Q2 of PHQ-8 Assessment"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Feeling down, depressed or hopeless?"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-8/items/phq8_2.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "phq8_2"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "PHQ-8 Questionnaire"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "radio"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-8/valueConstraints.jsonld"
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-8/items/phq8_3.jsonld": {
+      "@id": "/phq8_3",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf867a86fafd5189aee240",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "Q3 of PHQ-8 Assessment"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Trouble falling or staying asleep, or sleeping too much?"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-8/items/phq8_3.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "phq8_3"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "PHQ-8 Questionnaire"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "radio"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-8/valueConstraints.jsonld"
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-8/items/phq8_4.jsonld": {
+      "@id": "/phq8_4",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf867b86fafd5189aee241",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "Q4 of PHQ-8 Assessment"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Feeling tired or having little energy?"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-8/items/phq8_4.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "phq8_4"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "PHQ-8 Questionnaire"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "radio"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-8/valueConstraints.jsonld"
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-8/items/phq8_5.jsonld": {
+      "@id": "/phq8_5",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf867c86fafd5189aee242",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "PHQ-8 Assessment"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Poor appetite or overeating?"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-8/items/phq8_5.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "phq8_5"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "PHQ-8 Questionnaire"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "radio"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-8/valueConstraints.jsonld"
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-8/items/phq8_6.jsonld": {
+      "@id": "/phq8_6",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf867d86fafd5189aee243",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "Q6 of PHQ-8 Assessment"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Feeling bad about yourself — or that you are a failure or have let yourself or your family down?"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-8/items/phq8_6.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "phq8_6"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "Q6 PHQ-8"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "radio"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-8/valueConstraints.jsonld"
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-8/items/phq8_7.jsonld": {
+      "@id": "/phq8_7",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf867d86fafd5189aee244",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "Q7 of PHQ-8 Assessment"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Trouble concentrating on things, such as reading the newspaper or watching television? ENG"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-8/items/phq8_7.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "phq8_7"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "Q7 PHQ-8"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "radio"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-8/valueConstraints.jsonld"
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-8/items/phq8_8.jsonld": {
+      "@id": "/phq8_8",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf867e86fafd5189aee245",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "Q8 of the PHQ-8 Assessment"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Moving or speaking so slowly that other people could have noticed? Or the opposite — being so fidgety or restless that you have been moving around a lot more than usual?"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-8/items/phq8_8.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "phq8_8"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "Q8 PHQ-8"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "radio"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-8/valueConstraints.jsonld"
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/items/phq9_1.jsonld": {
+      "@id": "/phq9_1",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf866e86fafd5189aee22a",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "Q1 of the PHQ-9 Assessment"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Little interest or pleasure in doing things"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/items/phq9_1.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "phq9_1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "Q1 of PHQ-9 Questionnaire"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "radio"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/valueConstraints.jsonld"
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/items/phq9_10.jsonld": {
+      "@id": "/phq9_10",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf867386fafd5189aee233",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "schema for Q10 of the PHQ-9 Assessment"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "How difficult have these problems made it for you to do your work, take care of things at home, or get along with other people?"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/items/phq9_10.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "phq9_10"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "Q10 of PHQ-9 Questionnaire"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "radio"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "schema:itemListElement": [
+            {
+              "@list": [
+                {
+                  "schema:name": [
+                    {
+                      "@language": "en",
+                      "@value": "Not difficult at all"
+                    }
+                  ],
+                  "schema:value": [
+                    {
+                      "@value": 0
+                    }
+                  ]
+                },
+                {
+                  "schema:name": [
+                    {
+                      "@language": "en",
+                      "@value": "Somewhat difficult"
+                    }
+                  ],
+                  "schema:value": [
+                    {
+                      "@value": 1
+                    }
+                  ]
+                },
+                {
+                  "schema:name": [
+                    {
+                      "@language": "en",
+                      "@value": "Very difficult"
+                    }
+                  ],
+                  "schema:value": [
+                    {
+                      "@value": 2
+                    }
+                  ]
+                },
+                {
+                  "schema:name": [
+                    {
+                      "@language": "en",
+                      "@value": "Extremely difficult"
+                    }
+                  ],
+                  "schema:value": [
+                    {
+                      "@value": 3
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "schema:maxValue": [
+            {
+              "@value": 3
+            }
+          ],
+          "schema:minValue": [
+            {
+              "@value": 0
+            }
+          ],
+          "reprolib:terms/multipleChoice": [
+            {
+              "@type": "schema:Boolean",
+              "@value": false
+            }
+          ],
+          "reprolib:terms/required": [
+            {
+              "@type": "schema:Boolean",
+              "@value": false
+            }
+          ]
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/items/phq9_2.jsonld": {
+      "@id": "/phq9_2",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf866f86fafd5189aee22b",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "Q2 of the PHQ-9 Assessment"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Feeling down, depressed or hopeless?"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/items/phq9_2.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "phq9_2"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "Q2 of PHQ-9 Questionnaire"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "radio"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/valueConstraints.jsonld"
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/items/phq9_3.jsonld": {
+      "@id": "/phq9_3",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf866f86fafd5189aee22c",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "Q3 of the PHQ-9 Assessment"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Trouble falling or staying asleep, or sleeping too much?"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/items/phq9_3.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "phq9_3"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "Q3 of PHQ-9 Questionnaire"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "radio"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/valueConstraints.jsonld"
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/items/phq9_4.jsonld": {
+      "@id": "/phq9_4",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf867086fafd5189aee22d",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "Q4 of the PHQ-9 Assessment"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Feeling tired or having little energy?"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/items/phq9_4.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "phq9_4"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "Q4 of PHQ-9 Questionnaire"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "radio"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/valueConstraints.jsonld"
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/items/phq9_5.jsonld": {
+      "@id": "/phq9_5",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf867086fafd5189aee22e",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "schema for Q5 of the PHQ-9 Assessment"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Poor appetite or overeating?"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/items/phq9_5.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "phq9_5"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "Q5 of PHQ-9 Questionnaire"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "radio"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/valueConstraints.jsonld"
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/items/phq9_6.jsonld": {
+      "@id": "/phq9_6",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf867186fafd5189aee22f",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "schema for Q6 of the PHQ-9 Assessment"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Feeling bad about yourself — or that you are a failure or have let yourself or your family down?"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/items/phq9_6.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "phq9_6"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "Q6 of PHQ-9 Questionnaire"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "radio"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/valueConstraints.jsonld"
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/items/phq9_7.jsonld": {
+      "@id": "/phq9_7",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf867186fafd5189aee230",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "schema for Q7 of the PHQ-9 Assessment"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Trouble concentrating on things, such as reading the newspaper or watching television?"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/items/phq9_7.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "phq9_7"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "Q7 of PHQ-9 Questionnaire"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "radio"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/valueConstraints.jsonld"
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/items/phq9_8.jsonld": {
+      "@id": "/phq9_8",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf867286fafd5189aee231",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "schema for Q8 of the PHQ-9 Assessment"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Moving or speaking so slowly that other people could have noticed? Or the opposite — being so fidgety or restless that you have been moving around a lot more than usual?"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/items/phq9_8.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "phq9_8"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "Q8 of PHQ-9 Questionnaire"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "radio"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/valueConstraints.jsonld"
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/items/phq9_9.jsonld": {
+      "@id": "/phq9_9",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf867286fafd5189aee232",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "schema for Q9 of the PHQ-9 Assessment"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Thoughts that you would be better off dead or of hurting yourself in some way?"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/items/phq9_9.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "phq9_9"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "Q9 of PHQ-9 Questionnaire"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "radio"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9/valueConstraints.jsonld"
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9a/items/phq9a_1.jsonld": {
+      "@id": "/phq9a_1",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf867386fafd5189aee234",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "Q1 of the derived PHQ-9 Assessment"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Little interest or pleasure in doing things"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9a/items/phq9a_1.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "phq9a_1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "Q1 of PHQ-9a Questionnaire"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "radio"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9a/valueConstraints.jsonld"
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9a/items/phq9a_10.jsonld": {
+      "@id": "/phq9_10",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf867886fafd5189aee23d",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "schema for Q10 of the derived PHQ-9 Assessment"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "If you checked off any problems, how difficult have these problems made it for you to do your work, take care of things at home, or get along with other people?"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9a/items/phq9a_10.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "phq9a_10"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "Q10 of PHQ-9a Questionnaire"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "radio"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9a/valueConstraints.jsonld"
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9a/items/phq9a_2.jsonld": {
+      "@id": "/phq9a_2",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf867486fafd5189aee235",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "Q2 of the derived PHQ-9 Assessment"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Feeling down, depressed or hopeless?"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9a/items/phq9a_2.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "phq9a_2"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "Q2 of PHQ-9a Questionnaire"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "radio"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9a/valueConstraints.jsonld"
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9a/items/phq9a_3.jsonld": {
+      "@id": "/phq9a_3",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf867486fafd5189aee236",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "Q3 of the derived PHQ-9 Assessment"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Trouble falling or staying asleep, or sleeping too much?"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9a/items/phq9a_3.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "phq9a_3"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "Q3 of PHQ-9a Questionnaire"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "radio"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9a/valueConstraints.jsonld"
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9a/items/phq9a_4.jsonld": {
+      "@id": "/phq9a_4",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf867586fafd5189aee237",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "Q4 of the derived PHQ-9 Assessment"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Feeling tired or having little energy?"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9a/items/phq9a_4.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "phq9a_4"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "Q4 of PHQ-9a Questionnaire"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "radio"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9a/valueConstraints.jsonld"
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9a/items/phq9a_5.jsonld": {
+      "@id": "/phq9a_5",
+      "_id": "screen/5cbf867686fafd5189aee238",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "schema for Q5 of the derived PHQ-9 Assessment"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Poor appetite or overeating?"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9a/items/phq9a_5.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "phq9a_5"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "Q5 of PHQ-9a Questionnaire"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "radio"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9a/valueConstraints.jsonld"
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9a/items/phq9a_6.jsonld": {
+      "@id": "/phq9a_6",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf867686fafd5189aee239",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "schema for Q6 of the derived PHQ-9 Assessment"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Feeling bad about yourself — or that you are a failure or have let yourself or your family down?"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9a/items/phq9a_6.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "phq9a_6"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "Q6 of PHQ-9a Questionnaire"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "radio"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9a/valueConstraints.jsonld"
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9a/items/phq9a_7.jsonld": {
+      "@id": "/phq9a_7",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf867786fafd5189aee23a",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "schema for Q7 of the derived PHQ-9 Assessment"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Trouble concentrating on things, such as reading the newspaper or watching television?"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9a/items/phq9a_7.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "phq9a_7"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "Q7 of PHQ-9a Questionnaire"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "radio"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9a/valueConstraints.jsonld"
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9a/items/phq9a_8.jsonld": {
+      "@id": "/phq9a_8",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf867786fafd5189aee23b",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "schema for Q8 of the derived PHQ-9 Assessment"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Moving or speaking so slowly that other people could have noticed? Or the opposite — being so fidgety or restless that you have been moving around a lot more than usual?"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9a/items/phq9a_8.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "phq9a_8"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "Q8 of PHQ-9a Questionnaire"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "radio"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9a/valueConstraints.jsonld"
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9a/items/phq9a_9.jsonld": {
+      "@id": "/phq9a_9",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf867886fafd5189aee23c",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "schema for Q9 of the derived PHQ-9 Assessment"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Thoughts that you would be better off dead or of hurting yourself in some way?"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9a/items/phq9a_9.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "phq9a_9"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "Q9 of PHQ-9a Questionnaire"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "radio"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/PHQ-9a/valueConstraints.jsonld"
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/voice_task/items/describe_image.jsonld": {
+      "@id": "/phq8_1",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf868086fafd5189aee24a",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "say ah for 10 seconds"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Describe the image shown below for a minute"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/voice_task/items/describe_image.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "pataka"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "Say pataka"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "audioImageRecord"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/voice_task/items/describe_image_valueConstraints.jsonld"
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/voice_task/items/free_speech.jsonld": {
+      "@id": "/free_speech",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf868086fafd5189aee249",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "free speech item for voice task"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "In 1 min please state the name of the last movie or television show that you were really \"struck by\". Describe three things that made it memorable."
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/voice_task/items/free_speech.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "free speech"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "Free speech"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "audioRecord"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "schema:maxValue": [
+            {
+              "@value": 60000
+            }
+          ],
+          "schema:minValue": [
+            {
+              "@value": 0
+            }
+          ],
+          "reprolib:terms/multipleChoice": [
+            {
+              "@type": "schema:Boolean",
+              "@value": false
+            }
+          ],
+          "reprolib:terms/required": [
+            {
+              "@type": "schema:Boolean",
+              "@value": true
+            }
+          ]
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/voice_task/items/guided_speech.jsonld": {
+      "@id": "/guided_speech",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf867f86fafd5189aee248",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "guided speech item for voice task"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Look at the map in the image below, and give directions in 1 min to another person over the phone as to how you would go from Start to End."
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/voice_task/items/guided_speech.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "guided speech"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "Guided speech"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "audioImageRecord"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "schema:image": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/voice_task/map.png",
+          "schema:maxValue": [
+            {
+              "@value": 60000
+            }
+          ],
+          "schema:minValue": [
+            {
+              "@value": 0
+            }
+          ],
+          "reprolib:terms/multipleChoice": [
+            {
+              "@type": "schema:Boolean",
+              "@value": false
+            }
+          ],
+          "reprolib:terms/required": [
+            {
+              "@type": "schema:Boolean",
+              "@value": true
+            }
+          ]
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/voice_task/items/pataka.jsonld": {
+      "@id": "/pataka",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf867f86fafd5189aee247",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "pataka task"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Say 'pataka' as fast as you can for a minute"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/voice_task/items/pataka.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "pataka"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "Say pataka"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "audioRecord"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/voice_task/items/pataka_valueConstraints.jsonld"
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/voice_task/items/phonetic.jsonld": {
+      "@id": "/phonetic_p",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf868186fafd5189aee24c",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "phonetic passage task"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Some time ago, in a place neither near nor far, there lived a king who didn’t know how to count, not even to zero.  Some say this is the reason he would always wish for more — more food, more gold, more land. He simply didn’t realize how much he already owned.  Everyone in his kingdom could do the math and tally bushels of corn, loaves of bread, and urns of gold. But how would they measure the height of his castle or the stretch of his kingdom?  You might think “Aaah, ooh, easy — just measure it in meters!” But in those days, the useless unit of measure was based on stains splattered along the king’s cloak while drinking shrub juice.  The kingdom needed a new way of counting distance. “A kingdom without a proper ruler,” proclaimed the king, “is like riches without measure.” He launched a challenge amid trumpets, drums, flags and cannons.  “The person who creates a unit of measure fit for a ruler will be rewarded beyond measure!” A tall order indeed! The first person to come forward was a bulky locksmith with a stiff jaw. He approached the king with an air of secrecy and whispered, “I have the key to measure the kingdom, but only I can wield it.”  He then rubbed his beard and pulled the key from his locks of oily hair. The key turned out to be a hair itself! “Judge the reach of my vast kingdom with a hair’s width?” laughed the king. “What a poor idea. That would take forever or longer!” The second person eager for the prize was a fidgety boy who knew all numbers (including zero).  He produced a curious object from one of his many pockets. It was a complex shape that seemed to change proportions depending on which direction you gazed upon it. The boy said in a measured voice, “This polyhedron has many edges, with each edge of a different length. Only a king could be counted on to use it justly.” He gave the king an awful earful of an explanation that went on and on.  The long and the short of it was that the king could make no more use of it than of a puddle of spilled oatmeal. Finally, a little girl with a big idea tugged on the mismeasured cloak of the king. The king sized up the little girl with the big idea and said “I don’t have time for this, and for that matter, I have no concept of space, either.” The girl looked up, then down, then spun around and blurted out: “Aren’t you able to solve the puzzle yourself?  Why must you break up your kingdom into tiny pieces when everything around you is Humpty Dumpty together again? Your kingdom IS a unit and you are the ruler.” The king — startled, befuddled, and bemused — found the words wise. He aimed to be satisfied with all around him, big or small or somewhere in between."
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/voice_task/items/phonetic.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "reprolib:terms/preamble": [
+        {
+          "@language": "en",
+          "@value": "Read the passage below out loud while recording yourself."
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "phonetic"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "phonetic_passage"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "audioPassageRecord"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "schema:maxValue": [
+            {
+              "@value": 60000
+            }
+          ],
+          "schema:minValue": [
+            {
+              "@value": 0
+            }
+          ],
+          "reprolib:terms/required": [
+            {
+              "@type": "schema:Boolean",
+              "@value": true
+            }
+          ]
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/voice_task/items/rainbow_passage.jsonld": {
+      "@id": "/rainbow_p",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf868186fafd5189aee24d",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "rainbow task"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "When the sunlight strikes raindrops in the air, they act as a prism and form a rainbow. The rainbow is a division of white light into many beautiful colors. These take the shape of a long round arch, with its path high above, and its two ends apparently beyond the horizon. There is , according to legend, a boiling pot of gold at one end. People look, but no one ever finds it. When a man looks for something beyond his reach, his friends say he is looking for the pot of gold at the end of the rainbow. Throughout the centuries people have explained the rainbow in various ways. Some have accepted it as a miracle without physical explanation. To the Hebrews it was a token that there would be no more universal floods. The Greeks used to imagine that it was a sign from the gods to foretell war or heavy rain. The Norsemen considered the rainbow as a bridge over which the gods passed from earth to their home in the sky. Others have tried to explain the phenomenon physically. Aristotle thought that the rainbow was caused by reflection of the sun's rays by the rain. Since then physicists have found that it is not reflection, but refraction by the raindrops which causes the rainbows. Many complicated ideas about the rainbow have been formed. The difference in the rainbow depends considerably upon the size of the drops, and the width of the colored band increases as the size of the drops increases. The actual primary rainbow observed is said to be the effect of super-imposition of a number of bows. If the red of the second bow falls upon the green of the first, the result is to give a bow with an abnormally wide yellow band, since red and green light when mixed form yellow. This is a very common type of bow, one showing mainly red and yellow, with little or no green or blue."
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/voice_task/items/rainbow_passage.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "reprolib:terms/preamble": [
+        {
+          "@language": "en",
+          "@value": "Read the passage below out loud while recording yourself."
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "pataka"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "rainbow_passage"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "audioPassageRecord"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "schema:maxValue": [
+            {
+              "@value": 60000
+            }
+          ],
+          "schema:minValue": [
+            {
+              "@value": 0
+            }
+          ],
+          "reprolib:terms/required": [
+            {
+              "@type": "schema:Boolean",
+              "@value": true
+            }
+          ]
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/voice_task/items/say_ah.jsonld": {
+      "@id": "/say_ah",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Field.jsonld"
+      ],
+      "_id": "screen/5cbf867e86fafd5189aee246",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "say ah for 10 seconds"
+        }
+      ],
+      "schema:question": [
+        {
+          "@language": "en",
+          "@value": "Say 'ahhh' for 10 seconds"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/voice_task/items/say_ah.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "say_ah"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "Say Ah"
+        }
+      ],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "audioRecord"
+        }
+      ],
+      "reprolib:terms/valueconstraints": [
+        {
+          "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/voice_task/items/say_ah_valueConstraints.jsonld"
+        }
+      ]
+    },
+    "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/voice_task/multipart_voice_schema.jsonld": {
+      "@id": "/phq8_schema",
+      "@type": [
+        "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/schemas/Activity.jsonld"
+      ],
+      "_id": "screen/5cbf868186fafd5189aee24b",
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "Voice tasks"
+        }
+      ],
+      "schema:schemaVersion": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "schema:url": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/voice_task/multipart_voice_schema.jsonld",
+      "schema:version": [
+        {
+          "@language": "en",
+          "@value": "0.0.1"
+        }
+      ],
+      "reprolib:terms/preamble": [
+        {
+          "@language": "en",
+          "@value": "Please record your voice while doing the following:"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@language": "en",
+          "@value": "voice tasks"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@language": "en",
+          "@value": "voice tasks"
+        }
+      ],
+      "reprolib:terms/allow": [
+        {
+          "@list": [
+            {
+              "@id": "reprolib:terms/refused_to_answer"
+            },
+            {
+              "@id": "reprolib:terms/dont_know_answer"
+            }
+          ]
+        }
+      ],
+      "reprolib:terms/branchLogic": [],
+      "reprolib:terms/inputType": [
+        {
+          "@type": "http://www.w3.org/2001/XMLSchema#string",
+          "@value": "multipart"
+        }
+      ],
+      "reprolib:terms/order": [
+        {
+          "@list": [
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/voice_task/items/view_numbers.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/voice_task/items/read_passage.jsonld"
+            },
+            {
+              "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/voice_task/items/say_numbers.jsonld"
+            }
+          ]
+        }
+      ],
+      "reprolib:terms/scoringLogic": [],
+      "reprolib:terms/shuffle": [
+        {
+          "@type": "schema:Boolean",
+          "@value": false
+        }
+      ]
+    }
+  }
+}

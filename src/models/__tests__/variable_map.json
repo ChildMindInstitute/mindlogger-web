@@ -1,0 +1,82 @@
+{
+  "variableMap": [
+    {
+      "reprolib:terms/isAbout": [
+        {
+          "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNEvening/items/stressful_day.jsonld"
+        }
+      ],
+      "reprolib:terms/variableName": [
+        {
+          "@language": "en",
+          "@value": "stressful_day"
+        }
+      ]
+    },
+    {
+      "reprolib:terms/isAbout": [
+        {
+          "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNEvening/items/sources_of_stress.jsonld"
+        }
+      ],
+      "reprolib:terms/variableName": [
+        {
+          "@language": "en",
+          "@value": "sources_of_stress"
+        }
+      ]
+    },
+    {
+      "reprolib:terms/isAbout": [
+        {
+          "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNEvening/items/good_bad_day.jsonld"
+        }
+      ],
+      "reprolib:terms/variableName": [
+        {
+          "@language": "en",
+          "@value": "good_bad_day"
+        }
+      ]
+    },
+    {
+      "reprolib:terms/isAbout": [
+        {
+          "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNEvening/items/enjoyed_day.jsonld"
+        }
+      ],
+      "reprolib:terms/variableName": [
+        {
+          "@language": "en",
+          "@value": "enjoyed_day"
+        }
+      ]
+    },
+    {
+      "reprolib:terms/isAbout": [
+        {
+          "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNEvening/items/energy.jsonld"
+        }
+      ],
+      "reprolib:terms/variableName": [
+        {
+          "@language": "en",
+          "@value": "energy"
+        }
+      ]
+    },
+    {
+      "reprolib:terms/isAbout": [
+        {
+          "@id": "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/activities/EmaHBNEvening/items/health.jsonld"
+        }
+      ],
+      "reprolib:terms/variableName": [
+        {
+          "@language": "en",
+          "@value": "health"
+        }
+      ]
+    }
+  ]
+}

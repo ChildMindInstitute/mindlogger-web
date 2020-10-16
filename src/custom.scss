@@ -1,0 +1,68 @@
+// Import custom font from Google
+
+// Override / set color variables
+$dark-blue:         #005fa3;
+$dark-dark-blue: darken($dark-blue, 25);
+
+$light-blue:        #00c8dd;
+$dark-light-blue: darken($light-blue, 25);
+
+$red:               #ff0045;
+$dark-red: darken($red, 25);
+
+$yellow:            #f8cc00;
+$orange:            #f8ac00;
+$purple:            #25286e;
+
+$green:             #00bb85;
+$dark-green: darken($green, 25);
+
+.site-header {
+  background: $dark-blue;
+  // background: linear-gradient(90deg, $dark-blue 0%, $green 100%);
+}
+
+// Set brand colors
+$brand-primary:     $dark-blue;
+$brand-success:     $green;
+$brand-info:        $light-blue;
+$brand-warning:     $orange;
+$brand-danger:      $red;
+
+$jumbotron-bg: #fff;
+
+$theme-colors: (
+        "primary": $dark-blue,
+        "danger": $red,
+        "warning": $orange,
+        "info": $light-blue,
+        "success": $green,
+);
+
+// Override info button color
+// $btn-info-color:    darken($brand-info, 25);
+
+// Override info alert background color
+// $state-info-bg:     lighten($brand-info, 45);
+
+// Override fonts
+// $font-family-sans-serif:  'Raleway', sans-serif;
+// $font-family-serif:       Georgia, "Times New Roman", Times, serif !default;
+// $font-family-monospace:   Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !default;
+// $font-family-base:        $font-family-sans-serif !default;
+
+// Set global options
+$enable-shadows:    false;
+$enable-gradients:  false;
+
+$navbar-brand-padding-y: 15px;
+
+:export{
+  primary: $dark-blue;
+  danger: $red;
+  warning: $orange;
+  info: $yellow;
+  success: $green;
+}
+
+@import '~bootstrap/scss/bootstrap.scss';

@@ -102,7 +102,7 @@ const uploadFiles = (authToken, response, item) => {
     const answer = answers[key];
 
     // Surveys with a "uri" value and canvas with a "uri" will have files to upload
-    let file;
+    let file = {};
     if (R.path(['survey', 'uri'], answer)) {
       file = { uri: answer.survey.uri, filename: answer.survey.filename, type: 'application/octet' };
     } else if (R.path(['canvas', 'uri'], answer)) {

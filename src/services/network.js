@@ -314,7 +314,7 @@ export const replaceResponseData = ({ authToken, userPublicKey, appletId, dataSo
 }
 
 export const sendResponseReuploadRequest = ({ authToken, userPublicKeys }) => {
-  let url = `${apiHost()}/user/responseUpdateRequest`;
+  const url = `${apiHost()}/user/responseUpdateRequest`;
 
   const headers = {
     'Girder-Token': authToken,
@@ -331,7 +331,7 @@ export const sendResponseReuploadRequest = ({ authToken, userPublicKeys }) => {
 }
 
 export const getUserUpdates = ({ authToken }) => {
-  let url = `${apiHost()}/user/updates`;
+  const url = `${apiHost()}/user/updates`;
 
   const headers = {
     'Girder-Token': authToken,

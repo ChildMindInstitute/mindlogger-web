@@ -274,7 +274,7 @@ export const activityTransformJson = (activityJson, itemsJson) => {
   });
   const items = attachPreamble(preamble, mapItems(order));
 
-  const compute = activityJson[COMPUTE] && R.map((item) => { 
+  const compute = activityJson[COMPUTE] && R.map((item) => {
     return {
       jsExpression: R.path([JS_EXPRESSION, 0, "@value"], item),
       variableName: R.path([VARIABLE_NAME, 0, "@value"], item)
@@ -347,6 +347,5 @@ export const transformApplet = (payload) => {
   // Add the items and activities to the applet object
   applet.activities = activities;
   applet.groupId = payload.groups;
-  console.log('app---->', applet);
   return applet;
 };

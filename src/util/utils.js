@@ -4,5 +4,5 @@ const development: boolean = !process.env.NODE_ENV || process.env.NODE_ENV === '
 
 export default function isDev(): boolean
 {
-    return development;
+  return development;
 }

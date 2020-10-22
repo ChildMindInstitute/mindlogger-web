@@ -11,7 +11,10 @@ import {updatePassword} from '../../services/network';
 import './styles.css'
 
 
-
+/**
+ * Component for Changing Password.
+ * @constructor
+ */
 export default function ChangePassword() {
 
   const { register, handleSubmit, setError, errors } = useForm();
@@ -20,11 +23,18 @@ export default function ChangePassword() {
   let authToken = useSelector(state => authTokenSelector(state));
   let user = useSelector(state => userInfoSelector(state));
 
+  /**
+   * Takes old password and new password, sents it to the backend for changing the password
+   * @param oldPassword
+   * @param password
+   * If the given old password is incorrect, it will display an error message.
+   *
+   * @returns {Promise} resolves when the password gets successfully changed.
+   */
   const onSubmit = ({ oldPassword, password }) => {
     return updatePassword(authToken, oldPassword, password)
       .then(() => {
         history.push('/profile');
-
       }).then( () => dispatch(updateUserDetailsSuccessful(user) ))
       .catch((e) => {
         setError("password", {

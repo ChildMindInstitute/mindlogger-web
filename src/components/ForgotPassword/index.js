@@ -7,10 +7,21 @@ import { forgotPassword } from '../../services/network';
 
 import './styles.css'
 
-
+/**
+ *
+ * Component for requesting new password
+ * @constructor
+ */
 export default function ForgotPassword() {
   const { register, handleSubmit, setError, errors } = useForm();
 
+  /**
+   * Sends the forgot password email.
+   *
+   * If the given email address is incorrect, it will display an error message.
+   * @param body
+   * @returns {Promise} resolves when the email has been sent.
+   */
   const onSubmit = body => {
     return forgotPassword(body.email)
       .then((response) => {

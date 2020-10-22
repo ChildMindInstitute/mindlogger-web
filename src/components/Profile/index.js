@@ -3,7 +3,11 @@ import React from 'react';
 import {useSelector} from "react-redux";
 import {userInfoSelector} from "../../state/user/user.selectors";
 
-
+/**
+ *
+ * Component to display User Profile
+ * @constructor
+ */
 export default function Profile() {
   let user = useSelector(state => userInfoSelector(state));
 

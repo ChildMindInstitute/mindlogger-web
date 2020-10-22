@@ -16,6 +16,11 @@ import ChangePassword from "./components/ChangePassword";
 import Landing from "./components/Landing";
 
 import './App.css';
+
+
+/**
+ * Main Component of the Application - Routes to specific components based on the Path.
+ */
 function App() {
   const user = useSelector(userInfoSelector);
 

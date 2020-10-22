@@ -13,7 +13,13 @@ import './styles.css'
 export default function SignUp() {
   const {register, handleSubmit, setError, errors} = useForm();
   const dispatch = useDispatch();
-
+  /**
+   * Sends the New User details to the server for Creating User.
+   *
+   * If the given password is not validated or username or email already present, it will display an error message.
+   * @param body
+   * @returns {Promise} resolves when the signup is successful.
+   */
   const onSubmit = body => {
     return signUp({...body})
       .then((response) => {

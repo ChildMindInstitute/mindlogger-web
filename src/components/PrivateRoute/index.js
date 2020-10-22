@@ -1,7 +1,13 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
-
+/**
+ * Component for Restricting Access to other components based on User LoggedIn status
+ * @param Component
+ * @param roles
+ * @param rest
+ * @constructor
+ */
 function PrivateRoute({ component: Component, roles, ...rest }) {
   return (
     <Route {...rest} render={props => {

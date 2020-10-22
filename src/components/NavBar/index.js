@@ -6,7 +6,12 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import {useDispatch} from "react-redux";
 import { doLogout } from '../../state/app/app.thunks';
 
-
+/**
+ * Component for Rendering the NavBar
+ * @param user
+ * @constructor
+ *
+ */
 export default function NavBar({ user }) {
   const dispatch = useDispatch();
   const logOut = () => {

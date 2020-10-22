@@ -2,6 +2,10 @@ import React from 'react';
 import {Link} from "react-router-dom";
 
 
+/**
+ * Component for the index page of the WebApp
+ * @constructor
+ */
 export default function Landing() {
   return (
     <div className="my-3 h-100">

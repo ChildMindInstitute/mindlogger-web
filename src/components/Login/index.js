@@ -9,11 +9,21 @@ import { getPrivateKey } from '../../services/encryption'
 
 import './styles.css'
 
-
+/**
+ * Component for Logging in the User
+ * @constructor
+ */
 export default function Login() {
   const { register, handleSubmit, setError, errors } = useForm();
   const dispatch = useDispatch();
 
+  /**
+   * Sends the Authentication request to the server.
+   *
+   * If the given password or username is incorrect, it will display an error message.
+   * @param body
+   * @returns {Promise} resolves when the authentication is successful.
+   */
   const onSubmit = body => {
     return signIn({ ...body })
       .then((response) => {

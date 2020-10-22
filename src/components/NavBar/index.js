@@ -1,4 +1,7 @@
 import React from 'react';
+import Navbar from "react-bootstrap/Navbar";
+import Nav from "react-bootstrap/Nav";
+import NavDropdown from "react-bootstrap/NavDropdown";
 
 import {useDispatch} from "react-redux";
 import { doLogout } from '../../state/app/app.thunks';
@@ -10,64 +13,38 @@ export default function NavBar({ user }) {
     dispatch(doLogout())
   };
 
-  if (user) {
-    return (
-      <nav className="navbar navbar-expand-md navbar-dark site-header">
-        <a className="navbar-brand" href="#">MindLogger</a>
-        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span className="navbar-toggler-icon"></span>
-        </button>
+  let userDropDown = (user) => {
+    if(user) {
+      return (
+        <>
+          <NavDropdown title={user.firstName} id="basic-nav-dropdown" className="ml-auto">
+            <NavDropdown.Item href="/changepassword">Settings</NavDropdown.Item>
+            <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
+            <NavDropdown.Divider />
+            <NavDropdown.Item href="#" onClick={() => logOut()}>Logout</NavDropdown.Item>
+          </NavDropdown>
+        </>
+      )
+    } else {
+      return (
+        <Nav.Link href="/login">Login</Nav.Link>
+      )
+    }
+  };
 
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav mr-auto">
-            <li className="nav-item active">
-              <a className="nav-link" href="#">Home <span className="sr-only">(current)</span></a>
-            </li>
-          </ul>
-
-          <ul className="navbar-nav ml-auto">
-            <li className="nav-item dropdown">
-              <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {user.firstName}
-              </a>
-              <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a className="dropdown-item" href="/changepassword">Settings</a>
-                <a className="dropdown-item" href="/profile">Profile</a>
-                <div className="dropdown-divider"></div>
-                <a className="dropdown-item" onClick={() => logOut()} href="logout">LogOut</a>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </nav>
-    );
-  } else {
-    return (
-      <nav className="navbar navbar-expand-md navbar-dark site-header">
-        <a className="navbar-brand" href="#">MindLogger</a>
-        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span className="navbar-toggler-icon"></span>
-        </button>
-
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav mr-auto">
-            <li className="nav-item active">
-              <a className="nav-link" href="/">Home <span className="sr-only">(current)</span></a>
-            </li>
-          </ul>
-
-          <ul className="navbar-nav ml-auto">
-            <li className="nav-item dropdown">
-              <a className="nav-link" href="/login">Login <span className="sr-only">(current)</span></a>
-            </li>
-          </ul>
-        </div>
-      </nav>
-
-    );
-  }
+  return (
+    <Navbar expand="lg" variant="dark" className="site-header">
+      <Navbar.Brand href="#home">MindLogger</Navbar.Brand>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav">
+        <Nav className="mr-auto">
+          <Nav.Link href="#home">Home</Nav.Link>
+        </Nav>
+        <Nav className="ml-auto">
+          {userDropDown(user)}
+        </Nav>
+      </Navbar.Collapse>
+    </Navbar>
+  );
 }
 

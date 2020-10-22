@@ -8,7 +8,7 @@ export default function Profile() {
   let user = useSelector(state => userInfoSelector(state));
 
   return (
-    <div className="mt-3 mb-3 h-100">
+    <div className="my-3 h-100">
       <div className="heading">
         <h1>
           {user?.firstName} {user?.lastName}

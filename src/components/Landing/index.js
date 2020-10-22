@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 
 export default function Landing() {
   return (
-    <div className="mt-3 mb-3 h-100">
+    <div className="my-3 h-100">
       <div className="mb-3 pt-3">
         <h1>Welcome to MindLogger</h1>
         <p className="lead">

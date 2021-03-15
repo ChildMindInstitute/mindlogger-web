@@ -1,8 +1,8 @@
-import {serialize as objectToFormData} from 'object-to-formdata';
-import { getStore } from '../store';
+import { serialize as objectToFormData } from "object-to-formdata";
+import { getStore } from "../store";
 // eslint-disable-next-line
-import { btoa } from './helper';
-import { apiHostSelector } from '../state/app/app.selectors';
+import { btoa } from "./helper";
+import { apiHostSelector } from "../state/app/app.selectors";
 import * as axios from "axios";
 
 const apiHost = () => {
@@ -10,14 +10,13 @@ const apiHost = () => {
   return apiHostSelector(state);
 };
 
-const objectToQueryParams = obj => Object.keys(obj).map(
-  key => `${encodeURIComponent(key)}=${encodeURIComponent(obj[key])}`,
-).join('&');
+const objectToQueryParams = (obj) =>
+  Object.keys(obj)
+    .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(obj[key])}`)
+    .join("&");
 
 export const get = (route, authToken, queryObj = {}, extraHeaders = {}) => {
-  const queryParams = queryObj
-    ? `?${objectToQueryParams(queryObj)}`
-    : '';
+  const queryParams = queryObj ? `?${objectToQueryParams(queryObj)}` : "";
 
   const url = `${apiHost()}/${route}${queryParams}`;
 
@@ -25,48 +24,41 @@ export const get = (route, authToken, queryObj = {}, extraHeaders = {}) => {
     ...extraHeaders,
   };
   if (authToken) {
-    headers['Girder-Token'] = authToken;
+    headers["Girder-Token"] = authToken;
   }
   return fetch(url, {
     headers,
-  }).then(res => (res.status === 200 ? res.json() : Promise.reject(res)));
+  }).then((res) => (res.status === 200 ? res.json() : Promise.reject(res)));
 };
 
 export const postFormData = (route, authToken, body, extraHeaders = {}) => {
   const url = `${apiHost()}/${route}`;
   const headers = {
-    'Girder-Token': authToken,
+    "Girder-Token": authToken,
     ...extraHeaders,
   };
   return fetch(url, {
-    method: 'post',
-    mode: 'cors',
+    method: "post",
+    mode: "cors",
     headers,
     body: objectToFormData(body),
-  }).then(res => (res.status === 200 ? res.json() : Promise.reject(res)));
+  }).then((res) => (res.status === 200 ? res.json() : Promise.reject(res)));
 };
 
+export const getResponses = (authToken, applet) =>
+  get("response", authToken, { applet });
 
-export const getResponses = (authToken, applet) => get(
-  'response',
-  authToken,
-  { applet },
-);
+export const getSchedule = (authToken, timezone) =>
+  get("schedule", authToken, { timezone });
 
-export const getSchedule = (authToken, timezone) => get(
-  'schedule',
-  authToken,
-  { timezone },
-);
-
-export const getApplets = authToken => get('user/applets', authToken, {
-  role: 'user',
-  getAllApplets: true,
-  retrieveSchedule: true,
-  retrieveAllEvents: false,
-  getTodayEvents: true,
-});
-
+export const getApplets = (authToken) =>
+  get("user/applets", authToken, {
+    role: "user",
+    getAllApplets: true,
+    retrieveSchedule: true,
+    retrieveAllEvents: false,
+    getTodayEvents: true,
+  });
 
 // export const getTargetApplet = (authToken, appletId) => get(
 //   `applet/${appletId}`,
@@ -74,119 +66,124 @@ export const getApplets = authToken => get('user/applets', authToken, {
 //   { retrieveSchedule: true, retrieveAllEvents: true, retrieveItems: true },
 // );
 
-export const getTargetApplet = (authToken, appletId) => get(
-  `user/applet/${appletId}`,
-  authToken,
-  { retrieveSchedule: true, role: 'user', getAllApplets: true },
-);
+export const getTargetApplet = (authToken, appletId) =>
+  get(`user/applet/${appletId}`, authToken, {
+    retrieveSchedule: true,
+    role: "user",
+    getAllApplets: true,
+  });
 
-export const postResponse = ({ authToken, response }) => postFormData(
-  `response/${response.applet.id}/${response.activity.id}`,
-  authToken,
-  {
-    metadata: JSON.stringify(response),
-  },
-);
+export const postResponse = ({ authToken, response }) =>
+  postFormData(
+    `response/${response.applet.id}/${response.activity.id}`,
+    authToken,
+    {
+      metadata: JSON.stringify(response),
+    }
+  );
 export const postAppletBadge = (authToken, badge) => {
   const url = `${apiHost()}/applet/setBadge?badge=${badge}`;
   const headers = {
-    'Girder-Token': authToken,
+    "Girder-Token": authToken,
   };
   return fetch(url, {
-    method: 'post',
-    mode: 'cors',
+    method: "post",
+    mode: "cors",
     headers,
-  }).then(res => (res.status === 200 ? res.json() : Promise.reject(res)));
+  }).then((res) => (res.status === 200 ? res.json() : Promise.reject(res)));
 };
 
-export const signIn = ({ user, password }) => get(
-  'user/authentication',
-  null,
-  null,
-  {
-    'Girder-Authorization': `Basic ${btoa(`${user}:${password}`)}`,
-  },
-);
+export const signIn = ({ user, password }) =>
+  get("user/authentication", null, null, {
+    "Girder-Authorization": `Basic ${btoa(`${user}:${password}`)}`,
+  });
 
 export const signOut = (authToken) => {
   const url = `${apiHost()}/user/authentication`;
   const headers = {
-    'Girder-Token': authToken,
+    "Girder-Token": authToken,
   };
   return fetch(url, {
-    method: 'delete',
-    mode: 'cors',
+    method: "delete",
+    mode: "cors",
     headers,
-  }).then(res => (res.status === 200 ? res.json() : Promise.reject(res)));
+  }).then((res) => (res.status === 200 ? res.json() : Promise.reject(res)));
 };
 
 export const forgotPassword = (email) => {
   const queryParams = objectToQueryParams({ email });
   const url = `${apiHost()}/user/password/temporary?${queryParams}`;
   return fetch(url, {
-    method: 'put',
-    mode: 'cors',
-  }).then(res => (res.status === 200 ? res.json() : Promise.reject(res)));
+    method: "put",
+    mode: "cors",
+  }).then((res) => (res.status === 200 ? res.json() : Promise.reject(res)));
 };
 
 export const signUp = (userData) => {
   const url = `${apiHost()}/user`;
   return fetch(url, {
-    method: 'post',
-    mode: 'cors',
+    method: "post",
+    mode: "cors",
     body: objectToFormData(userData),
-  }).then(res => {
-    return (res.status === 200 ? res.json() : Promise.reject(res))});
+  }).then((res) => {
+    return res.status === 200 ? res.json() : Promise.reject(res);
+  });
 };
 
-export const updateUserDetails = (authToken, { id, firstName, lastName, email }) => {
+export const updateUserDetails = (
+  authToken,
+  { id, firstName, lastName, email }
+) => {
   const url = `${apiHost()}/user/${id}`;
   const headers = {
-    'Girder-Token': authToken,
+    "Girder-Token": authToken,
   };
   return fetch(url, {
-    method: 'put',
-    mode: 'cors',
+    method: "put",
+    mode: "cors",
     headers,
     body: objectToFormData({
       firstName,
       lastName,
       email,
     }),
-  }).then(res => (res.status === 200 ? res.json() : Promise.reject(res)));
+  }).then((res) => (res.status === 200 ? res.json() : Promise.reject(res)));
 };
 
 export const updatePassword = (authToken, oldPassword, newPassword) => {
   const url = `${apiHost()}/user/password`;
   const headers = {
-    'Girder-Token': authToken,
+    "Girder-Token": authToken,
   };
   return fetch(url, {
-    method: 'put',
-    mode: 'cors',
+    method: "put",
+    mode: "cors",
     headers,
     body: objectToFormData({
       old: oldPassword,
       new: newPassword,
     }),
-  }).then(res => (res.status === 200 ? res.json() : Promise.reject(res)));
+  }).then((res) => (res.status === 200 ? res.json() : Promise.reject(res)));
 };
 
-export const fileLink = (file, token) => (file
-  ? `${apiHost()}/${file['@id']}/download?contentDisposition=inline&token=${token}`
-  : '');
+export const fileLink = (file, token) =>
+  file
+    ? `${apiHost()}/${
+        file["@id"]
+      }/download?contentDisposition=inline&token=${token}`
+    : "";
 
 export const registerOpenApplet = (authToken, schemaURI) => {
   const url = `${apiHost()}/applet/invite`;
   const headers = {
-    'Girder-Token': authToken,
+    "Girder-Token": authToken,
   };
   return fetch(url, {
-    method: 'post',
-    mode: 'cors',
+    method: "post",
+    mode: "cors",
     headers,
     body: objectToFormData({ url: schemaURI }),
-  }).then(res => (res.status === 200 ? res.json() : Promise.reject(res)));
+  }).then((res) => (res.status === 200 ? res.json() : Promise.reject(res)));
 };
 
 // export const getAppletSchedule = (authToken, appletId) => {
@@ -201,9 +198,8 @@ export const registerOpenApplet = (authToken, schemaURI) => {
 //   }).then(res => (res.status === 200 ? res.json() : Promise.reject(res)));
 // };
 
-export const getAppletSchedule = (authToken, appletId) => get(`applet/${appletId}/schedule`,
-  authToken,
-  {
+export const getAppletSchedule = (authToken, appletId) =>
+  get(`applet/${appletId}/schedule`, authToken, {
     getAllEvents: false,
     getTodayEvents: true,
   });
@@ -211,75 +207,75 @@ export const getAppletSchedule = (authToken, appletId) => get(`applet/${appletId
 export const getAppletInvites = (authToken) => {
   const url = `${apiHost()}/user/invites`;
   const headers = {
-    'Girder-Token': authToken,
+    "Girder-Token": authToken,
   };
   return fetch(url, {
-    method: 'get',
-    mode: 'cors',
+    method: "get",
+    mode: "cors",
     headers,
-  }).then(res => (res.status === 200 ? res.json() : Promise.reject(res)));
+  }).then((res) => (res.status === 200 ? res.json() : Promise.reject(res)));
 };
 
 export const acceptAppletInvite = (authToken, id) => {
   const url = `${apiHost()}/group/${id}/member`;
   const headers = {
-    'Girder-Token': authToken,
+    "Girder-Token": authToken,
   };
   return fetch(url, {
-    method: 'post',
-    mode: 'cors',
+    method: "post",
+    mode: "cors",
     headers,
-  }).then(res => (res.status === 200 ? res.json() : Promise.reject(res)));
+  }).then((res) => (res.status === 200 ? res.json() : Promise.reject(res)));
 };
 
 export const declineAppletInvite = (authToken, id) => {
   const url = `${apiHost()}/group/${id}/member`;
   const headers = {
-    'Girder-Token': authToken,
+    "Girder-Token": authToken,
   };
   return fetch(url, {
-    method: 'delete',
-    mode: 'cors',
+    method: "delete",
+    mode: "cors",
     headers,
-  }).then(res => (res.status === 200 ? res.json() : Promise.reject(res)));
+  }).then((res) => (res.status === 200 ? res.json() : Promise.reject(res)));
 };
 
 export const removeApplet = (authToken, groupId) => {
   const del = false;
   const url = `${apiHost()}/group/${groupId}/member?delete=${del}`;
   const headers = {
-    'Girder-Token': authToken,
+    "Girder-Token": authToken,
   };
   return fetch(url, {
-    method: 'delete',
-    mode: 'cors',
+    method: "delete",
+    mode: "cors",
     headers,
-  }).then(res => (res.status === 200 ? res.json() : Promise.reject(res)));
+  }).then((res) => (res.status === 200 ? res.json() : Promise.reject(res)));
 };
 
 export const deleteApplet = (authToken, groupId) => {
   const del = true;
   const url = `${apiHost()}/group/${groupId}/member?delete=${del}`;
   const headers = {
-    'Girder-Token': authToken,
+    "Girder-Token": authToken,
   };
   return fetch(url, {
-    method: 'delete',
-    mode: 'cors',
+    method: "delete",
+    mode: "cors",
     headers,
-  }).then(res => (res.status === 200 ? res.json() : Promise.reject(res)));
+  }).then((res) => (res.status === 200 ? res.json() : Promise.reject(res)));
 };
 
 export const deleteUserAccount = (authToken, userId) => {
   const url = `${apiHost()}/user/${userId}`;
   const headers = {
-    'Girder-Token': authToken,
+    "Girder-Token": authToken,
   };
   return fetch(url, {
-    method: 'delete',
-    mode: 'cors',
+    method: "delete",
+    mode: "cors",
     headers,
-  }).then(res => (res.status === 200 ? res.json() : Promise.reject(res)));
+  }).then((res) => (res.status === 200 ? res.json() : Promise.reject(res)));
 };
 
 export const getLast7DaysData = ({ authToken, appletId, referenceDate }) => {
@@ -288,58 +284,107 @@ export const getLast7DaysData = ({ authToken, appletId, referenceDate }) => {
     url += `?referenceDate=${referenceDate}`;
   }
   const headers = {
-    'Girder-Token': authToken,
+    "Girder-Token": authToken,
   };
   return fetch(url, {
-    method: 'get',
-    mode: 'cors',
+    method: "get",
+    mode: "cors",
     headers,
-  }).then(res => (res.status === 200 ? res.json() : res)); // Promise.reject(res)));
+  }).then((res) => (res.status === 200 ? res.json() : res)); // Promise.reject(res)));
 };
 
-export const replaceResponseData = ({ authToken, userPublicKey, appletId, dataSources }) => {
+export const replaceResponseData = ({
+  authToken,
+  userPublicKey,
+  appletId,
+  dataSources,
+}) => {
   let url = `${apiHost()}/response/${appletId}`;
   const headers = {
-    'Girder-Token': authToken,
+    "Girder-Token": authToken,
   };
 
   return fetch(url, {
-    method: 'put',
-    mode: 'cors',
+    method: "put",
+    mode: "cors",
     headers,
     body: objectToFormData({
-      responses: JSON.stringify({ dataSources, userPublicKey })
-    })
-  }).then(res => (res.status === 200 ? res.json() : res));
-}
+      responses: JSON.stringify({ dataSources, userPublicKey }),
+    }),
+  }).then((res) => (res.status === 200 ? res.json() : res));
+};
 
 export const sendResponseReuploadRequest = ({ authToken, userPublicKeys }) => {
   const url = `${apiHost()}/user/responseUpdateRequest`;
 
   const headers = {
-    'Girder-Token': authToken,
+    "Girder-Token": authToken,
   };
 
   return fetch(url, {
-    method: 'post',
-    mode: 'cors',
+    method: "post",
+    mode: "cors",
     headers,
     body: objectToFormData({
-      userPublicKeys: JSON.stringify(userPublicKeys)
-    })
-  }).then(res => (res.status === 200 ? res.json() : res));
-}
+      userPublicKeys: JSON.stringify(userPublicKeys),
+    }),
+  }).then((res) => (res.status === 200 ? res.json() : res));
+};
 
 export const getUserUpdates = ({ authToken }) => {
   const url = `${apiHost()}/user/updates`;
 
   const headers = {
-    'Girder-Token': authToken,
+    "Girder-Token": authToken,
   };
 
   return fetch(url, {
-    method: 'get',
-    mode: 'cors',
+    method: "get",
+    mode: "cors",
     headers,
-  }).then(res => (res.status === 200 ? res.json() : res));
+  }).then((res) => (res.status === 200 ? res.json() : res));
+};
+
+export const getInvitation = async ({ token, invitationId }) => {
+  const url = `${apiHost()}/invitation/${invitationId}?includeLink=false`;
+  const headers = {
+    "Girder-Token": token,
+  };
+  try {
+    const res = await fetch(url, {
+      method: "get",
+      mode: "cors",
+      headers,
+    });
+    return await res.json()
+  } catch (error) {
+    return error
+  }
+
+};
+
+export const acceptInvitation = async ({ token, email, invitationId }) => {
+  const url = `${apiHost()}/invitation/${invitationId}/accept?email=${email}`;
+  const headers = {
+    "Girder-Token": token,
+  };
+  const res = await fetch(url, {
+    method: "post",
+    mode: "cors",
+    headers,
+  });
+  return res.status === 200 ? res.json() : res;
+};
+
+export const declineInvitation = async ({invitationId, token}) => {
+  const url = `${apiHost()}/invitation/${invitationId}`;
+  const headers = {
+    "Girder-Token": token,
+  };
+  const res = await fetch(url, {
+    method: "delete",
+    mode: "cors",
+    headers,
+  });
+  return res.status === 200 ? res.json() : res;
 }

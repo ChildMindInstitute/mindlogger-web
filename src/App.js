@@ -14,6 +14,7 @@ import ForgotPassword from "./components/ForgotPassword";
 import Profile from "./components/Profile";
 import ChangePassword from "./components/ChangePassword";
 import Landing from "./components/Landing";
+import Invitation from "./components/Invitation/Invitation"
 
 import './App.css';
 
@@ -37,6 +38,7 @@ function App() {
               <Route path="/changepassword" exact component={ ChangePassword} />
               <Route path="/profile" exact component={ Profile} />
               <Route path="/dashboard" exact component={ Landing} />
+              <Route path="/invitation/:invitationId" exact component={ Invitation} />
             </Switch>
           </ConnectedRouter>
         </Container>

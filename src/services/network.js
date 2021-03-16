@@ -350,17 +350,13 @@ export const getInvitation = async ({ token, invitationId }) => {
   const headers = {
     "Girder-Token": token,
   };
-  try {
-    const res = await fetch(url, {
-      method: "get",
-      mode: "cors",
-      headers,
-    });
-    return await res.json()
-  } catch (error) {
-    return error
-  }
-
+  const res = await fetch(url, {
+    method: "get",
+    mode: "cors",
+    headers,
+  });
+  if (res.ok) return await res.json();
+  else throw new Error();
 };
 
 export const acceptInvitation = async ({ token, email, invitationId }) => {
@@ -373,7 +369,8 @@ export const acceptInvitation = async ({ token, email, invitationId }) => {
     mode: "cors",
     headers,
   });
-  return res.status === 200 ? res.json() : res;
+  if (res.ok) return await res.json();
+  else throw new Error();
 };
 
 export const declineInvitation = async ({invitationId, token}) => {
@@ -386,5 +383,6 @@ export const declineInvitation = async ({invitationId, token}) => {
     mode: "cors",
     headers,
   });
-  return res.status === 200 ? res.json() : res;
+  if (res.ok) return await res.json();
+  else throw new Error();
 }

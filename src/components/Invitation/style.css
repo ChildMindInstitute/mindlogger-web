@@ -1,0 +1,18 @@
+.heading h1 {
+  font-size: 2.5rem;
+  font-weight: 500;
+  color: #212529;
+}
+.heading {
+  font-size: 1rem;
+  color: #212529;
+  text-align: center;
+}
+.heading a {
+  color: #005fa3;
+}
+.invitationBody.alreadyAccepted {
+  font-size: 25px;
+  text-align: center;
+  margin-top: 20px;
+}

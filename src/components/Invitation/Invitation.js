@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
+import { Spinner, Button } from "react-bootstrap";
 import {
   loggedInSelector,
   authTokenSelector,
@@ -11,6 +12,7 @@ import {
   acceptInvitation,
   declineInvitation,
 } from "../../services/network";
+import "./style.css";
 
 const InvitationText = ({
   status,
@@ -23,6 +25,7 @@ const InvitationText = ({
       return (
         <div className="heading">
           <h1>Loading Invitation</h1>
+          <Spinner animation="border" variant="primary" />
         </div>
       );
 
@@ -30,8 +33,8 @@ const InvitationText = ({
       return (
         <React.Fragment>
           <div
-            className={`invitationBody`}
-            dangerouslySetInnerHTML={{__html: invitationText}}
+            className={`heading`}
+            dangerouslySetInnerHTML={{ __html: invitationText }}
           />
           <InvitationButtons
             onAcceptInvite={onAcceptInvite}
@@ -44,32 +47,57 @@ const InvitationText = ({
       return (
         <div
           className={`invitationBody alreadyAccepted`}
-          dangerouslySetInnerHTML={{__html: invitationText}}
+          dangerouslySetInnerHTML={{ __html: invitationText }}
         />
       );
+
     case InvitationStatuses.ERROR:
       return (
-        <div>
-          Network Error. Return
-          <Link to={"/profile"}>Home</Link>
+        <div className={"heading"}>
+          Network Error. Return <Link to={"/profile"}>Home</Link>
         </div>
       );
 
     case InvitationStatuses.ACCEPTED:
-      return <h1>Invitation Accepted</h1>;
+      return (
+        <div className={"heading"}>
+          <h1>Invitation Accepted</h1>
+        </div>
+      );
 
     case InvitationStatuses.REMOVED:
-      return <h1>Invitation Removed</h1>;
+      return (
+        <div className={"heading"}>
+          <h1>Invitation Removed</h1>
+        </div>
+      );
 
     default:
-      return <h1>Loading</h1>;
+      return null;
   }
 };
 
 const InvitationButtons = ({ onAcceptInvite, onDeclineInvite }) => (
-  <div>
-    <button onClick={onAcceptInvite}>Accept Invitation</button>
-    <button onClick={onDeclineInvite}>Decline Invitation</button>
+  <div
+    className={"d-flex justify-content-center align-items-center"}
+    style={{ height: "100vh" }}
+  >
+    <Button
+      onClick={onAcceptInvite}
+      variant="success"
+      className={"mx-2"}
+      size="lg"
+    >
+      Accept Invitation
+    </Button>
+    <Button
+      onClick={onDeclineInvite}
+      variant="danger"
+      className={"mx-2"}
+      size="lg"
+    >
+      Decline Invitation
+    </Button>
   </div>
 );
 
@@ -87,9 +115,8 @@ const Invitation = () => {
   const handleGetInvitation = async () => {
     setStatus(InvitationStatuses.LOADING);
     try {
-      const {
-        body, acceptable
-      } = await getInvitation({ invitationId, token });
+      const { body, acceptable } = await getInvitation({ invitationId, token });
+      console.log({ body });
       setInvitationText(body);
       setStatus(
         acceptable
@@ -97,6 +124,7 @@ const Invitation = () => {
           : InvitationStatuses.ALREADY_ACCEPTED
       );
     } catch (err) {
+      console.log({ err });
       setStatus(InvitationStatuses.ERROR);
     }
   };

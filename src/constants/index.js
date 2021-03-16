@@ -5,4 +5,5 @@ export const InvitationStatuses = {
   ERROR: "error",
   ACCEPTED: "accepted",
   REMOVED: "removed",
-};
+  DECLINED : "declined"
+  };

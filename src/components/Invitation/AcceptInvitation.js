@@ -1,0 +1,54 @@
+import React from "react";
+import { Link, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import {
+  loggedInSelector,
+  authTokenSelector,
+  userInfoSelector,
+} from "../../state/user/user.selectors";
+import { InvitationText } from "./InvitationText";
+import { InvitationStatuses } from "../../constants";
+import { acceptInvitation } from "../../services/invitation.service";
+import "./style.css";
+
+const AcceptInvitation = () => {
+  const [status, setStatus] = React.useState(InvitationStatuses.LOADING);
+  const [invitationText, setInvitationText] = React.useState("");
+  const isLoggedIn = useSelector(loggedInSelector);
+  const user = useSelector(userInfoSelector);
+  const token = useSelector((state) => authTokenSelector(state));
+  const { invitationId } = useParams();
+
+  React.useEffect(() => {
+    if (isLoggedIn) handleAcceptInvitation();
+  }, [isLoggedIn]);
+
+  const handleAcceptInvitation = async () => {
+    setStatus(InvitationStatuses.LOADING);
+    try {
+      const { body } = await acceptInvitation({
+        token,
+        email: user.email,
+        invitationId,
+      });
+      setStatus(InvitationStatuses.ACCEPTED);
+      setInvitationText(body);
+    } catch {
+      setStatus(InvitationStatuses.ERROR);
+    }
+  };
+
+  return (
+    <div className="mt-3 pt-3 container">
+      {isLoggedIn ? (
+        <InvitationText status={status} invitationText={invitationText} />
+      ) : (
+        <div className="heading">
+          Please <Link to={"/login"}>Login</Link> or{" "}
+          <Link to={"/signup"}>Sign Up</Link> to Accept this Invitation!
+        </div>
+      )}
+    </div>
+  );
+};
+export default AcceptInvitation;

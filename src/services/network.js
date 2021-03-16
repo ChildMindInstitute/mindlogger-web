@@ -5,7 +5,7 @@ import { btoa } from "./helper";
 import { apiHostSelector } from "../state/app/app.selectors";
 import * as axios from "axios";
 
-const apiHost = () => {
+export const apiHost = () => {
   const state = getStore().getState(); // Get redux state
   return apiHostSelector(state);
 };

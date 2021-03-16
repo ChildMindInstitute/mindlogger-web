@@ -28,6 +28,10 @@ const Invitation = () => {
     if (isLoggedIn) handleGetInvitation();
   }, [isLoggedIn]);
 
+  /**
+   * Makes request to server to get details about the invitation
+   * Displays the status of invitation
+   */
   const handleGetInvitation = async () => {
     setStatus(InvitationStatuses.LOADING);
     try {
@@ -44,6 +48,10 @@ const Invitation = () => {
     }
   };
 
+    /**
+   * Sends request to API for accepting invitation
+   * Displays the message from server upon succesful response
+   */
   const handleAcceptInvitation = async () => {
     setStatus(InvitationStatuses.LOADING);
     try {
@@ -54,6 +62,10 @@ const Invitation = () => {
     }
   };
 
+      /**
+   * Sends request to API for decling invitation
+   * Displays the message from server upon succesful response
+   */
   const handleRemoveInvitation = async () => {
     setStatus(InvitationStatuses.LOADING);
     try {

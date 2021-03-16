@@ -21,6 +21,10 @@ const DeclineInvitation = () => {
     if (isLoggedIn) handleDeclineInvitation();
   }, [isLoggedIn]);
 
+  /**
+   * Sends request to API for decling invitation
+   * Displays the message from server upon succesful response
+   */
   const handleDeclineInvitation = async () => {
     setStatus(InvitationStatuses.LOADING);
     try {
@@ -31,6 +35,7 @@ const DeclineInvitation = () => {
       setStatus(InvitationStatuses.ERROR);
     }
   };
+
   return (
     <div className="mt-3 pt-3 container">
       {isLoggedIn ? (

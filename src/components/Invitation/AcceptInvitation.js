@@ -23,6 +23,10 @@ const AcceptInvitation = () => {
     if (isLoggedIn) handleAcceptInvitation();
   }, [isLoggedIn]);
 
+  /**
+   * Sends request to API for accepting invitation
+   * Displays the message from server upon succesful response
+   */
   const handleAcceptInvitation = async () => {
     setStatus(InvitationStatuses.LOADING);
     try {

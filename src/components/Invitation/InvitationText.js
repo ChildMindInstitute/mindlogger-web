@@ -23,7 +23,7 @@ export const InvitationText = ({
       return (
         <React.Fragment>
           <div
-            className={`heading`}
+            className={`invitationBody`}
             dangerouslySetInnerHTML={{ __html: invitationText }}
           />
           <InvitationButtons
@@ -51,20 +51,20 @@ export const InvitationText = ({
     case InvitationStatuses.ACCEPTED:
       return (
         <div className={"heading"}>
-          <h1>{invitationText ? invitationText : "Invitation Accepted"}</h1>
+          <h1 className={"invitationMessage"}>{invitationText ? invitationText : "Invitation Accepted"}</h1>
         </div>
       );
 
     case InvitationStatuses.DECLINED:
       return (
         <div className={"heading"}>
-          <h1>{invitationText}</h1>
+          <h1 className={"invitationMessage"}>{invitationText}</h1>
         </div>
       );
     case InvitationStatuses.REMOVED:
       return (
         <div className={"heading"}>
-          <h1>Invitation Removed</h1>
+          <h1 className={"invitationMessage"}>Invitation Removed</h1>
         </div>
       );
 
@@ -76,7 +76,6 @@ export const InvitationText = ({
 const InvitationButtons = ({ onAcceptInvite, onDeclineInvite }) => (
   <div
     className={"d-flex justify-content-center align-items-center"}
-    style={{ height: "100vh" }}
   >
     <Button
       onClick={onAcceptInvite}

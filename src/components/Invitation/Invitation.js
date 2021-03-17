@@ -48,29 +48,35 @@ const Invitation = () => {
     }
   };
 
-    /**
+  /**
    * Sends request to API for accepting invitation
    * Displays the message from server upon succesful response
    */
   const handleAcceptInvitation = async () => {
     setStatus(InvitationStatuses.LOADING);
     try {
-      await acceptInvitation({ token, invitationId, email: user.email });
+      const { body } = await acceptInvitation({
+        token,
+        invitationId,
+        email: user.email,
+      });
       setStatus(InvitationStatuses.ACCEPTED);
+      setInvitationText(body)
     } catch {
       setStatus(InvitationStatuses.ERROR);
     }
   };
 
-      /**
+  /**
    * Sends request to API for decling invitation
    * Displays the message from server upon succesful response
    */
   const handleRemoveInvitation = async () => {
     setStatus(InvitationStatuses.LOADING);
     try {
-      await declineInvitation({ invitationId, token });
+      const { body } = await declineInvitation({ invitationId, token });
       setStatus(InvitationStatuses.REMOVED);
+      setInvitationText(body)
     } catch {
       setStatus(InvitationStatuses.ERROR);
     }

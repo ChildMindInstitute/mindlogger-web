@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-
+import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from 'react-redux';
 import { signUpSuccessful } from '../../state/user/user.thunks';
 
@@ -11,6 +11,7 @@ import './styles.css'
 
 
 export default function SignUp() {
+  const { t, i18n } = useTranslation();
   const {register, handleSubmit, setError, errors} = useForm();
   const dispatch = useDispatch();
   /**
@@ -38,19 +39,19 @@ export default function SignUp() {
   return (
     <div className="demo mb-3">
       <div id="login" className="text-center mb-0">
-        <h1>Register</h1>
+        <h1>{t("SignUp.register")}</h1>
         <div className="container fluid" id="signupForm">
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-group">
               <input
                 name="email"
-                placeholder="email"
+                placeholder={t("SignUp.email")}
                 className="form-control"
                 ref={register({
-                  required: "Required",
+                  required: t("SignUp.emailRequiredError") ,
                   pattern: {
                     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                    message: "invalid email address"
+                    message: t("SignUp.emailErrorMessage") 
                   }
                 })}
               />
@@ -59,10 +60,10 @@ export default function SignUp() {
             <div className="form-group">
               <input
                 name="displayName"
-                placeholder="Display Name"
+                placeholder= {t("SignUp.displayName")}
                 className="form-control"
                 ref={register({
-                  required: "Required",
+                  required: t("SignUp.emailRequiredError") ,
                 })}
               />
               {errors.displayName && errors.displayName.message}
@@ -71,22 +72,22 @@ export default function SignUp() {
               <input
                 name="password"
                 type="password"
-                placeholder="password"
+                placeholder={t("SignUp.password")}
                 className="form-control"
                 ref={register({
-                  required: "You must specify a password",
+                  required: t("SignUp.passwordRequiredError"),
                   minLength: {
                     value: 6,
-                    message: "Password must have at least 6 characters"
+                    message: t("SignUp.passwordErrorMessage")
                   }
                 })}
               />
             </div>
             {errors.password && errors.password.message}
-            <button type="submit" className="btn btn-primary">Submit</button>
+            <button type="submit" className="btn btn-primary">{t("SignUp.submit")}</button>
           </form>
-          <p className="mt-3">Don't have an account? <a href="/signup">Create One</a></p>
-          <p className="mt-3">Forgot Password? <a href="/forgotpassword">Reset it</a></p>
+          <p className="mt-3">{t("SignUp.accountMessage")} <a href="/signup">{t("SignUp.create")}</a></p>
+          <p className="mt-3">{t("SignUp.forgotPassword")} <a href="/forgotpassword">{t("SignUp.reset")}</a></p>
         </div>
       </div>
     </div>

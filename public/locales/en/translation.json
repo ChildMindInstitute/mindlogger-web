@@ -1,0 +1,87 @@
+{
+  "Login": {
+    "title": "Log In",
+    "submit": "Submit",
+    "passwordErrorMessage": "Password must have at least 6 characters",
+    "passwordRequiredError": "You must specify a password",
+    "password ": "password",
+    "email": "email",
+    "accountMessage": " Don't have an account? ",
+    "forgotPassword": " Forgot Password?",
+    "create": " Create One ",
+    "reset": " Reset it",
+    "emailRequiredError": "Required",
+    "emailErrorMessage": "invalid email address",
+    "errorMessage": "Login failed!"
+  },
+  "SignUp": {
+    "register": "Register",
+    "submit": "Submit",
+    "email": "email",
+    "displayName": "Display Name",
+    "password": "password",
+    "passwordErrorMessage": "Password must have at least 6 characters",
+    "passwordRequiredError": "You must specify a password",
+    "create": " Don't have an account? ",
+    "reset": " Forgot Password?",
+    "emailRequiredError": "Required",
+    "emailErrorMessage": "invalid email address"
+  },
+  "ForgotPassword": {
+    "title": "Forgot Password",
+    "submit": "Submit",
+    "email": "email",
+    "create": " Don't have an account? ",
+    "reset": " Forgot Password?",
+    "emailRequiredError": "Required",
+    "emailErrorMessage": "invalid email address"
+  },
+  "ChangePassword": {
+    "title": "Change Password",
+    "submit": "Submit",
+    "passwordErrorMessage": "Password must have at least 6 characters",
+    "passwordRequiredError": "You must specify a password"
+  },
+  "Landing": {
+    "title": "Welcome to MindLogger",
+    "login": "Log in!",
+    "signUp": "Sign Up!",
+    "getStart": "Get Started!",
+    "reserchStudies" : " Participate in scientific research studies online!",
+    "toGet" : " To get started:"
+  },
+  "Profile": {
+    "p1": " Download MindLogger to get started.",
+    "p2": " Thank you for creating an account with MindLogger.Download MindLogger on an iOS or Android device to get started."
+  },
+  "Invitation" : {
+    "please" : "Please",
+    "login" : "Login",
+    "or" : "or",
+    "singUp" : "Sign Up",
+    "viewInvitation" : "to View Invitation"
+
+  },
+  "AcceptInvitation" : {
+    "please" : "Please",
+    "login" : "Login",
+    "or" : "or",
+    "singUp" : "Sign Up",
+    "acceptInvitation" : "to Accept this Invitation!"
+
+  },
+  "DeclineInvitation" : {
+    "please" : "Please",
+    "login" : "Login",
+    "or" : "or",
+    "singUp" : "Sign Up",
+    "declineInvitation" : "to Decline This Invitation"
+
+  },
+  "InvitationText" : {
+    "loadingInvitation" : "Loading Invitation",
+    "invitationRemoved" : "Invitation Removed",
+    "networkError" : "Network Error. Return ",
+    "home" : "Home"
+  }
+}

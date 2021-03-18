@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import moment from 'moment';
-
+import "./i18Next";
+import  { Suspense } from "react";
 import { Provider } from 'react-redux';
 import configureStore from './store';
 import { clearUser } from './state/user/user.actions';
@@ -34,7 +35,9 @@ const store = configureStore();
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
+    <Suspense fallback={null}>
       <App />
+      </Suspense>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

@@ -1,0 +1,80 @@
+{
+  "Login": {
+    "title": "Connexion",
+    "submit": "Nous faire parvenir",
+    "passwordErrorMessage": "Le mot de passe doit comporter au moins 6 caractères",
+    "passwordRequiredError": "Vous devez spécifier un mot de passe",
+    "password ": "le mot de passe",
+    "email": "e-mail",
+    "accountMessage": " Vous n'avez pas de compte? ",
+    "forgotPassword": " Mot de passe oublié?",
+    "create": " Créer une ",
+    "reset": " Réinitialisez-le",
+    "emailRequiredError": "Obligatoire",
+    "emailErrorMessage": "Adresse e-mail invalide",
+    "errorMessage": "Échec de la connexion!"
+  },
+  "SignUp": {
+    "register": "S'inscrire",
+    "submit": "Nous faire parvenir",
+    "email": "e-mail",
+    "displayName": "Afficher un nom",
+    "password ": "le mot de passe",
+    "passwordErrorMessage": "Le mot de passe doit comporter au moins 6 caractères",
+    "passwordRequiredError": "Vous devez spécifier un mot de passe",
+    "accountMessage": " Vous n'avez pas de compte? ",
+    "forgotPassword": " Mot de passe oublié?",
+    "create": " Créer une ",
+    "reset": " Réinitialisez-le",
+    "emailRequiredError": "Obligatoire",
+    "emailErrorMessage": "Adresse e-mail invalide"
+  },
+  "ForgotPassword": {
+    "title": "Connexion",
+    "submit": "Nous faire parvenir",
+    "email": "e-mail",
+    "create": " Créer une ",
+    "reset": " Réinitialisez-le",
+    "emailRequiredError": "Obligatoire",
+    "emailErrorMessage": "Adresse e-mail invalide"
+  },
+  "ChangePassword": {
+    "title": "Changer le mot de passe",
+    "submit": "Nous faire parvenir",
+    "passwordErrorMessage": "Le mot de passe doit comporter au moins 6 caractères",
+    "passwordRequiredError": "Vous devez spécifier un mot de passe"
+  },
+  "Landing": {
+    "title": "Bienvenue dans MindLogger",
+    "login": "Connexion!",
+    "signUp": "S'inscrire!",
+    "getStart": "Commencer!",
+    "reserchStudies": "Participez à des études de recherche scientifique en ligne!",
+    "toGet": " Pour commencer:"
+  },
+  "Profile": {
+    "p1": " Download MindLogger to get started.",
+    "p2": " Thank you for creating an account with MindLogger.Download MindLogger on an iOS or Android device to get started."
+  },
+  "Invitation": {
+    "please": "S'il te plaît",
+    "login": "Connexion",
+    "or": "ou",
+    "singUp": "S'inscrire",
+    "viewInvitation": "pour afficher l'invitation"
+  },
+  "AcceptInvitation": {
+    "please": "S'il te plaît",
+    "login": "Connexion",
+    "or": "ou",
+    "singUp": "S'inscrire",
+    "acceptInvitation": "d'accepter cette invitation!"
+  },
+  "DeclineInvitation": {
+    "please": "S'il te plaît",
+    "login": "Connexion",
+    "or": "ou",
+    "singUp": "S'inscrire",
+    "declineInvitation": "pour refuser cette invitation"
+  }
+}

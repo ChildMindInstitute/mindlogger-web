@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-
+import { useTranslation } from "react-i18next";
 import { history } from '../../store'
 
 import { forgotPassword } from '../../services/network';
@@ -13,6 +13,7 @@ import './styles.css'
  * @constructor
  */
 export default function ForgotPassword() {
+  const { t, i18n } = useTranslation();
   const { register, handleSubmit, setError, errors } = useForm();
 
   /**
@@ -38,28 +39,28 @@ export default function ForgotPassword() {
   return (
     <div className="demo mb-3">
       <div id="login" className="text-center mb-0">
-        <h1>Forgot Password</h1>
+        <h1>{t("ForgotPassword.title")}</h1>
         <div className="container fluid" id="signupForm">
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-group">
               <input
                 name="email"
-                placeholder="email"
+                placeholder={t("ForgotPassword.email")}
                 className="form-control"
                 ref={register({
-                  required: "Required",
+                  required:  t("ForgotPassword.emailRequiredError") ,
                   pattern: {
                     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                    message: "invalid email address"
+                    message: t("ForgotPassword.emailErrorMessage")
                   }
                 })}
               />
               {errors.email && errors.email.message}
             </div>
-            <button type="submit" className="btn btn-primary">Submit</button>
+            <button type="submit" className="btn btn-primary">{t("ForgotPassword.submit")}</button>
           </form>
-          <p className="mt-3">Don't have an account? <a href="/signup">Create One</a></p>
-          <p className="mt-3">Forgot Password? <a href="/forgotpassword">Reset it</a></p>
+          <p className="mt-3">{t("ForgotPassword.accountMessage")} <a href="/signup">{t("ForgotPassword.create")}</a></p>
+          <p className="mt-3">{t("ForgotPassword.forgotPassword")} <a href="/forgotpassword">{t("ForgotPassword.reset")}</a></p>
         </div>
       </div>
     </div>

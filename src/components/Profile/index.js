@@ -1,5 +1,6 @@
+import { T } from 'ramda';
 import React from 'react';
-
+import { useTranslation } from "react-i18next";
 import {useSelector} from "react-redux";
 import {userInfoSelector} from "../../state/user/user.selectors";
 
@@ -9,6 +10,7 @@ import {userInfoSelector} from "../../state/user/user.selectors";
  * @constructor
  */
 export default function Profile() {
+  const { t, i18n } = useTranslation();
   let user = useSelector(state => userInfoSelector(state));
 
   return (
@@ -20,12 +22,11 @@ export default function Profile() {
       </div>
       <hr/>
       <div>
-        Download MindLogger to get started.
+       {t("Profile.p1")}
       </div>
 
       <div>
-        Thank you for creating an account with MindLogger.
-        Download MindLogger on an iOS or Android device to get started.
+       {t("Profile.p2")}
       </div>
     </div>
   );

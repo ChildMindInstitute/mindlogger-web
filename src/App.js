@@ -17,7 +17,7 @@ import Landing from "./components/Landing";
 import Invitation from "./components/Invitation/Invitation";
 import AcceptInvitation from "./components/Invitation/AcceptInvitation";
 import DeclineInvitation from "./components/Invitation/DeclineInvitation";
-
+import { useTranslation } from "react-i18next"
 import "./App.css";
 
 /**
@@ -25,9 +25,15 @@ import "./App.css";
  */
 function App() {
   const user = useSelector(userInfoSelector);
+  const { i18n } = useTranslation()
+
+  const handleClick = () => {
+    i18n.changeLanguage("en")
+  }
 
   return (
     <>
+    <button onClick={handleClick}></button>
       <NavBar user={user} />
       <Container className={"main-container"}>
         <Container

@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 import {
   loggedInSelector,
   authTokenSelector,
@@ -18,6 +19,7 @@ const AcceptInvitation = () => {
   const user = useSelector(userInfoSelector);
   const token = useSelector((state) => authTokenSelector(state));
   const { invitationId } = useParams();
+  const { t, i18n } = useTranslation();
 
   React.useEffect(() => {
     if (isLoggedIn) handleAcceptInvitation();

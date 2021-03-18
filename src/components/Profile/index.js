@@ -1,17 +1,17 @@
-import { T } from 'ramda';
-import React from 'react';
-import { useTranslation } from "react-i18next";
-import {useSelector} from "react-redux";
-import {userInfoSelector} from "../../state/user/user.selectors";
+import { T } from 'ramda'
+import React from 'react'
+import { useTranslation } from 'react-i18next'
+import { useSelector } from 'react-redux'
+import { userInfoSelector } from '../../state/user/user.selectors'
 
 /**
  *
  * Component to display User Profile
  * @constructor
  */
-export default function Profile() {
-  const { t, i18n } = useTranslation();
-  let user = useSelector(state => userInfoSelector(state));
+export default function Profile () {
+  const { t } = useTranslation()
+  const user = useSelector(state => userInfoSelector(state))
 
   return (
     <div className="my-3 h-100">
@@ -22,12 +22,12 @@ export default function Profile() {
       </div>
       <hr/>
       <div>
-       {t("Profile.title")}
+       {t('Profile.title')}
       </div>
 
       <div>
-       {t("Profile.description")}
+       {t('Profile.description')}
       </div>
-    </div> 
-  );
+    </div>
+  )
 }

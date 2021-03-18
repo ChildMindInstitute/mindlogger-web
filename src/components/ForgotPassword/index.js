@@ -1,9 +1,9 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
-import { useTranslation } from "react-i18next";
+import React from 'react'
+import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { history } from '../../store'
 
-import { forgotPassword } from '../../services/network';
+import { forgotPassword } from '../../services/network'
 
 import './styles.css'
 
@@ -12,9 +12,9 @@ import './styles.css'
  * Component for requesting new password
  * @constructor
  */
-export default function ForgotPassword() {
-  const { t, i18n } = useTranslation();
-  const { register, handleSubmit, setError, errors } = useForm();
+export default function ForgotPassword () {
+  const { t } = useTranslation()
+  const { register, handleSubmit, setError, errors } = useForm()
 
   /**
    * Sends the forgot password email.
@@ -26,43 +26,43 @@ export default function ForgotPassword() {
   const onSubmit = body => {
     return forgotPassword(body.email)
       .then((response) => {
-        history.push('/login');
+        history.push('/login')
       })
       .catch((e) => {
-        setError("email", {
-          type: "manual",
-          message: t("ForgotPassword.emailError")
-        });
-      });
-  };
+        setError('email', {
+          type: 'manual',
+          message: t('ForgotPassword.emailError')
+        })
+      })
+  }
 
   return (
     <div className="demo mb-3">
       <div id="login" className="text-center mb-0">
-        <h1>{t("ForgotPassword.title")}</h1>
+        <h1>{t('ForgotPassword.title')}</h1>
         <div className="container fluid" id="signupForm">
           <form onSubmit={() => handleSubmit(onSubmit)}>
             <div className="form-group">
               <input
                 name="email"
-                placeholder={t("ForgotPassword.email")}
+                placeholder={t('ForgotPassword.email')}
                 className="form-control"
                 ref={register({
-                  required:  t("ForgotPassword.emailRequiredError") ,
+                  required: t('ForgotPassword.emailRequiredError'),
                   pattern: {
                     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                    message: t("ForgotPassword.emailErrorMessage")
+                    message: t('ForgotPassword.emailErrorMessage')
                   }
                 })}
               />
               {errors.email && errors.email.message}
             </div>
-            <button type="submit" className="btn btn-primary">{t("ForgotPassword.submit")}</button>
+            <button type="submit" className="btn btn-primary">{t('ForgotPassword.submit')}</button>
           </form>
-          <p className="mt-3">{t("ForgotPassword.accountMessage")} <a href="/signup">{t("ForgotPassword.create")}</a></p>
-          <p className="mt-3">{t("ForgotPassword.forgotPassword")} <a href="/forgotpassword">{t("ForgotPassword.reset")}</a></p>
+          <p className="mt-3">{t('ForgotPassword.accountMessage')} <a href="/signup">{t('ForgotPassword.create')}</a></p>
+          <p className="mt-3">{t('ForgotPassword.forgotPassword')} <a href="/forgotpassword">{t('ForgotPassword.reset')}</a></p>
         </div>
       </div>
     </div>
-  );
+  )
 }

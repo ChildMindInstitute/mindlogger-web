@@ -107,8 +107,9 @@
     "logIn" : "Login",
     "logOut" : "Logout",
     "profile" : "Profile",
-    "settings" : "Settings"
+    "settings" : "Settings",
+    "english" : "English" ,
+    "french" : "French"
   
-    
   }
 }

@@ -90,8 +90,8 @@ export default function Login() {
             {errors.password && errors.password.message}
             <button type="submit" className="btn btn-primary">{t("Login.submit")}</button>
           </form>
-          <p className="mt-3">{t("login.accountMessage")} <a href="/signup">{t("login.create")}</a></p>
-          <p className="mt-3">{t("login.forgotPassword")} <a href="/forgotpassword">{t("login.reset")}</a></p>
+          <p className="mt-3">{t("Login.accountMessage")} <a href="/signup">{t("Login.create")}</a></p>
+          <p className="mt-3">{t("Login.forgotPassword")} <a href="/forgotpassword">{t("Login.reset")}</a></p>
         </div>
       </div>
     </div>

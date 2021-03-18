@@ -22,12 +22,12 @@ export default function Profile() {
       </div>
       <hr/>
       <div>
-       {t("Profile.p1")}
+       {t("Profile.title")}
       </div>
 
       <div>
-       {t("Profile.p2")}
+       {t("Profile.description")}
       </div>
-    </div>
+    </div> 
   );
 }

@@ -31,7 +31,7 @@ export default function SignUp() {
       .catch((e) => {
         setError("password", {
           type: "manual",
-          message: "Sign up failed: username may already be in use."
+          message: t("SignUp.passwordError")
         });
       });
   };

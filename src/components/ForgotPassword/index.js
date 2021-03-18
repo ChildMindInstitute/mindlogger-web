@@ -31,7 +31,7 @@ export default function ForgotPassword() {
       .catch((e) => {
         setError("email", {
           type: "manual",
-          message: "Email doesn't exist!"
+          message: t("ForgotPassword.emailError")
         });
       });
   };
@@ -41,7 +41,7 @@ export default function ForgotPassword() {
       <div id="login" className="text-center mb-0">
         <h1>{t("ForgotPassword.title")}</h1>
         <div className="container fluid" id="signupForm">
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={() => handleSubmit(onSubmit)}>
             <div className="form-group">
               <input
                 name="email"

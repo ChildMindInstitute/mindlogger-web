@@ -1,6 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
+import { useTranslation } from "react-i18next";
 import {
   loggedInSelector,
   userInfoSelector,
@@ -16,6 +17,7 @@ import {
 import './style.css'
 
 const Invitation = () => {
+  const { t, i18n } = useTranslation();
   const [status, setStatus] = React.useState(InvitationStatuses.LOADING)
   const [invitationText, setInvitationText] = React.useState('')
   const isLoggedIn = useSelector(loggedInSelector)
@@ -94,8 +96,8 @@ const Invitation = () => {
           )
         : (
         <div className="heading">
-          Please <Link to={'/login'}>Login</Link> or{' '}
-          <Link to={'/signup'}>Sign Up</Link> to View Invitation
+          {t("Invitation.please")} <Link to={"/login"}>{t("Invitation.login")}</Link> {t("Invitation.or")}{" "}
+          <Link to={"/signup"}>{t("Invitation.singUp")}</Link> {t("Invitation.viewInvitation")} 
         </div>
           )}
     </div>

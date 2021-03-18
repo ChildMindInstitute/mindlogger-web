@@ -39,7 +39,7 @@ export default function ChangePassword() {
       .catch((e) => {
         setError("password", {
           type: "manual",
-          message: "The current password you entered was incorrect."
+          message: t("ChangePassword.passwordError")
         });
       });
   };
@@ -49,12 +49,12 @@ export default function ChangePassword() {
       <div id="login" className="text-center mb-0">
         <h1>{t("ChangePassword.title")}</h1>
         <div className="container fluid" id="signupForm">
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={() => handleSubmit(onSubmit)}>
             <div className="form-group">
               <input
                 name="oldPassword"
                 type="password"
-                placeholder="Old Password"
+                placeholder={t("ChangePassword.oldPassword")}
                 className="form-control"
                 ref={register({
                   required: t("ChangePassword.passwordRequiredError"),
@@ -70,7 +70,7 @@ export default function ChangePassword() {
               <input
                 name="password"
                 type="password"
-                placeholder="password"
+                placeholder={t("ChangePassword.password")}
                 className="form-control"
                 ref={register({
                   required: t("ChangePassword.passwordRequiredError"),

@@ -27,13 +27,15 @@ function App() {
   const user = useSelector(userInfoSelector);
   const { i18n } = useTranslation()
 
-  const handleClick = () => {
-    i18n.changeLanguage("en")
+  const handleClick = (lang) => {
+    i18n.changeLanguage(lang)
   }
 
   return (
     <>
-    <button onClick={handleClick}></button>
+    <button onClick={()=>handleClick("en")}>en</button>
+    <button onClick={()=>handleClick("fr")}>fr</button>
+
       <NavBar user={user} />
       <Container className={"main-container"}>
         <Container

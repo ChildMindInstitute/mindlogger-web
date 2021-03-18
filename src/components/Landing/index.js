@@ -26,7 +26,7 @@ export default function Landing() {
             {t("Landing.login")} 
             </button>
           </Link>
-          or
+          {t("Landing.or")} 
           <Link to="/signup">
             <button type="button" className="btn btn-primary">
             {t("Landing.signUp")} 

@@ -4,7 +4,7 @@
     "submit": "Submit",
     "passwordErrorMessage": "Password must have at least 6 characters",
     "passwordRequiredError": "You must specify a password",
-    "password ": "password",
+    "password": "password",
     "email": "email",
     "accountMessage": " Don't have an account? ",
     "forgotPassword": " Forgot Password?",
@@ -22,37 +22,47 @@
     "password": "password",
     "passwordErrorMessage": "Password must have at least 6 characters",
     "passwordRequiredError": "You must specify a password",
-    "create": " Don't have an account? ",
-    "reset": " Forgot Password?",
     "emailRequiredError": "Required",
-    "emailErrorMessage": "invalid email address"
+    "emailErrorMessage": "invalid email address",
+    "passwordError" : "Sign up failed: username may already be in use.",
+    "accountMessage": " Don't have an account? ",
+    "forgotPassword": " Forgot Password?",
+    "create": " Create One ",
+    "reset": " Reset it"
   },
   "ForgotPassword": {
     "title": "Forgot Password",
     "submit": "Submit",
     "email": "email",
-    "create": " Don't have an account? ",
-    "reset": " Forgot Password?",
+    "create": " Create One ",
+    "reset": " Reset it",
     "emailRequiredError": "Required",
-    "emailErrorMessage": "invalid email address"
+    "emailErrorMessage": "invalid email address",
+    "accountMessage": " Don't have an account? ",
+    "forgotPassword": " Forgot Password?",
+    "emailError" : "Email doesn't exist!"
   },
   "ChangePassword": {
     "title": "Change Password",
     "submit": "Submit",
     "passwordErrorMessage": "Password must have at least 6 characters",
-    "passwordRequiredError": "You must specify a password"
+    "passwordRequiredError": "You must specify a password",
+    "oldPassword": "Old Password",
+    "password": "password",
+    "passwordError" : "The current password you entered was incorrect."
   },
   "Landing": {
     "title": "Welcome to MindLogger",
     "login": "Log in!",
     "signUp": "Sign Up!",
+    "or" : "or",
     "getStart": "Get Started!",
     "reserchStudies" : " Participate in scientific research studies online!",
     "toGet" : " To get started:"
   },
   "Profile": {
-    "p1": " Download MindLogger to get started.",
-    "p2": " Thank you for creating an account with MindLogger.Download MindLogger on an iOS or Android device to get started."
+    "title": " Download MindLogger to get started.",
+    "description": " Thank you for creating an account with MindLogger. Download MindLogger on an iOS or Android device to get started."
   },
   "Invitation" : {
     "please" : "Please",
@@ -82,6 +92,23 @@
     "loadingInvitation" : "Loading Invitation",
     "invitationRemoved" : "Invitation Removed",
     "networkError" : "Network Error. Return ",
-    "home" : "Home"
+    "home" : "Home",
+    "acceptInvitation" : "Invitation Accepted"
+  }
+  ,
+  "InvitationButtons" : {
+    "acceptInvitation" : "Accept Invitation",
+    "declineInvitation" : "Decline Invitation"
+    
+  },
+  "Navbar" : {
+    "mindLogger" : "MindLogger",
+    "home" : "Home",
+    "logIn" : "Login",
+    "logOut" : "Logout",
+    "profile" : "Profile",
+    "settings" : "Settings"
+  
+    
   }
 }

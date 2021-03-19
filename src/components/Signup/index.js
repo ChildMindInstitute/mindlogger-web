@@ -2,8 +2,9 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
-import { signUpSuccessful } from '../../state/user/user.thunks'
+import { Link } from 'react-router-dom'
 
+import { signUpSuccessful } from '../../state/user/user.thunks'
 import { signUp } from '../../services/network'
 import { getPrivateKey } from '../../services/encryption'
 
@@ -20,10 +21,14 @@ export default function SignUp () {
    * @param body
    * @returns {Promise} resolves when the signup is successful.
    */
-  const onSubmit = body => {
+  const onSubmit = (body) => {
     return signUp({ ...body })
       .then((response) => {
-        response.privateKey = getPrivateKey({ userId: response._id, email: body.email, password: body.password })
+        response.privateKey = getPrivateKey({
+          userId: response._id,
+          email: body.email,
+          password: body.password
+        })
         response.email = body.email
         dispatch(signUpSuccessful(response))
       })
@@ -59,7 +64,7 @@ export default function SignUp () {
             <div className="form-group">
               <input
                 name="displayName"
-                placeholder= {t('SignUp.displayName')}
+                placeholder={t('SignUp.displayName')}
                 className="form-control"
                 ref={register({
                   required: t('SignUp.emailRequiredError')
@@ -83,10 +88,18 @@ export default function SignUp () {
               />
             </div>
             {errors.password && errors.password.message}
-            <button type="submit" className="btn btn-primary">{t('SignUp.submit')}</button>
+            <button type="submit" className="btn btn-primary">
+              {t('SignUp.submit')}
+            </button>
           </form>
-          <p className="mt-3">{t('SignUp.accountMessage')} <a href="/signup">{t('SignUp.create')}</a></p>
-          <p className="mt-3">{t('SignUp.forgotPassword')} <a href="/forgotpassword">{t('SignUp.reset')}</a></p>
+          <p className="mt-3">
+            {t('SignUp.accountMessage')}{' '}
+            <Link to="/signup">{t('SignUp.create')}</Link>
+          </p>
+          <p className="mt-3">
+            {t('SignUp.forgotPassword')}{' '}
+            <Link to="/forgotpassword">{t('SignUp.reset')}</Link>
+          </p>
         </div>
       </div>
     </div>

@@ -8,8 +8,17 @@ export const Footer = () => {
           className="logo mr-1"
           src="https://27c2s3mdcxk2qzutg1z8oa91-wpengine.netdna-ssl.com/wp-content/themes/childmind/assets/img/cmi-logo-vert-ko.svg"
         />
-        © <a href="https://childmind.org" className="mx-1"> Child Mind Institute </a> MATTER Lab
-        2019
+        ©{' '}
+        <a
+          href="https://childmind.org"
+          className="mx-1"
+          target={'_blank'}
+          rel="noreferrer"
+        >
+          {' '}
+          Child Mind Institute{' '}
+        </a>{' '}
+        MATTER Lab 2019
       </p>
     </footer>
   )

@@ -1,6 +1,7 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
 import { history } from '../../store'
 
 import { forgotPassword } from '../../services/network'
@@ -59,8 +60,8 @@ export default function ForgotPassword () {
             </div>
             <button type="submit" className="btn btn-primary">{t('ForgotPassword.submit')}</button>
           </form>
-          <p className="mt-3">{t('ForgotPassword.accountMessage')} <a href="/signup">{t('ForgotPassword.create')}</a></p>
-          <p className="mt-3">{t('ForgotPassword.forgotPassword')} <a href="/forgotpassword">{t('ForgotPassword.reset')}</a></p>
+          <p className="mt-3">{t('ForgotPassword.accountMessage')} <Link to="/signup">{t('ForgotPassword.create')}</Link></p>
+          <p className="mt-3">{t('ForgotPassword.forgotPassword')} <Link to="/forgotpassword">{t('ForgotPassword.reset')}</Link></p>
         </div>
       </div>
     </div>

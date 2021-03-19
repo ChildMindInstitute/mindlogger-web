@@ -2,8 +2,9 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
-import { signInSuccessful } from '../../state/user/user.thunks'
+import { Link } from 'react-router-dom'
 
+import { signInSuccessful } from '../../state/user/user.thunks'
 import { signIn } from '../../services/network'
 import { getPrivateKey } from '../../services/encryption'
 
@@ -25,13 +26,17 @@ export default function Login () {
    * @param body
    * @returns {Promise} resolves when the authentication is successful.
    */
-  const onSubmit = body => {
+  const onSubmit = (body) => {
     return signIn({ ...body })
       .then((response) => {
         if (typeof response.exception !== 'undefined') {
           throw response.exception
         } else {
-          response.user.privateKey = getPrivateKey({ userId: response.user._id, email: body.user, password: body.password })
+          response.user.privateKey = getPrivateKey({
+            userId: response.user._id,
+            email: body.user,
+            password: body.password
+          })
           response.user.email = body.user
           dispatch(signInSuccessful(response))
         }
@@ -76,7 +81,7 @@ export default function Login () {
               <input
                 name="password"
                 type="password"
-                placeholder= {t('Login.password')}
+                placeholder={t('Login.password')}
                 className="form-control"
                 ref={register({
                   required: t('Login.passwordRequiredError'),
@@ -88,10 +93,18 @@ export default function Login () {
               />
             </div>
             {errors.password && errors.password.message}
-            <button type="submit" className="btn btn-primary">{t('Login.submit')}</button>
+            <button type="submit" className="btn btn-primary">
+              {t('Login.submit')}
+            </button>
           </form>
-          <p className="mt-3">{t('Login.accountMessage')} <a href="/signup">{t('Login.create')}</a></p>
-          <p className="mt-3">{t('Login.forgotPassword')} <a href="/forgotpassword">{t('Login.reset')}</a></p>
+          <p className="mt-3">
+            {t('Login.accountMessage')}{' '}
+            <Link to="/signup">{t('Login.create')}</Link>
+          </p>
+          <p className="mt-3">
+            {t('Login.forgotPassword')}{' '}
+            <Link to="/forgotpassword">{t('Login.reset')}</Link>
+          </p>
         </div>
       </div>
     </div>

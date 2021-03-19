@@ -2,9 +2,9 @@ import React from 'react'
 import { Container } from 'react-bootstrap'
 import { ConnectedRouter } from 'connected-react-router'
 import { Switch, Route } from 'react-router-dom'
-
 import { useSelector } from 'react-redux'
 import { history } from './store'
+
 import { userInfoSelector } from './state/user/user.selectors'
 import Footer from './components/Base/Footer'
 import NavBar from './components/Base/Navbar'
@@ -26,14 +26,13 @@ function App () {
   const user = useSelector(userInfoSelector)
 
   return (
-    <>
+    <ConnectedRouter history={history}>
       <NavBar user={user} />
       <Container className={'main-container'}>
         <Container
           style={{ justifyContent: 'center', margin: 'unset' }}
           className={'app-container'}
         >
-          <ConnectedRouter history={history}>
             <Switch>
               <Route path="/login" exact component={Login} />
               <Route path="/signup" exact component={SignUp} />
@@ -57,11 +56,10 @@ function App () {
                 component={DeclineInvitation}
               />
             </Switch>
-          </ConnectedRouter>
         </Container>
       </Container>
       <Footer />
-    </>
+    </ConnectedRouter>
   )
 }
 export default App

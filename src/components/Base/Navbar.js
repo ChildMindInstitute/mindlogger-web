@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
 import NavDropdown from 'react-bootstrap/NavDropdown'
 import { DropdownButton, Dropdown } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom'
+
 import { doLogout } from '../../state/app/app.thunks'
 import { Languages } from '../../constants/index'
 /**
@@ -14,14 +16,19 @@ import { Languages } from '../../constants/index'
  */
 export default function NavBar ({ user }) {
   const { t } = useTranslation()
+  const history = useHistory()
 
   return (
     <Navbar expand="lg" variant="dark" className="site-header">
-      <Navbar.Brand href="#home">{t('Navbar.mindLogger')}</Navbar.Brand>
+      <Navbar.Brand role={'button'} onClick={() => history.push('/dashboard')}>
+        {t('Navbar.mindLogger')}
+      </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
-          <Nav.Link href="#home">{t('Navbar.home')}</Nav.Link>
+          <Nav.Link onClick={() => history.push('/profile')}>
+            {t('Navbar.home')}
+          </Nav.Link>
         </Nav>
         <Nav className="ml-auto">
           <UserInfoDropdown user={user} />
@@ -34,6 +41,7 @@ export default function NavBar ({ user }) {
 const UserInfoDropdown = ({ user }) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
+  const history = useHistory()
 
   const logOut = () => {
     dispatch(doLogout())
@@ -51,14 +59,14 @@ const UserInfoDropdown = ({ user }) => {
           id="basic-nav-dropdown"
           className="ml-auto"
         >
-          <NavDropdown.Item href="/changepassword">
+          <NavDropdown.Item onClick={() => history.push('/changepassword')}>
             {t('Navbar.settings')}
           </NavDropdown.Item>
-          <NavDropdown.Item href="/profile">
+          <NavDropdown.Item onClick={() => history.push('/profile')}>
             {t('Navbar.profile')}
           </NavDropdown.Item>
           <NavDropdown.Divider />
-          <NavDropdown.Item href="#" onClick={logOut}>
+          <NavDropdown.Item onClick={logOut}>
             {t('Navbar.logOut')}
           </NavDropdown.Item>
         </NavDropdown>
@@ -68,7 +76,9 @@ const UserInfoDropdown = ({ user }) => {
     return (
       <React.Fragment>
         <LanguageDropdown />
-        <Nav.Link href="/login">{t('Navbar.logIn')}</Nav.Link>
+        <Nav.Link onClick={() => history.push('/login')}>
+          {t('Navbar.logIn')}
+        </Nav.Link>
       </React.Fragment>
     )
   }
@@ -76,7 +86,9 @@ const UserInfoDropdown = ({ user }) => {
 
 const LanguageDropdown = () => {
   const { t, i18n } = useTranslation()
-  const [language, setLanguage] = useState(Languages.ENGLISH)
+  const [language, setLanguage] = useState(i18n.language || Languages.ENGLISH)
+
+  useEffect(() => changeLanguage(i18n.language), [i18n.language])
 
   const changeLanguage = (lang) => {
     setLanguage(lang)

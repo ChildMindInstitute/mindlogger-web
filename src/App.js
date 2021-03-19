@@ -1,37 +1,37 @@
-import React from "react";
-import { Container } from "react-bootstrap";
-import { ConnectedRouter } from "connected-react-router";
-import { Switch, Route } from "react-router-dom";
+import React from 'react'
+import { Container } from 'react-bootstrap'
+import { ConnectedRouter } from 'connected-react-router'
+import { Switch, Route } from 'react-router-dom'
 
-import { useSelector } from "react-redux";
-import { history } from "./store";
-import { userInfoSelector } from "./state/user/user.selectors";
-
-import NavBar from "./components/NavBar";
-import Login from "./components/Login";
-import SignUp from "./components/Signup";
-import ForgotPassword from "./components/ForgotPassword";
-import Profile from "./components/Profile";
-import ChangePassword from "./components/ChangePassword";
-import Landing from "./components/Landing";
-import Invitation from "./components/Invitation/Invitation";
-import AcceptInvitation from "./components/Invitation/AcceptInvitation";
-import DeclineInvitation from "./components/Invitation/DeclineInvitation";
-import "./App.css";
+import { useSelector } from 'react-redux'
+import { history } from './store'
+import { userInfoSelector } from './state/user/user.selectors'
+import Footer from './components/Base/Footer'
+import NavBar from './components/Base/Navbar'
+import Login from './components/Login'
+import SignUp from './components/Signup'
+import ForgotPassword from './components/ForgotPassword'
+import Profile from './components/Profile'
+import ChangePassword from './components/ChangePassword'
+import Landing from './components/Landing'
+import Invitation from './components/Invitation/Invitation'
+import AcceptInvitation from './components/Invitation/AcceptInvitation'
+import DeclineInvitation from './components/Invitation/DeclineInvitation'
+import './App.css'
 
 /**
  * Main Component of the Application - Routes to specific components based on the Path.
  */
-function App() {
-  const user = useSelector(userInfoSelector);
+function App () {
+  const user = useSelector(userInfoSelector)
 
   return (
     <>
       <NavBar user={user} />
-      <Container className={"main-container"}>
+      <Container className={'main-container'}>
         <Container
-          style={{ justifyContent: "center", margin: "unset" }}
-          className={"app-container"}
+          style={{ justifyContent: 'center', margin: 'unset' }}
+          className={'app-container'}
         >
           <ConnectedRouter history={history}>
             <Switch>
@@ -60,8 +60,8 @@ function App() {
           </ConnectedRouter>
         </Container>
       </Container>
-      `
+      <Footer />
     </>
-  );
+  )
 }
-export default App;
+export default App

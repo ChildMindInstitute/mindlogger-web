@@ -1,17 +1,30 @@
 import { apiHost } from './network'
+import axios from 'axios'
+
+export const getInvitation = async ({ token, invitationId }) => {
+  const url = `${apiHost()}/invitation/${invitationId}?includeLink=false`
+  const headers = {
+    'Girder-Token': token
+  }
+  try {
+    const response = await axios.get(url, { headers })
+    return response.data
+  } catch (error) {
+    throw new Error(error)
+  }
+}
 
 export const declineInvitation = async ({ invitationId, token }) => {
   const url = `${apiHost()}/invitation/${invitationId}`
   const headers = {
     'Girder-Token': token
   }
-  const res = await fetch(url, {
-    method: 'delete',
-    mode: 'cors',
-    headers
-  })
-  if (res.ok) return await res.json()
-  else throw new Error()
+  try {
+    const response = await axios.delete(url, { headers })
+    return response.data
+  } catch (error) {
+    throw new Error(error)
+  }
 }
 
 export const acceptInvitation = async ({ token, email, invitationId }) => {
@@ -19,25 +32,10 @@ export const acceptInvitation = async ({ token, email, invitationId }) => {
   const headers = {
     'Girder-Token': token
   }
-  const res = await fetch(url, {
-    method: 'post',
-    mode: 'cors',
-    headers
-  })
-  if (res.ok) return await res.json()
-  else throw new Error()
-}
-
-export const getInvitation = async ({ token, invitationId }) => {
-  const url = `${apiHost()}/invitation/${invitationId}?includeLink=false`
-  const headers = {
-    'Girder-Token': token
+  try {
+    const response = await axios.post(url, null, { headers })
+    return response.data
+  } catch (error) {
+    throw new Error(error)
   }
-  const res = await fetch(url, {
-    method: 'get',
-    mode: 'cors',
-    headers
-  })
-  if (res.ok) return await res.json()
-  else throw new Error()
 }

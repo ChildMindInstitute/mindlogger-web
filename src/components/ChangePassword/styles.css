@@ -1,6 +1,18 @@
-#signupForm {
-  max-width: 400px;
-  padding: 20px;
-  margin-top: 20px;
-  box-shadow: 0 0 7px 0 #80808036;
+#signup-Form {
+  width: 100%;
+}
+
+form .change-pass > div{
+  display: flex;
+}
+form .change-pass > div label{
+  width: 320px;
+}
+.demo{
+  display: flex;
+  align-items: flex-start;
+}
+.error-alert{
+  width: 77%;
+  margin-left: auto;
 }

@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { Form, Alert, Button } from 'react-bootstrap'
 
 import { signInSuccessful } from '../../state/user/user.thunks'
 import { signIn } from '../../services/network'
@@ -14,9 +15,10 @@ import './styles.css'
  * Component for Logging in the User
  * @constructor
  */
-export default function Login () {
+export default function Login() {
   const { t } = useTranslation()
   const { register, handleSubmit, setError, errors } = useForm()
+  const { alert, setAlert } = useState(true)
   const dispatch = useDispatch()
 
   /**
@@ -57,13 +59,13 @@ export default function Login () {
   }
 
   return (
-    <div className="demo mb-3">
+    <div className="demo mp-3 align-self-center w-100">
       <div id="login" className="text-center mb-0">
         <h1>{t('Login.title')}</h1>
         <div className="container fluid" id="signupForm">
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-group">
-              <input
+              {/* <input
                 name="user"
                 placeholder={t('Login.email')}
                 className="form-control"
@@ -74,11 +76,11 @@ export default function Login () {
                     message: t('Login.emailErrorMessage')
                   }
                 })}
-              />
+              /> */}
               {errors.email && errors.email.message}
             </div>
             <div className="form-group">
-              <input
+              {/* <input
                 name="password"
                 type="password"
                 placeholder={t('Login.password')}
@@ -90,12 +92,44 @@ export default function Login () {
                     message: t('Login.passwordErrorMessage')
                   }
                 })}
-              />
+              /> */}
+              <Alert variant={color}>This is a alert—check it out!</Alert>
+              <Form>
+                <Form.Control
+                  name="user"
+                  type="email"
+                  placeholder={t('Login.email')}
+                  className="mb-3"
+                  ref={register({
+                    required: t('Login.emailRequiredError'),
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                      message: t('Login.emailErrorMessage')
+                    }
+                  })}
+                />
+                <Form.Control
+                  type="password"
+                  name="password"
+                  placeholder={t('Login.password')}
+                  ref={register({
+                    required: t('Login.passwordRequiredError'),
+                    minLength: {
+                      value: 6,
+                      message: t('Login.passwordErrorMessage')
+                    }
+                  })}
+                />
+              </Form>
             </div>
             {errors.password && errors.password.message}
-            <button type="submit" className="btn btn-primary">
+            {/* <button type="submit" className="btn btn-primary">
               {t('Login.submit')}
-            </button>
+            </button> */}
+            <Button type="submit" variant="primary">
+              {' '}
+              {t('Login.title')}
+            </Button>
           </form>
           <p className="mt-3">
             {t('Login.accountMessage')}{' '}

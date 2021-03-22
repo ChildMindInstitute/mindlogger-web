@@ -4,3 +4,12 @@
   margin-top: 20px;
   box-shadow: 0 0 7px 0 #80808036;
 }
+.demo{
+  display: flex;
+  align-items: center;
+  min-height: calc(100vh - 180px);
+}
+
+.demo #login{
+  width: 100%;
+}

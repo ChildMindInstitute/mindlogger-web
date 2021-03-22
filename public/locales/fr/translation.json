@@ -4,8 +4,8 @@
     "submit": "Nous faire parvenir",
     "passwordErrorMessage": "Le mot de passe doit comporter au moins 6 caractères",
     "passwordRequiredError": "Vous devez spécifier un mot de passe",
-    "password": "le mot de passe",
-    "email": "e-mail",
+    "password": "Mot de passe",
+    "email": "E-mail",
     "accountMessage": " Vous n'avez pas de compte? ",
     "forgotPassword": " Mot de passe oublié?",
     "create": " Créer une ",
@@ -15,11 +15,14 @@
     "errorMessage": "Échec de la connexion!"
   },
   "SignUp": {
-    "register": "S'inscrire",
+
+    "title": "S'inscrire",
     "submit": "Nous faire parvenir",
-    "email": "e-mail",
-    "displayName": "Afficher un nom",
-    "password": "le mot de passe",
+    "email": "E-mail",
+    "firstName": "Prénom",
+    "confirmPassword": "Confirmez le mot de passe",
+    "password": "Mot de passe",
+    "lastName": "Nom de famille",
     "passwordErrorMessage": "Le mot de passe doit comporter au moins 6 caractères",
     "passwordRequiredError": "Vous devez spécifier un mot de passe",
     "accountMessage": " Vous n'avez pas de compte? ",
@@ -43,11 +46,15 @@
     "emailError" : "L'email n'existe pas!"
   },
   "ChangePassword": {
+    "settings": "Paramètres du test",
+    "cautionMessage": "Assurez-vous de définir un mot de passe complexe et ne le partagez avec personne.",
+    "oldPassword": "ancien mot de passe",
+    "newPassword": "nouveau mot de passe",
+    "confirmPassword": "    Confirmez le mot de passe",
     "title": "Changer le mot de passe",
     "submit": "Nous faire parvenir",
     "passwordErrorMessage": "Le mot de passe doit comporter au moins 6 caractères",
     "passwordRequiredError": "Vous devez spécifier un mot de passe",
-    "oldPassword": "ancien mot de passe",
     "password": "le mot de passe",
     "passwordError" : "Le mot de passe actuel que vous avez entré était incorrect."
     

@@ -1,11 +1,11 @@
 {
   "Login": {
-    "title": "Log In",
+    "title": "Login",
     "submit": "Submit",
     "passwordErrorMessage": "Password must have at least 6 characters",
     "passwordRequiredError": "You must specify a password",
-    "password": "password",
-    "email": "email",
+    "password": "Password",
+    "email": "Email",
     "accountMessage": " Don't have an account? ",
     "forgotPassword": " Forgot Password?",
     "create": " Create One ",
@@ -15,11 +15,13 @@
     "errorMessage": "Login failed!"
   },
   "SignUp": {
-    "register": "Register",
+    "title": "Sign up",
     "submit": "Submit",
-    "email": "email",
-    "displayName": "Display Name",
-    "password": "password",
+    "email": "Email",
+    "firstName": "First Name",
+    "confirmPassword": "Confirm Password",
+    "password": "Password",
+    "lastName": "Last Name",
     "passwordErrorMessage": "Password must have at least 6 characters",
     "passwordRequiredError": "You must specify a password",
     "emailRequiredError": "Required",
@@ -43,11 +45,15 @@
     "emailError" : "Email doesn't exist!"
   },
   "ChangePassword": {
+    "settings": "test's Settings",
+    "cautionMessage": "Make sure to set a complex password, and don't share it with anyone.",
+    "oldPassword": "Old Password",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm Password",
     "title": "Change Password",
     "submit": "Submit",
     "passwordErrorMessage": "Password must have at least 6 characters",
     "passwordRequiredError": "You must specify a password",
-    "oldPassword": "Old Password",
     "password": "password",
     "passwordError" : "The current password you entered was incorrect."
   },

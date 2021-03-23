@@ -31,7 +31,9 @@
     "accountMessage": " Don't have an account? ",
     "forgotPassword": " Forgot Password?",
     "create": " Create One ",
-    "reset": " Reset it"
+    "reset": " Reset it",
+    "signingIn": "Signing In...",
+    "passwordsUnmatched": "Passwords Do Not Match"
   },
   "ForgotPassword": {
     "title": "Forgot Password",

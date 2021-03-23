@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom'
 import { Form, Alert, Button } from 'react-bootstrap'
 
 import { signInSuccessful } from '../../state/user/user.thunks'
-// import { signIn } from '../../services/network'
 import { getPrivateKey } from '../../services/encryption'
 import { signIn } from '../../services/authentication.service'
 import { Statuses } from '../../constants'
@@ -39,13 +38,13 @@ export default function Login() {
         email: user.email,
         password: user.password
       })
+      setStatus(Statuses.READY)
       dispatch(
         signInSuccessful({
           ...response,
           user: { ...response.user, privateKey, email: user.email }
         })
       )
-      setStatus(Statuses.READY)
     } catch ({ message }) {
       setError(message)
       setStatus(Statuses.READY)
@@ -57,27 +56,23 @@ export default function Login() {
       <div id="login" className="text-center mb-0">
         <h1>{t('Login.title')}</h1>
         <div className="container fluid" id="signupForm">
-          <form onSubmit={onSubmit}>
+          <Form onSubmit={onSubmit}>
             <div className="form-group"></div>
             <div className="form-group">
               {error && <Alert variant={'danger'}>{error}</Alert>}
-              <Form>
-                <Form.Control
-                  type="email"
-                  placeholder={t('Login.email')}
-                  className="mb-3"
-                  value={user.email}
-                  onChange={(e) => setUser({ ...user, email: e.target.value })}
-                />
-                <Form.Control
-                  type="password"
-                  placeholder={t('Login.password')}
-                  value={user.password}
-                  onChange={(e) =>
-                    setUser({ ...user, password: e.target.value })
-                  }
-                />
-              </Form>
+              <Form.Control
+                type="email"
+                placeholder={t('Login.email')}
+                className="mb-3"
+                value={user.email}
+                onChange={(e) => setUser({ ...user, email: e.target.value })}
+              />
+              <Form.Control
+                type="password"
+                placeholder={t('Login.password')}
+                value={user.password}
+                onChange={(e) => setUser({ ...user, password: e.target.value })}
+              />
             </div>
             <Button
               type="submit"
@@ -88,7 +83,7 @@ export default function Login() {
                 ? t('Login.title')
                 : t('Login.logging')}
             </Button>
-          </form>
+          </Form>
           <p className="mt-3">
             {t('Login.accountMessage')}{' '}
             <Link to="/signup">{t('Login.create')}</Link>

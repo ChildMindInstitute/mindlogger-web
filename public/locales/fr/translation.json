@@ -16,7 +16,6 @@
     "logging": "Se connecter..."
   },
   "SignUp": {
-
     "title": "S'inscrire",
     "submit": "Nous faire parvenir",
     "email": "E-mail",
@@ -32,7 +31,9 @@
     "reset": " Réinitialisez-le",
     "emailRequiredError": "Obligatoire",
     "emailErrorMessage": "Adresse e-mail invalide",
-    "passwordError" :"Échec de l'inscription: le nom d'utilisateur est peut-être déjà utilisé."
+    "passwordError" :"Échec de l'inscription: le nom d'utilisateur est peut-être déjà utilisé.",
+    "signingIn": "Connectez-vous...",
+    "passwordsUnmatched": "Les mots de passe ne correspondent pas"
   },
   "ForgotPassword": {
     "title": "Connexion",

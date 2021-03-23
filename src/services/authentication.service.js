@@ -14,3 +14,15 @@ export const signIn = async ({ email, password }) => {
     throw new Error(error.response.data.message)
   }
 }
+
+export const signUp = async (data) => {
+  const url = `${apiHost()}/user`
+  try {
+    const response = await axios.post(url, null, {
+      params: { ...data, admin: true }
+    })
+    return response.data
+  } catch (error) {
+    throw new Error(error.response.data.message)
+  }
+}

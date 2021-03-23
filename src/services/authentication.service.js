@@ -26,3 +26,23 @@ export const signUp = async (data) => {
     throw new Error(error.response.data.message)
   }
 }
+
+export const updatePassword = async (token, data) => {
+  const url = `${apiHost()}/user/password`
+  const headers = {
+    'Girder-Token': token
+  }
+  try {
+    const response = await axios.put(
+      url,
+      null,
+      {
+        params: { old: data.oldPassword, new: data.newPassword },
+        headers
+      }
+    )
+    return response.data
+  } catch (error) {
+    throw new Error(error.response.data.message)
+  }
+}

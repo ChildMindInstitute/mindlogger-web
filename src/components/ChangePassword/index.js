@@ -1,5 +1,4 @@
-import React from 'react'
-import { useForm } from 'react-hook-form'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { history } from '../../store'
@@ -7,10 +6,10 @@ import {
   authTokenSelector,
   userInfoSelector
 } from '../../state/user/user.selectors'
+import { updatePassword } from '../../services/authentication.service'
 import { updateUserDetailsSuccessful } from '../../state/user/user.thunks'
 import { Form, Alert, Button } from 'react-bootstrap'
-import { updatePassword } from '../../services/network'
-
+import { Statuses } from '../../constants'
 import './styles.css'
 
 /**
@@ -18,10 +17,15 @@ import './styles.css'
  * @constructor
  */
 export default function ChangePassword() {
+  const [status, setStatus] = useState(Statuses.READY)
+  const [passwordData, setPasswordData] = useState({
+    oldpassword: ' ',
+    newPassword: '',
+    confirmPassword: ''
+  })
+  const [error, setError] = useState(null)
   const { t } = useTranslation()
-  const { register, handleSubmit, setError, errors } = useForm()
   const dispatch = useDispatch()
-
   const authToken = useSelector((state) => authTokenSelector(state))
   const user = useSelector((state) => userInfoSelector(state))
 
@@ -33,19 +37,21 @@ export default function ChangePassword() {
    *
    * @returns {Promise} resolves when the password gets successfully changed.
    */
-  const onSubmit = ({ oldPassword, password }) => {
-    return updatePassword(authToken, oldPassword, password)
-      .then(() => {
-        history.push('/profile')
-      })
-      .then(() => dispatch(updateUserDetailsSuccessful(user)))
-      .catch((e) => {
-        setError('password', {
-          type: 'manual',
-          message: t('ChangePassword.passwordError')
-        })
-      })
+  const onSubmit = async (event) => {
+    event.preventDefault()
+    setStatus(Statuses.LOADING)
+    try {
+      await updatePassword(authToken, passwordData)
+      dispatch(updateUserDetailsSuccessful(user))
+      history.push('/profile')
+    } catch ({ message }) {
+      setError(message)
+      setStatus(Statuses.READY)
+    }
   }
+
+  const isPasswordSame =
+    passwordData.newPassword === passwordData.confirmPassword
 
   return (
     <div className="demo mb-3">
@@ -55,84 +61,73 @@ export default function ChangePassword() {
         <h3>{t('ChangePassword.title')}</h3>
         <h5>{t('ChangePassword.cautionMessage')} </h5>
         <div className="container fluid" id="signup-Form">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Alert variant="danger" className="error-alert">
-              This is a alert—check it out!
-            </Alert>
-            {/* <div className="form-group">
-              <input
-                name="oldPassword"
-                type="password"
-                placeholder={t('ChangePassword.oldPassword')}
-                className="form-control"
-                ref={register({
-                  required: t('ChangePassword.passwordRequiredError'),
-                  minLength: {
-                    value: 6,
-                    message: t('ChangePassword.passwordErrorMessage')
-                  }
-                })}
-              />
-            </div> */}
-            {errors.oldPassword && errors.oldPassword.message}
-            <div className="form-group">
-              {/* <input
-                name="password"
-                type="password"
-                placeholder={t('ChangePassword.password')}
-                className="form-control"
-                ref={register({
-                  required: t('ChangePassword.passwordRequiredError'),
-                  minLength: {
-                    value: 6,
-                    message: t('ChangePassword.passwordErrorMessage')
-                  }
-                })}
-              /> */}
-              <Form className="change-pass">
-                <div>
-                  <Form.Label>{t('ChangePassword.oldPassword')}:</Form.Label>
-                  <Form.Control
-                    type="password"
-                    name="Old password"
-                    placeholder={t('ChangePassword.oldPassword')}
-                    className="mb-1"
-                  />
-                </div>
-
-                <div>
-                  <Form.Label>{t('ChangePassword.newPassword')}:</Form.Label>
-                  <Form.Control
-                    type="password"
-                    name="New password"
-                    placeholder={t('ChangePassword.newPassword')}
-                    className="mb-1"
-                  />
-                </div>
-
-                <div>
-                  <Form.Label>
-                    {t('ChangePassword.confirmPassword')}:
-                  </Form.Label>
-                  <Form.Control
-                    type="password"
-                    name="Confirm Password"
-                    placeholder={t('ChangePassword.confirmPassword')}
-                    className="mb-1"
-                  />
-                </div>
-                <Alert variant="danger" className="error-alert">
-                  This is a alert—check it out!
-                </Alert>
-              </Form>
+          <Form onSubmit={onSubmit} className="change-pass">
+            {error && <Alert variant={'danger'} className="error-alert" >{error}</Alert>}
+            <div>
+            <Form.Label>{t('ChangePassword.oldPassword')}:</Form.Label>
+            <Form.Control
+              type="password"
+              name="Old password"
+              value={passwordData.oldPassword}
+              placeholder={t('ChangePassword.oldPassword')}
+              className="mb-1"
+              onChange={(e) =>
+                setPasswordData({
+                  ...passwordData,
+                  oldPassword: e.target.value
+                })
+              }
+            />
             </div>
-            {errors.password && errors.password.message}
-            {/* <button type="submit" className="btn btn-primary">{t('ChangePassword.submit')}</button> */}
-            <Button type="submit" variant="success">
-              {' '}
+
+            <div>
+            <Form.Label>{t('ChangePassword.newPassword')}:</Form.Label>
+            <Form.Control
+              type="password"
+              name="New password"
+              value={passwordData.newPassword}
+              placeholder={t('ChangePassword.newPassword')}
+              className="mb-1"
+              onChange={(e) =>
+                setPasswordData({
+                  ...passwordData,
+                  newPassword: e.target.value
+                })
+              }
+            />
+            </div>
+
+            <div>
+            <Form.Label>{t('ChangePassword.confirmPassword')}:</Form.Label>
+            <Form.Control
+              type="password"
+              name="Confirm Password"
+              value={passwordData.confirmPassword}
+              placeholder={t('ChangePassword.confirmPassword')}
+              className="mb-1"
+              onChange={(e) =>
+                setPasswordData({
+                  ...passwordData,
+                  confirmPassword: e.target.value
+                })
+              }
+            />
+            </div>
+            {!isPasswordSame && (
+              <Alert variant={'danger'}className="error-alert">{t('SignUp.passwordsUnmatched')}</Alert>
+            )}
+            <Button
+              type="submit"
+              variant="success"
+              disabled={
+                status === Statuses.LOADING ||
+                !isPasswordSame ||
+                !passwordData.oldpassword
+              }
+            >
               {t('ChangePassword.submit')}
             </Button>
-          </form>
+          </Form>
         </div>
       </div>
     </div>

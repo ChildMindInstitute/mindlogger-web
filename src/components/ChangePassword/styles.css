@@ -2,10 +2,10 @@
   width: 100%;
 }
 
-form .change-pass > div{
+.change-pass > div{
   display: flex;
 }
-form .change-pass > div label{
+.change-pass > div label{
   width: 320px;
 }
 .demo{

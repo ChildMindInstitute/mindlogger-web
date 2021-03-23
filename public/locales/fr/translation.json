@@ -12,7 +12,8 @@
     "reset": " Réinitialisez-le",
     "emailRequiredError": "Obligatoire",
     "emailErrorMessage": "Adresse e-mail invalide",
-    "errorMessage": "Échec de la connexion!"
+    "errorMessage": "Échec de la connexion!",
+    "logging": "Se connecter..."
   },
   "SignUp": {
 

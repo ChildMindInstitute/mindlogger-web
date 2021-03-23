@@ -86,7 +86,7 @@ export default function SignUp() {
                   }
                 })}
               /> */}
-              <Alert variant={color}>This is a alert—check it out!</Alert>
+              <Alert variant={'danger'}>This is a alert—check it out!</Alert>
               <Form>
                 <Form.Control
                   name="user"
@@ -122,7 +122,7 @@ export default function SignUp() {
                   className="mb-3"
                 />
               </Form>
-              <Alert variant={color}>This is a alert—check it out!</Alert>
+              <Alert variant={'danger'}>This is a alert—check it out!</Alert>
             </div>
             {errors.password && errors.password.message}
             {/* <button type="submit" className="btn btn-primary">

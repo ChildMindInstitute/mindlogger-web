@@ -12,7 +12,8 @@
     "reset": " Reset it",
     "emailRequiredError": "Required",
     "emailErrorMessage": "invalid email address",
-    "errorMessage": "Login failed!"
+    "errorMessage": "Login failed!",
+    "logging": "Loggin in..."
   },
   "SignUp": {
     "title": "Sign up",

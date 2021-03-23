@@ -7,7 +7,7 @@ import {
   userInfoSelector,
   authTokenSelector
 } from '../../state/user/user.selectors'
-import { InvitationStatuses } from '../../constants'
+import { Statuses } from '../../constants'
 import { InvitationText } from './InvitationText'
 import {
   getInvitation,
@@ -18,7 +18,7 @@ import './style.css'
 
 const Invitation = () => {
   const { t } = useTranslation()
-  const [status, setStatus] = React.useState(InvitationStatuses.LOADING)
+  const [status, setStatus] = React.useState(Statuses.LOADING)
   const [invitationText, setInvitationText] = React.useState('')
   const isLoggedIn = useSelector(loggedInSelector)
   const user = useSelector(userInfoSelector)
@@ -34,18 +34,18 @@ const Invitation = () => {
    * Displays the status of invitation
    */
   const handleGetInvitation = async () => {
-    setStatus(InvitationStatuses.LOADING)
+    setStatus(Statuses.LOADING)
     try {
       const { body, acceptable } = await getInvitation({ invitationId, token })
       setInvitationText(body)
       setStatus(
         acceptable
-          ? InvitationStatuses.READY
-          : InvitationStatuses.ALREADY_ACCEPTED
+          ? Statuses.READY
+          : Statuses.ALREADY_ACCEPTED
       )
     } catch (err) {
       console.log({ err })
-      setStatus(InvitationStatuses.ERROR)
+      setStatus(Statuses.ERROR)
     }
   }
 
@@ -54,17 +54,17 @@ const Invitation = () => {
    * Displays the message from server upon succesful response
    */
   const handleAcceptInvitation = async () => {
-    setStatus(InvitationStatuses.LOADING)
+    setStatus(Statuses.LOADING)
     try {
       const { body } = await acceptInvitation({
         token,
         invitationId,
         email: user.email
       })
-      setStatus(InvitationStatuses.ACCEPTED)
+      setStatus(Statuses.ACCEPTED)
       setInvitationText(body)
     } catch {
-      setStatus(InvitationStatuses.ERROR)
+      setStatus(Statuses.ERROR)
     }
   }
 
@@ -73,13 +73,13 @@ const Invitation = () => {
    * Displays the message from server upon succesful response
    */
   const handleRemoveInvitation = async () => {
-    setStatus(InvitationStatuses.LOADING)
+    setStatus(Statuses.LOADING)
     try {
       const { body } = await declineInvitation({ invitationId, token })
-      setStatus(InvitationStatuses.REMOVED)
+      setStatus(Statuses.REMOVED)
       setInvitationText(body)
     } catch {
-      setStatus(InvitationStatuses.ERROR)
+      setStatus(Statuses.ERROR)
     }
   }
 

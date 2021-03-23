@@ -2,7 +2,7 @@ import React from 'react'
 import { Spinner, Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { InvitationStatuses } from '../../constants'
+import { Statuses } from '../../constants'
 import './style.css'
 
 export const InvitationText = ({
@@ -13,7 +13,7 @@ export const InvitationText = ({
 }) => {
   const { t } = useTranslation()
   switch (status) {
-    case InvitationStatuses.LOADING:
+    case Statuses.LOADING:
       return (
         <div className="heading">
           <h1>{t('InvitationText.loadingInvitation')}</h1>
@@ -21,7 +21,7 @@ export const InvitationText = ({
         </div>
       )
 
-    case InvitationStatuses.READY:
+    case Statuses.READY:
       return (
         <React.Fragment>
           <div
@@ -35,7 +35,7 @@ export const InvitationText = ({
         </React.Fragment>
       )
 
-    case InvitationStatuses.ALREADY_ACCEPTED:
+    case Statuses.ALREADY_ACCEPTED:
       return (
         <div
           className={'invitationBody alreadyAccepted'}
@@ -43,14 +43,14 @@ export const InvitationText = ({
         />
       )
 
-    case InvitationStatuses.ERROR:
+    case Statuses.ERROR:
       return (
         <div className={'heading'}>
          {t('InvitationText.networkError')} <Link to={'/profile'}>{t('InvitationText.home')}</Link>
         </div>
       )
 
-    case InvitationStatuses.ACCEPTED:
+    case Statuses.ACCEPTED:
       return (
         <div className={'heading'}>
           <h1 className={'invitationMessage'}>
@@ -59,13 +59,13 @@ export const InvitationText = ({
         </div>
       )
 
-    case InvitationStatuses.DECLINED:
+    case Statuses.DECLINED:
       return (
         <div className={'heading'}>
           <h1 className={'invitationMessage'}>{invitationText}</h1>
         </div>
       )
-    case InvitationStatuses.REMOVED:
+    case Statuses.REMOVED:
       return (
         <div className={'heading'}>
           <h1 className={'invitationMessage'}>{t('InvitationText.invitationRemoved')}</h1>

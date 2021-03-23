@@ -1,4 +1,4 @@
-export const InvitationStatuses = {
+export const Statuses = {
   LOADING: 'loading',
   READY: 'ready',
   ALREADY_ACCEPTED: 'already_accepted',

@@ -7,12 +7,12 @@ import {
   authTokenSelector
 } from '../../state/user/user.selectors'
 import { InvitationText } from './InvitationText'
-import { InvitationStatuses } from '../../constants'
+import { Statuses } from '../../constants'
 import { declineInvitation } from '../../services/invitation.service'
 import './style.css'
 
 const DeclineInvitation = () => {
-  const [status, setStatus] = React.useState(InvitationStatuses.LOADING)
+  const [status, setStatus] = React.useState(Statuses.LOADING)
   const [invitationText, setInvitationText] = React.useState('')
   const isLoggedIn = useSelector(loggedInSelector)
   const token = useSelector((state) => authTokenSelector(state))
@@ -28,13 +28,13 @@ const DeclineInvitation = () => {
    * Displays the message from server upon succesful response
    */
   const handleDeclineInvitation = async () => {
-    setStatus(InvitationStatuses.LOADING)
+    setStatus(Statuses.LOADING)
     try {
       const { body } = await declineInvitation({ token, invitationId })
-      setStatus(InvitationStatuses.DECLINED)
+      setStatus(Statuses.DECLINED)
       setInvitationText(body)
     } catch {
-      setStatus(InvitationStatuses.ERROR)
+      setStatus(Statuses.ERROR)
     }
   }
 

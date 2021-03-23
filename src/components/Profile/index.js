@@ -1,8 +1,8 @@
-import { T } from 'ramda'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import { userInfoSelector } from '../../state/user/user.selectors'
+import Avatar from '../Base/Avatar'
 
 /**
  *
@@ -16,6 +16,7 @@ export default function Profile () {
   return (
     <div className="my-3 h-100">
       <div className="heading">
+      <Avatar />
         <h1>
           {user?.firstName} {user?.lastName}
         </h1>

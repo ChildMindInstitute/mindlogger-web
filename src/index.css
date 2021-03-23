@@ -38,6 +38,17 @@ code {
   padding: 10px;
   height: 40px;
 }
+.avatar{
+  display: inline-block;
+  background: #777;
+  border-style: solid;
+  border-radius: 50%;
+  border-width: 0px;
+  padding: 10px;
+  height: 80px;
+  width : 80px;
+  margin-right: 15px;
+}
 .app-container{
   min-height: calc(100vh - 180px);
 }

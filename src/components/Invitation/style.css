@@ -7,6 +7,9 @@
   font-size: 1rem;
   color: #212529;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .heading a {
   color: #005fa3;

@@ -33,19 +33,23 @@
     "emailErrorMessage": "Adresse e-mail invalide",
     "passwordError" :"Échec de l'inscription: le nom d'utilisateur est peut-être déjà utilisé.",
     "signingIn": "Connectez-vous...",
-    "passwordsUnmatched": "Les mots de passe ne correspondent pas"
+    "passwordsUnmatched": "Les mots de passe ne correspondent pas",
+    "account" :"Vous avez déjà un compte?",
+    "logIn": "Connexion"
   },
   "ForgotPassword": {
-    "title": "Connexion",
+    "title": "réinitialiser le mot de passe",
     "submit": "Nous faire parvenir",
-    "email": "e-mail",
+    "email": "E-mail",
     "create": " Créer une ",
     "reset": " Réinitialisez-le",
     "emailRequiredError": "Obligatoire",
     "emailErrorMessage": "Adresse e-mail invalide",
     "accountMessage": " Vous n'avez pas de compte? ",
     "forgotPassword": " Mot de passe oublié?",
-    "emailError" : "L'email n'existe pas!"
+    "emailError" : "L'email n'existe pas!",
+    "rememberPassword" : "Se souvenir du mot de passe?",
+    "logIn": "Connexion"
   },
   "ChangePassword": {
     "settings": "Paramètres du test",

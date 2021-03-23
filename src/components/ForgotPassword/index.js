@@ -13,7 +13,7 @@ import './styles.css'
  * Component for requesting new password
  * @constructor
  */
-export default function ForgotPassword () {
+export default function ForgotPassword() {
   const { t } = useTranslation()
   const { register, handleSubmit, setError, errors } = useForm()
 
@@ -24,7 +24,7 @@ export default function ForgotPassword () {
    * @param body
    * @returns {Promise} resolves when the email has been sent.
    */
-  const onSubmit = body => {
+  const onSubmit = (body) => {
     return forgotPassword(body.email)
       .then((response) => {
         history.push('/login')
@@ -58,10 +58,16 @@ export default function ForgotPassword () {
               />
               {errors.email && errors.email.message}
             </div>
-            <button type="submit" className="btn btn-primary">{t('ForgotPassword.submit')}</button>
+            <button type="submit" className="btn btn-primary">
+              {t('ForgotPassword.submit')}
+            </button>
           </form>
-          <p className="mt-3">{t('ForgotPassword.accountMessage')} <Link to="/signup">{t('ForgotPassword.create')}</Link></p>
-          <p className="mt-3">{t('ForgotPassword.forgotPassword')} <Link to="/forgotpassword">{t('ForgotPassword.reset')}</Link></p>
+          {/* <p className="mt-3">{t('ForgotPassword.accountMessage')} <Link to="/signup">{t('ForgotPassword.create')}</Link></p>
+          <p className="mt-3">{t('ForgotPassword.forgotPassword')} <Link to="/forgotpassword">{t('ForgotPassword.reset')}</Link></p> */}
+          <p>
+            {t('ForgotPassword.rememberPassword')}{' '}
+            <Link to="/login">{t('ForgotPassword.logIn')}</Link>{' '}
+          </p>
         </div>
       </div>
     </div>

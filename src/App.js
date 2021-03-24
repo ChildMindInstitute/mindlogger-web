@@ -18,11 +18,12 @@ import Invitation from './components/Invitation/Invitation'
 import AcceptInvitation from './components/Invitation/AcceptInvitation'
 import DeclineInvitation from './components/Invitation/DeclineInvitation'
 import './App.css'
+import SetPassword from './components/Setpassword'
 
 /**
  * Main Component of the Application - Routes to specific components based on the Path.
  */
-function App () {
+function App() {
   const user = useSelector(userInfoSelector)
 
   return (
@@ -33,29 +34,34 @@ function App () {
           style={{ justifyContent: 'center', margin: 'unset' }}
           className={'app-container'}
         >
-            <Switch>
-              <Route path="/login" exact component={Login} />
-              <Route path="/signup" exact component={SignUp} />
-              <Route path="/forgotpassword" exact component={ForgotPassword} />
-              <Route path="/changepassword" exact component={ChangePassword} />
-              <Route path="/profile" exact component={Profile} />
-              <Route path="/dashboard" exact component={Landing} />
-              <Route
-                path="/invitation/:invitationId"
-                exact
-                component={Invitation}
-              />
-              <Route
-                path="/invitation/:invitationId/accept"
-                exact
-                component={AcceptInvitation}
-              />
-              <Route
-                path="/invitation/:invitationId/decline"
-                exact
-                component={DeclineInvitation}
-              />
-            </Switch>
+          <Switch>
+            <Route path="/login" exact component={Login} />
+            <Route path="/signup" exact component={SignUp} />
+            <Route path="/forgotpassword" exact component={ForgotPassword} />
+            <Route path="/changepassword" exact component={ChangePassword} />
+            <Route path="/profile" exact component={Profile} />
+            <Route path="/dashboard" exact component={Landing} />
+            <Route
+              path="/invitation/:invitationId"
+              exact
+              component={Invitation}
+            />
+            <Route
+              path="/invitation/:invitationId/accept"
+              exact
+              component={AcceptInvitation}
+            />
+            <Route
+              path="/invitation/:invitationId/decline"
+              exact
+              component={DeclineInvitation}
+            />
+            <Route
+              path="/useraccount/:userId/token/:temporaryToken"
+              exact
+              component={SetPassword}
+            ></Route>
+          </Switch>
         </Container>
       </Container>
       <Footer />

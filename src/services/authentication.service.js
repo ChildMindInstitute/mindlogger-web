@@ -33,14 +33,24 @@ export const updatePassword = async (token, data) => {
     'Girder-Token': token
   }
   try {
-    const response = await axios.put(
-      url,
-      null,
-      {
-        params: { old: data.oldPassword, new: data.newPassword },
-        headers
+    const response = await axios.put(url, null, {
+      params: { old: data.oldPassword, new: data.newPassword },
+      headers
+    })
+    return response.data
+  } catch (error) {
+    throw new Error(error.response.data.message)
+  }
+}
+
+export const checkTemporaryPassword = async (userId, token) => {
+  const url = `${apiHost()}/user/password/temporary/${userId}`
+  try {
+    const response = await axios.get(url, {
+      params: {
+        token
       }
-    )
+    })
     return response.data
   } catch (error) {
     throw new Error(error.response.data.message)

@@ -125,5 +125,11 @@
     "french" : "français"
   
     
+  },
+  "SetPassword" : {
+    "please" : "S'il te plaît",
+    "login" : "Connexion",
+    "toSeeThePage" : "voir la page",
+    "expiredLink" : "Le lien renvoyé par mot de passe a expiré"
   }
 }

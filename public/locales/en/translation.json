@@ -125,5 +125,11 @@
     "english" : "English" ,
     "french" : "French"
   
+  },
+  "SetPassword" : {
+    "please" : "Please",
+    "login" : "Login",
+    "toSeeThePage" : "to See The Page" ,
+    "expiredLink" : "Password Resent Link Has Expired"
   }
 }

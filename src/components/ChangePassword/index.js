@@ -17,7 +17,7 @@ import './styles.css'
  * Component for Changing Password.
  * @constructor
  */
-export default function ChangePassword() {
+export default function ChangePassword () {
   const [status, setStatus] = useState(Statuses.READY)
   const [passwordData, setPasswordData] = useState({
     oldpassword: ' ',

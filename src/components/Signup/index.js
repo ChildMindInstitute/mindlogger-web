@@ -120,14 +120,6 @@ export default function SignUp() {
                 : t('SignUp.signingIn')}
             </Button>
           </Form>
-          {/* <p className="mt-3">
-            {t('SignUp.accountMessage')}{' '}
-            <Link to="/signup">{t('SignUp.create')}</Link>
-          </p>
-          <p className="mt-3">
-            {t('SignUp.forgotPassword')}{' '}
-            <Link to="/forgotpassword">{t('SignUp.reset')}</Link>
-          </p> */}
           <p> {t('SignUp.account')} <Link to="/login"> {t('SignUp.logIn')}</Link></p>
         </div>
       </div>

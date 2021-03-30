@@ -17,9 +17,11 @@ import Landing from './components/Landing'
 import Invitation from './components/Invitation/Invitation'
 import AcceptInvitation from './components/Invitation/AcceptInvitation'
 import DeclineInvitation from './components/Invitation/DeclineInvitation'
+import AppletParentRoute from './components/AppletParentRoute'
+import AppletDashboard from './components/AppletParentRoute/AppletDashboard'
 import './App.css'
 import SetPassword from './components/Setpassword'
-
+import { Consent } from './components/Consent/index'
 /**
  * Main Component of the Application - Routes to specific components based on the Path.
  */
@@ -29,7 +31,7 @@ function App() {
   return (
     <ConnectedRouter history={history}>
       <NavBar user={user} />
-      <Container className={'main-container'}>
+      <Container className={'main-container'} >
         <Container
           style={{ justifyContent: 'center', margin: 'unset' }}
           className={'app-container'}
@@ -60,6 +62,14 @@ function App() {
               path="/useraccount/:userId/token/:temporaryToken"
               exact
               component={SetPassword}
+            ></Route>
+            <Route path="/consent/:inviteURL" exact component={Consent}></Route>
+            <Route path="/applet" exact component={AppletParentRoute}></Route>
+
+            <Route
+              path="/applet/:appletId/dashboard"
+              exact
+              component={AppletDashboard}
             ></Route>
           </Switch>
         </Container>

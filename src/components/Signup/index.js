@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { Form, Alert, Button } from 'react-bootstrap'
 import { signUpSuccessful } from '../../state/user/user.thunks'
 import { signUp } from '../../services/authentication.service'
@@ -9,7 +9,7 @@ import { getPrivateKey } from '../../services/encryption'
 import { Statuses } from '../../constants'
 import './styles.css'
 
-export default function SignUp() {
+export default function SignUp () {
   const [status, setStatus] = useState(Statuses.READY)
   const [user, setUser] = useState({
     email: '',
@@ -21,6 +21,9 @@ export default function SignUp() {
   const [error, setError] = useState(null)
   const { t } = useTranslation()
   const dispatch = useDispatch()
+  const location = useLocation()
+
+  const isRouted = location.pathname.includes('signup')
   /**
    * Sends the New User details to the server for Creating User.
    *
@@ -52,7 +55,7 @@ export default function SignUp() {
   return (
     <div className="demo mb-3">
       <div id="login" className="text-center mb-0">
-        <h1>{t('SignUp.title')}</h1>
+        {isRouted && <h1>{t('SignUp.title')}</h1>}
         <div className="container fluid" id="signupForm">
           <Form onSubmit={onSubmit}>
             <div className="form-group">
@@ -120,7 +123,13 @@ export default function SignUp() {
                 : t('SignUp.signingIn')}
             </Button>
           </Form>
-          <p> {t('SignUp.account')} <Link to="/login"> {t('SignUp.logIn')}</Link></p>
+          {isRouted && (
+            <p>
+              {' '}
+              {t('SignUp.account')}{' '}
+              <Link to="/login"> {t('SignUp.logIn')}</Link>
+            </p>
+          )}
         </div>
       </div>
     </div>

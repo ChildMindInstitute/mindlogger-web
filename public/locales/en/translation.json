@@ -27,16 +27,15 @@
     "passwordRequiredError": "You must specify a password",
     "emailRequiredError": "Required",
     "emailErrorMessage": "invalid email address",
-    "passwordError" : "Sign up failed: username may already be in use.",
+    "passwordError": "Sign up failed: username may already be in use.",
     "accountMessage": " Don't have an account? ",
     "forgotPassword": " Forgot Password?",
     "create": " Create One ",
     "reset": " Reset it",
     "signingIn": "Signing In...",
     "passwordsUnmatched": "Passwords Do Not Match",
-     "account" :"Already have an account?",
-     "logIn": "Login"
-
+    "account": "Already have an account?",
+    "logIn": "Login"
   },
   "ForgotPassword": {
     "title": "Reset Password",
@@ -48,8 +47,8 @@
     "emailErrorMessage": "invalid email address",
     "accountMessage": " Don't have an account? ",
     "forgotPassword": " Forgot Password?",
-    "emailError" : "Email doesn't exist!",
-    "rememberPassword" : "Remember password?",
+    "emailError": "Email doesn't exist!",
+    "rememberPassword": "Remember password?",
     "logIn": "Login"
   },
   "ChangePassword": {
@@ -63,73 +62,85 @@
     "passwordErrorMessage": "Password must have at least 6 characters",
     "passwordRequiredError": "You must specify a password",
     "password": "password",
-    "passwordError" : "The current password you entered was incorrect."
+    "passwordError": "The current password you entered was incorrect."
   },
   "Landing": {
     "title": "Welcome to MindLogger",
     "login": "Log in!",
     "signUp": "Sign Up!",
-    "or" : "or",
+    "or": "or",
     "getStart": "Get Started!",
-    "reserchStudies" : " Participate in scientific research studies online!",
-    "toGet" : " To get started:"
+    "reserchStudies": " Participate in scientific research studies online!",
+    "toGet": " To get started:"
   },
   "Profile": {
     "title": " Download MindLogger to get started.",
     "description": " Thank you for creating an account with MindLogger. Download MindLogger on an iOS or Android device to get started."
   },
-  "Invitation" : {
-    "please" : "Please",
-    "login" : "Login",
-    "or" : "or",
-    "singUp" : "Sign Up",
-    "viewInvitation" : "to View Invitation"
+  "Invitation": {
+    "please": "Please",
+    "login": "Login",
+    "or": "or",
+    "singUp": "Sign Up",
+    "viewInvitation": "to View Invitation"
+  },
+  "AcceptInvitation": {
+    "please": "Please",
+    "login": "Login",
+    "or": "or",
+    "singUp": "Sign Up",
+    "acceptInvitation": "to Accept this Invitation!"
+  },
+  "DeclineInvitation": {
+    "please": "Please",
+    "login": "Login",
+    "or": "or",
+    "singUp": "Sign Up",
+    "declineInvitation": "to Decline This Invitation"
+  },
+  "InvitationText": {
+    "loadingInvitation": "Loading Invitation",
+    "invitationRemoved": "Invitation Removed",
+    "networkError": "Network Error. Return ",
+    "home": "Home",
+    "acceptInvitation": "Invitation Accepted"
+  },
+  "InvitationButtons": {
+    "acceptInvitation": "Accept Invitation",
+    "declineInvitation": "Decline Invitation"
+  },
+  "Navbar": {
+    "mindLogger": "MindLogger",
+    "home": "Home",
+    "logIn": "Login",
+    "logOut": "Logout",
+    "profile": "Profile",
+    "settings": "Settings",
+    "english": "English",
+    "french": "French"
+  },
+  "SetPassword": {
+    "please": "Please",
+    "login": "Login",
+    "toSeeThePage": "to See The Page",
+    "expiredLink": "Password Resent Link Has Expired"
+  },
+  "Consent": {
+    "aboutStudy": "About the Study",
+    "doseStudyWork": " How does the study work?",
+    "howLong": " How long does it last?",
+    "benefitsAndRisks": "What are the benefits and risks?",
+    "consentForm": "Consent Form",
+    "back" : "Back" ,
+     "next" : "Next",
+     "consent" : "I Consent",
+     "thanks" : "Thanks!",
+    "getStarted" : "You're nearly there. To get started, you'll need to",
+    "login": "Login",
+    "or": "or",
+    "signUp": "Sign Up"
 
-  },
-  "AcceptInvitation" : {
-    "please" : "Please",
-    "login" : "Login",
-    "or" : "or",
-    "singUp" : "Sign Up",
-    "acceptInvitation" : "to Accept this Invitation!"
 
-  },
-  "DeclineInvitation" : {
-    "please" : "Please",
-    "login" : "Login",
-    "or" : "or",
-    "singUp" : "Sign Up",
-    "declineInvitation" : "to Decline This Invitation"
 
-  },
-  "InvitationText" : {
-    "loadingInvitation" : "Loading Invitation",
-    "invitationRemoved" : "Invitation Removed",
-    "networkError" : "Network Error. Return ",
-    "home" : "Home",
-    "acceptInvitation" : "Invitation Accepted"
-  }
-  ,
-  "InvitationButtons" : {
-    "acceptInvitation" : "Accept Invitation",
-    "declineInvitation" : "Decline Invitation"
-    
-  },
-  "Navbar" : {
-    "mindLogger" : "MindLogger",
-    "home" : "Home",
-    "logIn" : "Login",
-    "logOut" : "Logout",
-    "profile" : "Profile",
-    "settings" : "Settings",
-    "english" : "English" ,
-    "french" : "French"
-  
-  },
-  "SetPassword" : {
-    "please" : "Please",
-    "login" : "Login",
-    "toSeeThePage" : "to See The Page" ,
-    "expiredLink" : "Password Resent Link Has Expired"
   }
 }

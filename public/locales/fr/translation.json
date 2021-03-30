@@ -131,5 +131,21 @@
     "login" : "Connexion",
     "toSeeThePage" : "voir la page",
     "expiredLink" : "Le lien renvoyé par mot de passe a expiré"
+  },
+  "Consent" : {
+    "aboutStudy":"À propos de l'étude",
+    "doseStudyWork": "Comment fonctionne l'étude?",
+    "howLong": "Combien de temps cela dure-t-il?",
+    "benefitsAndRisks": "Quels sont les avantages et les risques?",
+    "consentForm": "Formulaire de consentement",
+    "back" : "Retour" ,
+    "next" : "Suivante",
+    "consent" : "J'accepte",
+    "thanks" : "Merci!",
+    "getStarted" : "Vous y êtes presque. Pour commencer, vous devrez",
+    "login": "Connexion",
+    "or": "ou",
+    "signUp": "S'inscrire"
+
   }
 }

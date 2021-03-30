@@ -46,7 +46,8 @@ export const InvitationText = ({
     case Statuses.ERROR:
       return (
         <div className={'heading'}>
-         {t('InvitationText.networkError')} <Link to={'/profile'}>{t('InvitationText.home')}</Link>
+          {t('InvitationText.networkError')}{' '}
+          <Link to={'/profile'}>{t('InvitationText.home')}</Link>
         </div>
       )
 
@@ -68,7 +69,9 @@ export const InvitationText = ({
     case Statuses.REMOVED:
       return (
         <div className={'heading'}>
-          <h1 className={'invitationMessage'}>{t('InvitationText.invitationRemoved')}</h1>
+          <h1 className={'invitationMessage'}>
+            {t('InvitationText.invitationRemoved')}
+          </h1>
         </div>
       )
 
@@ -87,7 +90,7 @@ const InvitationButtons = ({ onAcceptInvite, onDeclineInvite }) => {
         className={'mx-2'}
         size="lg"
       >
-       {t('InvitationButtons.acceptInvitation')}
+        {t('InvitationButtons.acceptInvitation')}
       </Button>
       <Button
         onClick={onDeclineInvite}
@@ -95,7 +98,7 @@ const InvitationButtons = ({ onAcceptInvite, onDeclineInvite }) => {
         className={'mx-2'}
         size="lg"
       >
-       {t('InvitationButtons.declineInvitation')}
+        {t('InvitationButtons.declineInvitation')}
       </Button>
     </div>
   )

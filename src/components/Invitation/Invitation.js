@@ -1,7 +1,8 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
-import { Link, useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, useParams, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { setRedirectUrl } from '../../state/app/app.actions'
 import {
   loggedInSelector,
   userInfoSelector,
@@ -24,6 +25,12 @@ const Invitation = () => {
   const user = useSelector(userInfoSelector)
   const token = useSelector(authTokenSelector)
   const { invitationId } = useParams()
+  const dispatch = useDispatch()
+  const location = useLocation()
+
+  React.useEffect(() => {
+    dispatch(setRedirectUrl(location.pathname))
+  }, [])
 
   React.useEffect(() => {
     if (isLoggedIn) handleGetInvitation()
@@ -38,11 +45,7 @@ const Invitation = () => {
     try {
       const { body, acceptable } = await getInvitation({ invitationId, token })
       setInvitationText(body)
-      setStatus(
-        acceptable
-          ? Statuses.READY
-          : Statuses.ALREADY_ACCEPTED
-      )
+      setStatus(acceptable ? Statuses.READY : Statuses.ALREADY_ACCEPTED)
     } catch (err) {
       console.log({ err })
       setStatus(Statuses.ERROR)
@@ -96,8 +99,11 @@ const Invitation = () => {
           )
         : (
         <div className="heading">
-          {t('Invitation.please')} <Link to={'/login'}>{t('Invitation.login')}</Link> {t('Invitation.or')}{' '}
-          <Link to={'/signup'}>{t('Invitation.singUp')}</Link> {t('Invitation.viewInvitation')}
+          {t('Invitation.please')}{' '}
+          <Link to={'/login'}>{t('Invitation.login')}</Link>{' '}
+          {t('Invitation.or')}{' '}
+          <Link to={'/signup'}>{t('Invitation.singUp')}</Link>{' '}
+          {t('Invitation.viewInvitation')}
         </div>
           )}
     </div>

@@ -1,7 +1,8 @@
 import React from 'react'
-import { Link, useParams } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { Link, useParams, useLocation } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
+import { setRedirectUrl } from '../../state/app/app.actions'
 import {
   loggedInSelector,
   authTokenSelector
@@ -17,7 +18,13 @@ const DeclineInvitation = () => {
   const isLoggedIn = useSelector(loggedInSelector)
   const token = useSelector((state) => authTokenSelector(state))
   const { invitationId } = useParams()
+  const dispatch = useDispatch()
+  const location = useLocation()
   const { t } = useTranslation()
+
+  React.useEffect(() => {
+    dispatch(setRedirectUrl(location.pathname))
+  }, [])
 
   React.useEffect(() => {
     if (isLoggedIn) handleDeclineInvitation()
@@ -46,8 +53,11 @@ const DeclineInvitation = () => {
           )
         : (
         <div className="heading">
-            {t('DeclineInvitation.please')} <Link to={'/login'}>{t('DeclineInvitation.login')}</Link> {t('DeclineInvitation.or')}{' '}
-          <Link to={'/signup'}>{t('DeclineInvitation.singUp')}</Link> {t('DeclineInvitation.acceptInvitation')}
+          {t('DeclineInvitation.please')}{' '}
+          <Link to={'/login'}>{t('DeclineInvitation.login')}</Link>{' '}
+          {t('DeclineInvitation.or')}{' '}
+          <Link to={'/signup'}>{t('DeclineInvitation.singUp')}</Link>{' '}
+          {t('DeclineInvitation.acceptInvitation')}
         </div>
           )}
     </div>

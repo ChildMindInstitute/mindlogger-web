@@ -1,49 +1,54 @@
-import APP_ACTIONS from './app.constants';
+import APP_ACTIONS from './app.constants'
 
-export const setApiHost = hostUrl => ({
+export const setApiHost = (hostUrl) => ({
   type: APP_ACTIONS.SET_API_HOST,
-  payload: hostUrl.trim(),
-});
+  payload: hostUrl.trim()
+})
 
 export const resetApiHost = () => ({
-  type: APP_ACTIONS.RESET_API_HOST,
-});
+  type: APP_ACTIONS.RESET_API_HOST
+})
 
-export const setSkin = newSkin => ({
+export const setSkin = (newSkin) => ({
   type: APP_ACTIONS.SET_SKIN,
-  payload: newSkin,
-});
+  payload: newSkin
+})
 
-export const setUpdatedTime = updatedTime => ({
+export const setUpdatedTime = (updatedTime) => ({
   type: APP_ACTIONS.SET_UPDATED_TIME,
-  payload: updatedTime,
-});
+  payload: updatedTime
+})
 
-export const setCurrentApplet = appletId => ({
+export const setCurrentApplet = (appletId) => ({
   type: APP_ACTIONS.SET_CURRENT_APPLET,
-  payload: appletId,
-});
+  payload: appletId
+})
 
-export const setCurrentActivity = activityId => ({
+export const setCurrentActivity = (activityId) => ({
   type: APP_ACTIONS.SET_CURRENT_ACTIVITY,
-  payload: activityId,
-});
+  payload: activityId
+})
 
-export const setAppletSelectionDisabled = status => ({
+export const setAppletSelectionDisabled = (status) => ({
   type: APP_ACTIONS.SET_APPLET_SELECTION_DISABLED,
-  payload: status,
-});
+  payload: status
+})
 
-export const setActivitySelectionDisabled = status => ({
+export const setActivitySelectionDisabled = (status) => ({
   type: APP_ACTIONS.SET_ACTIVITY_SELECTION_DISABLED,
-  payload: status,
-});
+  payload: status
+})
 
-export const setAppStatus = appStatus => ({
+export const setAppStatus = (appStatus) => ({
   type: APP_ACTIONS.SET_APP_STATUS,
-  payload: appStatus,
-});
+  payload: appStatus
+})
 
 export const toggleMobileDataAllowed = () => ({
-  type: APP_ACTIONS.TOGGLE_MOBILE_DATA_ALLOWED,
-});
+  type: APP_ACTIONS.TOGGLE_MOBILE_DATA_ALLOWED
+})
+
+export const setRedirectUrl = (data) => ({
+  type: APP_ACTIONS.REDIRECT_URL,
+  payload: data
+})

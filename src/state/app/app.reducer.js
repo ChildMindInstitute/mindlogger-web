@@ -1,5 +1,5 @@
-import APP_CONSTANTS from './app.constants';
-import config from '../../util/config';
+import APP_CONSTANTS from './app.constants'
+import config from '../../util/config'
 
 export const initialState = {
   /**
@@ -68,61 +68,73 @@ export const initialState = {
    * @type {object}
    */
   lastUpdatedTime: {},
-};
+
+  /**
+   * redirect url for app
+   *
+   * @type {string}
+   */
+  redirectUrl: null
+}
 
 export default (state = initialState, action = {}) => {
   switch (action.type) {
     case APP_CONSTANTS.SET_API_HOST:
       return {
         ...state,
-        apiHost: action.payload,
-      };
+        apiHost: action.payload
+      }
     case APP_CONSTANTS.SET_UPDATED_TIME:
       return {
         ...state,
-        lastUpdatedTime: action.payload,
-      };
+        lastUpdatedTime: action.payload
+      }
     case APP_CONSTANTS.RESET_API_HOST:
       return {
         ...state,
-        apiHost: initialState.apiHost,
-      };
+        apiHost: initialState.apiHost
+      }
     case APP_CONSTANTS.SET_APP_STATUS:
       return {
         ...state,
-        appStatus: action.payload,
-      };
+        appStatus: action.payload
+      }
     case APP_CONSTANTS.SET_SKIN:
       return {
         ...state,
-        skin: action.payload,
-      };
+        skin: action.payload
+      }
     case APP_CONSTANTS.SET_CURRENT_APPLET:
       return {
         ...state,
-        currentApplet: action.payload,
-      };
+        currentApplet: action.payload
+      }
     case APP_CONSTANTS.SET_CURRENT_ACTIVITY:
       return {
         ...state,
-        currentActivity: action.payload,
-      };
+        currentActivity: action.payload
+      }
     case APP_CONSTANTS.SET_APPLET_SELECTION_DISABLED:
       return {
         ...state,
-        appletSelectionDisabled: action.payload,
-      };
+        appletSelectionDisabled: action.payload
+      }
     case APP_CONSTANTS.SET_ACTIVITY_SELECTION_DISABLED:
       return {
         ...state,
-        activitySelectionDisabled: action.payload,
-      };
+        activitySelectionDisabled: action.payload
+      }
     case APP_CONSTANTS.TOGGLE_MOBILE_DATA_ALLOWED:
       return {
         ...state,
-        mobileDataAllowed: !state.mobileDataAllowed,
-      };
+        mobileDataAllowed: !state.mobileDataAllowed
+      }
+    case APP_CONSTANTS.REDIRECT_URL:
+      return {
+        ...state,
+        redirectUrl: action.payload
+      }
     default:
-      return state;
+      return state
   }
-};
+}

@@ -14,7 +14,7 @@ import './styles.css'
  * Component for Logging in the User
  * @constructor
  */
-export default function Login() {
+export default function Login () {
   const [status, setStatus] = useState(Statuses.READY)
   const [user, setUser] = useState({ email: '', password: '' })
   const [error, setError] = useState(null)

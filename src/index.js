@@ -1,18 +1,20 @@
 import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom'
 import moment from 'moment'
-import './i18Next'
 import { Provider } from 'react-redux'
+
 import configureStore from './store'
 import { clearUser } from './state/user/user.actions'
+import './i18Next'
+
+import App from './App'
 
 import './custom.scss'
 import 'bootstrap/dist/js/bootstrap.bundle.min'
 import './index.css'
 
-import App from './App'
-
 import * as serviceWorker from './serviceWorker'
+
 
 const checkAuthToken = (store) => {
   const state = store.getState()

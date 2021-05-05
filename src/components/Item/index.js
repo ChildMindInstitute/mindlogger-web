@@ -1,12 +1,12 @@
 import React from 'react';
 
-import "./style.css";
-
 // Widgets
 import Radio from '../../widgets/Radio';
 import TextInput from '../../widgets/TextInput';
 import Checkbox from '../../widgets/Checkbox';
 import Slider from '../../widgets/Slider/index';
+
+import "./style.css";
 
 export const Item = ({ type }) => {
 

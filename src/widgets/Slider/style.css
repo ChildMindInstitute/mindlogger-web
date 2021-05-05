@@ -1,0 +1,40 @@
+.slider {
+    width: 80%;
+    margin: auto;
+}
+
+.slider input[type="range"] {
+    width: 100%;
+    height: 2px;
+}
+
+.slider .ticks {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 2px;
+}
+
+.slider .ticks .tick {
+    height: 10px;
+    width: 1px;
+    background: black;
+    display: flex;
+    justify-content: center;
+    line-height: 40px;
+}
+
+.slider-image {
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.slider-image .first {
+    position: relative;
+    transform: translateX(-50%);
+}
+
+.slider-image .last {
+    position: relative;
+    transform: translateX(50%);
+}

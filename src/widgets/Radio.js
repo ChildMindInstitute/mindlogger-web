@@ -1,9 +1,7 @@
 import React from 'react';
 import _ from "lodash";
 import { useTranslation } from 'react-i18next';
-
-// Component
-import MyButton from '../components/Button';
+import Navigator from './Navigator';
 
 export const Radio = () => {
   const { t } = useTranslation();
@@ -28,10 +26,7 @@ export const Radio = () => {
           </div>
         </div>
       </div>
-      <div className="row no-gutters d-flex flex-row justify-content-between">
-        <MyButton link="#" label={t("Back")} classes="ml-5 mb-2"/>
-        <MyButton link="#" label={t("Next")} classes="mr-5 mb-2"/>
-      </div>
+      <Navigator />
     </div>
   )
 }

@@ -20,6 +20,7 @@ export const Screens = () => (
         <Item type="radio"/>
         <Item type="checkbox"/>
         <Item type="textinput"/>
+        <Item type="slider" />
       </div>
     </div>
   </div>

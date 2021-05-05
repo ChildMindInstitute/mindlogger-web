@@ -1,9 +1,9 @@
 import React from 'react';
 
 // Component
-import Activity from '../Activity';
+import Item from '../Item';
 
-export const ActivityList = () => (
+export const Screens = () => (
   <div className="container">
     <div className="row mt-5 activity">
       <div className="col-sm-24 col-xs-24 col-md-2">
@@ -17,13 +17,12 @@ export const ActivityList = () => (
         </div>
       </div>
       <div className="col-sm-24 col-xs-24 col-md-10">
-        <Activity type="radio"/>
-        <Activity type="checkbox"/>
-        <Activity type="textinput"/>
+        <Item type="radio"/>
+        <Item type="checkbox"/>
+        <Item type="textinput"/>
       </div>
     </div>
   </div>
-
 )
 
-export default ActivityList;
+export default Screens;

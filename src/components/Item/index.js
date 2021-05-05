@@ -7,7 +7,7 @@ import Radio from '../../widgets/Radio';
 import TextInput from '../../widgets/TextInput';
 import Checkbox from '../../widgets/Checkbox';
 
-export const Activity = ({ type }) => {
+export const Item = ({ type }) => {
 
   let widget;
 
@@ -23,11 +23,11 @@ export const Activity = ({ type }) => {
       break;
 
     default:
-      widget = <div />
+      widget = <div />;
       break;
   }
 
   return widget;
 }
 
-export default Activity;
+export default Item;

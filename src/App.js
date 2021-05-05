@@ -22,10 +22,9 @@ import AppletParentRoute from './components/AppletParentRoute'
 import AppletDashboard from './components/AppletParentRoute/AppletDashboard'
 import SetPassword from './components/Setpassword'
 import { Consent } from './components/Consent/index'
+import Screens from './components/Screens'
 
 import './App.css'
-import Activity from './components/Activity'
-import ActivityList from './components/ActivityList'
 
 /**
  * Main Component of the Application - Routes to specific components based on the Path.
@@ -79,7 +78,7 @@ function App() {
             <Route
               path="/applet/:appletId"
               exact
-              component={ActivityList}></Route>
+              component={Screens}></Route>
             <Route
               path="/applet/:appletId/dashboard"
               exact

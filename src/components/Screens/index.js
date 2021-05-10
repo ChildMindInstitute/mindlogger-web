@@ -3,7 +3,7 @@ import React from 'react';
 // Component
 import Item from '../Item';
 
-export const Screens = () => (
+const Screens = () => (
   <div className="container">
     <div className="row mt-5 activity">
       <div className="col-sm-24 col-xs-24 col-md-2">

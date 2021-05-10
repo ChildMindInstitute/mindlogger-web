@@ -8,7 +8,7 @@ import Slider from '../../widgets/Slider/index';
 
 import "./style.css";
 
-export const Item = ({ type }) => {
+const Item = ({ type }) => {
 
   let widget;
 

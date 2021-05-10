@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export const Applet = () => (
+const Applet = () => (
   <Link to="/applet/43yy4">
     <div className="card hover" style={{ width: "15rem" }}>
       <div className="pr-4 pl-4 pt-4">

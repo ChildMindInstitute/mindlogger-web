@@ -1,54 +1,50 @@
-import APP_ACTIONS from './app.constants'
+import { createAsyncThunk } from "@reduxjs/toolkit";
 
-export const setApiHost = (hostUrl) => ({
-  type: APP_ACTIONS.SET_API_HOST,
-  payload: hostUrl.trim()
-})
+import { authTokenSelector, userInfoSelector } from "../user/user.selectors";
+import { getInvitationAPI, acceptInvitationAPI, declineInvitationAPI } from '../../services/invitation.service';
 
-export const resetApiHost = () => ({
-  type: APP_ACTIONS.RESET_API_HOST
-})
+import APP_CONSTANTS from './app.constants';
 
-export const setSkin = (newSkin) => ({
-  type: APP_ACTIONS.SET_SKIN,
-  payload: newSkin
-})
 
-export const setUpdatedTime = (updatedTime) => ({
-  type: APP_ACTIONS.SET_UPDATED_TIME,
-  payload: updatedTime
-})
+export const getInvitation = createAsyncThunk(APP_CONSTANTS.GET_INVITATION, async (invitationId, { getState }) => {
+  try {
+    const state = getState();
+    const token = authTokenSelector(state);
+    const res = await getInvitationAPI({ invitationId, token });
+    return res;
+  } catch (error) {
+    throw new Error(error);
+  }
+});
 
-export const setCurrentApplet = (appletId) => ({
-  type: APP_ACTIONS.SET_CURRENT_APPLET,
-  payload: appletId
-})
+export const acceptInvitation = createAsyncThunk(APP_CONSTANTS.ACCEPT_INVITATION, async (invitationId, { getState }) => {
+  try {
+    const state = getState();
+    const user = userInfoSelector(state);
+    const token = authTokenSelector(state);
 
-export const setCurrentActivity = (activityId) => ({
-  type: APP_ACTIONS.SET_CURRENT_ACTIVITY,
-  payload: activityId
-})
+    const res = await acceptInvitationAPI({
+      token,
+      invitationId,
+      email: user.email
+    })
 
-export const setAppletSelectionDisabled = (status) => ({
-  type: APP_ACTIONS.SET_APPLET_SELECTION_DISABLED,
-  payload: status
-})
+    return res;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+});
 
-export const setActivitySelectionDisabled = (status) => ({
-  type: APP_ACTIONS.SET_ACTIVITY_SELECTION_DISABLED,
-  payload: status
-})
+export const declineInvitation = createAsyncThunk(APP_CONSTANTS.DECLINE_INVITATION, async (invitationId, { getState }) => {
+  try {
+    const state = getState();
+    const token = authTokenSelector(state);
 
-export const setAppStatus = (appStatus) => ({
-  type: APP_ACTIONS.SET_APP_STATUS,
-  payload: appStatus
-})
+    const res = await declineInvitationAPI({ invitationId, token });
 
-export const toggleMobileDataAllowed = () => ({
-  type: APP_ACTIONS.TOGGLE_MOBILE_DATA_ALLOWED
-})
+    return res;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+});
 
-export const setRedirectUrl = (data) => ({
-  type: APP_ACTIONS.REDIRECT_URL,
-  payload: data
-})

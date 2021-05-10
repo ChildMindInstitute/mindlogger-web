@@ -10,8 +10,8 @@ export default Navigator = () => {
 
   return (
     <div className="row no-gutters d-flex flex-row justify-content-between">
-      <MyButton link="#" label={t("Back")} classes="ml-5 mb-2" />
-      <MyButton link="#" label={t("Next")} classes="mr-5 mb-2" />
+      <MyButton link="#" label={t("back")} classes="ml-5 mb-2" />
+      <MyButton link="#" label={t("next")} classes="mr-5 mb-2" />
     </div>
   )
 }

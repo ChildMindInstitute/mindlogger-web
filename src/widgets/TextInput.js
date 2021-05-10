@@ -3,7 +3,7 @@ import _ from "lodash";
 
 import Navigator from './Navigator';
 
-export const TextInput = () => (
+const TextInput = () => (
   <div className="card mb-3" style={{ maxWidth: "auto" }}>
     <div className="row no-gutters">
       <div className="col-md-3 p-3">

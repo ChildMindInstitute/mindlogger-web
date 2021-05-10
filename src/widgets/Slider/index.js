@@ -5,7 +5,7 @@ import Navigator from '../Navigator';
 
 import "./style.css"
 
-export const SliderWidget = () => (
+const SliderWidget = () => (
   <div className="card mb-3" style={{ maxWidth: "auto" }}>
     <div className="row no-gutters">
       <div className="col-md-3 p-3">

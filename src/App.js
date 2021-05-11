@@ -14,6 +14,7 @@ import ForgotPassword from './components/ForgotPassword'
 import Profile from './components/Profile'
 import ChangePassword from './components/ChangePassword'
 import Landing from './components/Landing'
+import AppletList from './components/AppletList'
 import Invitation from './components/Invitation/Invitation'
 import AcceptInvitation from './components/Invitation/AcceptInvitation'
 import DeclineInvitation from './components/Invitation/DeclineInvitation'
@@ -43,6 +44,7 @@ function App() {
             <Route path="/changepassword" exact component={ChangePassword} />
             <Route path="/profile" exact component={Profile} />
             <Route path="/dashboard" exact component={Landing} />
+            <Route path="/applet" exact component={AppletList} />
             <Route
               path="/invitation/:invitationId"
               exact

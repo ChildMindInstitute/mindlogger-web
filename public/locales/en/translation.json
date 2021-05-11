@@ -111,7 +111,7 @@
   },
   "Navbar": {
     "mindLogger": "MindLogger",
-    "home": "Home",
+    "applets": "Applets",
     "logIn": "Login",
     "logOut": "Logout",
     "profile": "Profile",

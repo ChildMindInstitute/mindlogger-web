@@ -27,7 +27,7 @@ export default function Landing () {
           {isLoggedIn
             ? (
             <div className="mt-3">
-              <Link to="/profile">
+              <Link to="/applet">
                 <Button type="button" className="btn-get-start">
                   {t('Landing.getStart')}
                 </Button>

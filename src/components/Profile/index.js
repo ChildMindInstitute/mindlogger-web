@@ -1,6 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
+
 import { userInfoSelector } from '../../state/user/user.selectors'
 import Avatar from '../Base/Avatar'
 
@@ -9,7 +10,7 @@ import Avatar from '../Base/Avatar'
  * Component to display User Profile
  * @constructor
  */
-export default function Profile () {
+const Profile = () => {
   const { t } = useTranslation()
   const user = useSelector(state => userInfoSelector(state))
 
@@ -32,3 +33,5 @@ export default function Profile () {
     </div>
   )
 }
+
+export default Profile;

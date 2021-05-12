@@ -1,18 +1,21 @@
 import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom'
 import moment from 'moment'
-import './i18Next'
 import { Provider } from 'react-redux'
+import { PersistGate } from 'redux-persist/integration/react'
+
 import configureStore from './store'
-import { clearUser } from './state/user/user.actions'
+import { clearUser } from './state/user/user.reducer'
+import './i18Next'
+
+import App from './App'
 
 import './custom.scss'
 import 'bootstrap/dist/js/bootstrap.bundle.min'
 import './index.css'
 
-import App from './App'
-
 import * as serviceWorker from './serviceWorker'
+
 
 const checkAuthToken = (store) => {
   const state = store.getState()
@@ -27,14 +30,16 @@ const checkAuthToken = (store) => {
   return true
 }
 
-const store = configureStore()
+const { store, persist } = configureStore()
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <Suspense fallback={null}>
-        <App />
-      </Suspense>
+      <PersistGate loading={null} persistor={persist}>
+        <Suspense fallback={null}>
+          <App />
+        </Suspense>
+      </PersistGate>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

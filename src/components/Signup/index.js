@@ -1,16 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { push } from 'connected-react-router'
 import { useTranslation } from 'react-i18next'
-import { useDispatch } from 'react-redux'
 import { Link, useLocation } from 'react-router-dom'
 import { Form, Alert, Button } from 'react-bootstrap'
-import { signUpSuccessful } from '../../state/user/user.thunks'
-import { signUp } from '../../services/authentication.service'
-import { getPrivateKey } from '../../services/encryption'
-import { Statuses } from '../../constants'
+import { useDispatch, useSelector } from 'react-redux'
+
+import { signUp } from '../../state/user/user.actions'
+import { setRedirectUrl } from '../../state/app/app.reducer'
+
 import './styles.css'
 
-export default function SignUp () {
-  const [status, setStatus] = useState(Statuses.READY)
+export default () => {
   const [user, setUser] = useState({
     email: '',
     firstName: '',
@@ -18,36 +18,32 @@ export default function SignUp () {
     password: '',
     confirmPassword: ''
   })
-  const [error, setError] = useState(null)
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const location = useLocation()
+  const { redirectUrl } = useSelector(state => state.app);
+  const { loading, info, error } = useSelector(state => state.user);
 
-  const isRouted = location.pathname.includes('signup')
+  const isRouted = location.pathname.includes('signup');
+
+  useEffect(() => {
+    if (!loading && info) {
+      if (redirectUrl) dispatch(push(redirectUrl));
+      else {
+        dispatch(push('/profile'));
+        dispatch(setRedirectUrl(null));
+      }
+    }
+  }, [!loading && info])
+
   /**
    * Sends the New User details to the server for Creating User.
-   *
-   * If the given password is not validated or username or email already present, it will display an error message.
    * @param body
-   * @returns {Promise} resolves when the signup is successful.
    */
   const onSubmit = async (event) => {
-    event.preventDefault()
-    setStatus(Statuses.LOADING)
+    event.preventDefault();
     const { confirmPassword, ...rest } = user
-    try {
-      const response = await signUp(rest)
-      const privateKey = getPrivateKey({
-        userId: response._id,
-        email: user.email,
-        password: user.password
-      })
-      setStatus(Statuses.READY)
-      dispatch(signUpSuccessful({ ...response, privateKey, email: user.email }))
-    } catch ({ message }) {
-      setError(message)
-      setStatus(Statuses.READY)
-    }
+    dispatch(signUp(rest));
   }
 
   const isPasswordSame = user.password === user.confirmPassword
@@ -116,11 +112,11 @@ export default function SignUp () {
             <Button
               type="submit"
               className="btn btn-primary"
-              disabled={status === Statuses.LOADING || !isPasswordSame}
+              disabled={loading}
             >
-              {status === Statuses.READY
-                ? t('SignUp.title')
-                : t('SignUp.signingIn')}
+              {loading
+                ? t('SignUp.signingIn')
+                : t('SignUp.title')}
             </Button>
           </Form>
           {isRouted && (

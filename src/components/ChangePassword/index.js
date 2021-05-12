@@ -1,65 +1,57 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useDispatch, useSelector } from 'react-redux'
-import { history } from '../../store'
-import Avatar from '../Base/Avatar'
-import {
-  authTokenSelector,
-  userInfoSelector
-} from '../../state/user/user.selectors'
-import { updatePassword } from '../../services/authentication.service'
-import { updateUserDetailsSuccessful } from '../../state/user/user.thunks'
+import { unwrapResult } from '@reduxjs/toolkit'
 import { Form, Alert, Button } from 'react-bootstrap'
-import { Statuses } from '../../constants'
+import { useDispatch, useSelector } from 'react-redux'
+
+import Avatar from '../Base/Avatar'
+import { history } from '../../store'
+import { updatePassword } from '../../state/user/user.actions'
+
 import './styles.css'
 
 /**
  * Component for Changing Password.
  * @constructor
  */
-export default function ChangePassword () {
-  const [status, setStatus] = useState(Statuses.READY)
+export default () => {
   const [passwordData, setPasswordData] = useState({
-    oldpassword: ' ',
+    oldPassword: '',
     newPassword: '',
     confirmPassword: ''
   })
   const [error, setError] = useState(null)
+
   const { t } = useTranslation()
   const dispatch = useDispatch()
-  const authToken = useSelector((state) => authTokenSelector(state))
-  const user = useSelector((state) => userInfoSelector(state))
+  const { loading, info: user, auth: authToken } = useSelector(state => state.user);
 
   /**
    * Takes old password and new password, sents it to the backend for changing the password
    * @param oldPassword
    * @param password
-   * If the given old password is incorrect, it will display an error message.
-   *
    * @returns {Promise} resolves when the password gets successfully changed.
    */
   const onSubmit = async (event) => {
     event.preventDefault()
-    setStatus(Statuses.LOADING)
     try {
-      await updatePassword(authToken, passwordData)
-      dispatch(updateUserDetailsSuccessful(user))
-      history.push('/profile')
-    } catch ({ message }) {
-      setError(message)
-      setStatus(Statuses.READY)
+      let result = await dispatch(updatePassword({ token: authToken && authToken.token, passwordData }));
+      result = unwrapResult(result);
+      history.push('/profile');
+
+    } catch (error) {
+      setError(error.message)
     }
   }
 
-  const isPasswordSame =
-    passwordData.newPassword === passwordData.confirmPassword
+  const isPasswordSame = passwordData.newPassword === passwordData.confirmPassword
 
   return (
     <div className="demo mb-3">
       <div id="login" className="text-center mb-0">
         <div className="d-flex justify-content-center align-items-center">
-        <Avatar />
-        <h1>{t('ChangePassword.settings')}</h1>
+          <Avatar />
+          <h1>{t('ChangePassword.settings')}</h1>
         </div>
         <hr></hr>
         <h3>{t('ChangePassword.title')}</h3>
@@ -130,9 +122,9 @@ export default function ChangePassword () {
               type="submit"
               variant="success"
               disabled={
-                status === Statuses.LOADING ||
+                loading ||
                 !isPasswordSame ||
-                !passwordData.oldpassword
+                !passwordData.oldPassword
               }
             >
               {t('ChangePassword.submit')}

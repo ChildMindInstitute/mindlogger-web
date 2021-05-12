@@ -1,10 +1,12 @@
 import React from 'react'
-import { useForm } from 'react-hook-form'
-import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
-import { history } from '../../store'
+import { useForm } from 'react-hook-form'
+import { useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next'
+import { unwrapResult } from '@reduxjs/toolkit'
 
-import { forgotPassword } from '../../services/network'
+import { history } from '../../store'
+import { forgotPassword } from '../../state/user/user.actions'
 
 import './styles.css'
 
@@ -15,26 +17,25 @@ import './styles.css'
  */
 export default function ForgotPassword() {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
   const { register, handleSubmit, setError, errors } = useForm()
 
   /**
    * Sends the forgot password email.
-   *
-   * If the given email address is incorrect, it will display an error message.
    * @param body
-   * @returns {Promise} resolves when the email has been sent.
    */
-  const onSubmit = (body) => {
-    return forgotPassword(body.email)
-      .then((response) => {
-        history.push('/login')
+  const onSubmit = async (body) => {
+    try {
+      let result = await dispatch(forgotPassword(body.email));
+      result = unwrapResult(result);
+      history.push('/login');
+
+    } catch (error) {
+      setError('email', {
+        type: 'manual',
+        message: t('ForgotPassword.emailError')
       })
-      .catch((e) => {
-        setError('email', {
-          type: 'manual',
-          message: t('ForgotPassword.emailError')
-        })
-      })
+    }
   }
 
   return (

@@ -1,11 +1,12 @@
 import axios from 'axios'
+
 import { apiHost } from './network'
 import { btoa } from './helper'
 
-export const signIn = async ({ email, password }) => {
-  const url = `${apiHost()}/user/authentication`
+export const signInAPI = async ({ email, password }) => {
+  const url = `${apiHost()}/user/authentication`;
   const headers = {
-    'Girder-Authorization': `Basic ${btoa(`${email}:${password}`)}`
+    'Girder-Authorization': `Basic ${btoa(`${email}:${password}`)}`,
   }
   try {
     const response = await axios.get(url, { headers })
@@ -15,7 +16,7 @@ export const signIn = async ({ email, password }) => {
   }
 }
 
-export const signUp = async (data) => {
+export const signUpAPI = async (data) => {
   const url = `${apiHost()}/user`
   try {
     const response = await axios.post(url, null, {
@@ -27,7 +28,7 @@ export const signUp = async (data) => {
   }
 }
 
-export const updatePassword = async (token, data) => {
+export const updatePasswordAPI = async (token, data) => {
   const url = `${apiHost()}/user/password`
   const headers = {
     'Girder-Token': token
@@ -51,6 +52,20 @@ export const checkTemporaryPassword = async (userId, token) => {
         token
       }
     })
+    return response.data
+  } catch (error) {
+    throw new Error(error.response.data.message)
+  }
+}
+
+export const signOutAPI = async (authToken) => {
+  const url = `${apiHost()}/user/authentication`;
+  const headers = {
+    "Girder-Token": authToken,
+  }
+
+  try {
+    const response = await axios.delete(url, { headers })
     return response.data
   } catch (error) {
     throw new Error(error.response.data.message)

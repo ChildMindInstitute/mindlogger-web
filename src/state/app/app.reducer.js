@@ -1,3 +1,5 @@
+import { createSlice } from '@reduxjs/toolkit'
+
 import APP_CONSTANTS from './app.constants'
 import config from '../../util/config'
 
@@ -77,64 +79,35 @@ export const initialState = {
   redirectUrl: null
 }
 
-export default (state = initialState, action = {}) => {
-  switch (action.type) {
-    case APP_CONSTANTS.SET_API_HOST:
-      return {
-        ...state,
-        apiHost: action.payload
-      }
-    case APP_CONSTANTS.SET_UPDATED_TIME:
-      return {
-        ...state,
-        lastUpdatedTime: action.payload
-      }
-    case APP_CONSTANTS.RESET_API_HOST:
-      return {
-        ...state,
-        apiHost: initialState.apiHost
-      }
-    case APP_CONSTANTS.SET_APP_STATUS:
-      return {
-        ...state,
-        appStatus: action.payload
-      }
-    case APP_CONSTANTS.SET_SKIN:
-      return {
-        ...state,
-        skin: action.payload
-      }
-    case APP_CONSTANTS.SET_CURRENT_APPLET:
-      return {
-        ...state,
-        currentApplet: action.payload
-      }
-    case APP_CONSTANTS.SET_CURRENT_ACTIVITY:
-      return {
-        ...state,
-        currentActivity: action.payload
-      }
-    case APP_CONSTANTS.SET_APPLET_SELECTION_DISABLED:
-      return {
-        ...state,
-        appletSelectionDisabled: action.payload
-      }
-    case APP_CONSTANTS.SET_ACTIVITY_SELECTION_DISABLED:
-      return {
-        ...state,
-        activitySelectionDisabled: action.payload
-      }
-    case APP_CONSTANTS.TOGGLE_MOBILE_DATA_ALLOWED:
-      return {
-        ...state,
-        mobileDataAllowed: !state.mobileDataAllowed
-      }
-    case APP_CONSTANTS.REDIRECT_URL:
-      return {
-        ...state,
-        redirectUrl: action.payload
-      }
-    default:
-      return state
+const AppSlice = createSlice({
+  name: "app",
+  initialState,
+  reducers: {
+    setApiHost: (state, action) => { state.apiHost = action.payload },
+    resetApiHost: (state, action) => { state.apiHost = initialState.apiHost },
+    setSkin: (state, action) => { state.skin = action.payload },
+    setUpdatedTime: (state, action) => { state.lastUpdatedTime = action.payload },
+    setCurrentApplet: (state, action) => { state.currentApplet = action.payload },
+    setCurrentActivity: (state, action) => { state.currentActivity = action.payload },
+    setAppletSelectionDisabled: (state, action) => { state.appletSelectionDisabled = action.payload },
+    setActivitySelectionDisabled: (state, action) => { state.activitySelectionDisabled = action.payload },
+    setAppStatus: (state, action) => { state.appStatus = action.payload },
+    toggleMobileDataAllowed: (state, action) => { state.mobileDataAllowed = !state.mobileDataAllowed },
+    setRedirectUrl: (state, action) => { state.redirectUrl = action.payload },
   }
-}
+})
+
+export default AppSlice.reducer;
+export const {
+  setApiHost,
+  resetApiHost,
+  setSkin,
+  setUpdatedTime,
+  setCurrentApplet,
+  setCurrentActivity,
+  setAppletSelectionDisabled,
+  setActivitySelectionDisabled,
+  setAppStatus,
+  toggleMobileDataAllowed,
+  setRedirectUrl
+} = AppSlice.actions;

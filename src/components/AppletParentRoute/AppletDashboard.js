@@ -1,6 +1,6 @@
 import React from 'react'
 
 export const AppletDashboard = () => {
-  return <div></div>
+  return <div>applet</div>
 }
 export default AppletDashboard

@@ -5,7 +5,7 @@ import {
   setSkin,
   setCurrentApplet,
   toggleMobileDataAllowed,
-} from './app.actions';
+} from './app.reducer';
 
 test('it has an initial state', () => {
   expect(appReducer(undefined, { type: 'foo' })).toEqual(initialState);

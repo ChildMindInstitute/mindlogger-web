@@ -1,38 +1,33 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { unwrapResult } from '@reduxjs/toolkit'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useParams, useLocation } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
-import { setRedirectUrl } from '../../state/app/app.actions'
-import {
-  loggedInSelector,
-  userInfoSelector,
-  authTokenSelector
-} from '../../state/user/user.selectors'
+
 import { Statuses } from '../../constants'
 import { InvitationText } from './InvitationText'
-import {
-  getInvitation,
-  acceptInvitation,
-  declineInvitation
-} from '../../services/invitation.service'
+import { setRedirectUrl } from '../../state/app/app.reducer'
+import { loggedInSelector } from '../../state/user/user.selectors'
+import { getInvitation, acceptInvitation, declineInvitation } from '../../state/app/app.actions'
+
 import './style.css'
 
 const Invitation = () => {
   const { t } = useTranslation()
-  const [status, setStatus] = React.useState(Statuses.LOADING)
-  const [invitationText, setInvitationText] = React.useState('')
-  const isLoggedIn = useSelector(loggedInSelector)
-  const user = useSelector(userInfoSelector)
-  const token = useSelector(authTokenSelector)
   const { invitationId } = useParams()
+  const [status, setStatus] = useState(Statuses.LOADING)
+  const [invitationText, setInvitationText] = useState('')
+
+  const isLoggedIn = useSelector(loggedInSelector)
+
   const dispatch = useDispatch()
   const location = useLocation()
 
-  React.useEffect(() => {
+  useEffect(() => {
     dispatch(setRedirectUrl(location.pathname))
   }, [])
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isLoggedIn) handleGetInvitation()
   }, [isLoggedIn])
 
@@ -43,11 +38,12 @@ const Invitation = () => {
   const handleGetInvitation = async () => {
     setStatus(Statuses.LOADING)
     try {
-      const { body, acceptable } = await getInvitation({ invitationId, token })
+      const res = await dispatch(getInvitation(invitationId))
+      const { body, acceptable } = unwrapResult(res)
+
       setInvitationText(body)
       setStatus(acceptable ? Statuses.READY : Statuses.ALREADY_ACCEPTED)
-    } catch (err) {
-      console.log({ err })
+    } catch (error) {
       setStatus(Statuses.ERROR)
     }
   }
@@ -59,14 +55,12 @@ const Invitation = () => {
   const handleAcceptInvitation = async () => {
     setStatus(Statuses.LOADING)
     try {
-      const { body } = await acceptInvitation({
-        token,
-        invitationId,
-        email: user.email
-      })
+      const res = await dispatch(acceptInvitation(invitationId))
+      const { body } = unwrapResult(res);
+
       setStatus(Statuses.ACCEPTED)
       setInvitationText(body)
-    } catch {
+    } catch (error) {
       setStatus(Statuses.ERROR)
     }
   }
@@ -78,10 +72,12 @@ const Invitation = () => {
   const handleRemoveInvitation = async () => {
     setStatus(Statuses.LOADING)
     try {
-      const { body } = await declineInvitation({ invitationId, token })
+      const res = await dispatch(declineInvitation(invitationId))
+      const { body } = unwrapResult(res);
+
       setStatus(Statuses.REMOVED)
       setInvitationText(body)
-    } catch {
+    } catch (error) {
       setStatus(Statuses.ERROR)
     }
   }
@@ -89,23 +85,21 @@ const Invitation = () => {
   return (
     <div className="mt-3 pt-3 container">
       {isLoggedIn
-        ? (
+        ?
         <InvitationText
           status={status}
           invitationText={invitationText}
           onAcceptInvite={handleAcceptInvitation}
           onDeclineInvite={handleRemoveInvitation}
         />
-          )
-        : (
-        <div className="heading">
+        : <div className="heading">
           {t('Invitation.please')}{' '}
           <Link to={'/login'}>{t('Invitation.login')}</Link>{' '}
           {t('Invitation.or')}{' '}
           <Link to={'/signup'}>{t('Invitation.singUp')}</Link>{' '}
           {t('Invitation.viewInvitation')}
         </div>
-          )}
+      }
     </div>
   )
 }

@@ -1,6 +1,11 @@
-import React from 'react'
+import React from 'react';
 
-export const AppletParentRoute = () => {
-  return <div className="d-flex"></div>
-}
+import Applet from '../Applet';
+
+export const AppletParentRoute = () => (
+  <div className="d-flex mt-5">
+    <Applet />
+  </div>
+)
+
 export default AppletParentRoute

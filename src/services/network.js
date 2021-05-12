@@ -1,16 +1,14 @@
 import { serialize as objectToFormData } from "object-to-formdata";
+
 import { getStore } from "../store";
-// eslint-disable-next-line
-import { btoa } from "./helper";
 import { apiHostSelector } from "../state/app/app.selectors";
-import * as axios from "axios";
 
 export const apiHost = () => {
   const state = getStore().getState(); // Get redux state
   return apiHostSelector(state);
 };
 
-const objectToQueryParams = (obj) =>
+export const objectToQueryParams = (obj) =>
   Object.keys(obj)
     .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(obj[key])}`)
     .join("&");
@@ -99,24 +97,7 @@ export const postAppletBadge = (authToken, badge) => {
   }).then((res) => (res.status === 200 ? res.json() : Promise.reject(res)));
 };
 
-export const signIn = ({ user, password }) =>
-  get("user/authentication", null, null, {
-    "Girder-Authorization": `Basic ${btoa(`${user}:${password}`)}`,
-  });
-
-export const signOut = (authToken) => {
-  const url = `${apiHost()}/user/authentication`;
-  const headers = {
-    "Girder-Token": authToken,
-  };
-  return fetch(url, {
-    method: "delete",
-    mode: "cors",
-    headers,
-  }).then((res) => (res.status === 200 ? res.json() : Promise.reject(res)));
-};
-
-export const forgotPassword = (email) => {
+export const forgotPasswordAPI = (email) => {
   const queryParams = objectToQueryParams({ email });
   const url = `${apiHost()}/user/password/temporary?${queryParams}`;
   return fetch(url, {
@@ -350,45 +331,3 @@ export const getUserUpdates = ({ authToken }) => {
     headers,
   }).then((res) => (res.status === 200 ? res.json() : res));
 };
-
-export const getInvitation = async ({ token, invitationId }) => {
-  const url = `${apiHost()}/invitation/${invitationId}?includeLink=false`;
-  const headers = {
-    "Girder-Token": token,
-  };
-  const res = await fetch(url, {
-    method: "get",
-    mode: "cors",
-    headers,
-  });
-  if (res.ok) return await res.json();
-  else throw new Error();
-};
-
-export const acceptInvitation = async ({ token, email, invitationId }) => {
-  const url = `${apiHost()}/invitation/${invitationId}/accept?email=${email}`;
-  const headers = {
-    "Girder-Token": token,
-  };
-  const res = await fetch(url, {
-    method: "post",
-    mode: "cors",
-    headers,
-  });
-  if (res.ok) return await res.json();
-  else throw new Error();
-};
-
-export const declineInvitation = async ({invitationId, token}) => {
-  const url = `${apiHost()}/invitation/${invitationId}`;
-  const headers = {
-    "Girder-Token": token,
-  };
-  const res = await fetch(url, {
-    method: "delete",
-    mode: "cors",
-    headers,
-  });
-  if (res.ok) return await res.json();
-  else throw new Error();
-}

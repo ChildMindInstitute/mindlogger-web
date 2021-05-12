@@ -6,15 +6,17 @@ import { DropdownButton, Dropdown } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
+import { push } from 'connected-react-router'
 
-import { doLogout } from '../../state/app/app.thunks'
+import { doLogout } from '../../state/user/user.actions'
 import { Languages } from '../../constants/index'
+
 /**
  * Component for Rendering the NavBar
  * @param user
  *
  */
-export default function NavBar ({ user }) {
+export default ({ user }) => {
   const { t } = useTranslation()
   const history = useHistory()
 
@@ -45,6 +47,7 @@ const UserInfoDropdown = ({ user }) => {
 
   const logOut = () => {
     dispatch(doLogout())
+    dispatch(push('/login'))
   }
 
   if (user) {

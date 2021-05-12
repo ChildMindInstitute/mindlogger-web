@@ -3,9 +3,10 @@ import { Container } from 'react-bootstrap'
 import { ConnectedRouter } from 'connected-react-router'
 import { Switch, Route } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { history } from './store'
 
+import { history } from './store'
 import { userInfoSelector } from './state/user/user.selectors'
+
 import Footer from './components/Base/Footer'
 import NavBar from './components/Base/Navbar'
 import Login from './components/Login'
@@ -20,9 +21,12 @@ import AcceptInvitation from './components/Invitation/AcceptInvitation'
 import DeclineInvitation from './components/Invitation/DeclineInvitation'
 import AppletParentRoute from './components/AppletParentRoute'
 import AppletDashboard from './components/AppletParentRoute/AppletDashboard'
-import './App.css'
 import SetPassword from './components/Setpassword'
 import { Consent } from './components/Consent/index'
+import Screens from './components/Screens'
+
+import './App.css'
+
 /**
  * Main Component of the Application - Routes to specific components based on the Path.
  */
@@ -65,9 +69,18 @@ function App() {
               exact
               component={SetPassword}
             ></Route>
-            <Route path="/consent/:inviteURL" exact component={Consent}></Route>
-            <Route path="/applet" exact component={AppletParentRoute}></Route>
-
+            <Route
+              path="/consent/:inviteURL"
+              exact
+              component={Consent}></Route>
+            <Route
+              path="/applet"
+              exact
+              component={AppletParentRoute}></Route>
+            <Route
+              path="/applet/:appletId"
+              exact
+              component={Screens}></Route>
             <Route
               path="/applet/:appletId/dashboard"
               exact
@@ -80,4 +93,5 @@ function App() {
     </ConnectedRouter>
   )
 }
+
 export default App

@@ -1,54 +1,43 @@
-import React, { useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useDispatch } from 'react-redux'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { push } from 'connected-react-router'
+import { useTranslation } from 'react-i18next'
+import { useDispatch, useSelector } from 'react-redux'
 import { Form, Alert, Button } from 'react-bootstrap'
 
-import { signInSuccessful } from '../../state/user/user.thunks'
-import { getPrivateKey } from '../../services/encryption'
-import { signIn } from '../../services/authentication.service'
-import { Statuses } from '../../constants'
+import { signIn } from '../../state/user/user.actions'
+import { setRedirectUrl } from '../../state/app/app.reducer'
+
 import './styles.css'
 
 /**
  * Component for Logging in the User
  * @constructor
  */
-export default function Login () {
-  const [status, setStatus] = useState(Statuses.READY)
+export default function Login() {
   const [user, setUser] = useState({ email: '', password: '' })
-  const [error, setError] = useState(null)
   const { t } = useTranslation()
   const dispatch = useDispatch()
+  const { redirectUrl } = useSelector(state => state.app);
+  const { loading, info, error } = useSelector(state => state.user);
+
+  useEffect(() => {
+    if (!loading && info) {
+      if (redirectUrl) dispatch(push(redirectUrl));
+      else {
+        dispatch(push('/profile'));
+        dispatch(setRedirectUrl(null));
+      }
+    }
+  }, [!loading && info])
 
   /**
    * Sends the Authentication request to the server.
-   *
-   * If the given password or username is incorrect, it will display an error message.
    * @param body
-   * @returns {Promise} resolves when the authentication is successful.
    */
   const onSubmit = async (event) => {
     event.preventDefault()
-    setStatus(Statuses.LOADING)
-    try {
-      const response = await signIn(user)
-      const privateKey = getPrivateKey({
-        userId: response.user._id,
-        email: user.email,
-        password: user.password
-      })
-      setStatus(Statuses.READY)
-      dispatch(
-        signInSuccessful({
-          ...response,
-          user: { ...response.user, privateKey, email: user.email }
-        })
-      )
-    } catch ({ message }) {
-      setError(message)
-      setStatus(Statuses.READY)
-    }
+    dispatch(signIn(user));
   }
 
   return (
@@ -77,11 +66,11 @@ export default function Login () {
             <Button
               type="submit"
               variant="primary"
-              disabled={status === Statuses.LOADING}
+              disabled={loading}
             >
-              {status === Statuses.READY
-                ? t('Login.title')
-                : t('Login.logging')}
+              {loading
+                ? t('Login.logging')
+                : t('Login.title')}
             </Button>
           </Form>
           <p className="mt-3">

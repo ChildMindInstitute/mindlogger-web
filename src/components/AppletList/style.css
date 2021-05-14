@@ -17,6 +17,10 @@
   cursor: pointer;
 }
 
+.applet-card-title {
+  text-transform: capitalize;
+}
+
 .applet-card-title:hover {
   text-decoration: underline;
 }

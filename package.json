@@ -23,6 +23,7 @@
     "popper.js": "^1.16.1",
     "ramda": "^0.27.1",
     "react": "^16.13.1",
+    "react-avatar": "^3.10.0",
     "react-bootstrap": "^1.5.2",
     "react-dom": "^16.13.1",
     "react-fontawesome": "^1.7.1",

@@ -28,9 +28,6 @@ export const getApplets = createAsyncThunk(APP_CONSTANTS.GET_APPLETS, async (arg
   const currentApplets = appletsSelector(state);
   const currentResponses = responsesSelector(state) || [];
   const localInfo = getLocalInfo(currentApplets, currentResponses);
-
-  console.log('currentApplets----', currentApplets);
-
   const responses = [];
   const applets = await getAppletsAPI({
     token, localInfo
@@ -38,7 +35,6 @@ export const getApplets = createAsyncThunk(APP_CONSTANTS.GET_APPLETS, async (arg
 
   const transformedApplets = applets
     .map((appletInfo) => {
-      console.log('appletInfo', appletInfo)
       if (!appletInfo.applet) {
         responses.push(currentResponses.find(({ appletId }) => {
           return appletId.split("/").pop() === appletInfo.id

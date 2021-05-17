@@ -3,11 +3,11 @@ import _ from "lodash";
 
 import Navigator from './Navigator';
 
-const Checkbox = () => (
+const Checkbox = ({ item, isBackShown, isNextShown, handleChange, handleBack, isSubmitShown }) => (
   <div className="card mb-3" style={{ maxWidth: "auto" }}>
     <div className="row no-gutters">
       <div className="col-md-3 p-3">
-        <img src="../logo192.png" className="rounded w-h" alt="applet-image" />
+        <img src="../../../logo192.png" className="rounded w-h" alt="applet-image" />
       </div>
       <div className="col-md-9">
         <div className="card-body">
@@ -23,7 +23,7 @@ const Checkbox = () => (
         </div>
       </div>
     </div>
-    <Navigator />
+    <Navigator isBackShown={isBackShown} isNextShown={isNextShown} handleBack={handleBack} isSubmitShown={isSubmitShown}/>
   </div>
 )
 

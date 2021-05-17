@@ -74,11 +74,7 @@ function App() {
               exact
               component={Consent}></Route>
             <Route
-              path="/applet"
-              exact
-              component={AppletParentRoute}></Route>
-            <Route
-              path="/applet/:appletId"
+              path="/applet/:appletId/activity/:activityId"
               exact
               component={Screens}></Route>
             <Route

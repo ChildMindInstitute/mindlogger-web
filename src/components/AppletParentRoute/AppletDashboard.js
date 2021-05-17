@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import {
   Container,
   Card,
-  Button, 
+  Button,
   Row,
   Col,
   Modal
@@ -11,8 +11,8 @@ import {
 import MDEditor from "@uiw/react-md-editor";
 import './style.css'
 
-export const AppletDashboard = () => {
-  // const { appletId } = useParams();
+export const AppletDashboard = ({ history }) => {
+  const { appletId } = useParams();
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -23,7 +23,7 @@ export const AppletDashboard = () => {
       <Row className="ds-applet-layout">
         <Col sm={3}>
           <Card className="ds-card">
-            <Card.Img 
+            <Card.Img
               className="ds-shadow"
               variant="top"
               src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Color-blue.JPG"
@@ -54,13 +54,15 @@ export const AppletDashboard = () => {
           <h4> Healthy Brain Network (NIMH Content) v0.30 </h4>
           <p className="ds-activity-status"> Past Due </p>
           <Button
+            onClick={() => history.push(`/applet/${appletId}/activity/d344344d3`)}
             className="ds-shadow ds-activity-button"
-            variant="link" 
+            variant="link"
             block
           >
             EMA Assessment (Morning)
           </Button>
           <Button
+            onClick={() => history.push(`/applet/${appletId}/activity/d344344d3`)}
             className="ds-shadow ds-activity-button"
             variant="link"
             block
@@ -70,7 +72,7 @@ export const AppletDashboard = () => {
           <p className="ds-activity-status"> Scheduled </p>
           <Button
             className="ds-shadow ds-activity-button"
-            variant="link" 
+            variant="link"
             block
             disabled
           >

@@ -56,3 +56,7 @@ code {
   right: 0px;
   left: unset;
 }
+
+.question {
+  text-align: center;
+}

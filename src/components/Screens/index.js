@@ -29,6 +29,87 @@ const Screens = () => {
     "notification": {},
     "items": [
       {
+        "id": "screen/60a355a34a284325fa573d1f",
+        "description": {
+          "en": ""
+        },
+        "schemaVersion": {
+          "en": "0.0.1"
+        },
+        "version": {
+          "en": "0.0.1"
+        },
+        "altLabel": {
+          "en": "Screen2"
+        },
+        "inputType": "slider",
+        "isOptionalText": false,
+        "question": {
+          "en": "slider"
+        },
+        "valueConstraints": {
+            "continuousSlider": true,
+            "isOptionalTextRequired": false,
+            "responseAlert": true,
+            "scoring": true,
+            "showTickMarks": false,
+            "valueType": "http://www.w3.org/2001/XMLSchema#integer",
+            "itemList": [
+              {
+                  "name": {
+                      "en": "1"
+                  },
+                  "value": 1,
+                  "score": 1,
+                  "image": "https://upload.wikimedia.org/wikipedia/commons/7/7e/Thumbs-up-icon.png"
+              },
+              {
+                  "name": {
+                      "en": "2"
+                  },
+                  "value": 2,
+                  "score": 2
+              },
+              {
+                  "name": {
+                      "en": "3"
+                  },
+                  "value": 3,
+                  "score": 3
+              },
+              {
+                  "name": {
+                      "en": "4"
+                  },
+                  "value": 4,
+                  "score": 4
+              },
+              {
+                  "name": {
+                      "en": "5"
+                  },
+                  "value": 5,
+                  "score": 5,
+                  "image": "https://upload.wikimedia.org/wikipedia/commons/7/7e/Thumbs-up-icon.png"
+              }
+            ],
+            "maxAlertValue": 0,
+            "maxValue": "Max",
+            "minAlertValue": 0,
+            "minValue": "Min",
+            "responseAlertMessage": "",
+            "isOptionalText": false
+          },
+          "skippable": true,
+          "fullScreen": false,
+          "backDisabled": false,
+          "autoAdvance": false,
+          "inputs": {},
+          "schema": "60a3557f4a284325fa573d01/60a355a34a284325fa573d1f",
+          "variableName": "Screen2",
+          "visibility": true
+      },
+      {
         "id": "screen/607f361fd6ff0040d3aefc7a",
         "description": { "en": "" },
         "schemaVersion": { "en": "0.0.1" },
@@ -109,7 +190,19 @@ const Screens = () => {
   }
 
   activity.items.forEach((item, i) => {
-    items.push(<Item data={data} type={item.inputType} item={item} handleSubmit={handleNext} handleBack={handleBack} isBackShown={i > 0} isNextShown={activeIndex === i + 1} isSubmitShown={i < activity.items.length - 1} />)
+    items.push(
+      <Item
+        data={data}
+        type={item.inputType}
+        key={item.id}
+        item={item}
+        handleSubmit={handleNext}
+        handleBack={handleBack}
+        isBackShown={i > 0}
+        isNextShown={activeIndex === i + 1}
+        isSubmitShown={i < activity.items.length - 1}
+      />
+    );
   });
 
   return (

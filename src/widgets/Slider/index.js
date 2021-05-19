@@ -34,7 +34,11 @@ const SliderWidget = ({ item, isBackShown, isNextShown, handleChange, handleBack
     <Card className="mb-3" style={{ maxWidth: "auto" }}>
       <Row className="row no-gutters">
         <Col sm={3} className="p-3">
-          <Card.Img variant="top" src={'../../../logo192.png'} />
+          <Card.Img
+            src={'../../../../logo192.png'}
+            className="rounded w-h"
+            alt="applet-image"
+          />
         </Col>
 
         <Col sm={9}>

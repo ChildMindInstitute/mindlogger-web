@@ -143,7 +143,7 @@ const Screens = () => {
         "visibility": true
       },
       {
-        "id": "screen/607f361fd6ff0040d3aefc7a",
+        "id": "screen/607f361fd6ff0040d3aefc7b",
         "description": { "en": "" },
         "schemaVersion": { "en": "0.0.1" },
         "version": { "en": "0.0.1" },

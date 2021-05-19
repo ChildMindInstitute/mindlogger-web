@@ -2,13 +2,18 @@ import React from 'react';
 import _ from "lodash";
 
 import Navigator from '../Navigator';
+import {
+  Card,
+  Row,
+  Col,
+  Form
+} from 'react-bootstrap'
 
 import "./style.css"
 
 const SliderWidget = ({ item, isBackShown, isNextShown, handleChange, handleBack, isSubmitShown }) => {
   const {
     continuousSlider,
-    isOptionalTextRequired,
     showTickMarks,
     itemList,
     ['minValue']: minLabel,
@@ -26,16 +31,16 @@ const SliderWidget = ({ item, isBackShown, isNextShown, handleChange, handleBack
   )
 
   return (
-    <div className="card mb-3" style={{ maxWidth: "auto" }}>
-      <div className="row no-gutters">
-        <div className="col-md-3 p-3">
-          <img src="../logo192.png" className="rounded w-h" alt="applet-image" />
-        </div>
+    <Card className="mb-3" style={{ maxWidth: "auto" }}>
+      <Row className="row no-gutters">
+        <Col sm={3} className="p-3">
+          <Card.Img variant="top" src={'../../../logo192.png'} />
+        </Col>
 
-        <div className="col-md-9">
-          <div className="card-body">
-          <h5 className="card-title question">{item.question.en}</h5>
-            <div className="row no-gutters px-4 py-4">
+        <Col sm={9}>
+          <Card.Body className="card-body">
+            <Card.Title className="question">{item.question.en}</Card.Title>
+            <Form.Group as={Row} className="no-gutters px-4 py-4">
               <div className="slider">
 
                 <input type="range"
@@ -84,13 +89,13 @@ const SliderWidget = ({ item, isBackShown, isNextShown, handleChange, handleBack
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
+            </Form.Group>
+          </Card.Body>
+        </Col>
+      </Row>
 
       <Navigator isBackShown={isBackShown} isNextShown={isNextShown} handleBack={handleBack} isSubmitShown={isSubmitShown}/>
-    </div>
+    </Card>
   );
 }
 

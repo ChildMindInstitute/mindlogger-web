@@ -11,14 +11,14 @@ import "./style.css";
 
 const Item = (props) => {
   const { data, type, handleSubmit } = props;
-  
+
   const widget = (handleChange) => {
     switch (type) {
       case "radio":
         return <Radio {...props} handleChange={handleChange} />;
       case "checkbox":
         return <Checkbox {...props} handleChange={handleChange} />;
-      case "textinput":
+      case "text":
         return <TextInput {...props} handleChange={handleChange} />;
       case "slider":
         return <Slider {...props} handleChange={handleChange} />;

@@ -29,6 +29,40 @@ const Screens = () => {
     "notification": {},
     "items": [
       {
+        "id": "screen/60a4416bedb2b25e68e933fc",
+        "description": {
+          "en": ""
+        },
+        "correctAnswer": {
+          "en": "2"
+        },
+        "schemaVersion": {
+          "en": "0.0.1"
+        },
+        "version": {
+          "en": "0.0.1"
+        },
+        "altLabel": {
+          "en": "Screen3"
+        },
+        "inputType": "text",
+        "isOptionalText": false,
+        "question": {
+          "en": "text"
+        },
+        "valueConstraints": {
+          "valueType": "http://www.w3.org/2001/XMLSchema#integer",
+          "isOptionalText": false
+        },
+        "fullScreen": false,
+        "backDisabled": false,
+        "autoAdvance": false,
+        "inputs": {},
+        "schema": "60a3557f4a284325fa573d01/60a4416bedb2b25e68e933fc",
+        "variableName": "Screen3",
+        "visibility": true
+      },
+      {
         "id": "screen/60a355a34a284325fa573d1f",
         "description": {
           "en": ""

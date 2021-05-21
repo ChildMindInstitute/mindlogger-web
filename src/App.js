@@ -19,8 +19,7 @@ import AppletList from './components/AppletList'
 import Invitation from './components/Invitation/Invitation'
 import AcceptInvitation from './components/Invitation/AcceptInvitation'
 import DeclineInvitation from './components/Invitation/DeclineInvitation'
-import AppletParentRoute from './components/AppletParentRoute'
-import AppletDashboard from './components/AppletParentRoute/AppletDashboard'
+import ActivityList from './components/ActivityList'
 import SetPassword from './components/Setpassword'
 import { Consent } from './components/Consent/index'
 import Screens from './components/Screens'
@@ -74,17 +73,13 @@ function App() {
               exact
               component={Consent}></Route>
             <Route
-              path="/applet"
-              exact
-              component={AppletParentRoute}></Route>
-            <Route
               path="/applet/:appletId"
               exact
               component={Screens}></Route>
             <Route
               path="/applet/:appletId/dashboard"
               exact
-              component={AppletDashboard}
+              component={ActivityList}
             ></Route>
           </Switch>
         </Container>

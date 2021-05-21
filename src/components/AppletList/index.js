@@ -23,9 +23,7 @@ export default function AppletList() {
   useEffect(() => {
     const fetchApplets = async () => {
       setIsLoading(true);
-      const res = await dispatch(getApplets());
-
-      setApplets(res.payload);
+      setApplets((await dispatch(getApplets())).payload);
       setIsLoading(false);
     }
 
@@ -33,19 +31,19 @@ export default function AppletList() {
   }, [])
 
   const onSelectApplet = (appletId) => {
-    history.push(`/applet/${appletId}/dashboard`);
+    history.push(`/${appletId}/dashboard`);
   }
 
   return (
     <Container>
       <Row className="justify-content-md-center">
-        {applets.map(applet => (
+        {!isLoading && applets.map(applet => (
           <Card className="applet-card" onClick={() => onSelectApplet(applet.id)} key={applet.id}>
             {applet.image &&
               <Card.Img variant="top" src={applet.image} />
             }
             {!applet.image &&
-              <Avatar name={applet.name.en} maxInitials={2} size="254" round="3px" />
+              <Avatar color="#777" name={applet.name.en} maxInitials={2} size="286" round="3px" />
             }
             <Card.Body>
               <Card.Title className="applet-card-title"> {applet.name.en} </Card.Title>

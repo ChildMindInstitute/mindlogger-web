@@ -32,8 +32,7 @@ export const getApplets = createAsyncThunk(APP_CONSTANTS.GET_APPLETS, async (arg
   const applets = await getAppletsAPI({
     token, localInfo
   })
-
-  const transformedApplets = applets
+  const transformedApplets = applets.data
     .map((appletInfo) => {
       if (!appletInfo.applet) {
         responses.push(currentResponses.find(({ appletId }) => {

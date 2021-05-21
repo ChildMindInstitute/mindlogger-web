@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import MDEditor from "@uiw/react-md-editor";
 import { useParams } from 'react-router-dom';
 import {
   Container,
@@ -7,16 +9,26 @@ import {
   Row,
   Col,
   Modal
-} from 'react-bootstrap'
-import MDEditor from "@uiw/react-md-editor";
-import './style.css'
+} from 'react-bootstrap';
+
+import { selectActivity } from '../../state/applet/applet.reducer';
+
+import './style.css';
+
 
 export const AppletDashboard = ({ history }) => {
   const { appletId } = useParams();
+  const dispatch = useDispatch();
   const [show, setShow] = useState(false);
+  const { applet } = useSelector(state => state.applet);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const handleActivityClick = (activity) => {
+    dispatch(selectActivity(activity));
+    history.push(`/applet/${appletId}/${activity.id}`);
+  }
 
   return (
     <Container fluid>
@@ -42,33 +54,28 @@ export const AppletDashboard = ({ history }) => {
           </Card>
           <Modal show={show} onHide={handleClose} centered>
             <Modal.Header closeButton>
-              <Modal.Title>NIMH Applet</Modal.Title>
+              <Modal.Title>{applet.name && applet.name.en}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <MDEditor.Markdown source="Hello Markdown! `Hi!`" />
+              <MDEditor.Markdown source={applet.description && applet.description.en} />
             </Modal.Body>
           </Modal>
         </Col>
         <Col sm={1} />
         <Col sm={8}>
-          <h4> Healthy Brain Network (NIMH Content) v0.30 </h4>
+          <h4>{applet.name ? applet.name.en : 'Healthy Brain Network (NIMH Content) v0.30'}</h4>
           <p className="ds-activity-status"> Past Due </p>
-          <Button
-            onClick={() => history.push(`/applet/${appletId}/activity/d344344d3`)}
-            className="ds-shadow ds-activity-button"
-            variant="link"
-            block
-          >
-            EMA Assessment (Morning)
-          </Button>
-          <Button
-            onClick={() => history.push(`/applet/${appletId}/activity/d344344d3`)}
-            className="ds-shadow ds-activity-button"
-            variant="link"
-            block
-          >
-            EMA Assessment (Mid Day)
-          </Button>
+          {applet.activities && applet.activities.map(activity => (
+            <Button
+              onClick={() => handleActivityClick(activity)}
+              className="ds-shadow ds-activity-button"
+              key={activity.id}
+              variant="link"
+              block
+            >
+              {activity.name.en}
+            </Button>
+          ))}
           <p className="ds-activity-status"> Scheduled </p>
           <Button
             className="ds-shadow ds-activity-button"
@@ -91,4 +98,6 @@ export const AppletDashboard = ({ history }) => {
     </Container>
   );
 }
+
+
 export default AppletDashboard

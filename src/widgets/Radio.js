@@ -1,19 +1,19 @@
 import React from 'react';
 import _ from "lodash";
-import { Form, Row } from 'react-bootstrap';
+import { Form, Row, Card, Col } from 'react-bootstrap';
 
 import Navigator from './Navigator';
+import Markdown from '../components/Screens/Markdown';
 
 const Radio = ({ item, isBackShown, isNextShown, handleChange, handleBack, isSubmitShown }) => (
-  <div className="card mb-3" style={{ maxWidth: "auto" }}>
-    <div className="row no-gutters">
-      <div className="col-md-3 p-3">
-        <img src="../../../logo192.png" className="rounded w-h" alt="applet-image" />
-      </div>
-      <div className="col-md-9">
-        <div className="card-body">
-          <h5 className="card-title question">{item.question.en}</h5>
-          <div className="row no-gutters pl-4">
+  <Card className="mb-3" style={{ maxWidth: "auto" }}>
+    <Row className="no-gutters">
+      <Col md={12}>
+        <Card.Body>
+          <Card.Title className="question">
+            <Markdown>{item.question.en}</Markdown>
+          </Card.Title>
+          <Row className="no-gutters pl-5">
             <Form.Group as={Row}>
               {_.map(item.valueConstraints.itemList, (obj, i) => (
                 <div className="col-md-6" key={i}>
@@ -21,12 +21,12 @@ const Radio = ({ item, isBackShown, isNextShown, handleChange, handleBack, isSub
                 </div>
               ))}
             </Form.Group>
-          </div>
-        </div>
-      </div>
-    </div>
-    <Navigator isBackShown={isBackShown} isNextShown={isNextShown} handleBack={handleBack} isSubmitShown={isSubmitShown}/>
-  </div>
+          </Row>
+        </Card.Body>
+      </Col>
+    </Row>
+    <Navigator isBackShown={isBackShown} isNextShown={isNextShown} handleBack={handleBack} isSubmitShown={isSubmitShown} />
+  </Card>
 )
 
 export default Radio;

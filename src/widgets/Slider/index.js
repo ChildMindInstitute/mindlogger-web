@@ -1,9 +1,11 @@
 import React from 'react';
 import _ from "lodash";
+import { Row, Card, Col } from 'react-bootstrap';
 
 import Navigator from '../Navigator';
+import Markdown from '../../components/Screens/Markdown';
 
-import "./style.css"
+import "./style.css";
 
 const SliderWidget = ({ item, isBackShown, isNextShown, handleChange, handleBack, isSubmitShown }) => {
   const {
@@ -26,18 +28,15 @@ const SliderWidget = ({ item, isBackShown, isNextShown, handleChange, handleBack
   )
 
   return (
-    <div className="card mb-3" style={{ maxWidth: "auto" }}>
-      <div className="row no-gutters">
-        <div className="col-md-3 p-3">
-          <img src="../logo192.png" className="rounded w-h" alt="applet-image" />
-        </div>
-
-        <div className="col-md-9">
-          <div className="card-body">
-          <h5 className="card-title question">{item.question.en}</h5>
-            <div className="row no-gutters px-4 py-4">
+    <Card className="mb-3" style={{ maxWidth: "auto" }}>
+      <Row className="no-gutters">
+        <Col md={12}>
+          <Card.Body>
+            <Card.Title className="question">
+              <Markdown>{item.question.en}</Markdown>
+            </Card.Title>
+            <Row className="no-gutters no-gutters px-4 py-4">
               <div className="slider">
-
                 <input type="range"
                   min={minValue}
                   max={maxValue}
@@ -45,7 +44,8 @@ const SliderWidget = ({ item, isBackShown, isNextShown, handleChange, handleBack
                   onChange={(e) => handleChange(e.target.value)}
                 />
                 {
-                  !showTickMarks && (<div className="ticks">
+                  !showTickMarks &&
+                  <div className="ticks">
                     {
                       _.map(itemList, (obj, i) => (
                         <span
@@ -54,13 +54,13 @@ const SliderWidget = ({ item, isBackShown, isNextShown, handleChange, handleBack
                         >{obj.name.en}</span>
                       ))
                     }
-                  </div>)
+                  </div>
                 }
 
                 <div className="slider-description">
                   <div className="first" style={{ width: Math.floor(90 / itemList.length) + '%' }}>
                     <img
-                      src={ itemList[0].image }
+                      src={itemList[0].image}
                       width="100%"
                     ></img>
 
@@ -72,7 +72,7 @@ const SliderWidget = ({ item, isBackShown, isNextShown, handleChange, handleBack
                   </div>
                   <div className="last" style={{ width: Math.floor(90 / itemList.length) + '%' }}>
                     <img
-                      src={ itemList[itemList.length-1].image }
+                      src={itemList[itemList.length - 1].image}
                       width="100%"
                     ></img>
 
@@ -84,13 +84,13 @@ const SliderWidget = ({ item, isBackShown, isNextShown, handleChange, handleBack
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
+            </Row>
+          </Card.Body>
+        </Col>
+      </Row>
 
-      <Navigator isBackShown={isBackShown} isNextShown={isNextShown} handleBack={handleBack} isSubmitShown={isSubmitShown}/>
-    </div>
+      <Navigator isBackShown={isBackShown} isNextShown={isNextShown} handleBack={handleBack} isSubmitShown={isSubmitShown} />
+    </Card>
   );
 }
 

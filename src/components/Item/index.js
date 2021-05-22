@@ -18,7 +18,7 @@ const Item = (props) => {
         return <Checkbox {...props} handleChange={handleChange} />;
       case "radio":
         return <Radio {...props} handleChange={handleChange} />;
-      case "textinput":
+      case "text":
         return <TextInput {...props} handleChange={handleChange} />;
       case "slider":
         return <Slider {...props} handleChange={handleChange} />;

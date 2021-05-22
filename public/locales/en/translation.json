@@ -142,6 +142,7 @@
   },
   "back": "Back",
   "next": "Next",
-  "submit": "Submit"
-
+  "submit": "Submit",
+  "incorrect_answer": "Incorrect answer. Please try again",
+  "failed": "Failed"
 }

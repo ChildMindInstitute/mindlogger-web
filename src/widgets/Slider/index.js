@@ -10,7 +10,6 @@ import "./style.css";
 const SliderWidget = ({ item, isBackShown, isNextShown, handleChange, handleBack, isSubmitShown }) => {
   const {
     continuousSlider,
-    isOptionalTextRequired,
     showTickMarks,
     itemList,
     ['minValue']: minLabel,

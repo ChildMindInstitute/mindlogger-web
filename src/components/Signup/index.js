@@ -43,7 +43,10 @@ export default () => {
   const onSubmit = async (event) => {
     event.preventDefault();
     const { confirmPassword, ...rest } = user
-    dispatch(signUp(rest));
+
+    if (isPasswordSame) {
+      dispatch(signUp(rest));
+    }
   }
 
   const isPasswordSame = user.password === user.confirmPassword

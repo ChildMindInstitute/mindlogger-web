@@ -1,7 +1,7 @@
 import React from 'react'
 import { Container } from 'react-bootstrap'
 import { ConnectedRouter } from 'connected-react-router'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 import { history } from './store'
@@ -41,46 +41,30 @@ function App() {
           className={'app-container'}
         >
           <Switch>
-            <Route path="/login" exact component={Login} />
-            <Route path="/signup" exact component={SignUp} />
-            <Route path="/forgotpassword" exact component={ForgotPassword} />
-            <Route path="/changepassword" exact component={ChangePassword} />
-            <Route path="/profile" exact component={Profile} />
-            <Route path="/dashboard" exact component={Landing} />
-            <Route path="/applet" exact component={AppletList} />
-            <Route
-              path="/invitation/:invitationId"
-              exact
-              component={Invitation}
-            />
-            <Route
-              path="/invitation/:invitationId/accept"
-              exact
-              component={AcceptInvitation}
-            />
-            <Route
-              path="/invitation/:invitationId/decline"
-              exact
-              component={DeclineInvitation}
-            />
-            <Route
-              path="/useraccount/:userId/token/:temporaryToken"
-              exact
-              component={SetPassword}
-            ></Route>
-            <Route
-              path="/consent/:inviteURL"
-              exact
-              component={Consent}></Route>
-            <Route
-              path="/applet/:appletId/activity/:activityId"
-              exact
-              component={Screens}></Route>
-            <Route
-              path="/applet/:appletId/dashboard"
-              exact
-              component={ActivityList}
-            ></Route>
+            {user ? <>
+                <Route path="/login" exact component={Login} />
+                <Route path="/signup" exact component={SignUp} />
+                <Route path="/forgotpassword" exact component={ForgotPassword} />
+                <Route path="/changepassword" exact component={ChangePassword} />
+                <Route path="/profile" exact component={Profile} />
+                <Route path="/dashboard" exact component={Landing} />
+                <Route path="/applet" exact component={AppletList} />
+                <Route path="/invitation/:invitationId" exact component={Invitation} />
+                <Route path="/invitation/:invitationId/accept" exact component={AcceptInvitation} />
+                <Route path="/invitation/:invitationId/decline" exact component={DeclineInvitation} />
+                <Route path="/useraccount/:userId/token/:temporaryToken" exact component={SetPassword} />
+                <Route path="/consent/:inviteURL" exact component={Consent} />
+                <Route path="/applet/:appletId/activity/:activityId" exact component={Screens} />
+                <Route path="/applet/:appletId/dashboard" exact component={ActivityList} />
+              </>
+              : <>
+                <Route path="/login" exact component={Login} />
+                <Route path="/signup" exact component={SignUp} />
+                <Route path="/forgotpassword" exact component={ForgotPassword} />
+                <Route path="/useraccount/:userId/token/:temporaryToken" exact component={SetPassword} />
+                <Route path="/" exact component={Landing} />
+              </>
+            }
           </Switch>
         </Container>
       </Container>

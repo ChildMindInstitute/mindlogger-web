@@ -1,0 +1,1 @@
+// add applet related thunk actions e.g. user.actions

@@ -13,7 +13,7 @@ import Avatar from 'react-avatar';
 // Local
 import { delayedExec, clearExec } from '../../util/interval';
 import sortActivities from './sortActivities';
-import { inProgressSelector } from '../../state/responses/responses.selectors';
+import { inProgressSelector } from '../../state/response/response.selectors';
 import { appletsSelector, finishedEventsSelector } from '../../state/app/app.selectors';
 import { parseAppletEvents } from '../../services/json-ld';
 

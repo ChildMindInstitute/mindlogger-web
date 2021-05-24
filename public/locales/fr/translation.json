@@ -56,6 +56,7 @@
     "cautionMessage": "Assurez-vous de définir un mot de passe complexe et ne le partagez avec personne.",
     "oldPassword": "ancien mot de passe",
     "newPassword": "nouveau mot de passe",
+    "success": "Succès",
     "confirmPassword": "    Confirmez le mot de passe",
     "title": "Changer le mot de passe",
     "submit": "Nous faire parvenir",

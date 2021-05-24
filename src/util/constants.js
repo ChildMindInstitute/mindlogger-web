@@ -1,5 +1,5 @@
 // dummy data
-export const activity = {
+const activity = {
   "id": "activity/607f361ed6ff0040d3aefc78",
   "name": { "en": "Testing" },
   "description": { "en": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur leo leo, tempus eget arcu sit amet, facilisis tempus ante. Nullam ultrices dui eget mi feugiat auctor. Fusce vel erat mauris. " },
@@ -132,7 +132,7 @@ export const activity = {
       "visibility": true
     },
     {
-      "id": "screen/607f361fd6ff0040d3aefc7a",
+      "id": "screen/607f361fd6ff0040d3aefc7b",
       "description": { "en": "" },
       "schemaVersion": { "en": "0.0.1" },
       "version": { "en": "0.0.1" },

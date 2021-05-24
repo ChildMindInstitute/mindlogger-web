@@ -20,8 +20,10 @@ const responseSlice = createSlice({
   name: "response",
   initialState,
   reducers: {
-    createResponseInProgress(state, action) {
+    createResponseInProgress: (state, action) => {
       const { activity, event, subjectId, timeStarted } = action.payload;
+
+      console.log(activity);
 
       state.inProgress[activity.id] = {
         responses: new Array(activity.items.length),
@@ -31,12 +33,12 @@ const responseSlice = createSlice({
       }
     },
 
-    setCurrentScreen(state, action) {
+    setCurrentScreen: (state, action) => {
       const { screenIndex, activityId } = action.payload;
       state.inProgress[activityId].screenIndex = screenIndex;
     },
 
-    setAnswer(state, action) {
+    setAnswer: (state, action) => {
       const { screenIndex, activityId, answer } = action.payload;
 
       state.inProgress[activityId].responses[screenIndex] = answer;

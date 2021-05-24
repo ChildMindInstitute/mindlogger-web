@@ -25,7 +25,7 @@ export default Navigator = ({ isBackShown, isNextShown, handleBack, isSubmitShow
           &&
         <MyButton
           type="submit"
-          label={isSubmitShown ? t("next") : t("submit")}
+          label={ isSubmitShown ? t("submit") : t("next") }
           classes="mr-5 mb-2"
           handleClick={(e) => {
             if (typeof canSubmit == 'function' && !canSubmit(e)) {

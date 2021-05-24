@@ -10,7 +10,7 @@ import Slider from '../../widgets/Slider/index';
 import "./style.css";
 
 const Item = (props) => {
-  const { data, type, handleSubmit } = props;
+  const { data, type, handleSubmit, handleChange } = props;
 
   const widget = (handleChange) => {
     switch (type) {
@@ -34,7 +34,7 @@ const Item = (props) => {
         handleSubmit(values)
       }}
     >
-      {({ isSubmitting, handleSubmit, handleChange }) => (
+      {({ handleSubmit }) => (
         <Form noValidate onSubmit={handleSubmit}>
           {widget(handleChange)}
         </Form>

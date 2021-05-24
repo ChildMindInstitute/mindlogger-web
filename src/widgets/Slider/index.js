@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import _ from "lodash";
 import { Row, Card, Col } from 'react-bootstrap';
 
@@ -7,7 +7,15 @@ import Markdown from '../../components/Screens/Markdown';
 
 import "./style.css";
 
-const SliderWidget = ({ item, isBackShown, isNextShown, handleChange, handleBack, isSubmitShown }) => {
+const SliderWidget = ({
+  item,
+  isBackShown,
+  isNextShown,
+  handleChange,
+  handleBack,
+  isSubmitShown,
+  answer
+}) => {
   const {
     continuousSlider,
     showTickMarks,
@@ -26,6 +34,8 @@ const SliderWidget = ({ item, isBackShown, isNextShown, handleChange, handleBack
     itemList.map(item => item.value)
   )
 
+  const [data, setData] = useState(answer);
+
   return (
     <Card className="mb-3" style={{ maxWidth: "auto" }}>
       <Row className="no-gutters">
@@ -36,11 +46,20 @@ const SliderWidget = ({ item, isBackShown, isNextShown, handleChange, handleBack
             </Card.Title>
             <Row className="no-gutters no-gutters px-4 py-4">
               <div className="slider">
-                <input type="range"
+                <input
+                  type="range"
                   min={minValue}
                   max={maxValue}
+                  value={data && data.value}
                   step={continuousSlider ? 0.1 : 1}
-                  onChange={(e) => handleChange(e.target.value)}
+                  onChange={(e) => {
+                    const answer = {
+                      value: e.target.value
+                    };
+
+                    setData(answer)
+                    handleChange(answer)
+                  }}
                 />
                 {
                   !showTickMarks &&
@@ -88,7 +107,12 @@ const SliderWidget = ({ item, isBackShown, isNextShown, handleChange, handleBack
         </Col>
       </Row>
 
-      <Navigator isBackShown={isBackShown} isNextShown={isNextShown} handleBack={handleBack} isSubmitShown={isSubmitShown} />
+      <Navigator
+        isBackShown={isBackShown}
+        isNextShown={isNextShown}
+        handleBack={handleBack}
+        isSubmitShown={isSubmitShown}
+      />
     </Card>
   );
 }

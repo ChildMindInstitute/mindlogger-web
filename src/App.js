@@ -42,6 +42,7 @@ function App() {
         >
           <Switch>
             {user ? <>
+                <Redirect from="/" exact to="/applet" />
                 <Route path="/login" exact component={Login} />
                 <Route path="/signup" exact component={SignUp} />
                 <Route path="/forgotpassword" exact component={ForgotPassword} />

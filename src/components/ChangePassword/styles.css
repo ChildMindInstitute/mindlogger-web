@@ -12,7 +12,8 @@
   display: flex;
   align-items: flex-start;
 }
-.error-alert{
+.error-alert, .success-alert{
+  margin-top: 20px;
   width: 77%;
   margin-left: auto;
 }

@@ -58,10 +58,12 @@ export default () => {
               {error && <Alert variant={'danger'}>{error}</Alert>}
               <Form.Control
                 name="user"
+                type="email"
                 placeholder={t('SignUp.email')}
                 className="mb-3"
                 value={user.email}
                 onChange={(e) => setUser({ ...user, email: e.target.value })}
+                required
               />
               <Form.Control
                 type="text "

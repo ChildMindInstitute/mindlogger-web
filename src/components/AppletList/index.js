@@ -7,6 +7,7 @@ import Avatar from 'react-avatar';
 
 import { loggedInSelector } from '../../state/user/user.selectors'
 import { getApplets } from '../../state/app/app.actions'
+import { setCurrentApplet } from '../../state/app/app.reducer'
 
 import './style.css'
 
@@ -32,6 +33,8 @@ export default function AppletList() {
   }, [])
 
   const onSelectApplet = (appletId) => {
+    dispatch(setCurrentApplet(appletId));
+
     history.push(`/${appletId}/dashboard`);
   }
 

@@ -11,11 +11,20 @@ import {
 import Navigator from './Navigator';
 import Markdown from '../components/Screens/Markdown';
 
-const TextInput = ({ item, isBackShown, isNextShown, handleChange, handleBack, isSubmitShown }) => {
+const TextInput = ({
+  item,
+  isBackShown,
+  isNextShown,
+  handleChange,
+  handleBack,
+  isSubmitShown,
+  answer
+}) => {
   const { t } = useTranslation();
 
   const [show, setShow] = useState(false);
-  const [value, setValue] = useState(''); // need to be connected to redux soon
+
+  const [value, setValue] = useState((answer || ''));
 
   return (
     <Card className="mb-3" style={{ maxWidth: "auto" }}>
@@ -30,7 +39,10 @@ const TextInput = ({ item, isBackShown, isNextShown, handleChange, handleBack, i
                 type="text"
                 style={{ width: '80%', margin: 'auto' }}
                 value={value}
-                onChange={e => setValue(e.target.value)}
+                onChange={e => {
+                  setValue(e.target.value)
+                  handleChange(e.target.value);
+                }}
               />
             </Row>
           </Card.Body>

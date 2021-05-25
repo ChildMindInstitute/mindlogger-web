@@ -7,7 +7,6 @@ import {
   acceptInvitationAPI,
   declineInvitationAPI,
 } from '../../services/invitation.service';
-import { transformApplet } from '../../services/json-ld';
 import { getAppletsAPI } from '../../services/applet.service';
 import APP_CONSTANTS from './app.constants';
 

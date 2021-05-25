@@ -8,6 +8,7 @@ import Avatar from 'react-avatar';
 import { loggedInSelector } from '../../state/user/user.selectors'
 import { getApplets } from '../../state/applet/applet.actions'
 import { setCurrentApplet } from '../../state/app/app.reducer'
+import { appletsSelector } from '../../state/applet/applet.selectors';
 
 import './style.css'
 
@@ -21,12 +22,12 @@ export default function AppletList() {
   const dispatch = useDispatch()
   const isLoggedIn = useSelector(loggedInSelector);
   const [isLoading, setIsLoading] = useState(false);
-  const [applets, setApplets] = useState([]);
+  const applets = useSelector(appletsSelector);
 
   useEffect(() => {
     const fetchApplets = async () => {
       setIsLoading(true);
-      setApplets((await dispatch(getApplets())).payload);
+      await dispatch(getApplets());
       setIsLoading(false);
     }
     fetchApplets();

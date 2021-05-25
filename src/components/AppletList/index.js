@@ -6,7 +6,7 @@ import { Card, Container, Row } from 'react-bootstrap'
 import Avatar from 'react-avatar';
 
 import { loggedInSelector } from '../../state/user/user.selectors'
-import { getApplets } from '../../state/app/app.actions'
+import { getApplets } from '../../state/applet/applet.actions'
 import { setCurrentApplet } from '../../state/app/app.reducer'
 
 import './style.css'

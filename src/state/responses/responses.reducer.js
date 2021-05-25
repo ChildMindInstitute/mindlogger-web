@@ -1,6 +1,5 @@
-<<<<<<< HEAD
-import { createSlice } from '@reduxjs/toolkit';
 import * as R from 'ramda';
+import { createSlice } from '@reduxjs/toolkit';
 
 export const initialState = {
   responseHistory: [],
@@ -43,33 +42,8 @@ const responseSlice = createSlice({
       const { screenIndex, activityId, answer } = action.payload;
 
       state.inProgress[activityId].responses[screenIndex] = answer;
-    }
-  },
-})
-
-export const { createResponseInProgress, setCurrentScreen, setAnswer } = responseSlice.actions;
-export default responseSlice.reducer;
-=======
-import { createSlice } from '@reduxjs/toolkit'
-
-import APP_CONSTANTS from './responses.constants'
-import config from '../../util/config'
-
-export const initialState = {
-  /**
-   * The URL to the HTTP API server.
-   *
-   * @type {string}
-   */
-  inProgress: {},
-}
-
-const AppSlice = createSlice({
-  name: "app",
-  initialState,
-  reducers: {
+    },
     setInProgress: (state, action) => { state.inProgress = action.payload },
-
   },
   extraReducers: {
     // [`${APP_CONSTANTS.GET_APPLETS}/pending`]: (state, action) => { state.loading = true; state.error = null },
@@ -85,8 +59,10 @@ const AppSlice = createSlice({
   }
 })
 
-export default AppSlice.reducer;
 export const {
-  setInProgress
-} = AppSlice.actions;
->>>>>>> 5ade2fa1a38df818cde671d4a99d2c6486bcb835
+    createResponseInProgress,
+    setCurrentScreen,
+    setAnswer,
+    setInProgress
+} = responseSlice.actions;
+export default responseSlice.reducer;

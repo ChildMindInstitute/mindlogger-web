@@ -28,7 +28,7 @@ const Screens = () => {
 
   const user = useSelector(state => R.path(['user', 'info'])(state));
   const { applet, activityAccess } = useSelector(state => state.applet);
-  const { inProgress = {} } = useSelector(state => state.response);
+  const { inProgress = {} } = useSelector(state => state.responses);
 
   useEffect(() => {
     dispatch(createResponseInProgress({

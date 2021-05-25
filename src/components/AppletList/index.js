@@ -1,22 +1,26 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import { useSelector, useDispatch } from 'react-redux'
+import { Card, Container, Row } from 'react-bootstrap'
 import Avatar from 'react-avatar';
-import { useHistory } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { Card, Container, Row, Spinner } from 'react-bootstrap';
 
-import { getApplets } from '../../state/applet/applet.actions';
-import { selectApplet } from '../../state/applet/applet.reducer';
+import { loggedInSelector } from '../../state/user/user.selectors'
+import { getApplets } from '../../state/app/app.actions'
 
-import './style.css';
+import './style.css'
 
 /**
  * Component for the index page of the WebApp
  * @constructor
  */
 export default function AppletList() {
+  const { t } = useTranslation()
   const history = useHistory()
   const dispatch = useDispatch()
-  const { applets, loading, error } = useSelector(state => state.applet);
+  const isLoggedIn = useSelector(loggedInSelector);
+  const [isLoading, setIsLoading] = useState(false);
+  const [applets, setApplets] = useState([]);
 
   useEffect(() => {
     const fetchApplets = async () => {
@@ -27,16 +31,15 @@ export default function AppletList() {
     fetchApplets();
   }, [])
 
-  const onSelectApplet = (applet) => {
-    dispatch(selectApplet(applet));
-    history.push(`/${applet.id}/dashboard`);
+  const onSelectApplet = (appletId) => {
+    history.push(`/${appletId}/dashboard`);
   }
 
   return (
     <Container>
       <Row className="justify-content-md-center">
         {!isLoading && applets.map(applet => (
-          <Card className="applet-card" onClick={() => onSelectApplet(applet)} key={applet.id}>
+          <Card className="applet-card" onClick={() => onSelectApplet(applet.id)} key={applet.id}>
             {applet.image ?
               <Card.Img variant="top" src={applet.image} />
               :

@@ -13,7 +13,7 @@ export const initialState = {
   responses: [],
   isReminderSet: false,
   scheduleUpdated: false,
-  currentTime: new Date(),
+  currentTime: new Date().getTime(),
   isDownloadingApplets: false,
   isDownloadingTargetApplet: false,
   downloadProgress: {

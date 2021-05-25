@@ -4,7 +4,7 @@ import { useSelector, connect } from 'react-redux'
 import {
   Container,
   Card,
-  Button, 
+  Button,
   Row,
   Col,
 } from 'react-bootstrap'
@@ -35,7 +35,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
   useEffect(() => {
     const fetchMarkDown = async () => {
       const { about, aboutContent } = currentApplet;
-  
+
       if (about && about.en) {
         const response = await fetch(about.en);
         setMarkDown(await response.text());
@@ -75,7 +75,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
     const appletData = parseAppletEvents(currentApplet);
     const appletActivities = appletData.activities.filter(act => !act.isPrize);
     const prizeActs = appletData.activities.filter(act => act.isPrize);
-    
+
     if (prizeActs.length === 1) {
       setPrizeActivity(prizeActs[0]);
     }
@@ -96,7 +96,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
         <Col sm={3}>
           <Card className="ds-card">
             {currentApplet.image &&
-              <Card.Img 
+              <Card.Img
                 className="ds-shadow"
                 variant="top"
                 src={currentApplet.image}
@@ -139,7 +139,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
               key={activity.id}
             />
           ))}
-          
+
         </Col>
       </Row>
     </Container>

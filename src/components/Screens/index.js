@@ -13,7 +13,7 @@ import { activity } from "../../util/constants";
 import {
   createResponseInProgress,
   setCurrentScreen,
-  setAnswer
+  setAnswer as setCurrentResponse
 } from '../../state/responses/responses.reducer';
 
 import * as R from 'ramda';
@@ -65,10 +65,11 @@ const Screens = () => {
 
   const handleChange = (answer) => {
     // setAnswer(answer)
+
     // dispatch(
-    //   setAnswer({
+    //   setCurrentResponse({
     //     activityId: activityAccess.id,
-    //     screenIndex: screenIndex + 1,
+    //     screenIndex: screenIndex,
     //     answer
     //   })
     // )
@@ -82,6 +83,8 @@ const Screens = () => {
           screenIndex: screenIndex - 1
         })
       );
+
+      setScreenIndex(screenIndex - 1);
     }
   }
 

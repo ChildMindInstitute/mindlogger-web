@@ -42,18 +42,11 @@ const responseSlice = createSlice({
       state.inProgress[activityId].responses[screenIndex] = answer;
     },
     setInProgress: (state, action) => { state.inProgress = action.payload },
+    addToUploadQueue: (state, action) => {
+      state.uploadQueue.push(action.payload);
+    },
   },
   extraReducers: {
-    // [`${APP_CONSTANTS.GET_APPLETS}/pending`]: (state, action) => { state.loading = true; state.error = null },
-    // [`${APP_CONSTANTS.GET_APPLETS}/fulfilled`]: (state, action) => {
-    //   state.loading = false;
-    //   state.error = null;
-    //   state.applets = action.payload;
-    // },
-    // [`${APP_CONSTANTS.GET_APPLETS}/rejected`]: (state, action) => {
-    //   state.loading = false;
-    //   state.error = action.error.message;
-    // },
   }
 })
 
@@ -61,6 +54,7 @@ export const {
     createResponseInProgress,
     setCurrentScreen,
     setAnswer,
-    setInProgress
+    setInProgress,
+    addToUploadQueue
 } = responseSlice.actions;
 export default responseSlice.reducer;

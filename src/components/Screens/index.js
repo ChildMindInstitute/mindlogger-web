@@ -32,9 +32,6 @@ const Screens = () => {
 
   const { inProgress = {} } = useSelector(state => state.responses);
 
-  console.log('applet', applet);
-  console.log('activity access', activityAccess);
-
   useEffect(() => {
     dispatch(createResponseInProgress({
       activity: activityAccess,

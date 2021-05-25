@@ -9,7 +9,7 @@ import Avatar from 'react-avatar';
 import Item from '../Item';
 
 // Constants
-import { activity } from "../../util/constants";
+import { currentActivitySelector, currentAppletSelector } from '../../state/app/app.selectors';
 import {
   createResponseInProgress,
   setCurrentScreen,
@@ -27,8 +27,13 @@ const Screens = () => {
   const [answer, setAnswer] = useState({});
 
   const user = useSelector(state => R.path(['user', 'info'])(state));
-  const { applet, activityAccess } = useSelector(state => state.applet);
+  const activityAccess = useSelector(currentActivitySelector);
+  const applet = useSelector(currentAppletSelector);
+
   const { inProgress = {} } = useSelector(state => state.responses);
+
+  console.log('applet', applet);
+  console.log('activity access', activityAccess);
 
   useEffect(() => {
     dispatch(createResponseInProgress({

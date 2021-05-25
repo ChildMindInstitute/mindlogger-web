@@ -23,8 +23,6 @@ const responseSlice = createSlice({
     createResponseInProgress: (state, action) => {
       const { activity, event, subjectId, timeStarted } = action.payload;
 
-      console.log(activity);
-
       state.inProgress[activity.id] = {
         responses: new Array(activity.items.length),
         subjectId: subjectId,

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { useSelector, connect } from 'react-redux'
+import { useHistory } from 'react-router-dom'
+import { useSelector, connect, useDispatch } from 'react-redux'
 import {
   Container,
   Card,
@@ -16,6 +17,7 @@ import sortActivities from './sortActivities';
 import { inProgressSelector } from '../../state/responses/responses.selectors';
 import { finishedEventsSelector } from '../../state/app/app.selectors';
 import { appletsSelector } from '../../state/applet/applet.selectors';
+import { setCurrentActivity } from '../../state/app/app.reducer';
 import { parseAppletEvents } from '../../services/json-ld';
 
 import AboutModal from '../AboutModal';
@@ -26,6 +28,8 @@ import './style.css'
 export const ActivityList = ({ inProgress, finishedEvents }) => {
   const { appletId } = useParams();
   const applets = useSelector(appletsSelector);
+  const history = useHistory();
+  const dispatch = useDispatch();
   const [aboutPage, showAboutPage] = useState(false);
   const [activities, setActivities] = useState([]);
   const [prizeActivity, setPrizeActivity] = useState(null);
@@ -81,13 +85,15 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
       setPrizeActivity(prizeActs[0]);
     }
 
-    console.log('currentApplet', currentApplet)
-
     const temp = sortActivities(appletActivities, inProgress, finishedEvents, currentApplet.schedule.data);
     setActivities(temp);
   }
 
-  const onPressActivity = (activity) => {}
+  const onPressActivity = (activity) => {
+    dispatch(setCurrentActivity(activity.id));
+
+    history.push(`/applet/${appletId}/${activity.id}`);
+  }
   const closeAboutPage = () => showAboutPage(false);
   const openAboutPage = () => showAboutPage(true);
 

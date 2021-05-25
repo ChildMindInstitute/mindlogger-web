@@ -1,14 +1,16 @@
 import axios from 'axios'
 import { apiHost, objectToQueryParams } from './network'
 
-export const getAppletsAPI = async ({ token, localInfo }) => {
+export const getAppletsAPI = async ({ token, localInfo, currentApplet = '', nextActivity = '' }) => {
   const queryParams = objectToQueryParams({
     role: "user",
     getAllApplets: true,
     retrieveSchedule: true,
     retrieveResponses: true,
     numberOfDays: 7,
-    groupByDateActivity: false
+    groupByDateActivity: false,
+    currentApplet,
+    nextActivity
   });
   const url = `${apiHost()}/user/applets?${queryParams}`;
   const headers = {

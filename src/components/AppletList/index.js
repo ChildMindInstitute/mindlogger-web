@@ -16,10 +16,15 @@ import './style.css';
 export default function AppletList() {
   const history = useHistory()
   const dispatch = useDispatch()
-  const { applets, loading, error } = useSelector(state => state.applet);    
+  const { applets, loading, error } = useSelector(state => state.applet);
 
   useEffect(() => {
-    dispatch(getApplets());
+    const fetchApplets = async () => {
+      setIsLoading(true);
+      setApplets((await dispatch(getApplets())).payload);
+      setIsLoading(false);
+    }
+    fetchApplets();
   }, [])
 
   const onSelectApplet = (applet) => {
@@ -30,23 +35,19 @@ export default function AppletList() {
   return (
     <Container>
       <Row className="justify-content-md-center">
-        {loading && applets.length === 0 
-          ?
-          <Spinner animation="border" role="status" className="mt-5" />
-          :
-          applets.map(applet => (
-            <Card className="applet-card" onClick={() => onSelectApplet(applet)} key={applet.id}>
-              {applet.image ?
-                <Card.Img variant="top" src={applet.image} />
-                :
-                <Avatar name={applet.name.en} maxInitials={2} size="254" round="3px" />
-              }
-              <Card.Body>
-                <Card.Title className="applet-card-title"> {applet.name.en} </Card.Title>
-                <Card.Text> {applet.description.en} </Card.Text>
-              </Card.Body>
-            </Card>
-          ))}
+        {!isLoading && applets.map(applet => (
+          <Card className="applet-card" onClick={() => onSelectApplet(applet)} key={applet.id}>
+            {applet.image ?
+              <Card.Img variant="top" src={applet.image} />
+              :
+              <Avatar color="#777" name={applet.name.en} maxInitials={2} size="286" round="3px" />
+            }
+            <Card.Body>
+              <Card.Title className="applet-card-title"> {applet.name.en} </Card.Title>
+              <Card.Text> {applet.description.en} </Card.Text>
+            </Card.Body>
+          </Card>
+        ))}
       </Row>
     </Container>
   )

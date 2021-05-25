@@ -5,7 +5,7 @@ import { connectRouter } from 'connected-react-router'
 import app from './app/app.reducer';
 import user from './user/user.reducer';
 import applet from './applet/applet.reducer';
-import response from './responses/responses.reducer';
+import responses from './responses/responses.reducer';
 
 const createRootReducer = (history) => combineReducers({
   router: connectRouter(history),
@@ -13,6 +13,6 @@ const createRootReducer = (history) => combineReducers({
   form,
   user,
   applet,
-  response
+  responses,
 });
 export default createRootReducer

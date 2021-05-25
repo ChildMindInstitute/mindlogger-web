@@ -1,19 +1,20 @@
 .ds-card {
   width: 15rem;
-  border: 0;
+  border: 0 !important;
 }
 
 .ds-card-title {
   display: flex;
+  flex-direction: column;
   justify-content: center;
 }
 
 .ds-applet-layout {
-  margin-top: 50px;
+  margin-top: 3rem;
 }
 
 .ds-about-button {
-  margin-top: 20px;
+  margin-top: .5rem;
   color: darkslategray;
 }
 
@@ -22,7 +23,8 @@
 }
 
 .ds-activity-status {
-  margin-top: 10px;
+  margin-top: 1rem;
+  text-transform: capitalize;
 }
 
 .ds-shadow {

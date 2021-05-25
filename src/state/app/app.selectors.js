@@ -1,9 +1,9 @@
 import * as R from 'ramda';
-import { createSelector } from "reselect";
+import { createSelector } from 'reselect';
+import { appletsSelector } from '../applet/applet.selectors';
 
 export const apiHostSelector = R.path(['app', 'apiHost']);
 export const appStatusSelector = R.path(['app', 'appStatus']);
-export const appletsSelector = R.path(['app', 'applets']);
 export const responsesSelector = R.path(['app', 'responses']);
 
 export const currentAppletSelector = createSelector(

@@ -14,7 +14,8 @@ import Avatar from 'react-avatar';
 import { delayedExec, clearExec } from '../../util/interval';
 import sortActivities from './sortActivities';
 import { inProgressSelector } from '../../state/responses/responses.selectors';
-import { appletsSelector, finishedEventsSelector } from '../../state/app/app.selectors';
+import { finishedEventsSelector } from '../../state/app/app.selectors';
+import { appletsSelector } from '../../state/applet/applet.selectors';
 import { parseAppletEvents } from '../../services/json-ld';
 
 import AboutModal from '../AboutModal';

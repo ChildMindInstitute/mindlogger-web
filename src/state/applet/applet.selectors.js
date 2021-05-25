@@ -1,7 +1,7 @@
 import * as R from 'ramda';
 
-export const allAppletsSelector = R.path(['applets', 'applets']);
+export const appletsSelector = R.path(['applet', 'applets']);
 
-export const currentTimeSelector = R.path(['applets', 'currentTime']);
+export const currentTimeSelector = R.path(['applet', 'currentTime']);
 
-export const appletDataSelector = R.path(['applets', 'appletResponseData']);
+export const appletDataSelector = R.path(['applet', 'appletResponseData']);

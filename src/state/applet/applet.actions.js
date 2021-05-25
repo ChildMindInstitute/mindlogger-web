@@ -2,7 +2,8 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import { authTokenSelector } from "../user/user.selectors";
 import { getLocalInfo, modifyApplet } from "../../util/applet";
-import { appletsSelector, responsesSelector } from "../app/app.selectors";
+import { responsesSelector } from "../app/app.selectors";
+import { appletsSelector } from './applet.selectors';
 
 import { transformApplet } from '../../services/json-ld';
 import { getAppletsAPI } from '../../services/applet.service';

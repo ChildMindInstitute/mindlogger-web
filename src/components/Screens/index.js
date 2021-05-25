@@ -13,24 +13,26 @@ import { currentActivitySelector, currentAppletSelector } from '../../state/app/
 import {
   createResponseInProgress,
   setCurrentScreen,
-  setAnswer as setCurrentResponse
+  setAnswer
 } from '../../state/responses/responses.reducer';
+
+import {
+  currentScreenResponseSelector,
+  currentScreenIndexSelector
+} from '../../state/responses/responses.selectors';
 
 import * as R from 'ramda';
 
 const Screens = () => {
   const items = []
   const dispatch = useDispatch()
-  const { activityId } = useParams();
   const [data, setData] = useState({});
-  const [screenIndex, setScreenIndex] = useState(0);
-  const [answer, setAnswer] = useState({});
 
+  const answer = useSelector(currentScreenResponseSelector);
+  const screenIndex = useSelector(currentScreenIndexSelector);
   const user = useSelector(state => R.path(['user', 'info'])(state));
   const activityAccess = useSelector(currentActivitySelector);
   const applet = useSelector(currentAppletSelector);
-
-  const { inProgress = {} } = useSelector(state => state.responses);
 
   useEffect(() => {
     dispatch(createResponseInProgress({
@@ -41,21 +43,10 @@ const Screens = () => {
     }));
   }, [])
 
-  useEffect(() => {
-    if (inProgress && inProgress[activityAccess.id]) {
-      const { screenIndex, responses } = inProgress[activityAccess.id];
-      if (responses[screenIndex]) {
-        setScreenIndex(screenIndex)
-        setAnswer(answer)
-      }
-    }
-  }, [inProgress])
-
   const handleNext = (values) => {
     if (screenIndex == activityAccess.items.length - 1) {
 
     } else {
-      setScreenIndex(screenIndex + 1)
       dispatch(
         setCurrentScreen({
           activityId: activityAccess.id,
@@ -66,15 +57,13 @@ const Screens = () => {
   }
 
   const handleChange = (answer) => {
-    // setAnswer(answer)
-
-    // dispatch(
-    //   setCurrentResponse({
-    //     activityId: activityAccess.id,
-    //     screenIndex: screenIndex,
-    //     answer
-    //   })
-    // )
+    dispatch(
+      setAnswer({
+        activityId: activityAccess.id,
+        screenIndex: screenIndex,
+        answer
+      })
+    )
   }
 
   const handleBack = () => {
@@ -85,8 +74,6 @@ const Screens = () => {
           screenIndex: screenIndex - 1
         })
       );
-
-      setScreenIndex(screenIndex - 1);
     }
   }
 

@@ -59,7 +59,16 @@ export const currentResponsesSelector = createSelector(
 );
 
 
-export const currentScreenSelector = createSelector(
+export const currentScreenResponseSelector = createSelector(
   currentResponsesSelector,
-  R.path(["screenIndex"])
+  (progress) => {
+    return progress.responses[ progress.screenIndex ];
+  }
 );
+
+export const currentScreenIndexSelector = createSelector(
+  currentResponsesSelector,
+  (progress) => {
+    return progress.screenIndex;
+  }
+)

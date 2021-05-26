@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import _ from "lodash";
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
-import { Card, Row, Col } from 'react-bootstrap';
+import { Card, Row, Col, Modal, Button } from 'react-bootstrap';
 import Avatar from 'react-avatar';
 
 // Component
@@ -28,16 +28,21 @@ const Screens = () => {
   const dispatch = useDispatch()
   const [data, setData] = useState({});
   const history = useHistory();
+  const [show, setShow] = useState(false);
 
   const answer = useSelector(currentScreenResponseSelector);
   const screenIndex = useSelector(currentScreenIndexSelector);
   const activityAccess = useSelector(currentActivitySelector);
   const applet = useSelector(currentAppletSelector);
 
-  const handleNext = async (values) => {
+  const finishResponse = async () => {
+    await dispatch(completeResponse(false));
+    history.push(`/applet/${appletId}/dashboard`);
+  };
+
+  const handleNext = (values) => {
     if (screenIndex == activityAccess.items.length - 1) {
-      await dispatch(completeResponse(false));
-      history.push(`/applet/${appletId}/dashboard`);
+      setShow(true);
     } else {
       dispatch(
         setCurrentScreen({
@@ -108,6 +113,21 @@ const Screens = () => {
           {_.map(items.slice(0, screenIndex + 1))}
         </Col>
       </Row>
+
+      <Modal show={show} onHide={() => setShow(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>{'Response Submit'}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {'Would you like to submit response?'}
+        </Modal.Body>
+
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShow(false)}>No</Button>
+          <Button variant="primary" onClick={() => finishResponse()}>Yes</Button>
+        </Modal.Footer>
+      </Modal>
+
     </div>
   )
 }

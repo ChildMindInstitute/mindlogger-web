@@ -4,7 +4,7 @@ import config from '../util/config'
 export const getPrivateKey = ({ userId, email, password }) => {
     const key1 = crypto.createHash('sha512').update(password + email).digest();
     const key2 = crypto.createHash('sha512').update(userId + email).digest();
-    return key1 + key2;
+    return Array.from(Buffer.concat([Buffer.from(key1), Buffer.from(key2)]));
 }
 
 export const getPublicKey = ( privateKey, appletPrime, base ) => {
@@ -12,7 +12,7 @@ export const getPublicKey = ( privateKey, appletPrime, base ) => {
     key.setPrivateKey(Buffer.from(privateKey));
     key.generateKeys();
 
-    return key.getPublicKey();
+    return Array.from(key.getPublicKey());
 }
 
 export const getAESKey = ( userPrivateKey, appletPublicKey, appletPrime, base ) => {
@@ -21,7 +21,7 @@ export const getAESKey = ( userPrivateKey, appletPublicKey, appletPrime, base ) 
 
     const secretKey = key.computeSecret(Buffer.from(appletPublicKey));
 
-    return crypto.createHash('sha256').update(secretKey).digest();
+    return Array.from(crypto.createHash('sha256').update(secretKey).digest());
 }
 
 /** encrypt */

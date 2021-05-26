@@ -44,9 +44,12 @@ export const updateKeys = (applet, userInfo) => (dispatch) => {
   );
 
   dispatch(
-    prepareResponseKeys(applet.id, {
-      AESKey: applet.AESKey,
-      userPublicKey: applet.userPublicKey,
+    prepareResponseKeys({
+      appletId: applet.id,
+      keys: {
+        AESKey: applet.AESKey,
+        userPublicKey: applet.userPublicKey,
+      }
     })
   );
 };

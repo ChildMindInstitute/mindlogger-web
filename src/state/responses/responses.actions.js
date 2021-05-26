@@ -6,7 +6,7 @@ import { currentAppletSelector, currentActivitySelector } from '../app/app.selec
 import {
   currentResponsesSelector,
   currentAppletResponsesSelector,
-  uploadQueueSelector
+  uploadQueueSelector,
 } from './responses.selectors';
 
 import {
@@ -14,6 +14,7 @@ import {
   setDownloadingResponses,
   setResponsesDownloadProgress,
   replaceResponses,
+  replaceAppletResponse,
   setSchedule,
   shiftUploadQueue
 } from './responses.reducer';
@@ -88,7 +89,7 @@ export const completeResponse = createAsyncThunk(RESPONSE_CONSTANTS.COMPLETE_RES
   } else {
     const preparedResponse = prepareResponseForUpload(inProgressResponse, applet, responseHistory, isTimeout);
     dispatch(addToUploadQueue(preparedResponse));
-    dispatch(startUploadQueue());
+    await dispatch(startUploadQueue());
   }
 
   // todo
@@ -107,63 +108,57 @@ export const downloadResponses = createAsyncThunk(RESPONSE_CONSTANTS.DOWNLOAD_RE
   }
 
   dispatch(setDownloadingResponses(true));
-  downloadAllResponses(authToken, applets, (downloaded, total) => {
-    dispatch(setResponsesDownloadProgress(downloaded, total));
+
+  const responses = await downloadAllResponses(authToken, applets, (downloaded, total) => {
+    dispatch(setResponsesDownloadProgress({ downloaded, total }));
   })
-    .then(async (responses) => {
-      if (loggedInSelector(getState())) {
-        dispatch(replaceResponses(responses));
-      }
-    })
-    .finally(() => {
-      dispatch(setDownloadingResponses(false));
-    });
+  if (loggedInSelector(getState())) {
+    dispatch(replaceResponses(responses));
+  }
+  dispatch(setDownloadingResponses(false));
 
   const timezone = -new Date().getTimezoneOffset() / 60;
-  getSchedule(authToken, timezone).then((schedule) => {
-    dispatch(setSchedule(schedule));
-  });
+  const schedule = await getSchedule(authToken, timezone);
+  dispatch(setSchedule(schedule));
 })
 
-export const downloadResponse = createAsyncThunk(RESPONSE_CONSTANTS.DOWNLOAD_RESPONSES, async (args, {dispatch, getState}) => {
+export const downloadResponse = createAsyncThunk(RESPONSE_CONSTANTS.DOWNLOAD_RESPONSE, async (args, { dispatch, getState }) => {
   const state = getState();
   const authToken = authTokenSelector(state);
   const userInfo = userInfoSelector(state);
   const applet = currentAppletSelector(state);
+  const allApplets = appletsSelector(state);
 
   dispatch(updateKeys(applet, userInfo));
   dispatch(setDownloadingResponses(true));
 
-  downloadAppletResponse(authToken, applet)
-    .then(async (responses) => {
-      if (loggedInSelector(getState())) {
-        dispatch(replaceResponses(responses));
-      }
-    })
-    .finally(() => {
-      dispatch(setDownloadingResponses(false));
-    });
+  const appletResponse = await downloadAppletResponse(authToken, applet);
+  if (loggedInSelector(getState())) {
+    dispatch(replaceAppletResponse({
+      response: appletResponse,
+      index: allApplets.findIndex(d => d.id == applet.id)
+    }));
+  }
+  dispatch(setDownloadingResponses(false));
 
   const timezone = -new Date().getTimezoneOffset() / 60;
-  getSchedule(authToken, timezone).then((schedule) => {
-    dispatch(setSchedule(schedule));
-  });
+  const schedule = await getSchedule(authToken, timezone);
+  dispatch(setSchedule(schedule));
 })
 
-export const startUploadQueue = () => (dispatch, getState) => {
+export const startUploadQueue = createAsyncThunk(RESPONSE_CONSTANTS.START_UPLOAD_QUEUE, async (args, { dispatch, getState }) => {
   const state = getState();
   const uploadQueue = uploadQueueSelector(state);
   const authToken = authTokenSelector(state);
   const applet = currentAppletSelector(state);
 
-  uploadResponseQueue(authToken, uploadQueue, () => {
-    // Progress - a response was uploaded
+  await uploadResponseQueue(authToken, uploadQueue, () => {
     dispatch(shiftUploadQueue());
-  }).finally(() => {
-    if (applet) {
-      dispatch(downloadResponse());
-    } else {
-      dispatch(downloadResponses());
-    }
-  });
-};
+  })
+
+  if (applet) {
+    await dispatch(downloadResponse());
+  } else {
+    await dispatch(downloadResponses());
+  }
+})

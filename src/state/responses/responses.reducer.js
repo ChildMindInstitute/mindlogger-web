@@ -57,6 +57,9 @@ const responseSlice = createSlice({
     replaceResponses: (state, action) => {
       state.responseHistory = action.payload;
     },
+    replaceAppletResponse: (state, action) => {
+      state.responseHistory[action.payload.index] = action.payload.response;
+    },
     setSchedule: (state, action) => {
       state.schedule = state.action.payload
     },
@@ -78,6 +81,7 @@ export const {
     setResponsesDownloadProgress,
     replaceResponses,
     setSchedule,
+    replaceAppletResponse,
     shiftUploadQueue
 } = responseSlice.actions;
 export default responseSlice.reducer;

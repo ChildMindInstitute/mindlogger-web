@@ -45,6 +45,24 @@ const responseSlice = createSlice({
     addToUploadQueue: (state, action) => {
       state.uploadQueue.push(action.payload);
     },
+    setDownloadingResponses: (state, action) => {
+      state.isDownloadingResponses = action.payload;
+    },
+    setResponsesDownloadProgress: (state, action) => {
+      state.downloadProgress = {
+        downloaded: action.payload.downloaded,
+        total: action.payload.total,
+      };
+    },
+    replaceResponses: (state, action) => {
+      state.responseHistory = action.payload;
+    },
+    setSchedule: (state, action) => {
+      state.schedule = state.action.payload
+    },
+    shiftUploadQueue: (state, action) => {
+      state.uploadQueue = R.remove(0, 1, state.uploadQueue);
+    }
   },
   extraReducers: {
   }
@@ -55,6 +73,11 @@ export const {
     setCurrentScreen,
     setAnswer,
     setInProgress,
-    addToUploadQueue
+    addToUploadQueue,
+    setDownloadingResponses,
+    setResponsesDownloadProgress,
+    replaceResponses,
+    setSchedule,
+    shiftUploadQueue
 } = responseSlice.actions;
 export default responseSlice.reducer;

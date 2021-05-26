@@ -1,8 +1,5 @@
 import * as R from 'ramda';
-import { Dimensions } from 'react-native';
-import DeviceInfo from 'react-native-device-info';
 import packageJson from '../../package.json';
-import config from '../config';
 import { encryptData, decryptData } from '../services/encryption';
 import { getScoreFromLookupTable, getValuesFromResponse, getFinalSubScale } from '../services/scoring';
 import { getAlertsFromResponse } from '../services/alert';
@@ -11,8 +8,9 @@ import {
   activityTransformJson,
   itemTransformJson,
   itemAttachExtras,
-  ORDER,
-} from "./json-ld";
+} from '../services/json-ld';
+
+import { ORDER } from '../constants';
 
 // Convert ids like "applet/some-id" to just "some-id"
 const trimId = typedId => typedId.split('/').pop();
@@ -79,13 +77,8 @@ export const prepareResponseForUpload = (
     timeout: isTimeout ? 1 : 0,
     scheduledTime: new Date(scheduledTime).getTime(),
     client: {
-      os: DeviceInfo.getSystemName(),
-      osVersion: DeviceInfo.getSystemVersion(),
-      deviceModel: DeviceInfo.getModel(),
-      appId: "mindlogger-mobile",
-      appVersion: packageJson.version,
-      width: Dimensions.get("screen").width,
-      height: Dimensions.get("screen").height,
+      appId: 'mindlogger-web',
+      appVersion: packageJson.version
     },
     languageCode: languageKey,
     alerts,
@@ -101,7 +94,7 @@ export const prepareResponseForUpload = (
   }
 
   /** process for encrypting response */
-  if (config.encryptResponse && appletMetaData.encryption) {
+  if (appletMetaData.encryption) {
     const formattedResponses = activity.items.reduce(
       (accumulator, item, index) => ({ ...accumulator, [item.schema]: index }),
       {},
@@ -169,7 +162,7 @@ export const getTokenUpdateInfo = (
 ) => {
   const cumulative = responseHistory.tokens.cumulativeToken + offset;
 
-  if (config.encryptResponse && appletMetaData.encryption) {
+  if (appletMetaData.encryption) {
     return {
       offset: getEncryptedData(
         {
@@ -322,7 +315,7 @@ export const decryptAppletResponses = (applet, responses) => {
         const currentActivity = applet.activities.find(activity => activity.id.split('/').pop() == oldItem.original.activityId)
 
         if (currentActivity) {
-          const currentItem = activity.items.find(item => item.id.split('/').pop() === oldItem.original.screenId);
+          const currentItem = currentActivity.items.find(item => item.id.split('/').pop() === oldItem.original.screenId);
 
           if (currentItem && currentItem.schema !== itemIRI) {
             responses.cumulatives[currentItem.schema] = responses.cumulatives[itemIRI];

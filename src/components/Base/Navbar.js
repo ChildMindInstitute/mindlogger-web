@@ -28,9 +28,9 @@ export default ({ user }) => {
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
-          <Nav.Link onClick={() => history.push('/applet')}>
+          {/* <Nav.Link onClick={() => history.push('/applet')}>
             {t('Navbar.applets')}
-          </Nav.Link>
+          </Nav.Link> */}
         </Nav>
         <Nav className="ml-auto">
           <UserInfoDropdown user={user} />

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
-import { useHistory } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 import { useSelector, connect, useDispatch } from 'react-redux'
 import {
   Container,
@@ -18,7 +17,9 @@ import { inProgressSelector } from '../../state/responses/responses.selectors';
 import { finishedEventsSelector } from '../../state/app/app.selectors';
 import { appletsSelector } from '../../state/applet/applet.selectors';
 import { setCurrentActivity } from '../../state/app/app.reducer';
+import { createResponseInProgress } from '../../state/responses/responses.reducer';
 import { parseAppletEvents } from '../../services/json-ld';
+import * as R from 'ramda';
 
 import AboutModal from '../AboutModal';
 import ActivityItem from './ActivityItem';
@@ -35,6 +36,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
   const [prizeActivity, setPrizeActivity] = useState(null);
   const [markdown, setMarkDown] = useState("");
   const [currentApplet] = useState(applets.find(({ id }) => id.includes(appletId)));
+  const user = useSelector(state => R.path(['user', 'info'])(state));
   const updateStatusDelay = 60 * 1000;
 
   useEffect(() => {
@@ -91,6 +93,12 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
 
   const onPressActivity = (activity) => {
     dispatch(setCurrentActivity(activity.id));
+    dispatch(createResponseInProgress({
+      activity: activity,
+      event: null,
+      subjectId: user._id,
+      timeStarted: new Date().getTime()
+    }));
 
     history.push(`/applet/${appletId}/${activity.id}`);
   }

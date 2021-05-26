@@ -132,10 +132,16 @@ export const downloadResponse = createAsyncThunk(RESPONSE_CONSTANTS.DOWNLOAD_RES
   const applet = currentAppletSelector(state);
   const allApplets = appletsSelector(state);
 
-  dispatch(updateKeys(applet, userInfo));
+  if ((!applet.AESKey || !applet.userPublicKey)) {
+    dispatch(updateKeys(applet, userInfo))
+  }
+
   dispatch(setDownloadingResponses(true));
 
   const appletResponse = await downloadAppletResponse(authToken, applet);
+
+  console.log('applet response', appletResponse);
+
   if (loggedInSelector(getState())) {
     dispatch(replaceAppletResponse({
       response: appletResponse,

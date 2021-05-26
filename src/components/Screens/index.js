@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import _ from "lodash";
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { Card, Row, Col } from 'react-bootstrap';
 import Avatar from 'react-avatar';
 
@@ -11,41 +11,33 @@ import Item from '../Item';
 // Constants
 import { currentActivitySelector, currentAppletSelector } from '../../state/app/app.selectors';
 import {
-  createResponseInProgress,
   setCurrentScreen,
   setAnswer
 } from '../../state/responses/responses.reducer';
+
+import { completeResponse } from '../../state/responses/responses.actions';
 
 import {
   currentScreenResponseSelector,
   currentScreenIndexSelector
 } from '../../state/responses/responses.selectors';
 
-import * as R from 'ramda';
-
 const Screens = () => {
   const items = []
+  const { appletId, activityId } = useParams();
   const dispatch = useDispatch()
   const [data, setData] = useState({});
+  const history = useHistory();
 
   const answer = useSelector(currentScreenResponseSelector);
   const screenIndex = useSelector(currentScreenIndexSelector);
-  const user = useSelector(state => R.path(['user', 'info'])(state));
   const activityAccess = useSelector(currentActivitySelector);
   const applet = useSelector(currentAppletSelector);
 
-  useEffect(() => {
-    dispatch(createResponseInProgress({
-      activity: activityAccess,
-      event: null,
-      subjectId: user._id,
-      timeStarted: new Date().getTime()
-    }));
-  }, [])
-
-  const handleNext = (values) => {
+  const handleNext = async (values) => {
     if (screenIndex == activityAccess.items.length - 1) {
-
+      await dispatch(completeResponse(false));
+      history.push(`/applet/${appletId}/dashboard`);
     } else {
       dispatch(
         setCurrentScreen({

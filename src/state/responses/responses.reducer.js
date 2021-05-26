@@ -28,6 +28,7 @@ const responseSlice = createSlice({
         subjectId: subjectId,
         timeStarted: timeStarted,
         screenIndex: 0,
+        activity: activity
       }
     },
 
@@ -61,7 +62,7 @@ const responseSlice = createSlice({
       state.responseHistory[action.payload.index] = action.payload.response;
     },
     setSchedule: (state, action) => {
-      state.schedule = state.action.payload
+      state.schedule = action.payload
     },
     shiftUploadQueue: (state, action) => {
       state.uploadQueue = R.remove(0, 1, state.uploadQueue);

@@ -140,8 +140,6 @@ export const downloadResponse = createAsyncThunk(RESPONSE_CONSTANTS.DOWNLOAD_RES
 
   const appletResponse = await downloadAppletResponse(authToken, applet);
 
-  console.log('applet response', appletResponse);
-
   if (loggedInSelector(getState())) {
     dispatch(replaceAppletResponse({
       response: appletResponse,

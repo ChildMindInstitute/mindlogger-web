@@ -50,7 +50,7 @@ const SliderWidget = ({
                   type="range"
                   min={minValue}
                   max={maxValue}
-                  value={data && data.value}
+                  value={data && data.value || 0}
                   step={continuousSlider ? 0.1 : 1}
                   onChange={(e) => {
                     const answer = {

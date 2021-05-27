@@ -68,10 +68,10 @@
   },
   "Landing": {
     "title": "Bienvenue dans MindLogger",
-    "login": "Connexion!",
-    "signUp": "S'inscrire!",
+    "login": "Connexion",
+    "signUp": "S'inscrire",
     "or": "ou",
-    "getStart": "Commencer!",
+    "getStart": "Commencer",
     "reserchStudies": "Participez à des études de recherche scientifique en ligne!",
     "toGet": " Pour commencer:"
   },

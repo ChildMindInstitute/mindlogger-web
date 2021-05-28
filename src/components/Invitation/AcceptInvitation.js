@@ -55,10 +55,10 @@ const AcceptInvitation = () => {
         <InvitationText status={status} invitationText={invitationText} />
         :
         <div className="heading">
-          {t('AcceptInvitation.please')}{' '}
-          <Link to={'/login'}>{t('AcceptInvitation.login')}</Link>{' '}
-          {t('AcceptInvitation.or')}{' '}
-          <Link to={'/signup'}>{t('AcceptInvitation.singUp')}</Link>{' '}
+          {t('AcceptInvitation.please')}
+          <Link className="mx-1" to={'/login'}>{t('AcceptInvitation.login')}</Link>
+          {t('AcceptInvitation.or')}
+          <Link className="mx-1" to={'/signup'}>{t('AcceptInvitation.singUp')}</Link>
           {t('AcceptInvitation.acceptInvitation')}
         </div>
       }

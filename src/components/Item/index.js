@@ -1,36 +1,46 @@
 import React from 'react';
+import { Formik, Form } from 'formik';
 
 // Widgets
 import Radio from '../../widgets/Radio';
-import TextInput from '../../widgets/TextInput';
 import Checkbox from '../../widgets/Checkbox';
+import TextInput from '../../widgets/TextInput';
 import Slider from '../../widgets/Slider/index';
 
 import "./style.css";
 
-const Item = ({ type }) => {
+const Item = (props) => {
+  const { data, type, handleSubmit, handleChange } = props;
 
-  let widget;
-
-  switch (type) {
-    case "radio":
-      widget = <Radio />;
-      break;
-    case "checkbox":
-      widget = <Checkbox />;
-      break;
-    case "textinput":
-      widget = <TextInput />;
-      break;
-    case "slider":
-      widget = <Slider />;
-      break;
-    default:
-      widget = <div />;
-      break;
+  const widget = (handleChange) => {
+    switch (type) {
+      case "checkbox":
+        return <Checkbox {...props} handleChange={handleChange} />;
+      case "radio":
+        return <Radio {...props} handleChange={handleChange} />;
+      case "text":
+        return <TextInput {...props} handleChange={handleChange} />;
+      case "slider":
+        return <Slider {...props} handleChange={handleChange} />;
+      default:
+        return <div />;
+    }
   }
 
-  return widget;
+  return (
+    <Formik
+      initialValues={data}
+      onSubmit={(values, { setSubmitting }) => {
+        handleSubmit(values)
+      }}
+    >
+      {({ handleSubmit }) => (
+        <Form noValidate onSubmit={handleSubmit}>
+          {widget(handleChange)}
+        </Form>
+      )}
+    </Formik>
+  );
 }
 
 export default Item;

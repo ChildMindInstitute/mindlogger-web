@@ -11,7 +11,7 @@
 .slider .ticks {
     display: flex;
     justify-content: space-between;
-    padding-top: 2px;
+    padding: 5px;
 }
 
 .slider .ticks .tick {
@@ -23,18 +23,24 @@
     line-height: 40px;
 }
 
-.slider-image {
+.slider-description {
     padding-top: 20px;
     display: flex;
     justify-content: space-between;
 }
 
-.slider-image .first {
+.slider-description .min-label,
+.slider-description .max-label
+{
+    text-align: center;
+}
+
+.slider-description .first {
     position: relative;
     transform: translateX(-50%);
 }
 
-.slider-image .last {
+.slider-description .last {
     position: relative;
     transform: translateX(50%);
 }

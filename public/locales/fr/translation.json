@@ -56,6 +56,7 @@
     "cautionMessage": "Assurez-vous de définir un mot de passe complexe et ne le partagez avec personne.",
     "oldPassword": "ancien mot de passe",
     "newPassword": "nouveau mot de passe",
+    "success": "Succès",
     "confirmPassword": "    Confirmez le mot de passe",
     "title": "Changer le mot de passe",
     "submit": "Nous faire parvenir",
@@ -63,7 +64,7 @@
     "passwordRequiredError": "Vous devez spécifier un mot de passe",
     "password": "le mot de passe",
     "passwordError" : "Le mot de passe actuel que vous avez entré était incorrect."
-    
+
   },
   "Landing": {
     "title": "Bienvenue dans MindLogger",
@@ -74,13 +75,13 @@
     "reserchStudies": "Participez à des études de recherche scientifique en ligne!",
     "toGet": " Pour commencer:"
   },
-  
+
   "Profile": {
     "title": "Téléchargez MindLogger pour commencer.",
     "description": " Merci d'avoir créé un compte avec MindLogger. Téléchargez MindLogger sur un appareil iOS ou Android pour commencer. "
-   
-    
+
   },
+
   "Invitation": {
     "please": "S'il te plaît",
     "login": "Connexion",
@@ -112,7 +113,7 @@
   "InvitationButtons" : {
     "acceptInvitation" : "Accepter l'invitation",
     "declineInvitation" : "Refuser l'invitation"
-    
+
   },
   "Navbar" : {
     "mindLogger" : "MindLogger",
@@ -123,8 +124,8 @@
     "settings" : "Réglages",
     "english" : "Anglaise" ,
     "french" : "français"
-  
-    
+
+
   },
   "SetPassword" : {
     "please" : "S'il te plaît",
@@ -146,6 +147,7 @@
     "login": "Connexion",
     "or": "ou",
     "signUp": "S'inscrire"
-
-  }
+  },
+  "incorrect_answer": "Incorrect answer. Please try again",
+  "failed": "Failed"
 }

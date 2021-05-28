@@ -25,7 +25,7 @@ export default function Login() {
     if (!loading && info) {
       if (redirectUrl) dispatch(push(redirectUrl));
       else {
-        dispatch(push('/profile'));
+        dispatch(push('/dashboard'));
         dispatch(setRedirectUrl(null));
       }
     }

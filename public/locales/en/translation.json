@@ -56,6 +56,7 @@
     "cautionMessage": "Make sure to set a complex password, and don't share it with anyone.",
     "oldPassword": "Old Password",
     "newPassword": "New Password",
+    "success": "Success",
     "confirmPassword": "Confirm Password",
     "title": "Change Password",
     "submit": "Submit",
@@ -66,10 +67,10 @@
   },
   "Landing": {
     "title": "Welcome to MindLogger",
-    "login": "Log in!",
-    "signUp": "Sign Up!",
+    "login": "Log in",
+    "signUp": "Sign Up",
     "or": "or",
-    "getStart": "Get Started!",
+    "getStart": "Get Started",
     "reserchStudies": " Participate in scientific research studies online!",
     "toGet": " To get started:"
   },
@@ -111,7 +112,7 @@
   },
   "Navbar": {
     "mindLogger": "MindLogger",
-    "home": "Home",
+    "applets": "Applets",
     "logIn": "Login",
     "logOut": "Logout",
     "profile": "Profile",
@@ -141,6 +142,8 @@
     "signUp": "Sign Up"
   },
   "back": "Back",
-  "next": "Next"
-
+  "next": "Next",
+  "submit": "Submit",
+  "incorrect_answer": "Incorrect answer. Please try again",
+  "failed": "Failed"
 }

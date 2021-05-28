@@ -43,7 +43,10 @@ export default () => {
   const onSubmit = async (event) => {
     event.preventDefault();
     const { confirmPassword, ...rest } = user
-    dispatch(signUp(rest));
+
+    if (isPasswordSame) {
+      dispatch(signUp(rest));
+    }
   }
 
   const isPasswordSame = user.password === user.confirmPassword
@@ -58,10 +61,12 @@ export default () => {
               {error && <Alert variant={'danger'}>{error}</Alert>}
               <Form.Control
                 name="user"
+                type="email"
                 placeholder={t('SignUp.email')}
                 className="mb-3"
                 value={user.email}
                 onChange={(e) => setUser({ ...user, email: e.target.value })}
+                required
               />
               <Form.Control
                 type="text "

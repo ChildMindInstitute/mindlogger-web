@@ -20,7 +20,11 @@ export default () => {
     newPassword: '',
     confirmPassword: ''
   })
-  const [error, setError] = useState(null)
+
+  const [state, setErrorSuccess] = useState({
+    type: '',
+    message: ''
+  })
 
   const { t } = useTranslation()
   const dispatch = useDispatch()
@@ -37,10 +41,16 @@ export default () => {
     try {
       let result = await dispatch(updatePassword({ token: authToken && authToken.token, passwordData }));
       result = unwrapResult(result);
-      history.push('/profile');
 
+      setErrorSuccess({
+        type: 'success',
+        message: t('ChangePassword.success')
+      })
     } catch (error) {
-      setError(error.message)
+      setErrorSuccess({
+        type: 'error',
+        message: error.message
+      })
     }
   }
 
@@ -58,11 +68,6 @@ export default () => {
         <h5>{t('ChangePassword.cautionMessage')} </h5>
         <div className="container fluid" id="signup-Form">
           <Form onSubmit={onSubmit} className="change-pass">
-            {error && (
-              <Alert variant={'danger'} className="error-alert">
-                {error}
-              </Alert>
-            )}
             <div>
               <Form.Label>{t('ChangePassword.oldPassword')}:</Form.Label>
               <Form.Control
@@ -129,6 +134,19 @@ export default () => {
             >
               {t('ChangePassword.submit')}
             </Button>
+
+            {isPasswordSame && state.type == 'error' && (
+              <Alert variant={'danger'} className="error-alert">
+                { state.message }
+              </Alert>
+            )}
+
+            {isPasswordSame && state.type == 'success' && (
+              <Alert variant={'success'} className="success-alert">
+                { state.message }
+              </Alert>
+            )}
+
           </Form>
         </div>
       </div>

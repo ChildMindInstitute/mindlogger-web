@@ -5,6 +5,7 @@
     },
     "extends": [
         "plugin:react/recommended",
+        "plugin:prettier/recommended",
         "airbnb"
     ],
     "parserOptions": {
@@ -18,10 +19,11 @@
         "react"
     ],
     "rules": {
+        "brace-style": "error",
         "block-scoped-var": "off",
         "default-case": "off",
         "no-div-regex": "off",
-        "react/jsx-filename-extension": "off",
+        "no-var": "error",
         "vars-on-top": "off"
     }
 }

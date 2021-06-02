@@ -22,13 +22,11 @@ export default function Landing () {
           src="/undraw_data_xmfy.svg"
         />
         <div>
-          <p className="mt-3">{t('Landing.toGet')}</p>
-
           {isLoggedIn
             ? (
             <div className="mt-3">
               <Link to="/applet">
-                <Button type="button" className="btn-get-start">
+                <Button type="button" className="btn btn-danger btn-lg">
                   {t('Landing.getStart')}
                 </Button>
               </Link>
@@ -37,13 +35,13 @@ export default function Landing () {
             : (
             <div>
               <Link to="/login">
-                <Button type="button" variant="primary" className="mr-2">
+                <Button type="button" variant="primary" className="btn btn-primary btn-lg mr-1">
                   {t('Landing.login')}
                 </Button>
               </Link>
               {t('Landing.or')}
               <Link to="/signup">
-                <Button type="button" variant="success" className="ml-2">
+                <Button type="button" variant="success" className="btn btn-primary btn-lg ml-1">
                   {t('Landing.signUp')}
                 </Button>
               </Link>

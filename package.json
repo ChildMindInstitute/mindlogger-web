@@ -58,9 +58,9 @@
     }
   },
   "lint-staged": {
-    "*.{js,ts,tsx}": [
+    "*.{js,json,css}": [
       "prettier --write",
-      "eslint */**/**/*.js --fix-dry-run"
+      "eslint */**/*.js --fix --max-warnings 0"
     ]
   },
   "eslintConfig": {

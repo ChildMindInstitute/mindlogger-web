@@ -5,7 +5,7 @@
     },
     "extends": [
         "plugin:react/recommended",
-        "standard"
+        "airbnb"
     ],
     "parserOptions": {
         "ecmaFeatures": {
@@ -18,5 +18,10 @@
         "react"
     ],
     "rules": {
+        "block-scoped-var": "off",
+        "default-case": "off",
+        "no-div-regex": "off",
+        "react/jsx-filename-extension": "off",
+        "vars-on-top": "off"
     }
 }

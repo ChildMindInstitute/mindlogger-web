@@ -14,7 +14,6 @@
     "dayspan": "^1.1.0",
     "expr-eval": "^2.0.2",
     "formik": "^2.2.8",
-    "husky": "^6.0.0",
     "i18next": "^19.9.2",
     "i18next-browser-languagedetector": "^6.0.1",
     "i18next-xhr-backend": "^3.2.2",
@@ -61,7 +60,7 @@
   "lint-staged": {
     "*.{js,ts,tsx}": [
       "prettier --write",
-      "eslint src/*.js --fix-dry-run"
+      "eslint */**/**/*.js --fix-dry-run"
     ]
   },
   "eslintConfig": {
@@ -86,6 +85,8 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.3.1",
     "eslint-plugin-react": "^7.22.0",
-    "lint-staged": "^11.0.0"
+    "husky": "^6.0.0",
+    "lint-staged": "^11.0.0",
+    "prettier": "^2.3.0"
   }
 }

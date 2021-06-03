@@ -94,9 +94,9 @@ const Invitation = () => {
         />
         : <div className="heading">
           {t('Invitation.please')}{' '}
-          <Link to={'/login'}>{t('Invitation.login')}</Link>{' '}
+          <Link to={'/login'} className="mx-1">{t('Invitation.login')}</Link>{' '}
           {t('Invitation.or')}{' '}
-          <Link to={'/signup'}>{t('Invitation.singUp')}</Link>{' '}
+          <Link to={'/signup'} className="mx-1">{t('Invitation.singUp')}</Link>{' '}
           {t('Invitation.viewInvitation')}
         </div>
       }

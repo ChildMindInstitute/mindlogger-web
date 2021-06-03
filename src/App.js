@@ -42,6 +42,7 @@ const App = () => {
         >
           <Switch>
             {user ? <>
+                <Route path="/" exact component={Landing} />
                 <Route path="/login" exact component={Login} />
                 <Route path="/signup" exact component={SignUp} />
                 <Route path="/forgotpassword" exact component={ForgotPassword} />

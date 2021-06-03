@@ -1,7 +1,7 @@
 import React from 'react'
 import { Container } from 'react-bootstrap'
 import { ConnectedRouter } from 'connected-react-router'
-import { Switch, Route, Redirect } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 import { history } from './store';
@@ -15,7 +15,7 @@ import ForgotPassword from './components/ForgotPassword'
 import Profile from './components/Profile'
 import ChangePassword from './components/ChangePassword'
 import Landing from './components/Landing'
-import AppletList from './components/AppletList'
+// import AppletList from './components/AppletList'
 import Invitation from './components/Invitation/Invitation'
 import AcceptInvitation from './components/Invitation/AcceptInvitation'
 import DeclineInvitation from './components/Invitation/DeclineInvitation'

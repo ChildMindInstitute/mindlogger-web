@@ -40,10 +40,6 @@ const Profile = () => {
       </div>
       <hr/>
       <div>
-       {t('Profile.title')}
-      </div>
-
-      <div>
        {t('Profile.description')}
       </div>
 

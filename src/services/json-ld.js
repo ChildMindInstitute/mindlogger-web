@@ -164,13 +164,13 @@ export const flattenValueConstraints = (vcObj) =>
         isOptionalTextRequired: R.path([key, 0, "@value"], vcObj),
       };
     }
-    if (key == SCORING) {
+    if (key === SCORING) {
       return {
         ...accumulator,
         scoring: R.path([key, 0, "@value"], vcObj),
       };
     }
-    if (key == SHOW_TICK_MARKS) {
+    if (key === SHOW_TICK_MARKS) {
       return {
         ...accumulator,
         showTickMarks: R.path([key, 0, "@value"], vcObj),
@@ -178,46 +178,46 @@ export const flattenValueConstraints = (vcObj) =>
 
     }
 
-    /*  if (key == IS_OPTIONAL_TEXT) {
+    /*  if (key === IS_OPTIONAL_TEXT) {
         return {
           ...accumulator,
           isOptionalText: R.path([key, 0, "@value"], vcObj),
         }
       }*/
 
-    if (key == RESPONSE_ALERT) {
+    if (key === RESPONSE_ALERT) {
       return {
         ...accumulator,
         responseAlert: R.path([key, 0, "@value"], vcObj),
       }
     }
 
-    if (key == RANDOMIZE_OPTIONS) {
+    if (key === RANDOMIZE_OPTIONS) {
       return {
         ...accumulator,
         randomizeOptions: R.path([key, 0, "@value"], vcObj)
       }
     }
 
-    if (key == CONTINOUS_SLIDER) {
+    if (key === CONTINOUS_SLIDER) {
       return {
         ...accumulator,
         continousSlider: R.path([key, 0, "@value"], vcObj),
       }
     }
-    if (key == RESPONSE_ALERT_MESSAGE) {
+    if (key === RESPONSE_ALERT_MESSAGE) {
       return {
         ...accumulator,
         responseAlertMessage: R.path([key, 0, "@value"], vcObj),
       }
     }
-    if (key == MIN_ALERT_VALUE) {
+    if (key === MIN_ALERT_VALUE) {
       return {
         ...accumulator,
         minAlertValue: R.path([key, 0, "@value"], vcObj)
       }
     }
-    if (key == MAX_ALERT_VALUE) {
+    if (key === MAX_ALERT_VALUE) {
       return {
         ...accumulator,
         maxAlertValue: R.path([key, 0, "@value"], vcObj)
@@ -519,7 +519,7 @@ export const itemTransformJson = (itemJson) => {
     media,
   };
 
-  if (res.inputType == 'markdown-message') {
+  if (res.inputType === 'markdown-message') {
     res.inputType = 'markdownMessage';
   }
   return res;

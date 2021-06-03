@@ -1,7 +1,7 @@
 import { Parser } from 'expr-eval';
 
 export const getScoreFromResponse = (item, value) => {
-  if (value == null || item.inputType !== 'radio' && item.inputType !== 'slider') {
+  if (value === null || item.inputType !== 'radio' && item.inputType !== 'slider') {
     return 0;
   }
 
@@ -13,7 +13,7 @@ export const getScoreFromResponse = (item, value) => {
   }
 
   let response = value;
-  if (typeof response == 'number' || typeof response == 'string') {
+  if (typeof response === 'number' || typeof response === 'string') {
     response = [response];
   }
 
@@ -21,8 +21,8 @@ export const getScoreFromResponse = (item, value) => {
 
   for (let value of response) {
     let option = itemList.find(option => 
-      typeof value == 'number' && option.value === value || 
-      typeof value == 'string' && Object.values(option.name)[0] === value
+      typeof value === 'number' && option.value === value || 
+      typeof value === 'string' && Object.values(option.name)[0] === value
     );
 
     if (option && option.score) {
@@ -42,7 +42,7 @@ export const getValuesFromResponse = (item, value) => {
   const itemList = valueConstraints.itemList || [];
 
   let response = value;
-  if (typeof response == 'number' || typeof response == 'string') {
+  if (typeof response === 'number' || typeof response === 'string') {
     response = [response];
   }
 
@@ -50,8 +50,8 @@ export const getValuesFromResponse = (item, value) => {
 
   for (let value of response) {
     let option = itemList.find(option => 
-      typeof value == 'number' && option.value === value || 
-      typeof value == 'string' && Object.values(option.name)[0] === value
+      typeof value === 'number' && option.value === value || 
+      typeof value === 'string' && Object.values(option.name)[0] === value
     );
 
     if (option && option.value) {
@@ -103,7 +103,7 @@ export const getMaxScore = (item) => {
 }
 
 const isValueInRange = (value, lookupInfo) => {
-  if (!lookupInfo || lookupInfo == value) {
+  if (!lookupInfo || lookupInfo === value) {
     return true;
   }
 
@@ -120,7 +120,7 @@ const isValueInRange = (value, lookupInfo) => {
 export const getScoreFromLookupTable = (responses, jsExpression, items, lookupTable) => {
   let scores = [];
 
-  for (let i = 0; i < responses.length; i++) {
+  for (let i = 0; i < responses.length; i += 1) {
     if (responses[i]) {
       scores.push(getScoreFromResponse(items[i], responses[i].value));
     }
@@ -154,11 +154,11 @@ export const getScoreFromLookupTable = (responses, jsExpression, items, lookupTa
 
 export const getFinalSubScale = (responses, items, isAverage, lookupTable) => {
   let total = 0, count = 0;
-  for (let i = 0; i < responses.length; i++) {
+  for (let i = 0; i < responses.length; i += 1) {
     if (responses[i]) {
       total += getScoreFromResponse(items[i], responses[i].value);
       if (items[i].valueConstraints && items[i].valueConstraints.scoring) {
-        count++;
+        count += 1;
       }
     }
   }

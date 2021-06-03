@@ -64,7 +64,7 @@ const TextInput = ({
         handleBack={handleBack}
         isSubmitShown={isSubmitShown}
         canSubmit={(e) => {
-          if (!item.correctAnswer || !item.correctAnswer.en || item.correctAnswer.en == value) {
+          if (!item.correctAnswer || !item.correctAnswer.en || item.correctAnswer.en === value) {
             return true;
           }
           setShow(true);

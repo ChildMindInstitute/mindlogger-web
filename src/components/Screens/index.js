@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import _ from "lodash";
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
 import { Card, Row, Col } from 'react-bootstrap';
 import Avatar from 'react-avatar';
 
@@ -26,7 +25,7 @@ import * as R from 'ramda';
 const Screens = () => {
   const items = []
   const dispatch = useDispatch()
-  const [data, setData] = useState({});
+  const [data] = useState({});
 
   const answer = useSelector(currentScreenResponseSelector);
   const screenIndex = useSelector(currentScreenIndexSelector);
@@ -43,8 +42,8 @@ const Screens = () => {
     }));
   }, [])
 
-  const handleNext = (values) => {
-    if (screenIndex == activityAccess.items.length - 1) {
+  const handleNext = () => {
+    if (screenIndex === activityAccess.items.length - 1) {
 
     } else {
       dispatch(
@@ -87,10 +86,10 @@ const Screens = () => {
         handleSubmit={handleNext}
         handleChange={handleChange}
         handleBack={handleBack}
-        isSubmitShown={i == activityAccess.items.length - 1}
+        isSubmitShown={i ===  activityAccess.items.length - 1}
         answer={answer}
-        isBackShown={screenIndex == i && i}
-        isNextShown={screenIndex == i}
+        isBackShown={screenIndex ===  i && i}
+        isNextShown={screenIndex ===  i}
       />
     );
   });

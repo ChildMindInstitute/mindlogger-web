@@ -28,7 +28,7 @@ export default Navigator = ({ isBackShown, isNextShown, handleBack, isSubmitShow
           label={ isSubmitShown ? t("submit") : t("next") }
           classes="mr-5 mb-2"
           handleClick={(e) => {
-            if (typeof canSubmit == 'function' && !canSubmit(e)) {
+            if (typeof canSubmit === 'function' && !canSubmit(e)) {
               e.preventDefault();
             }
           }}

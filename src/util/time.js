@@ -19,10 +19,10 @@ export const scheduledEndTime = (timestamp, timeout) => {
 };
 
 export const convertDateString = (str) => {
-  if (str == '12:00 PM') {
+  if (str === '12:00 PM') {
     return 'Noon';
   }
-  if (str == '11:59 PM') {
+  if (str === '11:59 PM') {
     return 'Midnight';
   }
 

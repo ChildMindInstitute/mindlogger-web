@@ -34,6 +34,7 @@ export default function Landing () {
               )
             : (
             <div>
+              <p className="mt-3 text-center">{t('Landing.toGet')}</p>
               <Link to="/login">
                 <Button type="button" variant="primary" className="btn btn-primary btn-lg mr-1">
                   {t('Landing.login')}

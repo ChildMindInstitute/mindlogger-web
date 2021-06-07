@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { unwrapResult } from '@reduxjs/toolkit'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useParams, useLocation } from 'react-router-dom'
-
+import { Link, useHistory, useParams, useLocation } from 'react-router-dom'
+import { Button } from 'react-bootstrap'
 import { Statuses } from '../../constants'
 import { InvitationText } from './InvitationText'
 import { setRedirectUrl } from '../../state/app/app.reducer'
@@ -17,9 +17,9 @@ const Invitation = () => {
   const { invitationId } = useParams()
   const [status, setStatus] = useState(Statuses.LOADING)
   const [invitationText, setInvitationText] = useState('')
-
+  
   const isLoggedIn = useSelector(loggedInSelector)
-
+  const history = useHistory()
   const dispatch = useDispatch()
   const location = useLocation()
 
@@ -82,6 +82,14 @@ const Invitation = () => {
     }
   }
 
+  const handleLogin = () => {
+    history.push('/login')
+  }
+
+  const handleSignup = () => {
+    history.push('/signup')
+  }
+
   return (
     <div className="mt-3 pt-3 container">
       {isLoggedIn
@@ -94,10 +102,21 @@ const Invitation = () => {
         />
         : <div className="heading">
           {t('Invitation.please')}{' '}
-          <Link to={'/login'} className="mx-1">{t('Invitation.login')}</Link>{' '}
+          <Button 
+            type="button"
+            className="btn btn-primary mx-1"
+            onClick={handleLogin}
+          >
+            {t('Invitation.login')}
+          </Button>
           {t('Invitation.or')}{' '}
-          <Link to={'/signup'} className="mx-1">{t('Invitation.singUp')}</Link>{' '}
-          {t('Invitation.viewInvitation')}
+          <Button
+            type="button"
+            className="btn btn-success mx-1"
+            onClick={handleSignup}
+          >
+            {t('Invitation.singUp')} 
+          </Button>
         </div>
       }
     </div>

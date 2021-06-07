@@ -124,7 +124,9 @@
     "please": "Please",
     "login": "Login",
     "toSeeThePage": "to See The Page",
-    "expiredLink": "Password Resent Link Has Expired"
+    "expiredLink": "Password Resent Link Has Expired",
+    "passwordRequired": "Password is required",
+    "passwordShort": "Password must be at least 6 characters."
   },
   "Consent": {
     "aboutStudy": "About the Study",

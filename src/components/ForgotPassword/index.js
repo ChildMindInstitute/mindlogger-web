@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { unwrapResult } from '@reduxjs/toolkit'
-
+import { Alert } from 'react-bootstrap'
 import { history } from '../../store'
 import { forgotPassword } from '../../state/user/user.actions'
 
@@ -57,8 +57,12 @@ export default function ForgotPassword() {
                   }
                 })}
               />
-              {errors.email && errors.email.message}
             </div>
+            {errors.email && (
+              <Alert variant={'danger'} className="mx-0">
+                {errors.email.message}
+              </Alert>
+            )}
             <button type="submit" className="btn btn-primary">
               {t('ForgotPassword.submit')}
             </button>

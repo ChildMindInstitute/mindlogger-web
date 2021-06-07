@@ -84,6 +84,7 @@ export const Statuses = {
   READY: 'ready',
   ALREADY_ACCEPTED: 'already_accepted',
   ERROR: 'error',
+  SUBMITTED: 'submitted',
   ACCEPTED: 'accepted',
   REMOVED: 'removed',
   DECLINED: 'declined'

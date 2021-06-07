@@ -11,7 +11,7 @@
     "create": " Create One ",
     "reset": " Reset it",
     "emailRequiredError": "Required",
-    "emailErrorMessage": "invalid email address",
+    "emailErrorMessage": "Invalid email address",
     "errorMessage": "Login failed!",
     "logging": "Loggin in..."
   },
@@ -26,7 +26,7 @@
     "passwordErrorMessage": "Password must have at least 6 characters",
     "passwordRequiredError": "You must specify a password",
     "emailRequiredError": "Required",
-    "emailErrorMessage": "invalid email address",
+    "emailErrorMessage": "Invalid email address",
     "passwordError": "Sign up failed: username may already be in use.",
     "accountMessage": " Don't have an account? ",
     "forgotPassword": " Forgot Password?",
@@ -44,7 +44,7 @@
     "create": " Create One ",
     "reset": " Reset it",
     "emailRequiredError": "Required",
-    "emailErrorMessage": "invalid email address",
+    "emailErrorMessage": "Invalid email address",
     "accountMessage": " Don't have an account? ",
     "forgotPassword": " Forgot Password?",
     "emailError": "Email doesn't exist!",
@@ -124,7 +124,9 @@
     "please": "Please",
     "login": "Login",
     "toSeeThePage": "to See The Page",
-    "expiredLink": "Password Resent Link Has Expired"
+    "expiredLink": "Password Resent Link Has Expired",
+    "passwordRequired": "Password is required",
+    "passwordShort": "Password must be at least 6 characters."
   },
   "Consent": {
     "aboutStudy": "About the Study",

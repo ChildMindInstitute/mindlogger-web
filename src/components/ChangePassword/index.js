@@ -5,7 +5,6 @@ import { Form, Alert, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 
 import Avatar from '../Base/Avatar'
-import { history } from '../../store'
 import { updatePassword } from '../../state/user/user.actions'
 
 import './styles.css'
@@ -135,13 +134,13 @@ export default () => {
               {t('ChangePassword.submit')}
             </Button>
 
-            {isPasswordSame && state.type == 'error' && (
+            {isPasswordSame && state.type === 'error' && (
               <Alert variant={'danger'} className="error-alert">
                 { state.message }
               </Alert>
             )}
 
-            {isPasswordSame && state.type == 'success' && (
+            {isPasswordSame && state.type === 'success' && (
               <Alert variant={'success'} className="success-alert">
                 { state.message }
               </Alert>

@@ -3,6 +3,14 @@
     margin: auto;
 }
 
+input[type="range"].no-value::-webkit-slider-thumb {
+    opacity: 0;
+}
+
+input[type="range"].no-value::-moz-range-thumb {
+    opacity: 0;
+}
+
 .slider input[type="range"] {
     width: 100%;
     height: 2px;

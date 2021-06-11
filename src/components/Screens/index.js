@@ -99,11 +99,11 @@ const Screens = () => {
       <Row className="mt-5 activity">
         <Col sm={24} xs={24} md={3}>
           <Card className="hover">
-            <div className="pr-4 pl-4 pt-4">
+            <div>
               {applet.image ?
                 <Card.Img variant="top" src={applet.image} className="rounded border w-h" />
                 :
-                <Avatar name={applet.name.en} maxInitials={2} size="254" round="3px" />
+                <Avatar name={applet.name.en} maxInitials={2} color="#777" size="238" round="3px" />
               }
             </div>
             <Card.Body>

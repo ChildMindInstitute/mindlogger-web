@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { useSelector, connect, useDispatch } from 'react-redux'
@@ -121,6 +122,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
               <Avatar
                 name={currentApplet.name.en}
                 maxInitials={2}
+                color="#777"
                 size="238"
                 round="3px"
               />
@@ -151,7 +153,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
               activity={activity}
               onPress={() => onPressActivity(activity)}
               disabled={activity.status === 'scheduled' && !activity.event.data.timeout.access}
-              key={activity.id}
+              key={activity.id ? activity.id : activity.text}
             />
           ))}
 

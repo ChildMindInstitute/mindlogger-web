@@ -31,7 +31,7 @@ export const prepareResponseForUpload = (
   let cumulative = responseHistory.tokens.cumulativeToken;
 
   const alerts = [];
-  for (let i = 0; i < responses.length; i++) {
+  for (let i = 0; i < responses.length; i += 1) {
     const item = activity.items[i];
 
     if (item.valueConstraints) {
@@ -312,7 +312,7 @@ export const decryptAppletResponses = (applet, responses) => {
       const oldItem = responses.itemReferences[cumulative.version] &&
         responses.itemReferences[cumulative.version][itemIRI];
       if (oldItem) {
-        const currentActivity = applet.activities.find(activity => activity.id.split('/').pop() == oldItem.original.activityId)
+        const currentActivity = applet.activities.find(activity => activity.id.split('/').pop() === oldItem.original.activityId)
 
         if (currentActivity) {
           const currentItem = currentActivity.items.find(item => item.id.split('/').pop() === oldItem.original.screenId);

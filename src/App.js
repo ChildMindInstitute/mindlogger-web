@@ -1,7 +1,7 @@
 import React from 'react'
 import { Container } from 'react-bootstrap'
 import { ConnectedRouter } from 'connected-react-router'
-import { Switch, Route, Redirect } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 import { history } from './store';
@@ -42,7 +42,7 @@ const App = () => {
         >
           <Switch>
             {user ? <>
-                <Redirect from="/" exact to="/applet" />
+                <Route path="/" exact component={Landing} />
                 <Route path="/login" exact component={Login} />
                 <Route path="/signup" exact component={SignUp} />
                 <Route path="/forgotpassword" exact component={ForgotPassword} />
@@ -63,6 +63,10 @@ const App = () => {
                 <Route path="/signup" exact component={SignUp} />
                 <Route path="/forgotpassword" exact component={ForgotPassword} />
                 <Route path="/useraccount/:userId/token/:temporaryToken" exact component={SetPassword} />
+                <Route path="/invitation/:invitationId" exact component={Invitation} />
+                <Route path="/invitation/:invitationId/accept" exact component={AcceptInvitation} />
+                <Route path="/invitation/:invitationId/decline" exact component={DeclineInvitation} />
+                <Route path="/dashboard" exact component={Landing} />
                 <Route path="/" exact component={Landing} />
               </>
             }

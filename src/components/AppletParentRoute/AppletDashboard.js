@@ -99,5 +99,4 @@ export const AppletDashboard = ({ history }) => {
   );
 }
 
-
 export default AppletDashboard

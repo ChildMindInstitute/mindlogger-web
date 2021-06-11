@@ -21,5 +21,5 @@ export const finishedEventsSelector = R.path(['app', 'finishedEvents']);
 export const currentActivitySelector = createSelector(
   R.path(['app', 'currentActivity']),
   currentAppletSelector,
-  (currentActivityId, applet) => applet.activities.find(activity => activity.id == currentActivityId)
+  (currentActivityId, applet) => applet.activities.find(activity => activity.id === currentActivityId)
 );

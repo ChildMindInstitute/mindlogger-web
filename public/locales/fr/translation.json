@@ -111,8 +111,11 @@
     "acceptInvitation" : "Invitation acceptée"
   },
   "InviteLink": {
-    "title": "You have been invited to take part to the <strong>{{ displayName }}</strong> study.",
-    "loading": "Loading invite link"
+    "title": "Vous avez été invité par {{coordinatorName}} (<a href=\"mailto={{email}}\">{{coordinatorEmail}}</a>) à être un utilisateur de <strong>{{displayName}}</strong> sur MindLogger.<br/>Ci-dessous, les utilisateurs qui ont accès à vos données:",
+    "loading": "Chargement de l'invitation",
+    "reviewers": "Utilisateurs qui peuvent voir vos données pour cette applet:",
+    "managers": "Utilisateurs qui peuvent modifier les paramètres de cette applet, y compris ceux qui peuvent accéder à vos données:",
+    "coordinators": "Utilisateurs qui peuvent modifier les paramètres de cette applet, mais qui ne peuvent pas changer qui peut voir vos données :"
   },
   "InvitationButtons" : {
     "acceptInvitation" : "Accepter l'invitation",

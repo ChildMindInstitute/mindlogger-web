@@ -1,20 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import {useParams, useLocation, useHistory} from 'react-router-dom'
 
 import { Statuses } from '../../constants'
 import {InviteLink} from './InviteLink';
+import {JoinInfo} from './JoinInfo';
 import { setRedirectUrl } from '../../state/app/app.reducer'
 import { SignIn } from '../Signin/SignIn';
 import { loggedInSelector } from '../../state/user/user.selectors'
 import { acceptInviteLink, getInviteLinkInfo} from '../../state/app/app.actions'
 
-import './style.css'
-
 export const Join = () => {
-  const { t } = useTranslation()
-
   const history = useHistory()
 
   const { inviteLinkId } = useParams()
@@ -93,11 +89,7 @@ export const Join = () => {
       return undefined;
     }
 
-    return <div className="header">
-      <p dangerouslySetInnerHTML={{ __html: t('InviteLink.title', { displayName: inviteLink.displayName })}}></p>
-
-      <p>{inviteLink.description}</p>
-    </div>
+    return <JoinInfo inviteLink={inviteLink}></JoinInfo>
   }
 
   function renderAcceptDeclineInvite() {

@@ -106,6 +106,10 @@
     "home": "Home",
     "acceptInvitation": "Invitation Accepted"
   },
+  "InviteLink": {
+    "title": "You have been invited to take part to the <strong>{{ displayName }}</strong> study.",
+    "loading": "Loading invite link"
+  },
   "InvitationButtons": {
     "acceptInvitation": "Accept Invitation",
     "declineInvitation": "Decline Invitation"

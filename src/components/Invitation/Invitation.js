@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import { unwrapResult } from '@reduxjs/toolkit'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useHistory, useParams, useLocation } from 'react-router-dom'
-import { Button } from 'react-bootstrap'
+import { useParams, useLocation } from 'react-router-dom'
 import { Statuses } from '../../constants'
 import { InvitationText } from './InvitationText'
+import {SignIn} from '../Signin/SignIn';
 import { setRedirectUrl } from '../../state/app/app.reducer'
 import { loggedInSelector } from '../../state/user/user.selectors'
 import { getInvitation, acceptInvitation, declineInvitation } from '../../state/app/app.actions'
@@ -13,13 +12,11 @@ import { getInvitation, acceptInvitation, declineInvitation } from '../../state/
 import './style.css'
 
 const Invitation = () => {
-  const { t } = useTranslation()
   const { invitationId } = useParams()
   const [status, setStatus] = useState(Statuses.LOADING)
   const [invitationText, setInvitationText] = useState('')
-  
+
   const isLoggedIn = useSelector(loggedInSelector)
-  const history = useHistory()
   const dispatch = useDispatch()
   const location = useLocation()
 
@@ -82,14 +79,6 @@ const Invitation = () => {
     }
   }
 
-  const handleLogin = () => {
-    history.push('/login')
-  }
-
-  const handleSignup = () => {
-    history.push('/signup')
-  }
-
   return (
     <div className="mt-3 pt-3 container">
       {isLoggedIn
@@ -100,24 +89,7 @@ const Invitation = () => {
           onAcceptInvite={handleAcceptInvitation}
           onDeclineInvite={handleRemoveInvitation}
         />
-        : <div className="heading">
-          {t('Invitation.please')}{' '}
-          <Button 
-            type="button"
-            className="btn btn-primary mx-1"
-            onClick={handleLogin}
-          >
-            {t('Invitation.login')}
-          </Button>
-          {t('Invitation.or')}{' '}
-          <Button
-            type="button"
-            className="btn btn-success mx-1"
-            onClick={handleSignup}
-          >
-            {t('Invitation.singUp')} 
-          </Button>
-        </div>
+        : <SignIn></SignIn>
       }
     </div>
   )

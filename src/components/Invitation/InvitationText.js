@@ -2,9 +2,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Spinner, Button } from 'react-bootstrap'
+import { Spinner } from 'react-bootstrap'
 
 import { Statuses } from '../../constants'
+
+import {InvitationButtons} from './InvitationButtons';
 
 import './style.css'
 
@@ -29,7 +31,6 @@ export const InvitationText = (props) => {
             dangerouslySetInnerHTML={{ __html: invitationText }}
           />
           <InvitationButtons
-            t={t}
             onAcceptInvite={onAcceptInvite}
             onDeclineInvite={onDeclineInvite}
           />
@@ -80,24 +81,3 @@ export const InvitationText = (props) => {
       return null
   }
 }
-
-const InvitationButtons = ({ t, onAcceptInvite, onDeclineInvite }) => (
-  <div className={'d-flex justify-content-center align-items-center'}>
-    <Button
-      onClick={onAcceptInvite}
-      variant="success"
-      className={'mx-2'}
-      size="lg"
-    >
-      {t('InvitationButtons.acceptInvitation')}
-    </Button>
-    <Button
-      onClick={onDeclineInvite}
-      variant="danger"
-      className={'mx-2'}
-      size="lg"
-    >
-      {t('InvitationButtons.declineInvitation')}
-    </Button>
-  </div>
-)

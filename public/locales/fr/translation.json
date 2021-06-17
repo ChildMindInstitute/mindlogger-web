@@ -104,11 +104,15 @@
     "declineInvitation": "pour refuser cette invitation"
   },
   "InvitationText" : {
-    "loadingInvitation" : "Invitation de chargement",
+    "loadingInvitation" : "Chargement de l'invitation",
     "invitationRemoved" : "Invitation supprimée",
     "networkError" : "Erreur réseau. Revenir ",
     "home" : "Maisons" ,
     "acceptInvitation" : "Invitation acceptée"
+  },
+  "InviteLink": {
+    "title": "You have been invited to take part to the <strong>{{ displayName }}</strong> study.",
+    "loading": "Loading invite link"
   },
   "InvitationButtons" : {
     "acceptInvitation" : "Accepter l'invitation",

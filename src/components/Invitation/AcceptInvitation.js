@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { unwrapResult } from '@reduxjs/toolkit'
 import { useSelector, useDispatch } from 'react-redux'
-import { Link, useParams, useLocation } from 'react-router-dom'
+import { useParams, useLocation } from 'react-router-dom'
+import { Button } from 'react-bootstrap';
 
 import { Statuses } from '../../constants'
 import { InvitationText } from './InvitationText'
 import { setRedirectUrl } from '../../state/app/app.reducer'
 import { acceptInvitation } from '../../state/app/app.actions'
 import { loggedInSelector } from '../../state/user/user.selectors'
+import { history } from '../../store'
 
 import './style.css'
 
@@ -48,6 +50,14 @@ const AcceptInvitation = () => {
     }
   }
 
+  const onLogin = () => {
+    history.push('/login');
+  }
+
+  const onSignUp = () => {
+    history.push('/signup');
+  }
+
   return (
     <div className="mt-3 pt-3 container">
       {isLoggedIn
@@ -56,9 +66,23 @@ const AcceptInvitation = () => {
         :
         <div className="heading">
           {t('AcceptInvitation.please')}
-          <Link className="mx-1" to={'/login'}>{t('AcceptInvitation.login')}</Link>
+          <Button
+            onClick={onLogin}
+            variant="primary"
+            className="mx-2"
+            size="lg"
+          >
+            {t('AcceptInvitation.login')}
+          </Button>
           {t('AcceptInvitation.or')}
-          <Link className="mx-1" to={'/signup'}>{t('AcceptInvitation.singUp')}</Link>
+          <Button
+            onClick={onSignUp}
+            variant="success"
+            className="mx-2"
+            size="lg"
+          >
+            {t('AcceptInvitation.singUp')}
+          </Button>
           {t('AcceptInvitation.acceptInvitation')}
         </div>
       }

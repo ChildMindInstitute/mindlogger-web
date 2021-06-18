@@ -48,19 +48,21 @@ export default function Login() {
           <Form onSubmit={onSubmit}>
             <div className="form-group"></div>
             <div className="form-group">
-              {error && <Alert variant={'danger'}>{error}</Alert>}
+              {error && <Alert variant={'danger'}>{t('Login.errorMessage')}</Alert>}
               <Form.Control
                 type="email"
                 placeholder={t('Login.email')}
                 className="mb-3"
                 value={user.email}
                 onChange={(e) => setUser({ ...user, email: e.target.value })}
+                required
               />
               <Form.Control
                 type="password"
                 placeholder={t('Login.password')}
                 value={user.password}
                 onChange={(e) => setUser({ ...user, password: e.target.value })}
+                required
               />
             </div>
             <Button

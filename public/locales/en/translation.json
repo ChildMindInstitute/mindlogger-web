@@ -12,7 +12,7 @@
     "reset": " Reset it",
     "emailRequiredError": "Required",
     "emailErrorMessage": "Invalid email address",
-    "errorMessage": "Login failed!",
+    "errorMessage": "Invalid email address or password!",
     "logging": "Loggin in..."
   },
   "SignUp": {
@@ -27,7 +27,7 @@
     "passwordRequiredError": "You must specify a password",
     "emailRequiredError": "Required",
     "emailErrorMessage": "Invalid email address",
-    "passwordError": "Sign up failed: username may already be in use.",
+    "signUpError": "Sign up failed. Email may already be in use.",
     "accountMessage": " Don't have an account? ",
     "forgotPassword": " Forgot Password?",
     "create": " Create One ",

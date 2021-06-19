@@ -84,6 +84,14 @@ export const prepareResponseForUpload = (
     alerts,
   };
 
+  const index = activity.items.findIndex(
+    item => item.valueConstraints && item.valueConstraints.isResponseIdentifier
+  );
+
+  if (index >= 0) {
+    responseData.identifier = responses[index].value !== undefined ? responses[index].value : responses[index];
+  }
+
   let subScaleResult = [];
   if (activity.subScales) {
     for (let subScale of activity.subScales) {

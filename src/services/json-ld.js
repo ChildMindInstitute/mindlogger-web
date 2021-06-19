@@ -85,6 +85,7 @@ import {
   MAX_ALERT_VALUE,
   ORDER,
   HAS_RESPONSE_IDENTIFIER,
+  IS_RESPONSE_IDENTIFIER,
 } from '../constants';
 
 export const languageListToObject = (list) => {
@@ -156,6 +157,13 @@ export const flattenValueConstraints = (vcObj) =>
       return {
         ...accumulator,
         multipleChoice: R.path([key, 0, "@value"], vcObj),
+      };
+    }
+
+    if (key == IS_RESPONSE_IDENTIFIER) {
+      return {
+        ...accumulator,
+        isResponseIdentifier: R.path([key, 0, "@value"], vcObj),
       };
     }
 

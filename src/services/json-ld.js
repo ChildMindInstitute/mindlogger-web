@@ -84,6 +84,7 @@ import {
   MIN_ALERT_VALUE,
   MAX_ALERT_VALUE,
   ORDER,
+  HAS_RESPONSE_IDENTIFIER,
 } from '../constants';
 
 export const languageListToObject = (list) => {
@@ -470,6 +471,7 @@ const transformPureActivity = (activityJson) => {
     fullScreen: allowList.includes(FULL_SCREEN),
     autoAdvance: allowList.includes(AUTO_ADVANCE),
     isPrize: R.path([ISPRIZE, 0, "@value"], activityJson) || false,
+    hasResponseIdentifier: R.path([HAS_RESPONSE_IDENTIFIER, 0, "@value"], activityJson) || false,
     compute,
     subScales,
     finalSubScale,
@@ -770,7 +772,7 @@ export const parseAppletEvents = (applet) => {
       );
 
       event.scheduledTime = getStartOfInterval(futureSchedule.array()[0]);
-      if (event.data.activity_id === act.id.substring(9)) {
+      if (event.data.activity_id === act.id.substring(9) && !act.hasResponseIdentifier) {
         events.push(event);
       }
     }

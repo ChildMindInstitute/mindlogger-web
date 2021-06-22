@@ -17,7 +17,15 @@ const Checkbox = ({ item, isBackShown, isNextShown, handleChange, handleBack, is
             <Form.Group as={Row}>
               {_.map(item.valueConstraints.itemList, (obj, i) => (
                 <Col md={6} className="pr-5" key={i}>
-                  <Form.Check label={obj.name.en} name={item.variableName} type="checkbox" onChange={(v) => handleChange({ [item.variableName]: v.target.value })} value={obj.value} id={`${item.variableName}${i}`} />
+                  <Form.Check 
+                    type="checkbox"
+                    name={item.variableName}
+                    id={`${item.variableName}${i}`}
+                    value={obj.value}
+                    label={obj.name.en}
+                    disabled={!isNextShown}
+                    onChange={(v) => handleChange({ [item.variableName]: v.target.value })}
+                  />
                 </Col>
               ))}
             </Form.Group>
@@ -25,7 +33,12 @@ const Checkbox = ({ item, isBackShown, isNextShown, handleChange, handleBack, is
         </Card.Body>
       </Col>
     </Row>
-    <Navigator isBackShown={isBackShown} isNextShown={isNextShown} handleBack={handleBack} isSubmitShown={isSubmitShown} />
+    <Navigator
+      isBackShown={isBackShown}
+      isNextShown={isNextShown}
+      handleBack={handleBack}
+      isSubmitShown={isSubmitShown}
+    />
   </Card>
 )
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import _ from "lodash";
+import _ from 'lodash';
 import { useSelector, useDispatch } from 'react-redux';
 import { Card, Row, Col } from 'react-bootstrap';
 import Avatar from 'react-avatar';
@@ -8,6 +8,8 @@ import Avatar from 'react-avatar';
 import Item from '../Item';
 
 // Constants
+import { testVisibility } from '../../services/visibility';
+import { getNextPos, getLastPos } from '../../services/navigation';
 import { currentActivitySelector, currentAppletSelector } from '../../state/app/app.selectors';
 import {
   createResponseInProgress,
@@ -17,7 +19,8 @@ import {
 
 import {
   currentScreenResponseSelector,
-  currentScreenIndexSelector
+  currentResponsesSelector,
+  currentScreenIndexSelector,
 } from '../../state/responses/responses.selectors';
 
 import * as R from 'ramda';
@@ -31,7 +34,13 @@ const Screens = () => {
   const screenIndex = useSelector(currentScreenIndexSelector);
   const user = useSelector(state => R.path(['user', 'info'])(state));
   const activityAccess = useSelector(currentActivitySelector);
+  const inProgress = useSelector(currentResponsesSelector);
   const applet = useSelector(currentAppletSelector);
+  const visibility = activityAccess.items.map((item) => 
+    testVisibility(item.visibility, activityAccess.items, inProgress.responses)
+  );
+  const next = getNextPos(screenIndex, visibility);
+  const prev = getLastPos(screenIndex, visibility);
 
   useEffect(() => {
     dispatch(createResponseInProgress({
@@ -43,13 +52,13 @@ const Screens = () => {
   }, [])
 
   const handleNext = () => {
-    if (screenIndex === activityAccess.items.length - 1) {
+    if (next === -1) {
 
     } else {
       dispatch(
         setCurrentScreen({
           activityId: activityAccess.id,
-          screenIndex: screenIndex + 1
+          screenIndex: next
         })
       )
     }
@@ -70,7 +79,7 @@ const Screens = () => {
       dispatch(
         setCurrentScreen({
           activityId: activityAccess.id,
-          screenIndex: screenIndex - 1
+          screenIndex: prev
         })
       );
     }
@@ -86,7 +95,7 @@ const Screens = () => {
         handleSubmit={handleNext}
         handleChange={handleChange}
         handleBack={handleBack}
-        isSubmitShown={i ===  activityAccess.items.length - 1}
+        isSubmitShown={next === -1}
         answer={answer}
         isBackShown={screenIndex ===  i && i}
         isNextShown={screenIndex ===  i}
@@ -112,7 +121,7 @@ const Screens = () => {
           </Card>
         </Col>
         <Col sm={24} xs={24} md={9}>
-          {_.map(items.slice(0, screenIndex + 1))}
+          {_.map(items.slice(0, screenIndex + 1).reverse())}
         </Col>
       </Row>
     </div>

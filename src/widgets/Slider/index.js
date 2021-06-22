@@ -60,6 +60,7 @@ const SliderWidget = ({
                     setData(answer)
                     handleChange(answer)
                   }}
+                  disabled={!isNextShown}
                 />
                 {
                   !showTickMarks &&

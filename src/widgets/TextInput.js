@@ -43,6 +43,7 @@ const TextInput = ({
                   setValue(e.target.value)
                   handleChange(e.target.value);
                 }}
+                disabled={!isNextShown}
               />
             </Row>
           </Card.Body>

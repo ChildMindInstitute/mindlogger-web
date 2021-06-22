@@ -34,6 +34,7 @@ const Radio = (props) => {
                       type="radio"
                       onChange={() => { handleChange(obj.value) }} value={obj.value}
                       id={`${item.variableName}${i}`} 
+                      disabled={!isNextShown}
                     />
                   </div>
                 ))}

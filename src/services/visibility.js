@@ -7,6 +7,7 @@ export const testVisibility = (testExpression = true, items = [], responses = []
     return true;
   }
 
+
   const parser = new Parser({
     logical: true,
     comparison: true,
@@ -34,7 +35,6 @@ export const testVisibility = (testExpression = true, items = [], responses = []
 
   parser.functions.arrayIncludes = arrayIncludes;
 
-
   try {
     const expr = parser.parse(testExpressionFixed);
     // Build an object where the keys are item variableNames, and values are
@@ -43,6 +43,8 @@ export const testVisibility = (testExpression = true, items = [], responses = []
       const response = (responses[index] && (responses[index].value || responses[index].value === 0))
         ? responses[index].value
         : responses[index];
+      
+      console.log('response', response);
 
       return {
         ...acc,

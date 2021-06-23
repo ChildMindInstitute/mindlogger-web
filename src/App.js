@@ -49,14 +49,14 @@ const App = () => {
                 <Route path="/changepassword" exact component={ChangePassword} />
                 <Route path="/profile" exact component={Profile} />
                 <Route path="/dashboard" exact component={Landing} />
-                {/* <Route path="/applet" exact component={AppletList} /> */}
+                <Route path="/applet" exact component={AppletList} />
                 <Route path="/invitation/:invitationId" exact component={Invitation} />
                 <Route path="/invitation/:invitationId/accept" exact component={AcceptInvitation} />
                 <Route path="/invitation/:invitationId/decline" exact component={DeclineInvitation} />
                 <Route path="/useraccount/:userId/token/:temporaryToken" exact component={SetPassword} />
                 <Route path="/consent/:inviteURL" exact component={Consent} />
-                {/* <Route path="/applet/:appletId/activity/:activityId" exact component={Screens} /> */}
-                {/* <Route path="/applet/:appletId/dashboard" exact component={ActivityList} /> */}
+                <Route path="/applet/:appletId/activity/:activityId" exact component={Screens} />
+                <Route path="/applet/:appletId/dashboard" exact component={ActivityList} />
               </>
               : <>
                 <Route path="/login" exact component={Login} />

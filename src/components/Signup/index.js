@@ -18,16 +18,18 @@ export default () => {
     password: '',
     confirmPassword: ''
   })
+  const [isStarted, setIsStarted] = useState(false);
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const location = useLocation()
   const { redirectUrl } = useSelector(state => state.app);
-  const { loading, info, error } = useSelector(state => state.user);
+  let { loading, info, error } = useSelector(state => state.user);
 
   const isRouted = location.pathname.includes('signup');
 
   useEffect(() => {
     if (!loading && info) {
+      setIsStarted(true);
       if (redirectUrl) dispatch(push(redirectUrl));
       else {
         dispatch(push('/profile'));
@@ -41,6 +43,7 @@ export default () => {
    * @param body
    */
   const onSubmit = async (event) => {
+    setIsStarted(true);
     event.preventDefault();
     const { confirmPassword, ...rest } = user
 
@@ -58,7 +61,7 @@ export default () => {
         <div className="container fluid" id="signupForm">
           <Form onSubmit={onSubmit}>
             <div className="form-group">
-              {error && <Alert variant={'danger'}>{error}</Alert>}
+              {isStarted && error && <Alert variant={'danger'}>{error}</Alert>}
               <Form.Control
                 name="user"
                 type="email"

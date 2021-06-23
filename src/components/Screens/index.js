@@ -1,43 +1,52 @@
 import React, { useState, useEffect } from 'react';
-import _ from 'lodash';
 import { useSelector, useDispatch } from 'react-redux';
 import { Card, Row, Col } from 'react-bootstrap';
 import Avatar from 'react-avatar';
 
-// Component
 import Item from '../Item';
-
-// Constants
+import { prepareResponseForUpload } from '../../models/response';
 import { testVisibility } from '../../services/visibility';
+import { getEncryptionKeys } from '../../services/encryption';
 import { getNextPos, getLastPos } from '../../services/navigation';
+import { userInfoSelector } from '../../state/user/user.selectors';
 import { currentActivitySelector, currentAppletSelector } from '../../state/app/app.selectors';
+import { startUploadQueue } from '../../state/responses/responses.actions';
 import {
-  createResponseInProgress,
+  addToUploadQueue,
+  setAnswer,
   setCurrentScreen,
-  setAnswer
+  createResponseInProgress,
 } from '../../state/responses/responses.reducer';
 
 import {
+  currentAppletResponsesSelector,
   currentScreenResponseSelector,
   currentResponsesSelector,
   currentScreenIndexSelector,
 } from '../../state/responses/responses.selectors';
+import config from '../../util/config';
 
 import * as R from 'ramda';
+import _ from 'lodash';
 
 const Screens = () => {
   const items = []
   const dispatch = useDispatch()
   const [data] = useState({});
 
-  const answer = useSelector(currentScreenResponseSelector);
-  const screenIndex = useSelector(currentScreenIndexSelector);
-  const user = useSelector(state => R.path(['user', 'info'])(state));
-  const activityAccess = useSelector(currentActivitySelector);
-  const inProgress = useSelector(currentResponsesSelector);
   const applet = useSelector(currentAppletSelector);
+  const answer = useSelector(currentScreenResponseSelector);
+  const user = useSelector(userInfoSelector);
+  const responseHistory = useSelector(currentAppletResponsesSelector);
+  const activityAccess = useSelector(currentActivitySelector);
+  const screenIndex = useSelector(currentScreenIndexSelector);
+  const inProgress = useSelector(currentResponsesSelector);
   const visibility = activityAccess.items.map((item) => 
-    testVisibility(item.visibility, activityAccess.items, inProgress.responses)
+    testVisibility(
+      item.visibility,
+      activityAccess.items,
+      inProgress ?.responses
+    )
   );
   const next = getNextPos(screenIndex, visibility);
   const prev = getLastPos(screenIndex, visibility);
@@ -53,8 +62,27 @@ const Screens = () => {
 
   const handleNext = () => {
     if (next === -1) {
+      // Submit responses:
+      console.log('--- submit ---', inProgress);
 
+      if ((!applet.AESKey || !applet.userPublicKey) && config.encryptResponse) {
+        if (!applet.encryption) return;
+
+        const encryptionKeys = getEncryptionKeys(applet, user);
+
+        // const response = prepareResponseForUpload(
+        //   inProgress,
+        //   applet,
+        //   responseHistory
+        // );
+
+        // console.log('prepared response ------>', response);
+        // dispatch(addToUploadQueue(response));
+        // dispatch(startUploadQueue());
+        
+      }
     } else {
+      // Go to next item:
       dispatch(
         setCurrentScreen({
           activityId: activityAccess.id,
@@ -89,7 +117,7 @@ const Screens = () => {
     items.push(
       <Item
         data={data}
-        type={item.valueConstraints.multipleChoice === true ? "checkbox" : item.inputType}
+        type={item.valueConstraints.multipleChoice ? "checkbox" : item.inputType}
         key={item.id}
         item={item}
         handleSubmit={handleNext}

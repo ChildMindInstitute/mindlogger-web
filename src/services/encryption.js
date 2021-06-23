@@ -46,3 +46,21 @@ export const decryptData = ({ text, key }) => {
     decrypted = Buffer.concat([decrypted, decipher.final()]);
     return decrypted.toString();
 }
+
+export const getEncryptionKeys = (applet, userInfo) => {
+    const AESKey = getAESKey(
+        userInfo.privateKey,
+        applet.encryption.appletPublicKey,
+        applet.encryption.appletPrime,
+        applet.encryption.base
+    );
+    const userPublicKey = Array.from(
+        getPublicKey(
+            userInfo.privateKey,
+            applet.encryption.appletPrime,
+            applet.encryption.base
+        )
+    );
+
+    return { AESKey, userPublicKey };
+}

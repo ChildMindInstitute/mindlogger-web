@@ -1,18 +1,15 @@
 import * as R from 'ramda';
-import { Dimensions } from 'react-native';
-import DeviceInfo from 'react-native-device-info';
 import packageJson from '../../package.json';
-import config from '../config';
+import config from '../util/config';
 import { encryptData, decryptData } from '../services/encryption';
 import { getScoreFromLookupTable, getValuesFromResponse, getFinalSubScale } from '../services/scoring';
 import { getAlertsFromResponse } from '../services/alert';
-
+import { ORDER } from '../constants';
 import {
   activityTransformJson,
   itemTransformJson,
   itemAttachExtras,
-  ORDER,
-} from "./json-ld";
+} from '../services/json-ld';
 
 // Convert ids like "applet/some-id" to just "some-id"
 const trimId = typedId => typedId.split('/').pop();
@@ -28,6 +25,7 @@ export const prepareResponseForUpload = (
 ) => {
   const languageKey = "en";
   const { activity, responses, subjectId } = inProgressResponse;
+  console.log('inProgressResponse------------', inProgressResponse);
   const appletVersion = appletMetaData.schemaVersion[languageKey];
   const scheduledTime = activity.event && activity.event.scheduledTime;
   let cumulative = responseHistory.tokens.cumulativeToken;
@@ -79,13 +77,8 @@ export const prepareResponseForUpload = (
     timeout: isTimeout ? 1 : 0,
     scheduledTime: new Date(scheduledTime).getTime(),
     client: {
-      os: DeviceInfo.getSystemName(),
-      osVersion: DeviceInfo.getSystemVersion(),
-      deviceModel: DeviceInfo.getModel(),
       appId: "mindlogger-mobile",
       appVersion: packageJson.version,
-      width: Dimensions.get("screen").width,
-      height: Dimensions.get("screen").height,
     },
     languageCode: languageKey,
     alerts,
@@ -322,7 +315,7 @@ export const decryptAppletResponses = (applet, responses) => {
         const currentActivity = applet.activities.find(activity => activity.id.split('/').pop() === oldItem.original.activityId)
 
         if (currentActivity) {
-          const currentItem = activity.items.find(item => item.id.split('/').pop() === oldItem.original.screenId);
+          const currentItem = currentActivity.items.find(item => item.id.split('/').pop() === oldItem.original.screenId);
 
           if (currentItem && currentItem.schema !== itemIRI) {
             responses.cumulatives[currentItem.schema] = responses.cumulatives[itemIRI];

@@ -36,9 +36,13 @@ const responseSlice = createSlice({
       state.inProgress[activityId].screenIndex = screenIndex;
     },
 
+    addToUploadQueue: (state, action) => {
+      state.uploadQueue = [...state.uploadQueue, action.payload]
+    },
+
     setAnswer: (state, action) => {
       const { screenIndex, activityId, answer } = action.payload;
-
+      console.log('set answer ---------', answer)
       state.inProgress[activityId].responses[screenIndex] = answer;
     },
     setInProgress: (state, action) => { state.inProgress = action.payload },
@@ -58,6 +62,7 @@ const responseSlice = createSlice({
 })
 
 export const {
+    addToUploadQueue,
     createResponseInProgress,
     setCurrentScreen,
     setAnswer,

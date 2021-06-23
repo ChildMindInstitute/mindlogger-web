@@ -1,25 +1,25 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getLocalInfo, modifyApplet } from "../../util/applet";
-import { authTokenSelector, userInfoSelector } from "../user/user.selectors";
-import { appletsSelector, responsesSelector } from "../app/app.selectors";
-import {
-  getInvitationAPI,
-  acceptInvitationAPI,
-  declineInvitationAPI,
-} from '../../services/invitation.service';
-import { getAppletsAPI } from '../../services/applet.service';
-import APP_CONSTANTS from './app.constants';
+import RESPONSES_CONSTANTS from './responses.constants';
 
-// export const declineInvitation = createAsyncThunk(APP_CONSTANTS.DECLINE_INVITATION, async (invitationId, { getState }) => {
-//   try {
-//     const state = getState();
-//     const token = authTokenSelector(state);
+export const startUploadQueue = createAsyncThunk(
+  RESPONSES_CONSTANTS.UPLOAD_QUEUE,
+  async () => {
 
-//     const res = await declineInvitationAPI({ invitationId, token });
+    console.log('--- start uploading queue ---');
+    // try {
+    //   const response = await signInAPI(user)
+    //   const privateKey = getPrivateKey({
+    //     userId: response.user._id,
+    //     email: user.email,
+    //     password: user.password
+    //   });
 
-//     return res;
-//   } catch (error) {
-//     throw new Error(error.message);
-//   }
-// });
+    //   return {
+    //     ...response,
+    //     user: { ...response.user, privateKey, email: user.email }
+    //   }
 
+    // } catch (error) {
+    //   throw new Error(error);
+    // }
+});

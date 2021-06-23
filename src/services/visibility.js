@@ -43,8 +43,6 @@ export const testVisibility = (testExpression = true, items = [], responses = []
       const response = (responses[index] && (responses[index].value || responses[index].value === 0))
         ? responses[index].value
         : responses[index];
-      
-      console.log('response', response);
 
       return {
         ...acc,

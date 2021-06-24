@@ -50,12 +50,9 @@ export const uploadResponseQueue = (
   responseQueue,
   progressCallback,
 ) => {
-  console.log('%%222222222222', responseQueue);
   if (responseQueue.length === 0) {
     return Promise.resolve();
   }
-
-  console.log('%%3333333333');
 
   return uploadResponse(authToken, responseQueue[0])
     .then(() => {

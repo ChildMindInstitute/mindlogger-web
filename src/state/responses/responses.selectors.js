@@ -28,12 +28,11 @@ export const currentAppletResponsesSelector = createSelector(
   R.path(["app", "currentApplet"]),
 
   (responses, currentApplet) => {
-    console.log('responses----------------', responses);
     let currentAppletResponses = R.filter(
       (x) => x.appletId === currentApplet,
       responses
     );
-    console.log('currentAppletResponses----------------', currentAppletResponses);
+
     if (currentAppletResponses.length === 1) {
       // eslint-disable-next-line
       currentAppletResponses = currentAppletResponses[0];

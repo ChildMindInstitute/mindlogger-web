@@ -40,13 +40,6 @@ const Screens = () => {
   const activityAccess = useSelector(currentActivitySelector);
   const screenIndex = useSelector(currentScreenIndexSelector);
   const inProgress = useSelector(currentResponsesSelector);
-  // const responseHistory = useSelector(responsesSelector);
-
-  // console.log('response history---------', responseHistory);
-
-  // if (!activityAccess) {
-  //   history.push(`/applet/${appletId}/dashboard`);
-  // }
   const visibility = activityAccess.items.map((item) => 
     testVisibility(
       item.visibility,
@@ -67,9 +60,7 @@ const Screens = () => {
   }, [])
 
   const finishResponse = async () => {
-    console.log('-1-1-1--1-1-1-1-1-');
     await dispatch(completeResponse(false));
-    console.log('------------ Let us move');
     history.push(`/applet/${appletId}/dashboard`);
   };
 

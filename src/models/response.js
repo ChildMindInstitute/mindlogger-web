@@ -25,19 +25,12 @@ export const prepareResponseForUpload = (
   responseHistory,
   isTimeout
 ) => {
-  console.log('0000 -1-1--1-1 0000', inProgressResponse);
   const languageKey = "en";
-  console.log('0000 responses 0000');
   const { activity, responses, subjectId } = inProgressResponse;
-  console.log('0000 responses 0000');
   const appletVersion = appletMetaData.schemaVersion[languageKey];
-  console.log('0000 responses 0000');
   const scheduledTime = activity.event && activity.event.scheduledTime;
-  console.log('0000 responseHistory 0000', responseHistory);
   let cumulative = responseHistory.tokens.cumulativeToken;
   const alerts = [];
-
-  console.log('0000 responses 0000');
 
   for (let i = 0; i < responses.length; i += 1) {
     const item = activity.items[i];
@@ -69,9 +62,6 @@ export const prepareResponseForUpload = (
     }
   }
 
-  console.log('2222 responses 2222', activity);
-
-
   const responseData = {
     activity: {
       id: trimId(activity.id),
@@ -95,8 +85,6 @@ export const prepareResponseForUpload = (
     languageCode: languageKey,
     alerts,
   };
-
-  console.log('--- 00000000000 00 0 0000 ---', responseData)
 
   let subScaleResult = [];
   if (activity.subScales) {

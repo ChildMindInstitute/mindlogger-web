@@ -34,7 +34,16 @@ const appletSlice = createSlice({
     clearApplets: () => initialState,
     selectApplet: (state, action) => { state.applet = action.payload },
     selectActivity: (state, action) => { state.activityAccess = action.payload },
-
+    prepareResponseKeys: (state, action) => {
+      const { appletId, keys } = action.payload;
+      const applet = state.applets.find(applet => applet.id = appletId);
+      
+      if (applet) {
+        Object.entries(keys).forEach(entry => {
+          applet[entry[0]] = entry[1];
+        })
+      }
+    }
   },
   extraReducers: {
     [`${APPLET_CONSTANTS.GET_APPLETS}/pending`]: (state, action) => { state.loading = true; state.error = null },
@@ -53,4 +62,4 @@ const appletSlice = createSlice({
 
 export default appletSlice.reducer;
 
-export const { clearApplets, selectApplet, selectActivity } = appletSlice.actions;
+export const { clearApplets, selectApplet, selectActivity, prepareResponseKeys } = appletSlice.actions;

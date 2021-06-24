@@ -4,12 +4,14 @@ import config from '../util/config';
 import { encryptData, decryptData } from '../services/encryption';
 import { getScoreFromLookupTable, getValuesFromResponse, getFinalSubScale } from '../services/scoring';
 import { getAlertsFromResponse } from '../services/alert';
-import { ORDER } from '../constants';
+
 import {
   activityTransformJson,
   itemTransformJson,
   itemAttachExtras,
 } from '../services/json-ld';
+
+import { ORDER } from '../constants';
 
 // Convert ids like "applet/some-id" to just "some-id"
 const trimId = typedId => typedId.split('/').pop();
@@ -23,20 +25,26 @@ export const prepareResponseForUpload = (
   responseHistory,
   isTimeout
 ) => {
+  console.log('0000 -1-1--1-1 0000', inProgressResponse);
   const languageKey = "en";
+  console.log('0000 responses 0000');
   const { activity, responses, subjectId } = inProgressResponse;
-  console.log('inProgressResponse------------', inProgressResponse);
+  console.log('0000 responses 0000');
   const appletVersion = appletMetaData.schemaVersion[languageKey];
+  console.log('0000 responses 0000');
   const scheduledTime = activity.event && activity.event.scheduledTime;
+  console.log('0000 responseHistory 0000', responseHistory);
   let cumulative = responseHistory.tokens.cumulativeToken;
-
   const alerts = [];
+
+  console.log('0000 responses 0000');
+
   for (let i = 0; i < responses.length; i += 1) {
     const item = activity.items[i];
 
     if (item.valueConstraints) {
       const { valueType, responseAlert, enableNegativeTokens } = item.valueConstraints;
-
+      
       if (responses[i] !== null && responses[i] !== undefined && responseAlert) {
         const messages = getAlertsFromResponse(item, responses[i].value !== undefined ? responses[i].value : responses[i]);
         messages.forEach(msg => {
@@ -52,6 +60,7 @@ export const prepareResponseForUpload = (
         const responseValues = getValuesFromResponse(item, responses[i].value) || [];
         const positiveSum = responseValues.filter(v => v >= 0).reduce((a, b) => a + b, 0);
         const negativeSum = responseValues.filter(v => v < 0).reduce((a, b) => a + b, 0);
+
         cumulative += positiveSum;
         if (enableNegativeTokens && cumulative + negativeSum >= 0) {
           cumulative += negativeSum;
@@ -60,6 +69,9 @@ export const prepareResponseForUpload = (
     }
   }
 
+  console.log('2222 responses 2222', activity);
+
+
   const responseData = {
     activity: {
       id: trimId(activity.id),
@@ -67,7 +79,7 @@ export const prepareResponseForUpload = (
       schemaVersion: activity.schemaVersion[languageKey],
     },
     applet: {
-      id: trimId(activity.appletId),
+      id: trimId(appletMetaData.id),
       schema: activity.appletSchema,
       schemaVersion: appletVersion,
     },
@@ -77,12 +89,14 @@ export const prepareResponseForUpload = (
     timeout: isTimeout ? 1 : 0,
     scheduledTime: new Date(scheduledTime).getTime(),
     client: {
-      appId: "mindlogger-mobile",
-      appVersion: packageJson.version,
+      appId: 'mindlogger-web',
+      appVersion: packageJson.version
     },
     languageCode: languageKey,
     alerts,
   };
+
+  console.log('--- 00000000000 00 0 0000 ---', responseData)
 
   let subScaleResult = [];
   if (activity.subScales) {
@@ -94,7 +108,7 @@ export const prepareResponseForUpload = (
   }
 
   /** process for encrypting response */
-  if (config.encryptResponse && appletMetaData.encryption) {
+  if (appletMetaData.encryption) {
     const formattedResponses = activity.items.reduce(
       (accumulator, item, index) => ({ ...accumulator, [item.schema]: index }),
       {},

@@ -85,7 +85,7 @@ export const Join = () => {
   );
 
   function renderInviteLink() {
-    if (!inviteLink) {
+    if (!inviteLink || [Statuses.ACCEPTED, Statuses.ERROR].includes(status)) {
       return undefined;
     }
 

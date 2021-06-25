@@ -62,13 +62,13 @@ export const currentResponsesSelector = createSelector(
 export const currentScreenResponseSelector = createSelector(
   currentResponsesSelector,
   (progress) => {
-    return progress.responses[ progress.screenIndex ];
+    return progress ? progress.responses[progress.screenIndex] : progress;
   }
 );
 
 export const currentScreenIndexSelector = createSelector(
   currentResponsesSelector,
   (progress) => {
-    return progress.screenIndex;
+    return progress ? progress.screenIndex : 0;
   }
 )

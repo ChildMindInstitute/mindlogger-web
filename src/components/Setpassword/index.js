@@ -123,7 +123,13 @@ export default function SetPassword() {
                     }
                   />
                 </div>
-                {status && (
+                {status && status === Statuses.SUBMITTED && (
+                  <Alert variant={'success'} className="error-alert">
+                    {status}
+                  </Alert>
+                )}
+
+                {status && status !== Statuses.SUBMITTED && (
                   <Alert variant={'danger'} className="error-alert">
                     {status}
                   </Alert>

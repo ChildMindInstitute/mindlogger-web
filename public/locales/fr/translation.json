@@ -12,7 +12,7 @@
     "reset": " Réinitialisez-le",
     "emailRequiredError": "Obligatoire",
     "emailErrorMessage": "Adresse e-mail invalide",
-    "errorMessage": "Échec de la connexion!",
+    "errorMessage": "Adresse e-mail ou mot de passe invalide!",
     "logging": "Se connecter..."
   },
   "SignUp": {
@@ -31,10 +31,10 @@
     "reset": " Réinitialisez-le",
     "emailRequiredError": "Obligatoire",
     "emailErrorMessage": "Adresse e-mail invalide",
-    "passwordError" :"Échec de l'inscription: le nom d'utilisateur est peut-être déjà utilisé.",
+    "signUpError": "L'inscription a échoué. L'e-mail est peut-être déjà utilisé.",
     "signingIn": "Connectez-vous...",
     "passwordsUnmatched": "Les mots de passe ne correspondent pas",
-    "account" :"Vous avez déjà un compte?",
+    "account": "Vous avez déjà un compte?",
     "logIn": "Connexion"
   },
   "ForgotPassword": {
@@ -47,8 +47,8 @@
     "emailErrorMessage": "Adresse e-mail invalide",
     "accountMessage": " Vous n'avez pas de compte? ",
     "forgotPassword": " Mot de passe oublié?",
-    "emailError" : "L'email n'existe pas!",
-    "rememberPassword" : "Se souvenir du mot de passe?",
+    "emailError": "L'email n'existe pas!",
+    "rememberPassword": "Se souvenir du mot de passe?",
     "logIn": "Connexion"
   },
   "ChangePassword": {
@@ -63,8 +63,7 @@
     "passwordErrorMessage": "Le mot de passe doit comporter au moins 6 caractères",
     "passwordRequiredError": "Vous devez spécifier un mot de passe",
     "password": "le mot de passe",
-    "passwordError" : "Le mot de passe actuel que vous avez entré était incorrect."
-
+    "passwordError": "Le mot de passe actuel que vous avez entré était incorrect."
   },
   "Landing": {
     "title": "Bienvenue dans MindLogger",
@@ -75,13 +74,10 @@
     "reserchStudies": "Participez à des études de recherche scientifique en ligne!",
     "toGet": " Pour commencer :"
   },
-
   "Profile": {
     "title": "Téléchargez MindLogger pour commencer.",
     "description": " Merci d'avoir créé un compte avec MindLogger. Téléchargez MindLogger sur un appareil iOS ou Android pour commencer. "
-
   },
-
   "Invitation": {
     "please": "S'il te plaît",
     "login": "Connexion",
@@ -103,12 +99,12 @@
     "singUp": "S'inscrire",
     "declineInvitation": "pour refuser cette invitation"
   },
-  "InvitationText" : {
+  "InvitationText": {
     "loadingInvitation" : "Chargement de l'invitation",
-    "invitationRemoved" : "Invitation supprimée",
-    "networkError" : "Erreur réseau. Revenir ",
-    "home" : "Maisons" ,
-    "acceptInvitation" : "Invitation acceptée"
+    "invitationRemoved": "Invitation supprimée",
+    "networkError": "Erreur réseau. Revenir ",
+    "home": "Maisons",
+    "acceptInvitation": "Invitation acceptée"
   },
   "InviteLink": {
     "title": "Vous avez été invité par {{coordinatorName}} (<a href=\"mailto={{email}}\">{{coordinatorEmail}}</a>) à être un utilisateur de <strong>{{displayName}}</strong> sur MindLogger.<br/>Ci-dessous, les utilisateurs qui ont accès à vos données:",
@@ -117,40 +113,37 @@
     "managers": "Utilisateurs qui peuvent modifier les paramètres de cette applet, y compris ceux qui peuvent accéder à vos données:",
     "coordinators": "Utilisateurs qui peuvent modifier les paramètres de cette applet, mais qui ne peuvent pas changer qui peut voir vos données :"
   },
-  "InvitationButtons" : {
-    "acceptInvitation" : "Accepter l'invitation",
-    "declineInvitation" : "Refuser l'invitation"
-
+  "InvitationButtons": {
+    "acceptInvitation": "Accepter l'invitation",
+    "declineInvitation": "Refuser l'invitation"
   },
-  "Navbar" : {
-    "mindLogger" : "MindLogger",
-    "home" : "Maison",
-    "logIn" : "Connexion",
-    "logOut" : "Se déconnecter",
-    "profile" : "Profil",
-    "settings" : "Réglages",
-    "english" : "Anglaise" ,
-    "french" : "français"
-
-
+  "Navbar": {
+    "mindLogger": "MindLogger",
+    "home": "Maison",
+    "logIn": "Connexion",
+    "logOut": "Se déconnecter",
+    "profile": "Profil",
+    "settings": "Réglages",
+    "english": "Anglaise",
+    "french": "français"
   },
-  "SetPassword" : {
-    "please" : "S'il te plaît",
-    "login" : "Connexion",
-    "toSeeThePage" : "voir la page",
-    "expiredLink" : "Le lien renvoyé par mot de passe a expiré"
+  "SetPassword": {
+    "please": "S'il te plaît",
+    "login": "Connexion",
+    "toSeeThePage": "voir la page",
+    "expiredLink": "Le lien renvoyé par mot de passe a expiré"
   },
-  "Consent" : {
-    "aboutStudy":"À propos de l'étude",
+  "Consent": {
+    "aboutStudy": "À propos de l'étude",
     "doseStudyWork": "Comment fonctionne l'étude?",
     "howLong": "Combien de temps cela dure-t-il?",
     "benefitsAndRisks": "Quels sont les avantages et les risques?",
     "consentForm": "Formulaire de consentement",
-    "back" : "Retour" ,
-    "next" : "Suivante",
-    "consent" : "J'accepte",
-    "thanks" : "Merci!",
-    "getStarted" : "Vous y êtes presque. Pour commencer, vous devrez",
+    "back": "Retour",
+    "next": "Suivante",
+    "consent": "J'accepte",
+    "thanks": "Merci!",
+    "getStarted": "Vous y êtes presque. Pour commencer, vous devrez",
     "login": "Connexion",
     "or": "ou",
     "signUp": "S'inscrire"

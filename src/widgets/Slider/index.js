@@ -36,6 +36,10 @@ const SliderWidget = ({
 
   const [data, setData] = useState(answer);
 
+  const isNextDisable = () => {
+    return !answer || (!answer.value && answer.value !== 0);
+  }
+
   return (
     <Card className="mb-3" style={{ maxWidth: "auto" }}>
       <Row className="no-gutters">
@@ -116,6 +120,7 @@ const SliderWidget = ({
       <Navigator
         isBackShown={isBackShown}
         isNextShown={isNextShown}
+        isNextDisable={isNextDisable()}
         handleBack={handleBack}
         isSubmitShown={isSubmitShown}
       />

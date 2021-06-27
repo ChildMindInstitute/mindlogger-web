@@ -16,6 +16,8 @@ const Radio = (props) => {
     isSubmitShown
   } = props;
 
+  const isNextDisable = !answer && answer !== 0;
+
   return (
     <Card className="mb-3" style={{ maxWidth: "auto" }}>
       <Row className="no-gutters">
@@ -46,6 +48,7 @@ const Radio = (props) => {
       <Navigator 
         isBackShown={isBackShown}
         isNextShown={isNextShown}
+        isNextDisable={isNextDisable}
         handleBack={handleBack}
         answer={answer}
         isSubmitShown={isSubmitShown}

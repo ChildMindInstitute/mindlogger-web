@@ -63,9 +63,9 @@ export default () => {
           <h1>{t('ChangePassword.settings')}</h1>
         </div>
         <hr></hr>
-        <h3>{t('ChangePassword.title')}</h3>
-        <h5>{t('ChangePassword.cautionMessage')} </h5>
-        <div className="container fluid" id="signup-Form">
+        <h3 className="my-3">{t('ChangePassword.title')}</h3>
+        <h5 className="mb-3">{t('ChangePassword.cautionMessage')} </h5>
+        <div className="container fluid my-4" id="signup-Form">
           <Form onSubmit={onSubmit} className="change-pass">
             <div>
               <Form.Label>{t('ChangePassword.oldPassword')}:</Form.Label>
@@ -74,7 +74,7 @@ export default () => {
                 name="Old password"
                 value={passwordData.oldPassword}
                 placeholder={t('ChangePassword.oldPassword')}
-                className="mb-1"
+                className="mb-2"
                 onChange={(e) =>
                   setPasswordData({
                     ...passwordData,
@@ -91,7 +91,7 @@ export default () => {
                 name="New password"
                 value={passwordData.newPassword}
                 placeholder={t('ChangePassword.newPassword')}
-                className="mb-1"
+                className="mb-2"
                 onChange={(e) =>
                   setPasswordData({
                     ...passwordData,
@@ -108,7 +108,7 @@ export default () => {
                 name="Confirm Password"
                 value={passwordData.confirmPassword}
                 placeholder={t('ChangePassword.confirmPassword')}
-                className="mb-1"
+                className="mb-2"
                 onChange={(e) =>
                   setPasswordData({
                     ...passwordData,
@@ -124,6 +124,7 @@ export default () => {
             )}
             <Button
               type="submit"
+              className="my-3"
               variant="success"
               disabled={
                 loading ||

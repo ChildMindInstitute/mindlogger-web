@@ -86,8 +86,8 @@ export default function SetPassword() {
               <Avatar />
             </div>
             <hr></hr>
-            <h3>{t('ChangePassword.title')}</h3>
-            <h5>{t('ChangePassword.cautionMessage')} </h5>
+            <h3 className="my-3">{t('ChangePassword.title')}</h3>
+            <h5 className="my-3">{t('ChangePassword.cautionMessage')} </h5>
             <div className="container fluid" id="signup-Form">
               <Form onSubmit={onSubmit} className="change-pass">
                 <div>
@@ -97,7 +97,7 @@ export default function SetPassword() {
                     name="New password"
                     value={passwordData.newPassword}
                     placeholder={t('ChangePassword.newPassword')}
-                    className="mb-1"
+                    className="mb-2"
                     onChange={(e) =>
                       setPasswordData({
                         ...passwordData,
@@ -114,7 +114,7 @@ export default function SetPassword() {
                     name="Confirm Password"
                     value={passwordData.confirmPassword}
                     placeholder={t('ChangePassword.confirmPassword')}
-                    className="mb-1"
+                    className="mb-2"
                     onChange={(e) =>
                       setPasswordData({
                         ...passwordData,
@@ -136,6 +136,7 @@ export default function SetPassword() {
                 )}
                 <Button
                   type="submit"
+                  className="my-3"
                   variant="success"
                   disabled={loading}
                 >

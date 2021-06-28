@@ -82,7 +82,7 @@ export const InvitationText = (props) => {
 }
 
 const InvitationButtons = ({ t, onAcceptInvite, onDeclineInvite }) => (
-  <div className={'d-flex justify-content-center align-items-center'}>
+  <div className={'d-flex justify-content-center align-items-center my-2'}>
     <Button
       onClick={onAcceptInvite}
       variant="success"

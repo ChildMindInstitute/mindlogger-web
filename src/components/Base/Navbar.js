@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Navbar from 'react-bootstrap/Navbar'
+import Col from 'react-bootstrap/Col'
+import Row from 'react-bootstrap/Row'
 import Nav from 'react-bootstrap/Nav'
 import NavDropdown from 'react-bootstrap/NavDropdown'
 import { DropdownButton, Dropdown } from 'react-bootstrap'
@@ -52,37 +54,44 @@ const UserInfoDropdown = ({ user }) => {
 
   if (user) {
     return (
-      <React.Fragment>
-        <div className="App container">
+      <Row>
+        <Col xs={12} md={6} className="App container justify-content-center">
           <LanguageDropdown />
-        </div>
+        </Col>
 
-        <NavDropdown
-          title={user.firstName}
-          id="basic-nav-dropdown"
-          className="ml-auto"
-        >
-          <NavDropdown.Item onClick={() => history.push('/changepassword')}>
-            {t('Navbar.settings')}
-          </NavDropdown.Item>
-          <NavDropdown.Item onClick={() => history.push('/profile')}>
-            {t('Navbar.profile')}
-          </NavDropdown.Item>
-          <NavDropdown.Divider />
-          <NavDropdown.Item onClick={logOut}>
-            {t('Navbar.logOut')}
-          </NavDropdown.Item>
-        </NavDropdown>
-      </React.Fragment>
+        <Col xs={12} md={6} className="App container justify-content-center">
+          <NavDropdown
+            title={user.firstName}
+            id="basic-nav-dropdown"
+            className="text-center"
+            size="lg"
+          >
+            <NavDropdown.Item onClick={() => history.push('/changepassword')}>
+              {t('Navbar.settings')}
+            </NavDropdown.Item>
+            <NavDropdown.Item onClick={() => history.push('/profile')}>
+              {t('Navbar.profile')}
+            </NavDropdown.Item>
+            <NavDropdown.Divider />
+            <NavDropdown.Item onClick={logOut}>
+              {t('Navbar.logOut')}
+            </NavDropdown.Item>
+          </NavDropdown>
+        </Col>
+      </Row>
     )
   } else {
     return (
-      <React.Fragment>
-        <LanguageDropdown />
-        <Nav.Link onClick={() => history.push('/login')}>
-          {t('Navbar.logIn')}
-        </Nav.Link>
-      </React.Fragment>
+      <Row>
+        <Col xs={12} md={6} className="App container justify-content-center">
+          <LanguageDropdown />
+        </Col>
+        <Col xs={12} md={6} className="App container justify-content-center">
+          <Nav.Link onClick={() => history.push('/login')}>
+            {t('Navbar.logIn')}
+          </Nav.Link>
+        </Col>
+      </Row>
     )
   }
 }
@@ -101,6 +110,7 @@ const LanguageDropdown = () => {
   return (
     <DropdownButton
       alignRight
+      className="text-center"
       title={
         language === Languages.ENGLISH
           ? t('Navbar.english')

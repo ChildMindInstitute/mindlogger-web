@@ -23,7 +23,7 @@ export default ({ user }) => {
   const history = useHistory()
 
   return (
-    <Navbar expand="lg" variant="dark" className="site-header">
+    <Navbar expand="md" variant="dark" className="site-header">
       <Navbar.Brand role={'button'} onClick={() => history.push('/dashboard')}>
         {t('Navbar.mindLogger')}
       </Navbar.Brand>

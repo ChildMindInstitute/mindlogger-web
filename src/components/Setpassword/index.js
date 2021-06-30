@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useParams, useHistory } from 'react-router-dom'
-import { Form, Alert, Button } from 'react-bootstrap'
+import { Form, Alert, Button, Col, Row } from 'react-bootstrap'
 import { unwrapResult } from '@reduxjs/toolkit'
 import { useSelector, useDispatch } from 'react-redux'
 
@@ -87,42 +87,50 @@ export default function SetPassword() {
             </div>
             <hr></hr>
             <h3 className="my-3">{t('ChangePassword.title')}</h3>
-            <h5 className="my-3">{t('ChangePassword.cautionMessage')} </h5>
+            <h5 className="mb-3">{t('ChangePassword.cautionMessage')} </h5>
             <div className="container fluid" id="signup-Form">
               <Form onSubmit={onSubmit} className="change-pass">
-                <div>
-                  <Form.Label>{t('ChangePassword.newPassword')}:</Form.Label>
-                  <Form.Control
-                    type="password"
-                    name="New password"
-                    value={passwordData.newPassword}
-                    placeholder={t('ChangePassword.newPassword')}
-                    className="mb-2"
-                    onChange={(e) =>
-                      setPasswordData({
-                        ...passwordData,
-                        newPassword: e.target.value
-                      })
-                    }
-                  />
-                </div>
+                <Form.Group as={Row}>
+                  <Form.Label column sm="3">
+                    {t('ChangePassword.newPassword')}:
+                  </Form.Label>
+                  <Col sm="9">
+                    <Form.Control
+                      type="password"
+                      name="New password"
+                      value={passwordData.newPassword}
+                      placeholder={t('ChangePassword.newPassword')}
+                      className="mb-2"
+                      onChange={(e) =>
+                        setPasswordData({
+                          ...passwordData,
+                          newPassword: e.target.value
+                        })
+                      }
+                    />
+                  </Col>
+                </Form.Group>
 
-                <div>
-                  <Form.Label>{t('ChangePassword.confirmPassword')}:</Form.Label>
-                  <Form.Control
-                    type="password"
-                    name="Confirm Password"
-                    value={passwordData.confirmPassword}
-                    placeholder={t('ChangePassword.confirmPassword')}
-                    className="mb-2"
-                    onChange={(e) =>
-                      setPasswordData({
-                        ...passwordData,
-                        confirmPassword: e.target.value
-                      })
-                    }
-                  />
-                </div>
+                <Form.Group as={Row}>
+                  <Form.Label column sm="3">
+                    {t('ChangePassword.confirmPassword')}:
+                  </Form.Label>
+                  <Col sm="9">
+                    <Form.Control
+                      type="password"
+                      name="Confirm Password"
+                      value={passwordData.confirmPassword}
+                      placeholder={t('ChangePassword.confirmPassword')}
+                      className="mb-2"
+                      onChange={(e) =>
+                        setPasswordData({
+                          ...passwordData,
+                          confirmPassword: e.target.value
+                        })
+                      }
+                    />
+                  </Col>
+                </Form.Group>
                 {status && status === Statuses.SUBMITTED && (
                   <Alert variant={'success'} className="error-alert">
                     {status}

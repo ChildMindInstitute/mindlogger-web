@@ -17,7 +17,7 @@ const Checkbox = ({ item, isBackShown, isNextShown, handleChange, handleBack, is
             <Form.Group as={Row}>
               {_.map(item.valueConstraints.itemList, (obj, i) => (
                 <Col md={6} className="pr-5" key={i}>
-                  <Form.Check label={obj.name.en} name={item.variableName} type="checkbox" onChange={(v) => handleChange({ [item.variableName]: v.target.value })} value={obj.value} id={`${item.variableName}${i}`} />
+                  <Form.Check label={obj.name.en} name={item.variableName} type="checkbox" onChange={(v) => handleChange({ [item.variableName]: parseInt(v.target.value) == v.target.value ? parseInt(v.target.value) : v.target.value })} value={obj.value} id={`${item.variableName}${i}`} />
                 </Col>
               ))}
             </Form.Group>

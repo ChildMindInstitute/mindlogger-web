@@ -16,6 +16,8 @@ const SliderWidget = ({
   isSubmitShown,
   answer
 }) => {
+  const [data, setData] = useState(answer);
+
   const {
     continuousSlider,
     showTickMarks,
@@ -34,8 +36,6 @@ const SliderWidget = ({
     itemList.map(item => item.value)
   )
 
-  const [data, setData] = useState(answer);
-
   return (
     <Card className="mb-3" style={{ maxWidth: "auto" }}>
       <Row className="no-gutters">
@@ -51,15 +51,15 @@ const SliderWidget = ({
                   className={!data ? "no-value" : ""}
                   min={minValue}
                   max={maxValue}
-                  value={data && data.value || 0}
+                  value={data && data[item.variableName] || 0}
                   step={0.1}
                   onChange={(e) => {
                     const answer = {
-                      value: e.target.value
+                      [item.variableName]: e.target.value
                     };
 
                     if (!continuousSlider) {
-                      answer.value = Math.round(answer.value);
+                      answer[item.variableName] = Math.round(answer[item.variableName]);
                     }
 
                     setData(answer)

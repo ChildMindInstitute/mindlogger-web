@@ -11,18 +11,18 @@ import Slider from '../../widgets/Slider/index';
 import "./style.css";
 
 const Item = (props) => {
-  const { data, type, handleSubmit, handleChange } = props;
+  const { data, type, handleSubmit } = props;
 
-  const widget = (handleChange) => {
+  const widget = () => {
     switch (type) {
       case "checkbox":
-        return <Checkbox {...props} handleChange={handleChange} />;
+        return <Checkbox {...props} />;
       case "radio":
-        return <Radio {...props} handleChange={handleChange} />;
+        return <Radio {...props} />;
       case "text":
-        return <TextInput {...props} handleChange={handleChange} />;
+        return <TextInput {...props} />;
       case "slider":
-        return <Slider {...props} handleChange={handleChange} />;
+        return <Slider {...props} />;
       default:
         return <div />;
     }
@@ -37,7 +37,7 @@ const Item = (props) => {
     >
       {({ handleSubmit }) => (
         <Form noValidate onSubmit={handleSubmit}>
-          {widget(handleChange)}
+          {widget()}
         </Form>
       )}
     </Formik>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import _ from "lodash";
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
@@ -7,6 +7,7 @@ import Avatar from 'react-avatar';
 
 // Component
 import Item from '../Item';
+import ActivitySummary from '../../widgets/ActivitySummary';
 
 // Constants
 import { currentActivitySelector, currentAppletSelector } from '../../state/app/app.selectors';
@@ -14,21 +15,21 @@ import {
   setCurrentScreen,
   setAnswer
 } from '../../state/responses/responses.reducer';
-
 import { completeResponse } from '../../state/responses/responses.actions';
-
 import {
   currentScreenResponseSelector,
-  currentScreenIndexSelector
+  currentScreenIndexSelector,
 } from '../../state/responses/responses.selectors';
 
-const Screens = () => {
+const Screens = (props) => {
   const items = []
-  const { appletId, activityId } = useParams();
+  const { appletId } = useParams();
   const dispatch = useDispatch()
   const [data, setData] = useState({});
   const history = useHistory();
   const [show, setShow] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSummaryScreen, setIsSummaryScreen] = useState(false);
 
   const answer = useSelector(currentScreenResponseSelector);
   const screenIndex = useSelector(currentScreenIndexSelector);
@@ -36,8 +37,19 @@ const Screens = () => {
   const applet = useSelector(currentAppletSelector);
 
   const finishResponse = async () => {
+    setIsLoading(true);
     await dispatch(completeResponse(false));
-    history.push(`/applet/${appletId}/dashboard`);
+    setIsLoading(false);
+
+    if (activityAccess.compute && !isSummaryScreen) {
+      setIsSummaryScreen(true);
+      setShow(false);
+
+    } else {
+      if (isSummaryScreen) setIsSummaryScreen(false);
+
+      history.push(`/applet/${appletId}/dashboard`);
+    }
   };
 
   const handleNext = (values) => {
@@ -84,10 +96,10 @@ const Screens = () => {
         handleSubmit={handleNext}
         handleChange={handleChange}
         handleBack={handleBack}
-        isSubmitShown={i ===  activityAccess.items.length - 1}
+        isSubmitShown={i === activityAccess.items.length - 1}
         answer={answer}
-        isBackShown={screenIndex ===  i && i}
-        isNextShown={screenIndex ===  i}
+        isBackShown={screenIndex === i && i}
+        isNextShown={screenIndex === i}
       />
     );
   });
@@ -110,7 +122,11 @@ const Screens = () => {
           </Card>
         </Col>
         <Col sm={24} xs={24} md={9}>
-          {_.map(items.slice(0, screenIndex + 1))}
+          {isSummaryScreen ?
+            <ActivitySummary {...props} />
+            :
+            _.map(items.slice(0, screenIndex + 1))
+          }
         </Col>
       </Row>
 
@@ -123,8 +139,8 @@ const Screens = () => {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShow(false)}>No</Button>
-          <Button variant="primary" onClick={() => finishResponse()}>Yes</Button>
+          <Button variant="secondary" disabled={isLoading} onClick={() => setShow(false)}>No</Button>
+          <Button variant="primary" disabled={isLoading} onClick={() => finishResponse()}>{isLoading ? "Loading..." : "Yes"}</Button>
         </Modal.Footer>
       </Modal>
 

@@ -17,7 +17,7 @@ const Radio = ({ item, isBackShown, isNextShown, handleChange, handleBack, isSub
             <Form.Group as={Row}>
               {_.map(item.valueConstraints.itemList, (obj, i) => (
                 <div className="col-md-6" key={i}>
-                  <Form.Check label={obj.name.en} name={item.variableName} type="radio" onChange={handleChange} value={obj.value} id={`${item.variableName}${i}`} />
+                  <Form.Check label={obj.name.en} name={item.variableName} type="radio" onChange={(v) => handleChange({ [item.variableName]: parseInt(v.target.value) == v.target.value ? parseInt(v.target.value) : v.target.value })} value={obj.value} id={`${item.variableName}${i}`} />
                 </div>
               ))}
             </Form.Group>

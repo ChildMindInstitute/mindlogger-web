@@ -25,6 +25,8 @@ import {
 } from '../../state/responses/responses.selectors';
 import config from '../../util/config';
 
+import "./style.css";
+
 const Screens = () => {
   const items = []
   const dispatch = useDispatch()
@@ -135,6 +137,9 @@ const Screens = () => {
           </Card>
         </Col>
         <Col sm={24} xs={24} md={9}>
+          {applet.watermark &&
+            <img className="watermark" src={applet.watermark} alt="watermark" />
+          }
           {_.map(items.slice(0, screenIndex + 1).reverse())}
         </Col>
       </Row>

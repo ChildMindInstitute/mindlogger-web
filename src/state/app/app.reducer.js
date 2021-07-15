@@ -4,78 +4,17 @@ import APP_CONSTANTS from './app.constants'
 import config from '../../util/config'
 
 export const initialState = {
-  /**
-   * The URL to the HTTP API server.
-   *
-   * @type {string}
-   */
-  apiHost: config.defaultApiHost,
-
-  /**
-   * The current skin (theme) for the app.
-   *
-   * @type {object}
-   * @property {string} name the name of the skin.
-   * @property {object} colors the current colors.
-   * @property {string} colors.primary the primary color.
-   * @property {string} colors.secondary the secondary color.
-   */
-  skin: config.defaultSkin,
-
-  /**
-   * The ID of the current applet.
-   *
-   * @type {string}
-   */
-  currentApplet: null,
-
-  /**
-   * The ID of the current activity.
-   *
-   * @type {string}
-   */
-  currentActivity: null,
-
-  /**
-   * Whether the applet cards are disabled.
-   *
-   * @type {boolean}.
-   */
-  appletSelectionDisabled: false,
-
-  /**
-   * Whether the activity cards are disabled.
-   *
-   * @type {boolean}.
-   */
-  activitySelectionDisabled: false,
-
-  /**
-   * If false, applet data will only be downloaded using Wi-Fi.
-   *
-   * @type {boolean}
-   */
-  mobileDataAllowed: true,
-
-  /**
-   * True if the application is in the foreground, false otherwise.
-   *
-   * @type {boolean}
-   */
   appStatus: false,
-
-  /**
-   * Maps applet IDs to the last time the schedule was fetched for that applet.
-   *
-   * @type {object}
-   */
+  apiHost: config.defaultApiHost,
+  skin: config.defaultSkin,
+  currentApplet: null,
+  currentActivity: null,
+  appletSelectionDisabled: false,
+  activitySelectionDisabled: false,
+  mobileDataAllowed: true,
   lastUpdatedTime: {},
-
-  /**
-   * redirect url for app
-   *
-   * @type {string}
-   */
+  finishedEvents: {},
+  responses: [],
   redirectUrl: null
 }
 
@@ -90,6 +29,7 @@ const AppSlice = createSlice({
     setCurrentApplet: (state, action) => { state.currentApplet = action.payload },
     setCurrentActivity: (state, action) => { state.currentActivity = action.payload },
     setAppletSelectionDisabled: (state, action) => { state.appletSelectionDisabled = action.payload },
+    setFinishedEvents: (state, action) => { state.finishedEvents = action.payload },
     setActivitySelectionDisabled: (state, action) => { state.activitySelectionDisabled = action.payload },
     setAppStatus: (state, action) => { state.appStatus = action.payload },
     toggleMobileDataAllowed: (state, action) => { state.mobileDataAllowed = !state.mobileDataAllowed },
@@ -100,14 +40,15 @@ const AppSlice = createSlice({
 export default AppSlice.reducer;
 export const {
   setApiHost,
-  resetApiHost,
   setSkin,
+  setFinishedEvents,
   setUpdatedTime,
   setCurrentApplet,
   setCurrentActivity,
   setAppletSelectionDisabled,
   setActivitySelectionDisabled,
   setAppStatus,
+  setRedirectUrl,
   toggleMobileDataAllowed,
-  setRedirectUrl
+  resetApiHost,
 } = AppSlice.actions;

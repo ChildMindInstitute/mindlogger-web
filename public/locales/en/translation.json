@@ -2,7 +2,7 @@
   "Login": {
     "title": "Login",
     "submit": "Submit",
-    "passwordErrorMessage": "Password must have at least 6 characters",
+    "passwordErrorMessage": "Password is required.",
     "passwordRequiredError": "You must specify a password",
     "password": "Password",
     "email": "Email",
@@ -11,8 +11,8 @@
     "create": " Create One ",
     "reset": " Reset it",
     "emailRequiredError": "Required",
-    "emailErrorMessage": "invalid email address",
-    "errorMessage": "Login failed!",
+    "emailErrorMessage": "Email address is required.",
+    "errorMessage": "Incorrect password if that user exists.",
     "logging": "Loggin in..."
   },
   "SignUp": {
@@ -23,11 +23,15 @@
     "confirmPassword": "Confirm Password",
     "password": "Password",
     "lastName": "Last Name",
-    "passwordErrorMessage": "Password must have at least 6 characters",
+    "firstNameRequiredError": "First name is required.",
+    "passwordErrorMessage": "Password is required.",
+    "passwordLengthError": "Password must be at least 6 characters.",
     "passwordRequiredError": "You must specify a password",
     "emailRequiredError": "Required",
-    "emailErrorMessage": "invalid email address",
-    "passwordError": "Sign up failed: username may already be in use.",
+    "existingEmailError": "That email is already registered in the system.",
+    "invalidEmailError": "Invalid email",
+    "emailErrorMessage": "Email address is required.",
+    "signUpError": "Sign up failed. Email may already be in use.",
     "accountMessage": " Don't have an account? ",
     "forgotPassword": " Forgot Password?",
     "create": " Create One ",
@@ -44,7 +48,7 @@
     "create": " Create One ",
     "reset": " Reset it",
     "emailRequiredError": "Required",
-    "emailErrorMessage": "invalid email address",
+    "emailErrorMessage": "Invalid email address",
     "accountMessage": " Don't have an account? ",
     "forgotPassword": " Forgot Password?",
     "emailError": "Email doesn't exist!",
@@ -56,6 +60,7 @@
     "cautionMessage": "Make sure to set a complex password, and don't share it with anyone.",
     "oldPassword": "Old Password",
     "newPassword": "New Password",
+    "success": "Success",
     "confirmPassword": "Confirm Password",
     "title": "Change Password",
     "submit": "Submit",
@@ -66,12 +71,12 @@
   },
   "Landing": {
     "title": "Welcome to MindLogger",
-    "login": "Log in!",
-    "signUp": "Sign Up!",
+    "login": "Log in",
+    "signUp": "Sign Up",
     "or": "or",
-    "getStart": "Get Started!",
+    "getStart": "Get Started",
     "reserchStudies": " Participate in scientific research studies online!",
-    "toGet": " To get started:"
+    "toGet": " To get started :"
   },
   "Profile": {
     "title": " Download MindLogger to get started.",
@@ -111,7 +116,7 @@
   },
   "Navbar": {
     "mindLogger": "MindLogger",
-    "home": "Home",
+    "applets": "Applets",
     "logIn": "Login",
     "logOut": "Logout",
     "profile": "Profile",
@@ -123,7 +128,9 @@
     "please": "Please",
     "login": "Login",
     "toSeeThePage": "to See The Page",
-    "expiredLink": "Password Resent Link Has Expired"
+    "expiredLink": "Password Resent Link Has Expired",
+    "passwordRequired": "Password is required",
+    "passwordShort": "Password must be at least 6 characters."
   },
   "Consent": {
     "aboutStudy": "About the Study",
@@ -131,16 +138,18 @@
     "howLong": " How long does it last?",
     "benefitsAndRisks": "What are the benefits and risks?",
     "consentForm": "Consent Form",
-    "back" : "Back" ,
-     "next" : "Next",
-     "consent" : "I Consent",
-     "thanks" : "Thanks!",
-    "getStarted" : "You're nearly there. To get started, you'll need to",
+    "back": "Back",
+    "next": "Next",
+    "consent": "I Consent",
+    "thanks": "Thanks!",
+    "getStarted": "You're nearly there. To get started, you'll need to",
     "login": "Login",
     "or": "or",
     "signUp": "Sign Up"
   },
   "back": "Back",
-  "next": "Next"
-
+  "next": "Next",
+  "submit": "Submit",
+  "incorrect_answer": "Incorrect answer. Please try again",
+  "failed": "Failed"
 }

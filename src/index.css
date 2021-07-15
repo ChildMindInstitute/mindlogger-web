@@ -56,3 +56,23 @@ code {
   right: 0px;
   left: unset;
 }
+
+.question {
+  text-align: center;
+}
+
+.question img {
+  width: 250px;
+  max-height: 200px;
+  margin-bottom: 5px;
+  float: left;
+  border-radius: 0.25rem;
+  border: 1px solid #dee2e6;
+}
+
+.question video {
+  width: 250px;
+  float: left;
+  border-radius: 0.25rem;
+  border: 1px solid #dee2e6;
+}

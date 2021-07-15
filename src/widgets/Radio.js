@@ -1,30 +1,32 @@
 import React from 'react';
 import _ from "lodash";
+import { Form, Row, Card, Col } from 'react-bootstrap';
 
 import Navigator from './Navigator';
+import Markdown from '../components/Screens/Markdown';
 
-const Radio = () => (
-  <div className="card mb-3" style={{ maxWidth: "auto" }}>
-    <div className="row no-gutters">
-      <div className="col-md-3 p-3">
-        <img src="../logo192.png" className="rounded w-h" alt="applet-image" />
-      </div>
-      <div className="col-md-9">
-        <div className="card-body">
-          <h5 className="card-title">Donec euismod eros non rutrum ornare. Nunc vulputate purus eget ante tristique, in mollis tortor placerat.</h5>
-          <div className="row no-gutters pl-4">
-            {_.map(_.range(0, 5), (i) => (
-              <div className="col-md-6" key={i}>
-                <input className="form-check-input" type="radio" name="inlineRadioOptions" id={`inlineRadio${i}`} value="option1" />
-                <label className="form-check-label" htmlFor={`inlineRadio${i}`}>Nunc vulputate purus</label>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-    <Navigator />
-  </div>
+const Radio = ({ item, isBackShown, isNextShown, handleChange, handleBack, isSubmitShown }) => (
+  <Card className="mb-3" style={{ maxWidth: "auto" }}>
+    <Row className="no-gutters">
+      <Col md={12}>
+        <Card.Body>
+          <Card.Title className="question">
+            <Markdown>{item.question.en}</Markdown>
+          </Card.Title>
+          <Row className="no-gutters pl-5">
+            <Form.Group as={Row}>
+              {_.map(item.valueConstraints.itemList, (obj, i) => (
+                <div className="col-md-6" key={i}>
+                  <Form.Check label={obj.name.en} name={item.variableName} type="radio" onChange={handleChange} value={obj.value} id={`${item.variableName}${i}`} />
+                </div>
+              ))}
+            </Form.Group>
+          </Row>
+        </Card.Body>
+      </Col>
+    </Row>
+    <Navigator isBackShown={isBackShown} isNextShown={isNextShown} handleBack={handleBack} isSubmitShown={isSubmitShown} />
+  </Card>
 )
 
 export default Radio;

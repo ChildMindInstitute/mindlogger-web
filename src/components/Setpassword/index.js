@@ -16,7 +16,7 @@ import { checkTemporaryPassword } from '../../services/authentication.service'
  */
 export default function SetPassword() {
   const { userId, temporaryToken } = useParams()
-  const [status, setStatus] = useState(Statuses.READY)
+  const [status, setStatus] = useState("")
   const [isValidToken, setIsValidToken] = useState(false)
   const [passwordData, setPasswordData] = useState({
     newPassword: '',
@@ -45,6 +45,18 @@ export default function SetPassword() {
 
   const onSubmit = async (event) => {
     event.preventDefault()
+    setStatus(Statuses.SUBMITTED)
+
+    if (!isPasswordSame) {
+      setStatus(t('SignUp.passwordsUnmatched'));
+      return;
+    } else if (isPasswordEmpty) {
+      setStatus(t('SetPassword.passwordRequired'));
+      return;
+    } else if (isPasswordShort) {
+      setStatus(t('SetPassword.passwordShort'));
+      return;
+    }
 
     try {
       let result = await dispatch(updatePassword({
@@ -54,15 +66,16 @@ export default function SetPassword() {
           newPassword: passwordData.newPassword
         }
       }));
+      setStatus("")
       result = unwrapResult(result);
       history.push('/login');
 
-    } catch (error) {
-      setStatus(Statuses.DECLINED)
-    }
+    } catch (error) {}
   }
 
   const isPasswordSame = passwordData.newPassword === passwordData.confirmPassword
+  const isPasswordEmpty = !passwordData.newPassword
+  const isPasswordShort = passwordData.newPassword.length < 6
 
   return (
     <div className="demo mb-3">
@@ -110,23 +123,26 @@ export default function SetPassword() {
                     }
                   />
                 </div>
-                {!isPasswordSame && (
+                {status && status === Statuses.SUBMITTED && (
+                  <Alert variant={'success'} className="error-alert">
+                    {status}
+                  </Alert>
+                )}
+
+                {status && status !== Statuses.SUBMITTED && (
                   <Alert variant={'danger'} className="error-alert">
-                    {t('SignUp.passwordsUnmatched')}
+                    {status}
                   </Alert>
                 )}
                 <Button
                   type="submit"
                   variant="success"
-                  disabled={loading || !isPasswordSame}
+                  disabled={loading}
                 >
                   {t('ChangePassword.submit')}
                 </Button>
               </Form>
             </div>
-            {status === Statuses.DECLINED && (
-              <div>{t('SetPassword.expiredLink')}</div>
-            )}
           </div>
         )
         : (

@@ -8,9 +8,9 @@ import MyButton from '../components/Button';
 export default Navigator = (props) => {
   const { t } = useTranslation();
   const {
-    answer,
     isBackShown,
     isNextShown,
+    isNextDisable,
     handleBack,
     isSubmitShown,
     canSubmit
@@ -35,7 +35,7 @@ export default Navigator = (props) => {
           type="submit"
           label={ isSubmitShown ? t("submit") : t("next") }
           classes="mr-5 mb-2"
-          disabled={!answer && answer !== 0}
+          disabled={isNextDisable}
           handleClick={(e) => {
             if (typeof canSubmit === 'function' && !canSubmit(e)) {
               e.preventDefault();

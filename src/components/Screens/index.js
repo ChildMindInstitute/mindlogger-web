@@ -1,43 +1,44 @@
 import React, { useState, useEffect } from 'react';
+import _ from 'lodash';
 import { useSelector, useDispatch } from 'react-redux';
-import { Card, Row, Col } from 'react-bootstrap';
+import { Card, Row, Col, Modal, Button } from 'react-bootstrap';
+import { useParams, useHistory } from 'react-router-dom';
 import Avatar from 'react-avatar';
 
 import Item from '../Item';
-import { prepareResponseForUpload } from '../../models/response';
 import { testVisibility } from '../../services/visibility';
-import { getEncryptionKeys } from '../../services/encryption';
 import { getNextPos, getLastPos } from '../../services/navigation';
 import { userInfoSelector } from '../../state/user/user.selectors';
 import { currentActivitySelector, currentAppletSelector } from '../../state/app/app.selectors';
-import { startUploadQueue } from '../../state/responses/responses.actions';
+import { completeResponse } from '../../state/responses/responses.actions';
 import {
-  addToUploadQueue,
   setAnswer,
   setCurrentScreen,
   createResponseInProgress,
 } from '../../state/responses/responses.reducer';
 
 import {
-  currentAppletResponsesSelector,
+  // responsesSelector,
   currentScreenResponseSelector,
   currentResponsesSelector,
   currentScreenIndexSelector,
 } from '../../state/responses/responses.selectors';
 import config from '../../util/config';
 
-import * as R from 'ramda';
-import _ from 'lodash';
+import "./style.css";
 
 const Screens = () => {
   const items = []
   const dispatch = useDispatch()
   const [data] = useState({});
+  const [show, setShow] = useState(false);
+
+  const history = useHistory();
+  const { appletId, activityId } = useParams();
 
   const applet = useSelector(currentAppletSelector);
   const answer = useSelector(currentScreenResponseSelector);
   const user = useSelector(userInfoSelector);
-  const responseHistory = useSelector(currentAppletResponsesSelector);
   const activityAccess = useSelector(currentActivitySelector);
   const screenIndex = useSelector(currentScreenIndexSelector);
   const inProgress = useSelector(currentResponsesSelector);
@@ -60,27 +61,14 @@ const Screens = () => {
     }));
   }, [])
 
+  const finishResponse = async () => {
+    await dispatch(completeResponse(false));
+    history.push(`/applet/${appletId}/dashboard`);
+  };
+
   const handleNext = () => {
     if (next === -1) {
-      // Submit responses:
-      console.log('--- submit ---', inProgress);
-
-      if ((!applet.AESKey || !applet.userPublicKey) && config.encryptResponse) {
-        if (!applet.encryption) return;
-
-        const encryptionKeys = getEncryptionKeys(applet, user);
-
-        // const response = prepareResponseForUpload(
-        //   inProgress,
-        //   applet,
-        //   responseHistory
-        // );
-
-        // console.log('prepared response ------>', response);
-        // dispatch(addToUploadQueue(response));
-        // dispatch(startUploadQueue());
-        
-      }
+      setShow(true);
     } else {
       // Go to next item:
       dispatch(
@@ -149,9 +137,26 @@ const Screens = () => {
           </Card>
         </Col>
         <Col sm={24} xs={24} md={9}>
+          {applet.watermark &&
+            <img className="watermark" src={applet.watermark} alt="watermark" />
+          }
           {_.map(items.slice(0, screenIndex + 1).reverse())}
         </Col>
       </Row>
+
+      <Modal show={show} onHide={() => setShow(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>{'Response Submit'}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {'Would you like to submit response?'}
+        </Modal.Body>
+
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShow(false)}>No</Button>
+          <Button variant="primary" onClick={() => finishResponse()}>Yes</Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   )
 }

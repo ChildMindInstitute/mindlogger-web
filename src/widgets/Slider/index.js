@@ -36,6 +36,10 @@ const SliderWidget = ({
 
   const [data, setData] = useState(answer);
 
+  const isNextDisable = () => {
+    return !answer || (!answer.value && answer.value !== 0);
+  }
+
   return (
     <Card className="mb-3" style={{ maxWidth: "auto" }}>
       <Row className="no-gutters">
@@ -48,14 +52,19 @@ const SliderWidget = ({
               <div className="slider">
                 <input
                   type="range"
+                  className={!data ? "no-value" : ""}
                   min={minValue}
                   max={maxValue}
-                  value={data && data.value}
-                  step={continuousSlider ? 0.1 : 1}
+                  value={data && data.value || 0}
+                  step={0.1}
                   onChange={(e) => {
                     const answer = {
                       value: e.target.value
                     };
+
+                    if (!continuousSlider) {
+                      answer.value = Math.round(answer.value);
+                    }
 
                     setData(answer)
                     handleChange(answer)
@@ -111,6 +120,7 @@ const SliderWidget = ({
       <Navigator
         isBackShown={isBackShown}
         isNextShown={isNextShown}
+        isNextDisable={isNextDisable()}
         handleBack={handleBack}
         isSubmitShown={isSubmitShown}
       />

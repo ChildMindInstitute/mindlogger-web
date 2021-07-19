@@ -98,6 +98,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
       activity: activity,
       event: null,
       subjectId: user?._id,
+      publicId: currentApplet.publicId || null,
       timeStarted: new Date().getTime()
     }));
 

@@ -23,6 +23,7 @@ import ActivityList from './components/ActivityList'
 import SetPassword from './components/Setpassword'
 import { Consent } from './components/Consent/index'
 import Screens from './components/Screens'
+import PublicApplet from './components/PublicApplet';
 
 import './App.css';
 
@@ -61,6 +62,9 @@ const App = () => {
               : <>
                 <Route path="/login" exact component={Login} />
                 <Route path="/signup" exact component={SignUp} />
+                <Route path="/applet/public/:id" exact component={PublicApplet} />
+                <Route path="/applet/public/:appletId/dashboard" exact component={ActivityList} />
+                <Route path="/applet/public/:appletId/activity/:activityId" exact component={Screens} />
                 <Route path="/forgotpassword" exact component={ForgotPassword} />
                 <Route path="/useraccount/:userId/token/:temporaryToken" exact component={SetPassword} />
                 <Route path="/invitation/:invitationId" exact component={Invitation} />

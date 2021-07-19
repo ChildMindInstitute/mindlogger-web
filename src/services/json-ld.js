@@ -753,7 +753,7 @@ export const transformApplet = (payload, currentApplets = null) => {
 const getActivityAbility = (schedule, activityId) => {
   let availability = false;
 
-  Object.keys(schedule.events).forEach(key => {
+  schedule && Object.keys(schedule.events).forEach(key => {
     const e = schedule.events[key];
 
     if (e.data.activity_id === activityId.substring(9)) {
@@ -769,19 +769,21 @@ export const parseAppletEvents = (applet) => {
     const events = [];
     const availability = getActivityAbility(applet.schedule, act.id);
 
-    for (let eventId in applet.schedule.events) {
-      const event = { ...applet.schedule.events[eventId] };
-      const futureSchedule = Parse.schedule(event.schedule).forecast(
-        Day.fromDate(new Date()),
-        true,
-        1,
-        0,
-        true,
-      );
+    if (applet.schedule) {
+      for (let eventId in applet.schedule.events) {
+        const event = { ...applet.schedule.events[eventId] };
+        const futureSchedule = Parse.schedule(event.schedule).forecast(
+          Day.fromDate(new Date()),
+          true,
+          1,
+          0,
+          true,
+        );
 
-      event.scheduledTime = getStartOfInterval(futureSchedule.array()[0]);
-      if (event.data.activity_id === act.id.substring(9) && !act.hasResponseIdentifier) {
-        events.push(event);
+        event.scheduledTime = getStartOfInterval(futureSchedule.array()[0]);
+        if (event.data.activity_id === act.id.substring(9) && !act.hasResponseIdentifier) {
+          events.push(event);
+        }
       }
     }
 

@@ -104,11 +104,18 @@
     "declineInvitation": "pour refuser cette invitation"
   },
   "InvitationText": {
-    "loadingInvitation": "Invitation de chargement",
+    "loadingInvitation" : "Chargement de l'invitation",
     "invitationRemoved": "Invitation supprimée",
     "networkError": "Erreur réseau. Revenir ",
     "home": "Maisons",
     "acceptInvitation": "Invitation acceptée"
+  },
+  "InviteLink": {
+    "title": "Vous avez été invité par {{coordinatorName}} (<a href=\"mailto={{email}}\">{{coordinatorEmail}}</a>) à être un utilisateur de <strong>{{displayName}}</strong> sur MindLogger.<br/>Ci-dessous, les utilisateurs qui ont accès à vos données:",
+    "loading": "Chargement de l'invitation",
+    "reviewers": "Utilisateurs qui peuvent voir vos données pour cette applet:",
+    "managers": "Utilisateurs qui peuvent modifier les paramètres de cette applet, y compris ceux qui peuvent accéder à vos données:",
+    "coordinators": "Utilisateurs qui peuvent modifier les paramètres de cette applet, mais qui ne peuvent pas changer qui peut voir vos données :"
   },
   "InvitationButtons": {
     "acceptInvitation": "Accepter l'invitation",

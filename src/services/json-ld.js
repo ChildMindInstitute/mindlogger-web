@@ -203,7 +203,7 @@ export const flattenValueConstraints = (vcObj) =>
     if (key === CONTINOUS_SLIDER) {
       return {
         ...accumulator,
-        continousSlider: R.path([key, 0, "@value"], vcObj),
+        continuousSlider: R.path([key, 0, "@value"], vcObj),
       }
     }
     if (key === RESPONSE_ALERT_MESSAGE) {

@@ -164,7 +164,7 @@ export const getTokenUpdateInfo = (
 ) => {
   const cumulative = responseHistory.tokens.cumulativeToken + offset;
 
-  if (config.encryptResponse && appletMetaData.encryption) {
+  if (appletMetaData.encryption) {
     return {
       offset: getEncryptedData(
         {

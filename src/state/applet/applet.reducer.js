@@ -37,7 +37,7 @@ const appletSlice = createSlice({
     prepareResponseKeys: (state, action) => {
       const { appletId, keys } = action.payload;
       const applet = state.applets.find(applet => applet.id = appletId);
-      
+
       if (applet) {
         Object.entries(keys).forEach(entry => {
           applet[entry[0]] = entry[1];

@@ -58,12 +58,14 @@ export default function Login() {
                 className="mb-3"
                 value={user.email}
                 onChange={(e) => setUser({ ...user, email: e.target.value })}
+                required
               />
               <Form.Control
                 type="password"
                 placeholder={t('Login.password')}
                 value={user.password}
                 onChange={(e) => setUser({ ...user, password: e.target.value })}
+                required
               />
             </div>
             <Button

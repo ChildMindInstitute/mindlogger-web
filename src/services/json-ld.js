@@ -84,6 +84,8 @@ import {
   MIN_ALERT_VALUE,
   MAX_ALERT_VALUE,
   ORDER,
+  HAS_RESPONSE_IDENTIFIER,
+  IS_RESPONSE_IDENTIFIER,
 } from '../constants';
 
 export const languageListToObject = (list) => {
@@ -155,6 +157,13 @@ export const flattenValueConstraints = (vcObj) =>
       return {
         ...accumulator,
         multipleChoice: R.path([key, 0, "@value"], vcObj),
+      };
+    }
+
+    if (key == IS_RESPONSE_IDENTIFIER) {
+      return {
+        ...accumulator,
+        isResponseIdentifier: R.path([key, 0, "@value"], vcObj),
       };
     }
 
@@ -470,6 +479,7 @@ const transformPureActivity = (activityJson) => {
     fullScreen: allowList.includes(FULL_SCREEN),
     autoAdvance: allowList.includes(AUTO_ADVANCE),
     isPrize: R.path([ISPRIZE, 0, "@value"], activityJson) || false,
+    hasResponseIdentifier: R.path([HAS_RESPONSE_IDENTIFIER, 0, "@value"], activityJson) || false,
     compute,
     subScales,
     finalSubScale,
@@ -743,7 +753,7 @@ export const transformApplet = (payload, currentApplets = null) => {
 const getActivityAbility = (schedule, activityId) => {
   let availability = false;
 
-  Object.keys(schedule.events).forEach(key => {
+  schedule && Object.keys(schedule.events).forEach(key => {
     const e = schedule.events[key];
 
     if (e.data.activity_id === activityId.substring(9)) {
@@ -759,19 +769,21 @@ export const parseAppletEvents = (applet) => {
     const events = [];
     const availability = getActivityAbility(applet.schedule, act.id);
 
-    for (let eventId in applet.schedule.events) {
-      const event = { ...applet.schedule.events[eventId] };
-      const futureSchedule = Parse.schedule(event.schedule).forecast(
-        Day.fromDate(new Date()),
-        true,
-        1,
-        0,
-        true,
-      );
+    if (applet.schedule) {
+      for (let eventId in applet.schedule.events) {
+        const event = { ...applet.schedule.events[eventId] };
+        const futureSchedule = Parse.schedule(event.schedule).forecast(
+          Day.fromDate(new Date()),
+          true,
+          1,
+          0,
+          true,
+        );
 
-      event.scheduledTime = getStartOfInterval(futureSchedule.array()[0]);
-      if (event.data.activity_id === act.id.substring(9)) {
-        events.push(event);
+        event.scheduledTime = getStartOfInterval(futureSchedule.array()[0]);
+        if (event.data.activity_id === act.id.substring(9) && !act.hasResponseIdentifier) {
+          events.push(event);
+        }
       }
     }
 

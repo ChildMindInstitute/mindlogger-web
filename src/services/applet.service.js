@@ -27,3 +27,15 @@ export const getAppletsAPI = async ({ token, localInfo, currentApplet = '', next
     throw new Error(error.response.data.message)
   }
 }
+
+export const getPublicAppletAPI = async ({ publicId, nextActivity = '' }) => {
+  const url = `${apiHost()}/applet/public/${publicId}/data?nextActivity=${nextActivity}`;
+
+  try {
+    const response = await axios.get(url)
+
+    return response.data
+  } catch (error) {
+    throw new Error(error.response.data.message)
+  }
+}

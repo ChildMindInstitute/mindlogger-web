@@ -88,7 +88,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
       setPrizeActivity(prizeActs[0]);
     }
 
-    const temp = sortActivities(appletActivities, inProgress, finishedEvents, currentApplet.schedule.data);
+    const temp = sortActivities(appletActivities, inProgress, finishedEvents, currentApplet.schedule?.data);
     setActivities(temp);
   }
 
@@ -97,11 +97,16 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
     dispatch(createResponseInProgress({
       activity: activity,
       event: null,
-      subjectId: user._id,
+      subjectId: user?._id,
+      publicId: currentApplet.publicId || null,
       timeStarted: new Date().getTime()
     }));
 
-    history.push(`/applet/${appletId}/${activity.id}`);
+    if (currentApplet.publicId) {
+      history.push(`/applet/public/${appletId}/${activity.id}`);
+    } else {
+      history.push(`/applet/${appletId}/${activity.id}`);
+    }
   }
   const closeAboutPage = () => showAboutPage(false);
   const openAboutPage = () => showAboutPage(true);

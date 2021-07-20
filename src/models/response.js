@@ -28,7 +28,7 @@ export const prepareResponseForUpload = (
   const { activity, responses, subjectId } = inProgressResponse;
   const appletVersion = appletMetaData.schemaVersion[languageKey];
   const scheduledTime = activity.event && activity.event.scheduledTime;
-  let cumulative = responseHistory.tokens.cumulativeToken;
+  let cumulative = responseHistory.tokens?.cumulativeToken || 0;
 
   const alerts = [];
   for (let i = 0; i < responses.length; i += 1) {
@@ -83,6 +83,18 @@ export const prepareResponseForUpload = (
     languageCode: languageKey,
     alerts,
   };
+
+  if (appletMetaData.publicId) {
+    responseData.publicId = appletMetaData.publicId;
+  }
+
+  const index = activity.items.findIndex(
+    item => item.valueConstraints && item.valueConstraints.isResponseIdentifier
+  );
+
+  if (index >= 0) {
+    responseData.identifier = responses[index].value !== undefined ? responses[index].value : responses[index];
+  }
 
   let subScaleResult = [];
   if (activity.subScales) {

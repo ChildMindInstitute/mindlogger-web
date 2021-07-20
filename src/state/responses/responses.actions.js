@@ -3,6 +3,7 @@ import RESPONSE_CONSTANTS from './responses.constants';
 import { authTokenSelector, userInfoSelector, loggedInSelector } from "../user/user.selectors";
 import { prepareResponseKeys } from '../applet/applet.reducer';
 import { currentAppletSelector, currentActivitySelector } from '../app/app.selectors';
+import { getPrivateKey } from '../../services/encryption';
 import {
   currentResponsesSelector,
   currentAppletResponsesSelector,
@@ -28,14 +29,14 @@ import { downloadAllResponses, uploadResponseQueue, downloadAppletResponse } fro
 export const updateKeys = (applet, userInfo) => (dispatch) => {
   if (!applet.encryption) return;
 
-  applet.AESKey = getAESKey(
+  const AESKey = getAESKey(
     userInfo.privateKey,
     applet.encryption.appletPublicKey,
     applet.encryption.appletPrime,
     applet.encryption.base
   );
 
-  applet.userPublicKey = Array.from(
+  const userPublicKey = Array.from(
     getPublicKey(
       userInfo.privateKey,
       applet.encryption.appletPrime,
@@ -47,8 +48,8 @@ export const updateKeys = (applet, userInfo) => (dispatch) => {
     prepareResponseKeys({
       appletId: applet.id,
       keys: {
-        AESKey: applet.AESKey,
-        userPublicKey: applet.userPublicKey,
+        AESKey,
+        userPublicKey
       }
     })
   );
@@ -57,13 +58,28 @@ export const updateKeys = (applet, userInfo) => (dispatch) => {
 export const completeResponse = createAsyncThunk(RESPONSE_CONSTANTS.COMPLETE_RESPONSES, async (isTimeout, { dispatch, getState }) => {
   const state = getState();
   const authToken = authTokenSelector(state);
-  const applet = currentAppletSelector(state);
+  let applet = currentAppletSelector(state);
   const inProgressResponse = currentResponsesSelector(state);
   const activity = currentActivitySelector(state);
   // const event = currentEventSelector(state);
 
-  if ((!applet.AESKey || !applet.userPublicKey)) {
-    dispatch(updateKeys(applet, userInfoSelector(state)));
+  if ((!applet.AESKey || !applet.userPublicKey || applet.publicId)) {
+    if (applet.publicId) {
+      const pass = activity.items.findIndex(item => item.correctAnswer?.en)
+      const identifier = activity.items.findIndex(item => item.valueConstraints?.isResponseIdentifier)
+
+      dispatch(updateKeys(applet, {
+        privateKey: getPrivateKey({
+          userId: applet.publicId,
+          email: identifier >= 0 && inProgressResponse['responses'][identifier] || '',
+          password: pass >= 0 && inProgressResponse['responses'][pass] || ''
+        })
+      }))
+    } else {
+      dispatch(updateKeys(applet, userInfoSelector(state)));
+    }
+
+    applet = currentAppletSelector(state)
   }
 
   const responseHistory = currentAppletResponsesSelector(state);
@@ -87,7 +103,10 @@ export const completeResponse = createAsyncThunk(RESPONSE_CONSTANTS.COMPLETE_RES
       version,
       updates.userPublicKey || null
     );
-    await dispatch(downloadResponses())
+
+    if (!applet.publicId) {
+      await dispatch(downloadResponses())
+    }
 
   } else {
     const preparedResponse = prepareResponseForUpload(inProgressResponse, applet, responseHistory, isTimeout);
@@ -163,9 +182,11 @@ export const startUploadQueue = createAsyncThunk(RESPONSE_CONSTANTS.START_UPLOAD
     dispatch(shiftUploadQueue());
   })
 
-  if (applet) {
-    await dispatch(downloadResponse());
-  } else {
-    await dispatch(downloadResponses());
+  if (!applet.publicId) {
+    if (applet) {
+      await dispatch(downloadResponse());
+    } else {
+      await dispatch(downloadResponses());
+    }
   }
 })

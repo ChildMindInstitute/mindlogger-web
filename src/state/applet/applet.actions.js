@@ -8,7 +8,7 @@ import { updateKeys } from '../responses/responses.actions';
 import { replaceResponses } from '../responses/responses.reducer';
 
 import { transformApplet } from '../../services/json-ld';
-import { getAppletsAPI } from '../../services/applet.service';
+import { getAppletsAPI, getPublicAppletAPI } from '../../services/applet.service';
 import { decryptAppletResponses } from '../../models/response';
 
 import APPLET_CONSTANTS from './applet.constants';
@@ -54,4 +54,20 @@ export const getApplets = createAsyncThunk(APPLET_CONSTANTS.GET_APPLETS, async (
   dispatch(replaceResponses(responses));
 
   return transformedApplets;
+});
+
+export const getPublicApplet = createAsyncThunk(APPLET_CONSTANTS.GET_PUBLIC_APPLET, async (publicId, { getState, dispatch }) => {
+  const appletInfo = await getPublicAppletAPI({
+    publicId, nextActivity: ''
+  })
+
+  const applet = transformApplet(appletInfo);
+
+  applet.publicId = publicId;
+
+  if (!applet.AESKey || !applet.userPublicKey) {
+    // dispatch(updateKeys(applet, userInfo));
+  }
+
+  return applet
 });

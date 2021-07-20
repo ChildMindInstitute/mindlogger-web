@@ -56,6 +56,17 @@ const appletSlice = createSlice({
       state.loading = false;
       state.error = action.error.message;
     },
+
+    [`${APPLET_CONSTANTS.GET_PUBLIC_APPLET}/pending`]: (state, action) => { state.loading = true; state.error = null; },
+    [`${APPLET_CONSTANTS.GET_PUBLIC_APPLET}/fulfilled`]: (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.applets = [action.payload];
+    },
+    [`${APPLET_CONSTANTS.GET_PUBLIC_APPLET}/rejected`]: (state, action) => {
+      state.loading = false;
+      state.error = action.error.message;
+    },
   }
 
 })

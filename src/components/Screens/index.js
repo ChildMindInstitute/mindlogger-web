@@ -62,7 +62,12 @@ const Screens = () => {
 
   const finishResponse = async () => {
     await dispatch(completeResponse(false));
-    history.push(`/applet/${appletId}/dashboard`);
+
+    if (applet.publicId) {
+      history.push(`/applet/public/${appletId.split('/').pop()}/dashboard`);
+    } else {
+      history.push(`/applet/${appletId}/dashboard`);
+    }
   };
 
   const handleNext = () => {

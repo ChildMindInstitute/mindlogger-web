@@ -106,6 +106,13 @@
     "home": "Home",
     "acceptInvitation": "Invitation Accepted"
   },
+  "InviteLink": {
+    "title": "You were invited by {{coordinatorName}} (<a href=\"mailto={{email}}\">{{coordinatorEmail}}</a>) to be a user of <strong>{{displayName}}</strong> on MindLogger.<br/>Below are users that have access to your data:",
+    "loading": "Loading invite link",
+    "reviewers": "Users who can see your data for this applet:",
+    "managers": "Users who can change this applet's settings, including who can access your data:",
+    "coordinators": "Users who can change this applet's settings, but who cannot change who can see your data:"
+  },
   "InvitationButtons": {
     "acceptInvitation": "Accept Invitation",
     "declineInvitation": "Decline Invitation"
@@ -134,11 +141,11 @@
     "howLong": " How long does it last?",
     "benefitsAndRisks": "What are the benefits and risks?",
     "consentForm": "Consent Form",
-    "back" : "Back" ,
-     "next" : "Next",
-     "consent" : "I Consent",
-     "thanks" : "Thanks!",
-    "getStarted" : "You're nearly there. To get started, you'll need to",
+    "back": "Back",
+    "next": "Next",
+    "consent": "I Consent",
+    "thanks": "Thanks!",
+    "getStarted": "You're nearly there. To get started, you'll need to",
     "login": "Login",
     "or": "or",
     "signUp": "Sign Up"

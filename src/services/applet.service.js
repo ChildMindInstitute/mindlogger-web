@@ -17,9 +17,11 @@ export const getAppletsAPI = async ({ token, localInfo, currentApplet = '', next
     "Girder-Token": token,
   };
 
+  const formData = new FormData();
+  formData.set('localInfo', JSON.stringify(localInfo))
+
   try {
-    const response = await axios.put(url, null, {
-      params: { localInfo },
+    const response = await axios.put(url, formData, {
       headers
     })
     return response.data.data

@@ -24,6 +24,7 @@ import SetPassword from './components/Setpassword'
 import { Consent } from './components/Consent/index'
 import Screens from './components/Screens'
 import PublicApplet from './components/PublicApplet';
+import { Join } from './components/Invitation/Join';
 
 import './App.css';
 
@@ -58,6 +59,7 @@ const App = () => {
                 <Route path="/consent/:inviteURL" exact component={Consent} />
                 <Route path="/applet/:appletId/activity/:activityId" exact component={Screens} />
                 <Route path="/applet/:appletId/dashboard" exact component={ActivityList} />
+                <Route path="/join/:inviteLinkId" exact component={Join} />
               </>
               : <>
                 <Route path="/login" exact component={Login} />
@@ -72,6 +74,7 @@ const App = () => {
                 <Route path="/invitation/:invitationId/decline" exact component={DeclineInvitation} />
                 <Route path="/dashboard" exact component={Landing} />
                 <Route path="/" exact component={Landing} />
+                <Route path="/join/:inviteLinkId" exact component={Join} />
               </>
             }
           </Switch>

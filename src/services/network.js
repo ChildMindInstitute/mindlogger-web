@@ -156,8 +156,8 @@ export const updatePassword = (authToken, oldPassword, newPassword) => {
 export const fileLink = (file, token) =>
   file
     ? `${apiHost()}/${
-        file["@id"]
-      }/download?contentDisposition=inline&token=${token}`
+    file["@id"]
+    }/download?contentDisposition=inline&token=${token}`
     : "";
 
 export const registerOpenApplet = (authToken, schemaURI) => {

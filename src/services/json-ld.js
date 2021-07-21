@@ -69,6 +69,7 @@ import {
   MESSAGE,
   LOOKUP_TABLE,
   AGE,
+  WATERMARK,
   RAW_SCORE,
   SEX,
   T_SCORE,
@@ -550,6 +551,7 @@ export const appletTransformJson = (appletJson) => {
     altLabel: languageListToObject(applet[ALT_LABEL]),
     visibility: listToVisObject(applet[ADD_PROPERTIES]),
     image: applet[IMAGE],
+    watermark: R.path([WATERMARK, 0, "@id"], applet),
     order: flattenIdList(applet[ORDER][0]["@list"]),
     schedule,
     contentUpdateTime: updated,
@@ -662,6 +664,8 @@ export const transformApplet = (payload, currentApplets = null) => {
 
                 if (!act.items) {
                   applet.activities[index].items = [];
+                } else {
+                  applet.activities[index].items = [...currentApplet.activities[index].items]
                 }
                 act.items.forEach((itemData, i) => {
                   if (itemData.id.split('/')[1] === dataKey.split('/')[1] && !updated) {

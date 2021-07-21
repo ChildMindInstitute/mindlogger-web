@@ -73,16 +73,16 @@ const responseSlice = createSlice({
 })
 
 export const {
-    createResponseInProgress,
-    setCurrentScreen,
-    setAnswer,
-    setInProgress,
-    addToUploadQueue,
-    setDownloadingResponses,
-    setResponsesDownloadProgress,
-    replaceResponses,
-    setSchedule,
-    replaceAppletResponse,
-    shiftUploadQueue
+  createResponseInProgress,
+  setCurrentScreen,
+  setAnswer,
+  setInProgress,
+  addToUploadQueue,
+  setDownloadingResponses,
+  setResponsesDownloadProgress,
+  replaceResponses,
+  setSchedule,
+  replaceAppletResponse,
+  shiftUploadQueue
 } = responseSlice.actions;
 export default responseSlice.reducer;

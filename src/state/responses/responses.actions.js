@@ -1,3 +1,4 @@
+
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import RESPONSE_CONSTANTS from './responses.constants';
 import { authTokenSelector, userInfoSelector, loggedInSelector } from "../user/user.selectors";
@@ -117,7 +118,7 @@ export const completeResponse = createAsyncThunk(RESPONSE_CONSTANTS.COMPLETE_RES
   // todo
 })
 
-export const downloadResponses = createAsyncThunk(RESPONSE_CONSTANTS.DOWNLOAD_RESPONSES, async (args, {dispatch, getState}) => {
+export const downloadResponses = createAsyncThunk(RESPONSE_CONSTANTS.DOWNLOAD_RESPONSES, async (args, { dispatch, getState }) => {
   const state = getState();
   const authToken = authTokenSelector(state);
   const applets = appletsSelector(state);

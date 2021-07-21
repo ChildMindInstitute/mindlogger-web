@@ -36,7 +36,6 @@ const appletSlice = createSlice({
     selectActivity: (state, action) => { state.activityAccess = action.payload },
     prepareResponseKeys: (state, action) => {
       const { appletId, keys } = action.payload;
-
       const applet = state.applets.find(applet => applet.id = appletId);
 
       if (applet) {

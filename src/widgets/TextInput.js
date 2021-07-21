@@ -26,6 +26,8 @@ const TextInput = ({
 
   const [value, setValue] = useState((answer || ''));
 
+  console.log('answer', answer);
+
   return (
     <Card className="mb-3" style={{ maxWidth: "auto" }}>
       <Row className="no-gutters">
@@ -43,6 +45,7 @@ const TextInput = ({
                   setValue(e.target.value)
                   handleChange(e.target.value);
                 }}
+                disabled={!isNextShown}
               />
             </Row>
           </Card.Body>
@@ -61,6 +64,7 @@ const TextInput = ({
       <Navigator
         isBackShown={isBackShown}
         isNextShown={isNextShown}
+        isNextDisable={!answer}
         handleBack={handleBack}
         isSubmitShown={isSubmitShown}
         canSubmit={(e) => {

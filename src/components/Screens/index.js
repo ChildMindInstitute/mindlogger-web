@@ -1,39 +1,64 @@
 import React, { useState, useEffect } from 'react';
-import _ from "lodash";
+import _ from 'lodash';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams, useHistory } from 'react-router-dom';
 import { Card, Row, Col, Modal, Button } from 'react-bootstrap';
+import { useParams, useHistory } from 'react-router-dom';
 import Avatar from 'react-avatar';
 
-// Component
 import Item from '../Item';
-
-// Constants
+import { testVisibility } from '../../services/visibility';
+import { getNextPos, getLastPos } from '../../services/navigation';
+import { userInfoSelector } from '../../state/user/user.selectors';
 import { currentActivitySelector, currentAppletSelector } from '../../state/app/app.selectors';
-import {
-  setCurrentScreen,
-  setAnswer
-} from '../../state/responses/responses.reducer';
-
 import { completeResponse } from '../../state/responses/responses.actions';
-
 import {
+  setAnswer,
+  setCurrentScreen,
+  createResponseInProgress,
+} from '../../state/responses/responses.reducer';
+import {
+  // responsesSelector,
   currentScreenResponseSelector,
-  currentScreenIndexSelector
+  currentResponsesSelector,
+  currentScreenIndexSelector,
 } from '../../state/responses/responses.selectors';
+import config from '../../util/config';
+
+import "./style.css";
 
 const Screens = () => {
   const items = []
-  const { appletId, activityId } = useParams();
   const dispatch = useDispatch()
-  const [data, setData] = useState({});
-  const history = useHistory();
+  const [data] = useState({});
   const [show, setShow] = useState(false);
 
+  const history = useHistory();
+  const { appletId, activityId } = useParams();
+
+  const applet = useSelector(currentAppletSelector);
   const answer = useSelector(currentScreenResponseSelector);
+  const user = useSelector(userInfoSelector);
   const screenIndex = useSelector(currentScreenIndexSelector);
   const activityAccess = useSelector(currentActivitySelector);
-  const applet = useSelector(currentAppletSelector);
+  const inProgress = useSelector(currentResponsesSelector);
+  const visibility = activityAccess.items.map((item) => 
+    testVisibility(
+      item.visibility,
+      activityAccess.items,
+      inProgress ?.responses
+    )
+  );
+  const next = getNextPos(screenIndex, visibility);
+  const prev = getLastPos(screenIndex, visibility);
+
+  useEffect(() => {
+    dispatch(createResponseInProgress({
+      activity: activityAccess,
+      event: null,
+      subjectId: user._id,
+      timeStarted: new Date().getTime()
+    }));
+  }, [])
 
   const finishResponse = async () => {
     await dispatch(completeResponse(false));
@@ -45,14 +70,15 @@ const Screens = () => {
     }
   };
 
-  const handleNext = (values) => {
-    if (screenIndex == activityAccess.items.length - 1) {
+  const handleNext = () => {
+    if (next === -1) {
       setShow(true);
     } else {
+      // Go to next item:
       dispatch(
         setCurrentScreen({
           activityId: activityAccess.id,
-          screenIndex: screenIndex + 1
+          screenIndex: next
         })
       )
     }
@@ -73,7 +99,7 @@ const Screens = () => {
       dispatch(
         setCurrentScreen({
           activityId: activityAccess.id,
-          screenIndex: screenIndex - 1
+          screenIndex: prev
         })
       );
     }
@@ -83,13 +109,13 @@ const Screens = () => {
     items.push(
       <Item
         data={data}
-        type={item.valueConstraints.multipleChoice === true ? "checkbox" : item.inputType}
+        type={item.valueConstraints.multipleChoice ? "checkbox" : item.inputType}
         key={item.id}
         item={item}
         handleSubmit={handleNext}
         handleChange={handleChange}
         handleBack={handleBack}
-        isSubmitShown={i ===  activityAccess.items.length - 1}
+        isSubmitShown={next === -1}
         answer={answer}
         isBackShown={screenIndex ===  i && i}
         isNextShown={screenIndex ===  i}
@@ -115,7 +141,10 @@ const Screens = () => {
           </Card>
         </Col>
         <Col sm={24} xs={24} md={9}>
-          {_.map(items.slice(0, screenIndex + 1))}
+          {applet.watermark &&
+            <img className="watermark" src={applet.watermark} alt="watermark" />
+          }
+          {_.map(items.slice(0, screenIndex + 1).reverse())}
         </Col>
       </Row>
 
@@ -132,7 +161,6 @@ const Screens = () => {
           <Button variant="primary" onClick={() => finishResponse()}>Yes</Button>
         </Modal.Footer>
       </Modal>
-
     </div>
   )
 }

@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { unwrapResult } from '@reduxjs/toolkit'
 import { useSelector, useDispatch } from 'react-redux'
-import { Link, useParams, useLocation } from 'react-router-dom'
+import { useParams, useLocation } from 'react-router-dom'
+import { Button } from 'react-bootstrap';
 
 import { Statuses } from '../../constants'
 import { InvitationText } from './InvitationText'
 import { setRedirectUrl } from '../../state/app/app.reducer'
 import { declineInvitation } from '../../state/app/app.actions'
 import { loggedInSelector } from '../../state/user/user.selectors'
+import { history } from '../../store'
 
 import './style.css'
 
@@ -48,18 +50,40 @@ const DeclineInvitation = () => {
     }
   }
 
+  const onLogin = () => {
+    history.push('/login');
+  }
+
+  const onSignUp = () => {
+    history.push('/signup');
+  }
+
   return (
     <div className="mt-3 pt-3 container">
       {isLoggedIn
-        ?
+        ? 
         <InvitationText status={status} invitationText={invitationText} />
         :
         <div className="heading">
           {t('DeclineInvitation.please')}{' '}
-          <Link to={'/login'}>{t('DeclineInvitation.login')}</Link>{' '}
+          <Button
+            onClick={onLogin}
+            variant="primary"
+            className="mx-2"
+            size="lg"
+          >
+            {t('DeclineInvitation.login')}
+          </Button>
           {t('DeclineInvitation.or')}{' '}
-          <Link to={'/signup'}>{t('DeclineInvitation.singUp')}</Link>{' '}
-          {t('DeclineInvitation.acceptInvitation')}
+          <Button
+            onClick={onSignUp}
+            variant="success"
+            className="mx-2"
+            size="lg"
+          >
+            {t('DeclineInvitation.singUp')}
+          </Button>
+          {t('DeclineInvitation.declineInvitation')}
         </div>
       }
     </div>

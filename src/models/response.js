@@ -1,5 +1,6 @@
 import * as R from 'ramda';
 import packageJson from '../../package.json';
+import config from '../util/config';
 import { encryptData, decryptData } from '../services/encryption';
 import { getScoreFromLookupTable, getValuesFromResponse, getFinalSubScale } from '../services/scoring';
 import { getAlertsFromResponse } from '../services/alert';
@@ -31,12 +32,13 @@ export const prepareResponseForUpload = (
   let cumulative = responseHistory.tokens?.cumulativeToken || 0;
 
   const alerts = [];
+
   for (let i = 0; i < responses.length; i += 1) {
     const item = activity.items[i];
 
     if (item.valueConstraints) {
       const { valueType, responseAlert, enableNegativeTokens } = item.valueConstraints;
-
+      
       if (responses[i] !== null && responses[i] !== undefined && responseAlert) {
         const messages = getAlertsFromResponse(item, responses[i].value !== undefined ? responses[i].value : responses[i]);
         messages.forEach(msg => {
@@ -52,6 +54,7 @@ export const prepareResponseForUpload = (
         const responseValues = getValuesFromResponse(item, responses[i].value) || [];
         const positiveSum = responseValues.filter(v => v >= 0).reduce((a, b) => a + b, 0);
         const negativeSum = responseValues.filter(v => v < 0).reduce((a, b) => a + b, 0);
+
         cumulative += positiveSum;
         if (enableNegativeTokens && cumulative + negativeSum >= 0) {
           cumulative += negativeSum;
@@ -67,7 +70,7 @@ export const prepareResponseForUpload = (
       schemaVersion: activity.schemaVersion[languageKey],
     },
     applet: {
-      id: trimId(activity.appletId),
+      id: trimId(appletMetaData.id),
       schema: activity.appletSchema,
       schemaVersion: appletVersion,
     },

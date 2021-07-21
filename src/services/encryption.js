@@ -7,7 +7,7 @@ export const getPrivateKey = ({ userId, email, password }) => {
     return Array.from(Buffer.concat([Buffer.from(key1), Buffer.from(key2)]));
 }
 
-export const getPublicKey = ( privateKey, appletPrime, base ) => {
+export const getPublicKey = (privateKey, appletPrime, base) => {
     const key = crypto.createDiffieHellman(Buffer.from(appletPrime), Buffer.from(base));
     key.setPrivateKey(Buffer.from(privateKey));
     key.generateKeys();
@@ -15,7 +15,7 @@ export const getPublicKey = ( privateKey, appletPrime, base ) => {
     return Array.from(key.getPublicKey());
 }
 
-export const getAESKey = ( userPrivateKey, appletPublicKey, appletPrime, base ) => {
+export const getAESKey = (userPrivateKey, appletPublicKey, appletPrime, base) => {
     const key = crypto.createDiffieHellman(Buffer.from(appletPrime), Buffer.from(base));
     key.setPrivateKey(Buffer.from(userPrivateKey));
 

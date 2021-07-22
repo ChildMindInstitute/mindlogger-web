@@ -76,3 +76,16 @@ code {
   border-radius: 0.25rem;
   border: 1px solid #dee2e6;
 }
+
+.option-image {
+  height: 25px;
+  width: 25px;
+  margin-right: 10px;
+}
+
+.response-option {
+  display: flex;
+  align-items: center;
+
+  margin: 10px 0px;
+}

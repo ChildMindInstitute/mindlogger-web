@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from "lodash";
-import { Form, Row, Card, Col } from 'react-bootstrap';
+import { Form, Row, Card, Col, Image } from 'react-bootstrap';
 
 import Navigator from './Navigator';
 import Markdown from '../components/Screens/Markdown';
@@ -31,7 +31,11 @@ const Radio = (props) => {
             <Row className="no-gutters pl-5">
               <Form.Group as={Row}>
                 {_.map(item.valueConstraints.itemList, (obj, i) => (
-                  <div className="col-md-6" key={i}>
+                  <Col md={6} className="pr-5 response-option" key={i}>
+                    {
+                      obj.image && <Image className="option-image" src={obj.image} roundedCircle /> ||
+                      <div className="option-image"></div>
+                    }
                     <Form.Check
                       label={obj.name.en}
                       name={item.variableName}
@@ -47,7 +51,7 @@ const Radio = (props) => {
                       id={`${item.variableName}${i}`}
                       disabled={!isNextShown}
                     />
-                  </div>
+                  </Col>
                 ))}
               </Form.Group>
             </Row>

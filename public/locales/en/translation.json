@@ -115,7 +115,8 @@
     "loading": "Loading invite link",
     "reviewers": "Users who can see your data for this applet:",
     "managers": "Users who can change this applet's settings, including who can access your data:",
-    "coordinators": "Users who can change this applet's settings, but who cannot change who can see your data:"
+    "coordinators": "Users who can change this applet's settings, but who cannot change who can see your data:",
+    "notFound": "The invite link is either invalid or no long active."
   },
   "InvitationButtons": {
     "acceptInvitation": "Accept Invitation",

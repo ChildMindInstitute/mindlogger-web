@@ -62,8 +62,7 @@ code {
 }
 
 .question img {
-  width: 250px;
-  max-height: 200px;
+  width: 220px;
   margin-bottom: 5px;
   float: left;
   border-radius: 0.25rem;
@@ -71,7 +70,7 @@ code {
 }
 
 .question video {
-  width: 250px;
+  width: 220px;
   float: left;
   border-radius: 0.25rem;
   border: 1px solid #dee2e6;

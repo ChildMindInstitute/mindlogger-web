@@ -24,7 +24,36 @@ export const getAppletsAPI = async ({ token, localInfo, currentApplet = '', next
     const response = await axios.put(url, formData, {
       headers
     })
-    return response.data.data
+
+    const res = response.data;
+
+    if (res.nextActivity) {
+      return await new Promise(resolve => setTimeout(() => resolve(getAppletsAPI({
+        token,
+        localInfo,
+        currentApplet: res.currentApplet,
+        nextActivity: res.nextActivity
+      }).then(next => {
+        for (const applet of next.data) {
+          const d = res.data.find(d => d.id == applet.id);
+          if (!d) {
+            res.data.push(applet);
+            continue;
+          }
+
+          for (const IRI in applet.items) {
+            d.items[IRI] = applet.items[IRI]
+          }
+
+          for (const IRI in applet.activities) {
+            d.activities[IRI] = applet.activities[IRI]
+          }
+        }
+
+        return res;
+      })), 50));
+    }
+    return res;
   } catch (error) {
     throw new Error(error.response.data.message)
   }

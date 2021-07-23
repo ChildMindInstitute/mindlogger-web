@@ -20,6 +20,21 @@ const Radio = (props) => {
   const valueType = item.valueConstraints.valueType;
   const token = valueType && valueType.includes('token');
 
+  const getOrderedItems = function (itemList) {
+    const items = [];
+    const half = Math.ceil(itemList.length / 2);
+
+    for (let i = 0; i < half; i++) {
+      items.push(itemList[i]);
+
+      if (i + half < itemList.length) {
+        items.push(itemList[i+half]);
+      }
+    }
+
+    return items;
+  }
+
   return (
     <Card className="mb-3" style={{ maxWidth: "auto" }}>
       <Row className="no-gutters">
@@ -30,7 +45,7 @@ const Radio = (props) => {
             </Card.Title>
             <Row className="no-gutters pl-5">
               <Form.Group as={Row}>
-                {_.map(item.valueConstraints.itemList, (obj, i) => (
+                {_.map(getOrderedItems(item.valueConstraints.itemList), (obj, i) => (
                   <div className="col-md-6" key={i}>
                     <Form.Check
                       label={obj.name.en}

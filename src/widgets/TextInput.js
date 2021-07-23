@@ -26,10 +26,8 @@ const TextInput = ({
 
   const [value, setValue] = useState((answer || ''));
 
-  console.log('answer', answer);
-
   return (
-    <Card className="mb-3" style={{ maxWidth: "auto" }}>
+    <Card className="mb-3 px-3" style={{ maxWidth: "auto" }}>
       <Row className="no-gutters">
         <Col md={12}>
           <Card.Title className="question">

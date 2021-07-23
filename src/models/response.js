@@ -2,7 +2,7 @@ import * as R from 'ramda';
 import packageJson from '../../package.json';
 import config from '../util/config';
 import { encryptData, decryptData } from '../services/encryption';
-import { getScoreFromLookupTable, getValuesFromResponse, getFinalSubScale } from '../services/scoring';
+import { getSubScaleResult, getValuesFromResponse, getFinalSubScale } from '../services/scoring';
 import { getAlertsFromResponse } from '../services/alert';
 
 import {
@@ -38,7 +38,7 @@ export const prepareResponseForUpload = (
 
     if (item.valueConstraints) {
       const { valueType, responseAlert, enableNegativeTokens } = item.valueConstraints;
-      
+
       if (responses[i] !== null && responses[i] !== undefined && responseAlert) {
         const messages = getAlertsFromResponse(item, responses[i].value !== undefined ? responses[i].value : responses[i]);
         messages.forEach(msg => {
@@ -101,11 +101,11 @@ export const prepareResponseForUpload = (
 
   let subScaleResult = [];
   if (activity.subScales) {
-    for (let subScale of activity.subScales) {
-      subScaleResult.push(
-        getScoreFromLookupTable(responses, subScale.jsExpression, activity.items, subScale['lookupTable'])
-      );
-    }
+    subScaleResult = getSubScaleResult(
+      activity.subScales,
+      responses,
+      activity.items
+    )
   }
 
   /** process for encrypting response */

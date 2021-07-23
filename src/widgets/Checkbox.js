@@ -9,6 +9,9 @@ import { isArray } from 'util';
 const Checkbox = ({
   item, isBackShown, isNextShown, handleChange, handleBack, isSubmitShown, ...props
 }) => {
+  const valueType = item.valueConstraints.valueType;
+  const token = valueType && valueType.includes('token');
+
   const onChangeValue = (value) => {
     const { answer } = props;
     let values = [];
@@ -30,6 +33,22 @@ const Checkbox = ({
     return !answer || !answer.value || !answer.value.length;
   }
 
+  const getOrderedItems = function (itemList) {
+    const items = [];
+    const half = Math.ceil(itemList.length / 2);
+
+    for (let i = 0; i < half; i++) {
+      items.push(itemList[i]);
+
+      if (i + half < itemList.length) {
+        items.push(itemList[i+half]);
+      }
+    }
+
+    return items;
+  }
+
+
   return (
     <Card className="mb-3" style={{ maxWidth: "auto" }}>
       <Row className="no-gutters">
@@ -40,7 +59,7 @@ const Checkbox = ({
             </Card.Title>
             <Row className="no-gutters pl-5">
               <Form.Group as={Row}>
-                {_.map(item.valueConstraints.itemList, (obj, i) => (
+                {_.map(getOrderedItems(item.valueConstraints.itemList), (obj, i) => (
                   <Col md={6} className="pr-5" key={i}>
                     <Form.Check
                       type="checkbox"
@@ -49,7 +68,7 @@ const Checkbox = ({
                       value={obj.value}
                       label={obj.name.en}
                       disabled={!isNextShown}
-                      onChange={(v) => onChangeValue(v.target.value)}
+                      onChange={(v) => onChangeValue(token ? obj.name.en : obj.value)}
                     />
                   </Col>
                 ))}

@@ -17,6 +17,23 @@ const Radio = (props) => {
   } = props;
 
   const isNextDisable = !answer && answer !== 0;
+  const valueType = item.valueConstraints.valueType;
+  const token = valueType && valueType.includes('token');
+
+  const getOrderedItems = function (itemList) {
+    const items = [];
+    const half = Math.ceil(itemList.length / 2);
+
+    for (let i = 0; i < half; i++) {
+      items.push(itemList[i]);
+
+      if (i + half < itemList.length) {
+        items.push(itemList[i+half]);
+      }
+    }
+
+    return items;
+  }
 
   return (
     <Card className="mb-3" style={{ maxWidth: "auto" }}>
@@ -28,14 +45,21 @@ const Radio = (props) => {
             </Card.Title>
             <Row className="no-gutters pl-5">
               <Form.Group as={Row}>
-                {_.map(item.valueConstraints.itemList, (obj, i) => (
+                {_.map(getOrderedItems(item.valueConstraints.itemList), (obj, i) => (
                   <div className="col-md-6" key={i}>
                     <Form.Check
                       label={obj.name.en}
                       name={item.variableName}
                       type="radio"
-                      onChange={() => { handleChange(obj.value) }} value={obj.value}
-                      id={`${item.variableName}${i}`} 
+                      onChange={
+                        () => {
+                          handleChange({
+                            value: token ? obj.name.en : obj.value
+                          })
+                        }
+                      }
+                      value={obj.value}
+                      id={`${item.variableName}${i}`}
                       disabled={!isNextShown}
                     />
                   </div>
@@ -45,7 +69,7 @@ const Radio = (props) => {
           </Card.Body>
         </Col>
       </Row>
-      <Navigator 
+      <Navigator
         isBackShown={isBackShown}
         isNextShown={isNextShown}
         isNextDisable={isNextDisable}

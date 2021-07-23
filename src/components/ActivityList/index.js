@@ -81,7 +81,18 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
 
   const updateActivites = () => {
     const appletData = parseAppletEvents(currentApplet);
-    const appletActivities = appletData.activities.filter(act => !act.isPrize);
+    const appletActivities = appletData.activities.filter(act => {
+      const supportedItems = act.items.filter(item => {
+        return item.inputType === "radio"
+        || item.inputType === "checkox"
+          || item.inputType === "slider"
+          || item.inputType === "text";
+        });
+        
+        
+      return supportedItems.length && !act.isPrize;
+    });
+    console.log('appletActivities ------------------', appletActivities);
     const prizeActs = appletData.activities.filter(act => act.isPrize);
 
     if (prizeActs.length === 1) {

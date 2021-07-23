@@ -36,12 +36,11 @@ const appletSlice = createSlice({
     selectActivity: (state, action) => { state.activityAccess = action.payload },
     prepareResponseKeys: (state, action) => {
       const { appletId, keys } = action.payload;
-      const applet = state.applets.find(applet => applet.id = appletId);
+      const index = state.applets.findIndex(applet => applet.id == appletId);
 
-      if (applet) {
-        Object.entries(keys).forEach(entry => {
-          applet[entry[0]] = entry[1];
-        })
+      if (index >= 0) {
+        state.applets[index].AESKey = keys.AESKey;
+        state.applets[index].userPublicKey = keys.userPublicKey;
       }
     }
   },

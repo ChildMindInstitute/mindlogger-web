@@ -17,6 +17,8 @@ const Radio = (props) => {
   } = props;
 
   const isNextDisable = !answer && answer !== 0;
+  const valueType = item.valueConstraints.valueType;
+  const token = valueType && valueType.includes('token');
 
   return (
     <Card className="mb-3" style={{ maxWidth: "auto" }}>
@@ -34,8 +36,15 @@ const Radio = (props) => {
                       label={obj.name.en}
                       name={item.variableName}
                       type="radio"
-                      onChange={() => { handleChange(obj.value) }} value={obj.value}
-                      id={`${item.variableName}${i}`} 
+                      onChange={
+                        () => {
+                          handleChange({
+                            value: token ? obj.name.en : obj.value
+                          })
+                        }
+                      }
+                      value={obj.value}
+                      id={`${item.variableName}${i}`}
                       disabled={!isNextShown}
                     />
                   </div>
@@ -45,7 +54,7 @@ const Radio = (props) => {
           </Card.Body>
         </Col>
       </Row>
-      <Navigator 
+      <Navigator
         isBackShown={isBackShown}
         isNextShown={isNextShown}
         isNextDisable={isNextDisable}

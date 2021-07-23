@@ -9,6 +9,9 @@ import { isArray } from 'util';
 const Checkbox = ({
   item, isBackShown, isNextShown, handleChange, handleBack, isSubmitShown, ...props
 }) => {
+  const valueType = item.valueConstraints.valueType;
+  const token = valueType && valueType.includes('token');
+
   const onChangeValue = (value) => {
     const { answer } = props;
     let values = [];
@@ -49,7 +52,7 @@ const Checkbox = ({
                       value={obj.value}
                       label={obj.name.en}
                       disabled={!isNextShown}
-                      onChange={(v) => onChangeValue(v.target.value)}
+                      onChange={(v) => onChangeValue(token ? obj.name.en : obj.value)}
                     />
                   </Col>
                 ))}

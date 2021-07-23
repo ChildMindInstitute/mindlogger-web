@@ -25,7 +25,7 @@ export const getApplets = createAsyncThunk(APPLET_CONSTANTS.GET_APPLETS, async (
     token, localInfo
   })
 
-  const transformedApplets = applets
+  const transformedApplets = applets.data
     .map((appletInfo) => {
       if (!appletInfo.applet) {
         const applet = modifyApplet(appletInfo, currentApplets);

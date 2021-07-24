@@ -24,9 +24,10 @@ export default function PublicApplet() {
   useEffect(() => {
     const fetchApplets = async () => {
       setIsLoading(true);
-      await dispatch(getPublicApplet(publicId));
+      const action = await dispatch(getPublicApplet(publicId));
+      const applet = action.payload;
 
-      dispatch(setCurrentApplet(applets[0].id));
+      dispatch(setCurrentApplet(applet.id))
 
       setIsLoading(false);
     }

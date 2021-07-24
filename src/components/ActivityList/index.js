@@ -38,7 +38,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
   const [markdown, setMarkDown] = useState("");
   const [currentApplet] = useState(applets.find((applet) =>
     appletId && applet.id.includes(appletId) ||
-    publicId && applet.publicId.includes(publicId)
+    publicId && applet.publicId && applet.publicId.includes(publicId)
   ));
 
   const user = useSelector(state => R.path(['user', 'info'])(state));

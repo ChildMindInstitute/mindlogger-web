@@ -38,7 +38,7 @@ export default function AppletList() {
   return (
     <Container>
       <Row className="justify-content-md-center">
-        {!isLoading && applets.filter(applet => !applet.publicId).map(applet => (
+        {!isLoading && applets.map(applet => (
           <Card className="applet-card" onClick={() => onSelectApplet(applet.id)} key={applet.id}>
             {applet.image ?
               <Card.Img variant="top" src={applet.image} />

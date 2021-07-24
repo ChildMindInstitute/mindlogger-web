@@ -41,7 +41,7 @@ const Screens = () => {
   const screenIndex = useSelector(currentScreenIndexSelector);
   const activityAccess = useSelector(currentActivitySelector);
   const inProgress = useSelector(currentResponsesSelector);
-  const visibility = activityAccess.items.map((item) => 
+  const visibility = activityAccess.items.map((item) =>
     testVisibility(
       item.visibility,
       activityAccess.items,
@@ -64,7 +64,7 @@ const Screens = () => {
     await dispatch(completeResponse(false));
 
     if (applet.publicId) {
-      history.push(`/applet/public/${appletId.split('/').pop()}/dashboard`);
+      history.push(`/applet/public/${applet.publicId}`);
     } else {
       history.push(`/applet/${appletId}/dashboard`);
     }

@@ -43,6 +43,9 @@ const App = () => {
           className={'app-container'}
         >
           <Switch>
+            <Route path="/applet/public/:publicId" exact component={PublicApplet} />
+            <Route path="/applet/public/:appletId/activity/:activityId" exact component={Screens} />
+
             {user ? <>
                 <Route path="/" exact component={Landing} />
                 <Route path="/login" exact component={Login} />
@@ -64,9 +67,6 @@ const App = () => {
               : <>
                 <Route path="/login" exact component={Login} />
                 <Route path="/signup" exact component={SignUp} />
-                <Route path="/applet/public/:id" exact component={PublicApplet} />
-                <Route path="/applet/public/:appletId/dashboard" exact component={ActivityList} />
-                <Route path="/applet/public/:appletId/activity/:activityId" exact component={Screens} />
                 <Route path="/forgotpassword" exact component={ForgotPassword} />
                 <Route path="/useraccount/:userId/token/:temporaryToken" exact component={SetPassword} />
                 <Route path="/invitation/:invitationId" exact component={Invitation} />

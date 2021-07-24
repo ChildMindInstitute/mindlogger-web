@@ -28,7 +28,7 @@ import ActivityItem from './ActivityItem';
 import './style.css'
 
 export const ActivityList = ({ inProgress, finishedEvents }) => {
-  const { appletId } = useParams();
+  const { appletId, publicId } = useParams();
   const applets = useSelector(appletsSelector);
   const history = useHistory();
   const dispatch = useDispatch();
@@ -36,7 +36,11 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
   const [activities, setActivities] = useState([]);
   const [prizeActivity, setPrizeActivity] = useState(null);
   const [markdown, setMarkDown] = useState("");
-  const [currentApplet] = useState(applets.find(({ id }) => id.includes(appletId)));
+  const [currentApplet] = useState(applets.find((applet) =>
+    appletId && applet.id.includes(appletId) ||
+    publicId && applet.publicId.includes(publicId)
+  ));
+
   const user = useSelector(state => R.path(['user', 'info'])(state));
   const updateStatusDelay = 60 * 1000;
 

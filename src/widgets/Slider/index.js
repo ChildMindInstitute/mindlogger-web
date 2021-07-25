@@ -40,6 +40,8 @@ const SliderWidget = ({
     return !answer || (!answer.value && answer.value !== 0);
   }
 
+  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
   return (
     <Card className="mb-3" style={{ maxWidth: "auto" }}>
       <Row className="no-gutters">
@@ -52,7 +54,7 @@ const SliderWidget = ({
               <div className="slider">
                 <input
                   type="range"
-                  className={!data ? "no-value" : ""}
+                  className={!data && !isSafari ? "no-value" : ""}
                   min={minValue}
                   max={maxValue}
                   value={data && data.value || 0}

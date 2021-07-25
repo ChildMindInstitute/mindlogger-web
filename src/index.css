@@ -76,3 +76,10 @@ code {
   border-radius: 0.25rem;
   border: 1px solid #dee2e6;
 }
+
+.form-check input {
+  margin-top: 10px;
+}
+.form-check label {
+  font-size: 20px;
+}

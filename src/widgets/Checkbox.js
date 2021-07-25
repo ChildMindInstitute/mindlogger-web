@@ -60,7 +60,7 @@ const Checkbox = ({
             <Row className="no-gutters pl-5">
               <Form.Group as={Row}>
                 {_.map(getOrderedItems(item.valueConstraints.itemList), (obj, i) => (
-                  <Col md={6} className="pr-5" key={i}>
+                  <Col md={6} className="pr-5 my-2" key={i}>
                     <Form.Check
                       type="checkbox"
                       name={item.variableName}

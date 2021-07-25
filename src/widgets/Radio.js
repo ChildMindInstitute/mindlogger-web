@@ -46,7 +46,7 @@ const Radio = (props) => {
             <Row className="no-gutters pl-5">
               <Form.Group as={Row}>
                 {_.map(getOrderedItems(item.valueConstraints.itemList), (obj, i) => (
-                  <div className="col-md-6" key={i}>
+                  <Col md={6} className="pr-5 my-2" key={i}>
                     <Form.Check
                       label={obj.name.en}
                       name={item.variableName}
@@ -62,7 +62,7 @@ const Radio = (props) => {
                       id={`${item.variableName}${i}`}
                       disabled={!isNextShown}
                     />
-                  </div>
+                  </Col>
                 ))}
               </Form.Group>
             </Row>

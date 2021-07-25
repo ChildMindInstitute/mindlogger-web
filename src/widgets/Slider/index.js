@@ -41,6 +41,7 @@ const SliderWidget = ({
   }
 
   const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+  const minLabelWidth = Math.max(Math.floor(90 / itemList.length), 70);
 
   return (
     <Card className="mb-3" style={{ maxWidth: "auto" }}>
@@ -88,7 +89,7 @@ const SliderWidget = ({
                 }
 
                 <div className="slider-description">
-                  <div className="first" style={{ width: Math.floor(90 / itemList.length) + '%' }}>
+                  <div className="first" style={{ width: minLabelWidth + '%' }}>
                     <img
                       src={itemList[0].image}
                       width="100%"
@@ -100,7 +101,7 @@ const SliderWidget = ({
                       {minLabel}
                     </div>
                   </div>
-                  <div className="last" style={{ width: Math.floor(90 / itemList.length) + '%' }}>
+                  <div className="last" style={{ width: minLabelWidth + '%' }}>
                     <img
                       src={itemList[itemList.length - 1].image}
                       width="100%"

@@ -156,8 +156,8 @@ export const updatePassword = (authToken, oldPassword, newPassword) => {
 export const fileLink = (file, token) =>
   file
     ? `${apiHost()}/${
-        file["@id"]
-      }/download?contentDisposition=inline&token=${token}`
+    file["@id"]
+    }/download?contentDisposition=inline&token=${token}`
     : "";
 
 export const registerOpenApplet = (authToken, schemaURI) => {
@@ -265,11 +265,22 @@ export const deleteUserAccount = (authToken, userId) => {
   }).then((res) => (res.status === 200 ? res.json() : Promise.reject(res)));
 };
 
-export const getLast7DaysData = ({ authToken, appletId, referenceDate }) => {
+export const getLast7DaysData = ({
+  authToken,
+  appletId,
+  localItems,
+  localActivities,
+  startDate,
+  groupByDateActivity,
+}) => {
   let url = `${apiHost()}/response/last7Days/${appletId}`;
-  if (referenceDate) {
-    url += `?referenceDate=${referenceDate}`;
+  if (!groupByDateActivity) {
+    url += `?groupByDateActivity=${groupByDateActivity}`;
   }
+  url += `?localItems=${localItems}`;
+  url += `?localActivities=${localActivities}`;
+  url += `?startDate=${startDate}`;
+
   const headers = {
     "Girder-Token": authToken,
   };
@@ -330,4 +341,25 @@ export const getUserUpdates = ({ authToken }) => {
     mode: "cors",
     headers,
   }).then((res) => (res.status === 200 ? res.json() : res));
+};
+
+
+export const updateUserTokenBalance = (authToken, appletId, tokenUpdate, cumulative, version, userPublicKey) => {
+  const url = `${apiHost()}/response/${appletId}/updateResponseToken`;
+  const headers = {
+    "Girder-Token": authToken,
+  };
+  return fetch(url, {
+    method: "post",
+    mode: "cors",
+    headers,
+    body: objectToFormData({
+      updateInfo: JSON.stringify({
+        tokenUpdate,
+        cumulative,
+        version,
+        userPublicKey,
+      })
+    })
+  }).then(res => (res.status === 200 ? res.json() : Promise.reject(res)));
 };

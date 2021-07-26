@@ -1,8 +1,6 @@
 import * as R from 'ramda';
-import { Dimensions } from 'react-native';
-import DeviceInfo from 'react-native-device-info';
 import packageJson from '../../package.json';
-import config from '../config';
+import config from '../util/config';
 import { encryptData, decryptData } from '../services/encryption';
 import { getScoreFromLookupTable, getValuesFromResponse, getFinalSubScale } from '../services/scoring';
 import { getAlertsFromResponse } from '../services/alert';
@@ -11,8 +9,9 @@ import {
   activityTransformJson,
   itemTransformJson,
   itemAttachExtras,
-  ORDER,
-} from "./json-ld";
+} from '../services/json-ld';
+
+import { ORDER } from '../constants';
 
 // Convert ids like "applet/some-id" to just "some-id"
 const trimId = typedId => typedId.split('/').pop();
@@ -30,15 +29,16 @@ export const prepareResponseForUpload = (
   const { activity, responses, subjectId } = inProgressResponse;
   const appletVersion = appletMetaData.schemaVersion[languageKey];
   const scheduledTime = activity.event && activity.event.scheduledTime;
-  let cumulative = responseHistory.tokens.cumulativeToken;
+  let cumulative = responseHistory.tokens?.cumulativeToken || 0;
 
   const alerts = [];
+
   for (let i = 0; i < responses.length; i += 1) {
     const item = activity.items[i];
 
     if (item.valueConstraints) {
       const { valueType, responseAlert, enableNegativeTokens } = item.valueConstraints;
-
+      
       if (responses[i] !== null && responses[i] !== undefined && responseAlert) {
         const messages = getAlertsFromResponse(item, responses[i].value !== undefined ? responses[i].value : responses[i]);
         messages.forEach(msg => {
@@ -54,6 +54,7 @@ export const prepareResponseForUpload = (
         const responseValues = getValuesFromResponse(item, responses[i].value) || [];
         const positiveSum = responseValues.filter(v => v >= 0).reduce((a, b) => a + b, 0);
         const negativeSum = responseValues.filter(v => v < 0).reduce((a, b) => a + b, 0);
+
         cumulative += positiveSum;
         if (enableNegativeTokens && cumulative + negativeSum >= 0) {
           cumulative += negativeSum;
@@ -69,7 +70,7 @@ export const prepareResponseForUpload = (
       schemaVersion: activity.schemaVersion[languageKey],
     },
     applet: {
-      id: trimId(activity.appletId),
+      id: trimId(appletMetaData.id),
       schema: activity.appletSchema,
       schemaVersion: appletVersion,
     },
@@ -79,17 +80,24 @@ export const prepareResponseForUpload = (
     timeout: isTimeout ? 1 : 0,
     scheduledTime: new Date(scheduledTime).getTime(),
     client: {
-      os: DeviceInfo.getSystemName(),
-      osVersion: DeviceInfo.getSystemVersion(),
-      deviceModel: DeviceInfo.getModel(),
-      appId: "mindlogger-mobile",
-      appVersion: packageJson.version,
-      width: Dimensions.get("screen").width,
-      height: Dimensions.get("screen").height,
+      appId: 'mindlogger-web',
+      appVersion: packageJson.version
     },
     languageCode: languageKey,
     alerts,
   };
+
+  if (appletMetaData.publicId) {
+    responseData.publicId = appletMetaData.publicId;
+  }
+
+  const index = activity.items.findIndex(
+    item => item.valueConstraints && item.valueConstraints.isResponseIdentifier
+  );
+
+  if (index >= 0) {
+    responseData.identifier = responses[index].value !== undefined ? responses[index].value : responses[index];
+  }
 
   let subScaleResult = [];
   if (activity.subScales) {
@@ -101,7 +109,7 @@ export const prepareResponseForUpload = (
   }
 
   /** process for encrypting response */
-  if (config.encryptResponse && appletMetaData.encryption) {
+  if (appletMetaData.encryption) {
     const formattedResponses = activity.items.reduce(
       (accumulator, item, index) => ({ ...accumulator, [item.schema]: index }),
       {},
@@ -169,7 +177,7 @@ export const getTokenUpdateInfo = (
 ) => {
   const cumulative = responseHistory.tokens.cumulativeToken + offset;
 
-  if (config.encryptResponse && appletMetaData.encryption) {
+  if (appletMetaData.encryption) {
     return {
       offset: getEncryptedData(
         {
@@ -322,7 +330,7 @@ export const decryptAppletResponses = (applet, responses) => {
         const currentActivity = applet.activities.find(activity => activity.id.split('/').pop() === oldItem.original.activityId)
 
         if (currentActivity) {
-          const currentItem = activity.items.find(item => item.id.split('/').pop() === oldItem.original.screenId);
+          const currentItem = currentActivity.items.find(item => item.id.split('/').pop() === oldItem.original.screenId);
 
           if (currentItem && currentItem.schema !== itemIRI) {
             responses.cumulatives[currentItem.schema] = responses.cumulatives[itemIRI];

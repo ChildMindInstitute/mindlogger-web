@@ -51,7 +51,7 @@ export default function Login() {
           <Form onSubmit={onSubmit}>
             <div className="form-group"></div>
             <div className="form-group">
-              {isStarted && error && <Alert variant={'danger'}>{error}</Alert>}
+              {isStarted && error && <Alert variant={'danger'}>{t('Login.errorMessage')}</Alert>}
               <Form.Control
                 type="email"
                 placeholder={t('Login.email')}

@@ -28,6 +28,7 @@ const responseSlice = createSlice({
         subjectId: subjectId,
         timeStarted: timeStarted,
         screenIndex: 0,
+        activity: activity
       }
     },
 
@@ -42,25 +43,46 @@ const responseSlice = createSlice({
       state.inProgress[activityId].responses[screenIndex] = answer;
     },
     setInProgress: (state, action) => { state.inProgress = action.payload },
+    addToUploadQueue: (state, action) => {
+      state.uploadQueue.push(action.payload);
+    },
+    setDownloadingResponses: (state, action) => {
+      state.isDownloadingResponses = action.payload;
+    },
+    setResponsesDownloadProgress: (state, action) => {
+      state.downloadProgress = {
+        downloaded: action.payload.downloaded,
+        total: action.payload.total,
+      };
+    },
+    replaceResponses: (state, action) => {
+      state.responseHistory = action.payload;
+    },
+    replaceAppletResponse: (state, action) => {
+      state.responseHistory[action.payload.index] = action.payload.response;
+    },
+    setSchedule: (state, action) => {
+      state.schedule = action.payload
+    },
+    shiftUploadQueue: (state, action) => {
+      state.uploadQueue = R.remove(0, 1, state.uploadQueue);
+    }
   },
   extraReducers: {
-    // [`${APP_CONSTANTS.GET_APPLETS}/pending`]: (state, action) => { state.loading = true; state.error = null },
-    // [`${APP_CONSTANTS.GET_APPLETS}/fulfilled`]: (state, action) => {
-    //   state.loading = false;
-    //   state.error = null;
-    //   state.applets = action.payload;
-    // },
-    // [`${APP_CONSTANTS.GET_APPLETS}/rejected`]: (state, action) => {
-    //   state.loading = false;
-    //   state.error = action.error.message;
-    // },
   }
 })
 
 export const {
-    createResponseInProgress,
-    setCurrentScreen,
-    setAnswer,
-    setInProgress
+  createResponseInProgress,
+  setCurrentScreen,
+  setAnswer,
+  setInProgress,
+  addToUploadQueue,
+  setDownloadingResponses,
+  setResponsesDownloadProgress,
+  replaceResponses,
+  setSchedule,
+  replaceAppletResponse,
+  shiftUploadQueue
 } = responseSlice.actions;
 export default responseSlice.reducer;

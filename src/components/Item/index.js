@@ -11,18 +11,26 @@ import Slider from '../../widgets/Slider/index';
 import "./style.css";
 
 const Item = (props) => {
-  const { data, type, handleSubmit, handleChange } = props;
+  const { data, type, handleSubmit, handleChange, item } = props;
 
   const widget = (handleChange) => {
+    const onChange = (answer) => {
+      handleChange(answer);
+
+      if (item.autoAdvance) {
+        handleSubmit();
+      }
+    }
+
     switch (type) {
       case "checkbox":
-        return <Checkbox {...props} handleChange={handleChange} />;
+        return <Checkbox {...props} handleChange={onChange} />;
       case "radio":
-        return <Radio {...props} handleChange={handleChange} />;
+        return <Radio {...props} handleChange={onChange} />;
       case "text":
-        return <TextInput {...props} handleChange={handleChange} />;
+        return <TextInput {...props} handleChange={onChange} />;
       case "slider":
-        return <Slider {...props} handleChange={handleChange} />;
+        return <Slider {...props} handleChange={onChange} />;
       default:
         return <div />;
     }

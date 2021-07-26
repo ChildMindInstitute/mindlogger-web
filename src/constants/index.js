@@ -12,6 +12,7 @@ export const DO_NOT_KNOW = "reprolib:terms/dont_know_answer";
 export const ENCODING_FORMAT = "schema:encodingFormat";
 export const FULL_SCREEN = "reprolib:terms/full_screen";
 export const IMAGE = "schema:image";
+export const WATERMARK = "schema:watermark";
 export const IMAGE_OBJECT = "schema:ImageObject";
 export const INPUT_TYPE = "reprolib:terms/inputType";
 export const INPUTS = "reprolib:terms/inputs";
@@ -78,6 +79,8 @@ export const RESPONSE_ALERT_MESSAGE = "schema:responseAlertMessage";
 export const MIN_ALERT_VALUE = "schema:minAlertValue";
 export const MAX_ALERT_VALUE = "schema:maxAlertValue";
 export const ORDER = "reprolib:terms/order";
+export const HAS_RESPONSE_IDENTIFIER = "reprolib:terms/hasResponseIdentifier";
+export const IS_RESPONSE_IDENTIFIER = "reprolib:terms/isResponseIdentifier";
 
 export const Statuses = {
   LOADING: 'loading',

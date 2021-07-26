@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
-import { useHistory } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 import { useSelector, connect, useDispatch } from 'react-redux'
 import {
   Container,
@@ -19,7 +18,9 @@ import { inProgressSelector } from '../../state/responses/responses.selectors';
 import { finishedEventsSelector } from '../../state/app/app.selectors';
 import { appletsSelector } from '../../state/applet/applet.selectors';
 import { setCurrentActivity } from '../../state/app/app.reducer';
+import { createResponseInProgress } from '../../state/responses/responses.reducer';
 import { parseAppletEvents } from '../../services/json-ld';
+import * as R from 'ramda';
 
 import AboutModal from '../AboutModal';
 import ActivityItem from './ActivityItem';
@@ -36,6 +37,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
   const [prizeActivity, setPrizeActivity] = useState(null);
   const [markdown, setMarkDown] = useState("");
   const [currentApplet] = useState(applets.find(({ id }) => id.includes(appletId)));
+  const user = useSelector(state => R.path(['user', 'info'])(state));
   const updateStatusDelay = 60 * 1000;
 
   useEffect(() => {
@@ -79,21 +81,43 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
 
   const updateActivites = () => {
     const appletData = parseAppletEvents(currentApplet);
-    const appletActivities = appletData.activities.filter(act => !act.isPrize);
+    const appletActivities = appletData.activities.filter(act => {
+      const supportedItems = act.items.filter(item => {
+        return item.inputType === "radio"
+        || item.inputType === "checkox"
+          || item.inputType === "slider"
+          || item.inputType === "text";
+        });
+        
+        
+      return supportedItems.length && !act.isPrize;
+    });
+    console.log('appletActivities ------------------', appletActivities);
     const prizeActs = appletData.activities.filter(act => act.isPrize);
 
     if (prizeActs.length === 1) {
       setPrizeActivity(prizeActs[0]);
     }
 
-    const temp = sortActivities(appletActivities, inProgress, finishedEvents, currentApplet.schedule.data);
+    const temp = sortActivities(appletActivities, inProgress, finishedEvents, currentApplet.schedule?.data);
     setActivities(temp);
   }
 
   const onPressActivity = (activity) => {
     dispatch(setCurrentActivity(activity.id));
+    dispatch(createResponseInProgress({
+      activity: activity,
+      event: null,
+      subjectId: user?._id,
+      publicId: currentApplet.publicId || null,
+      timeStarted: new Date().getTime()
+    }));
 
-    history.push(`/applet/${appletId}/${activity.id}`);
+    if (currentApplet.publicId) {
+      history.push(`/applet/public/${appletId}/${activity.id}`);
+    } else {
+      history.push(`/applet/${appletId}/${activity.id}`);
+    }
   }
   const closeAboutPage = () => showAboutPage(false);
   const openAboutPage = () => showAboutPage(true);

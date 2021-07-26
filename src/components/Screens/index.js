@@ -52,12 +52,14 @@ const Screens = () => {
   const prev = getLastPos(screenIndex, visibility);
 
   useEffect(() => {
-    dispatch(createResponseInProgress({
-      activity: activityAccess,
-      event: null,
-      subjectId: user._id,
-      timeStarted: new Date().getTime()
-    }));
+    if (screenIndex === 0) {
+      dispatch(createResponseInProgress({
+        activity: activityAccess,
+        event: null,
+        subjectId: user._id,
+        timeStarted: new Date().getTime()
+      }));
+    }
   }, [])
 
   const finishResponse = async () => {
@@ -71,14 +73,16 @@ const Screens = () => {
   };
 
   const handleNext = () => {
-    if (next === -1) {
+    const nextScreen = getNextPos(screenIndex, visibility);
+
+    if (nextScreen === -1) {
       setShow(true);
     } else {
       // Go to next item:
       dispatch(
         setCurrentScreen({
           activityId: activityAccess.id,
-          screenIndex: next
+          screenIndex: nextScreen
         })
       )
     }

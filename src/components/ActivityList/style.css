@@ -1,6 +1,7 @@
 .ds-card {
   width: 15rem;
   border: 0 !important;
+  margin: auto;
 }
 
 .ds-card-title {

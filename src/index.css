@@ -76,3 +76,16 @@ code {
 .form-check label {
   font-size: 20px;
 }
+
+.option-image {
+  height: 25px;
+  width: 25px;
+  margin-right: 10px;
+}
+
+.response-option {
+  display: flex;
+  align-items: center;
+
+  margin: 10px 0px;
+}

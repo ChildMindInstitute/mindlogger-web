@@ -43,6 +43,15 @@ const Screens = () => {
   const screenIndex = useSelector(currentScreenIndexSelector);
   const activityAccess = useSelector(currentActivitySelector);
   const inProgress = useSelector(currentResponsesSelector);
+  const visibility = activityAccess.items.map((item) =>
+    testVisibility(
+      item.visibility,
+      activityAccess.items,
+      inProgress ?.responses
+    )
+  );
+  const next = getNextPos(screenIndex, visibility);
+  const prev = getLastPos(screenIndex, visibility);
 
   useEffect(() => {
     if (screenIndex === 0) {
@@ -59,11 +68,7 @@ const Screens = () => {
   const finishResponse = async () => {
     await dispatch(completeResponse(false));
 
-    if (applet.publicId) {
-      history.push(`/applet/public/${applet.publicId}`);
-    } else {
-      history.push(`/applet/${appletId}/dashboard`);
-    }
+    history.push(`/applet/${appletId}/activity_thanks`);
   };
 
   const updateVisibility = (responses) => {

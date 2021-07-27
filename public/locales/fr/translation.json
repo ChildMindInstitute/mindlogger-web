@@ -117,7 +117,6 @@
   "InvitationButtons": {
     "acceptInvitation": "Accepter l'invitation",
     "declineInvitation": "Refuser l'invitation"
-
   },
   "Navbar": {
     "mindLogger": "MindLogger",
@@ -151,5 +150,10 @@
     "signUp": "S'inscrire"
   },
   "incorrect_answer": "Incorrect answer. Please try again",
-  "failed": "Failed"
+  "failed": "Failed",
+  "additional": {
+    "thanks": "Merci!",
+    "saved_answers": "Réponses sauvegardées !",
+    "close": "Fermer"
+  }
 }

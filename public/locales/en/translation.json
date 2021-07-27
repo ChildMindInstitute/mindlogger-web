@@ -155,5 +155,10 @@
   "next": "Next",
   "submit": "Submit",
   "incorrect_answer": "Incorrect answer. Please try again",
-  "failed": "Failed"
+  "failed": "Failed",
+  "additional": {
+    "thanks": "Thanks!",
+    "saved_answers": "We've saved your answers!",
+    "close": "Close"
+  }
 }

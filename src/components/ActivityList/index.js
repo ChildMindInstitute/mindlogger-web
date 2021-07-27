@@ -6,6 +6,7 @@ import {
   Container,
   Card,
   Button,
+  Modal,
   Row,
   Col,
 } from 'react-bootstrap'
@@ -14,10 +15,11 @@ import Avatar from 'react-avatar';
 // Local
 import { delayedExec, clearExec } from '../../util/interval';
 import sortActivities from './sortActivities';
-import { inProgressSelector } from '../../state/responses/responses.selectors';
+import { inProgressSelector, currentScreenIndexSelector } from '../../state/responses/responses.selectors';
 import { finishedEventsSelector } from '../../state/app/app.selectors';
 import { appletsSelector } from '../../state/applet/applet.selectors';
 import { setCurrentActivity } from '../../state/app/app.reducer';
+import { setCurrentScreen } from '../../state/responses/responses.reducer';
 import { createResponseInProgress } from '../../state/responses/responses.reducer';
 import { parseAppletEvents } from '../../services/json-ld';
 import * as R from 'ramda';
@@ -33,13 +35,16 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [aboutPage, showAboutPage] = useState(false);
+  const [startActivity, setStartActivity] = useState(false);
   const [activities, setActivities] = useState([]);
+  const [currentAct, setCurrentAct] = useState({});
   const [prizeActivity, setPrizeActivity] = useState(null);
   const [markdown, setMarkDown] = useState("");
   const [currentApplet] = useState(applets.find((applet) =>
     appletId && applet.id.includes(appletId) ||
     publicId && applet.publicId && applet.publicId.includes(publicId)
   ));
+  const screenIndex = useSelector(currentScreenIndexSelector);
 
   const user = useSelector(state => R.path(['user', 'info'])(state));
   const updateStatusDelay = 60 * 1000;
@@ -92,11 +97,10 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
           || item.inputType === "slider"
           || item.inputType === "text";
         });
-        
-        
+
+
       return supportedItems.length && !act.isPrize;
     });
-    console.log('appletActivities ------------------', appletActivities);
     const prizeActs = appletData.activities.filter(act => act.isPrize);
 
     if (prizeActs.length === 1) {
@@ -108,11 +112,52 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
   }
 
   const onPressActivity = (activity) => {
+    if (activity.status === "in-progress") {
+      setCurrentAct(activity);
+      setStartActivity(true);
+    } else {
+      dispatch(setCurrentActivity(activity.id));
+      dispatch(createResponseInProgress({
+        activity: activity,
+        event: null,
+        subjectId: user?._id,
+        publicId: currentApplet.publicId || null,
+        timeStarted: new Date().getTime()
+      }));
+
+      if (currentApplet.publicId) {
+        history.push(`/applet/public/${appletId}/${activity.id}`);
+      } else {
+        history.push(`/applet/${appletId}/${activity.id}`);
+      }
+    }
+  }
+  const handleResumeActivity = () => {
+    const activity = currentAct;
+
+    dispatch(setCurrentActivity(activity.id));
+    dispatch(
+      setCurrentScreen({
+        activityId: activity.id,
+        screenIndex: screenIndex || 0,
+      })
+    )
+
+    if (currentApplet.publicId) {
+      history.push(`/applet/public/${appletId}/${activity.id}`);
+    } else {
+      history.push(`/applet/${appletId}/${activity.id}`);
+    }
+    setStartActivity(false);
+  }
+  const handleRestartActivity = () => {
+    const activity = currentAct;
+
     dispatch(setCurrentActivity(activity.id));
     dispatch(createResponseInProgress({
       activity: activity,
       event: null,
-      subjectId: user?._id,
+      subjectId: user ?._id,
       publicId: currentApplet.publicId || null,
       timeStarted: new Date().getTime()
     }));
@@ -122,9 +167,12 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
     } else {
       history.push(`/applet/${appletId}/${activity.id}`);
     }
+    setStartActivity(false);
   }
+
   const closeAboutPage = () => showAboutPage(false);
   const openAboutPage = () => showAboutPage(true);
+  const handleClose = () => setStartActivity(false);
 
   return (
     <Container fluid>
@@ -179,6 +227,20 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
 
         </Col>
       </Row>
+      <Modal show={startActivity} onHide={handleClose} animation={true}>
+        <Modal.Header closeButton>
+          <Modal.Title>Resume Activity</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Would you like to resume this activity in progress or restart?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleRestartActivity}>
+            Restart
+          </Button>
+          <Button variant="primary" onClick={handleResumeActivity}>
+            Resume
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 }

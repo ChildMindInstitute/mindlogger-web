@@ -18,7 +18,7 @@ const Item = (props) => {
       handleChange(answer);
 
       if (item.autoAdvance) {
-        handleSubmit();
+        handleSubmit(answer);
       }
     }
 

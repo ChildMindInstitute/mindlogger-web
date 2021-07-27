@@ -17,7 +17,34 @@ const Radio = (props) => {
   } = props;
 
   const isNextDisable = !answer && answer !== 0;
+  const valueType = item.valueConstraints.valueType;
+  const token = valueType && valueType.includes('token');
 
+  const renderItem = function (obj, index) {
+    return (<div className="response-option">
+      {
+        obj.image && <Image className="option-image" src={obj.image} roundedCircle /> ||
+        <div className="option-image"></div>
+      }
+      <Form.Check
+        label={obj.name.en}
+        name={item.variableName}
+        type="radio"
+        onChange={
+          () => {
+            handleChange({
+              value: token ? obj.name.en : obj.value
+            })
+          }
+        }
+        value={obj.value}
+        id={`${item.variableName}${index}`}
+        disabled={!isNextShown}
+      />
+    </div>);
+  }
+
+  const itemCount = item.valueConstraints.itemList.length;
   return (
     <Card className="mb-3" style={{ maxWidth: "auto" }}>
       <Row className="no-gutters">
@@ -28,22 +55,17 @@ const Radio = (props) => {
             </Card.Title>
             <Row className="no-gutters pl-5">
               <Form.Group as={Row}>
-                {_.map(item.valueConstraints.itemList, (obj, i) => (
-                  <Col md={6} className="pr-5 response-option" key={i}>
-                    {
-                      obj.image && <Image className="option-image" src={obj.image} roundedCircle /> ||
-                      <div className="option-image"></div>
-                    }
-                    <Form.Check
-                      label={obj.name.en}
-                      name={item.variableName}
-                      type="radio"
-                      onChange={() => { handleChange(obj.value) }} value={obj.value}
-                      id={`${item.variableName}${i}`}
-                      disabled={!isNextShown}
-                    />
-                  </Col>
-                ))}
+                <Col md={6} className="pr-5">
+                  {_.map(item.valueConstraints.itemList, (obj, i) => (
+                    i < Math.ceil(itemCount/2) ? renderItem(obj, i) : <></>
+                  ))}
+                </Col>
+
+                <Col md={6} className="pr-5">
+                  {_.map(item.valueConstraints.itemList, (obj, i) => (
+                    i >= Math.ceil(itemCount/2) ? renderItem(obj, i) : <></>
+                  ))}
+                </Col>
               </Form.Group>
             </Row>
           </Card.Body>

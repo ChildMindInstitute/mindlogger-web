@@ -57,7 +57,7 @@ export const updateKeys = (applet, userInfo) => (dispatch) => {
 };
 
 export const completeResponse = createAsyncThunk(RESPONSE_CONSTANTS.COMPLETE_RESPONSES, async (isTimeout, { dispatch, getState }) => {
-  const state = getState();
+  let state = getState();
   const authToken = authTokenSelector(state);
   let applet = currentAppletSelector(state);
   const inProgressResponse = currentResponsesSelector(state);
@@ -80,6 +80,7 @@ export const completeResponse = createAsyncThunk(RESPONSE_CONSTANTS.COMPLETE_RES
       dispatch(updateKeys(applet, userInfoSelector(state)));
     }
 
+    state = getState()
     applet = currentAppletSelector(state)
   }
 

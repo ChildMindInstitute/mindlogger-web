@@ -43,7 +43,7 @@ export default function AppletList() {
             {applet.image ?
               <Card.Img variant="top" src={applet.image} />
               :
-              <Avatar color="#777" name={applet.name.en} maxInitials={2} size="286" round="3px" />
+              <Avatar color="#777" name={applet.name.en} maxInitials={2} size="280" round="3px" />
             }
             <Card.Body>
               <Card.Title className="applet-card-title"> {applet.name.en} </Card.Title>

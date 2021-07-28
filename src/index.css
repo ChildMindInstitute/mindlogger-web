@@ -59,21 +59,22 @@ code {
 
 .question {
   text-align: center;
+  padding: 10px;
 }
 
 .question img {
-  width: 220px;
-  margin-bottom: 5px;
-  float: left;
-  border-radius: 0.25rem;
-  border: 1px solid #dee2e6;
+  width: 100%;
 }
 
 .question video {
-  width: 220px;
-  float: left;
-  border-radius: 0.25rem;
-  border: 1px solid #dee2e6;
+  width: 100%;
+}
+
+.form-check input {
+  margin-top: 10px;
+}
+.form-check label {
+  font-size: 20px;
 }
 
 .option-image {

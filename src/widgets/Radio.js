@@ -53,21 +53,21 @@ const Radio = (props) => {
             <Card.Title className="question">
               <Markdown>{item.question.en}</Markdown>
             </Card.Title>
-            <Row className="no-gutters pl-5">
+            <div className="no-gutters">
               <Form.Group as={Row}>
-                <Col md={6} className="pr-5">
+                <Col md={6}>
                   {_.map(item.valueConstraints.itemList, (obj, i) => (
                     i < Math.ceil(itemCount/2) ? renderItem(obj, i) : <></>
                   ))}
                 </Col>
 
-                <Col md={6} className="pr-5">
+                <Col md={6}>
                   {_.map(item.valueConstraints.itemList, (obj, i) => (
                     i >= Math.ceil(itemCount/2) ? renderItem(obj, i) : <></>
                   ))}
                 </Col>
               </Form.Group>
-            </Row>
+            </div>
           </Card.Body>
         </Col>
       </Row>

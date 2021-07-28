@@ -31,8 +31,6 @@ const Screens = () => {
   const dispatch = useDispatch()
   const [data] = useState({});
   const [show, setShow] = useState(false);
-  const [next, setNext] = useState(-1);
-  const [prev, setPrev] = useState(-1);
 
   const history = useHistory();
   const { appletId, activityId } = useParams();
@@ -46,7 +44,6 @@ const Screens = () => {
 
   useEffect(() => {
     if (screenIndex === 0) {
-      updateVisibility(inProgress ?.responses);
       dispatch(createResponseInProgress({
         activity: activityAccess,
         event: null,
@@ -62,7 +59,7 @@ const Screens = () => {
     history.push(`/applet/${appletId}/activity_thanks`);
   };
 
-  const updateVisibility = (responses) => {
+  const getVisibility = (responses) => {
     const visibility = activityAccess.items.map((item) =>
       testVisibility(
         item.visibility,
@@ -71,27 +68,21 @@ const Screens = () => {
       )
     );
 
-    setNext(getNextPos(screenIndex, visibility));
+    const next = getNextPos(screenIndex, visibility);
+    const prev = getLastPos(screenIndex, visibility);
+
+    return [next, prev];
   }
+
+  const [next, prev] = getVisibility(inProgress?.responses);
 
   const handleNext = (e) => {
     let currentNext = next;
     if (e.value || e.value === 0) {
-      let responses = [...inProgress ?.responses];
+      let responses = [...inProgress?.responses];
       responses[screenIndex] = e.value;
 
-      const visibility = activityAccess.items.map((item) =>
-        testVisibility(
-          item.visibility,
-          activityAccess.items,
-          responses
-        )
-      );
-
-      currentNext = getNextPos(screenIndex, visibility);
-
-      setNext(currentNext);
-      setPrev(getLastPos(screenIndex + 1, visibility));
+      [currentNext] = getVisibility(responses);
     }
 
     if (currentNext === -1) {
@@ -111,7 +102,6 @@ const Screens = () => {
     let responses = [...inProgress ?.responses];
     responses[screenIndex] = answer;
 
-    updateVisibility(responses);
     dispatch(
       setAnswer({
         activityId: activityAccess.id,

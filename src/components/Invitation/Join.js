@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useLocation, useHistory } from 'react-router-dom';
 
+import {useTranslation} from "react-i18next";
+
 import { Statuses } from '../../constants';
 import { InviteLink } from './InviteLink';
 import { JoinInfo } from './JoinInfo';
@@ -11,6 +13,8 @@ import { loggedInSelector } from '../../state/user/user.selectors';
 import { acceptInviteLink, getInviteLinkInfo } from '../../state/app/app.actions';
 
 export const Join = () => {
+  const { t } = useTranslation();
+
   const history = useHistory();
 
   const { inviteLinkId } = useParams();
@@ -81,6 +85,8 @@ export const Join = () => {
       {renderAcceptDeclineInvite()}
 
       {renderSignIn()}
+
+      {renderNotFound()}
     </div>
   );
 
@@ -93,7 +99,7 @@ export const Join = () => {
   }
 
   function renderAcceptDeclineInvite() {
-    if (!isLoggedIn && status !== Statuses.LOADING) {
+    if (!inviteLink  || !isLoggedIn && status !== Statuses.LOADING) {
       return undefined;
     }
 
@@ -108,5 +114,15 @@ export const Join = () => {
     }
 
     return <SignIn></SignIn>;
+  }
+
+  function renderNotFound() {
+    if (!inviteLink) {
+      return <div className="heading">
+        <p>{t('InviteLink.notFound')}</p>
+      </div>
+    }
+
+    return undefined;
   }
 };

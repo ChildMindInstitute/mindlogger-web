@@ -66,7 +66,10 @@ const responseSlice = createSlice({
     },
     shiftUploadQueue: (state, action) => {
       state.uploadQueue = R.remove(0, 1, state.uploadQueue);
-    }
+    },
+    removeResponseInProgress: (state, action) => {
+      delete state.inProgress[action.payload];
+    },
   },
   extraReducers: {
   }
@@ -83,6 +86,7 @@ export const {
   replaceResponses,
   setSchedule,
   replaceAppletResponse,
-  shiftUploadQueue
+  shiftUploadQueue,
+  removeResponseInProgress,
 } = responseSlice.actions;
 export default responseSlice.reducer;

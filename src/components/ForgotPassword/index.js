@@ -69,7 +69,7 @@ export default function ForgotPassword() {
           </form>
           {/* <p className="mt-3">{t('ForgotPassword.accountMessage')} <Link to="/signup">{t('ForgotPassword.create')}</Link></p>
           <p className="mt-3">{t('ForgotPassword.forgotPassword')} <Link to="/forgotpassword">{t('ForgotPassword.reset')}</Link></p> */}
-          <p>
+          <p className="my-3">
             {t('ForgotPassword.rememberPassword')}{' '}
             <Link to="/login">{t('ForgotPassword.logIn')}</Link>{' '}
           </p>

@@ -64,4 +64,25 @@ export const InvitationText = (props) => {
     default:
       return null;
   }
-};
+}
+
+const InvitationButtons = ({ t, onAcceptInvite, onDeclineInvite }) => (
+  <div className={'d-flex justify-content-center align-items-center my-2'}>
+    <Button
+      onClick={onAcceptInvite}
+      variant="success"
+      className={'mx-2'}
+      size="lg"
+    >
+      {t('InvitationButtons.acceptInvitation')}
+    </Button>
+    <Button
+      onClick={onDeclineInvite}
+      variant="danger"
+      className={'mx-2'}
+      size="lg"
+    >
+      {t('InvitationButtons.declineInvitation')}
+    </Button>
+  </div>
+)

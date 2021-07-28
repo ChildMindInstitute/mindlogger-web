@@ -64,7 +64,10 @@
     "passwordRequiredError": "Vous devez spécifier un mot de passe",
     "password": "le mot de passe",
     "passwordError": "Le mot de passe actuel que vous avez entré était incorrect."
+<<<<<<< HEAD
+=======
 
+>>>>>>> bceccf72614913cb1d36abf5c02f00c48567a78b
   },
   "Landing": {
     "title": "Bienvenue dans MindLogger",
@@ -75,13 +78,10 @@
     "reserchStudies": "Participez à des études de recherche scientifique en ligne!",
     "toGet": " Pour commencer :"
   },
-
   "Profile": {
     "title": "Téléchargez MindLogger pour commencer.",
     "description": " Merci d'avoir créé un compte avec MindLogger. Téléchargez MindLogger sur un appareil iOS ou Android pour commencer. "
-
   },
-
   "Invitation": {
     "please": "S'il te plaît",
     "login": "Connexion",
@@ -104,23 +104,34 @@
     "declineInvitation": "pour refuser cette invitation"
   },
   "InvitationText": {
+<<<<<<< HEAD
+    "loadingInvitation": "Invitation de chargement",
+=======
     "loadingInvitation" : "Chargement de l'invitation",
+>>>>>>> bceccf72614913cb1d36abf5c02f00c48567a78b
     "invitationRemoved": "Invitation supprimée",
     "networkError": "Erreur réseau. Revenir ",
     "home": "Maisons",
     "acceptInvitation": "Invitation acceptée"
   },
+<<<<<<< HEAD
+  "InvitationButtons": {
+    "acceptInvitation": "Accepter l'invitation",
+    "declineInvitation": "Refuser l'invitation"
+=======
   "InviteLink": {
     "title": "Vous avez été invité par {{coordinatorName}} (<a href=\"mailto={{email}}\">{{coordinatorEmail}}</a>) à être un utilisateur de <strong>{{displayName}}</strong> sur MindLogger.<br/>Ci-dessous, les utilisateurs qui ont accès à vos données:",
     "loading": "Chargement de l'invitation",
     "reviewers": "Utilisateurs qui peuvent voir vos données pour cette applet:",
     "managers": "Utilisateurs qui peuvent modifier les paramètres de cette applet, y compris ceux qui peuvent accéder à vos données:",
-    "coordinators": "Utilisateurs qui peuvent modifier les paramètres de cette applet, mais qui ne peuvent pas changer qui peut voir vos données :"
+    "coordinators": "Utilisateurs qui peuvent modifier les paramètres de cette applet, mais qui ne peuvent pas changer qui peut voir vos données :",
+    "notFound": "L'invitation est invalide ou plus active."
   },
   "InvitationButtons": {
     "acceptInvitation": "Accepter l'invitation",
     "declineInvitation": "Refuser l'invitation"
 
+>>>>>>> bceccf72614913cb1d36abf5c02f00c48567a78b
   },
   "Navbar": {
     "mindLogger": "MindLogger",
@@ -131,8 +142,11 @@
     "settings": "Réglages",
     "english": "Anglaise",
     "french": "français"
+<<<<<<< HEAD
+=======
 
 
+>>>>>>> bceccf72614913cb1d36abf5c02f00c48567a78b
   },
   "SetPassword": {
     "please": "S'il te plaît",

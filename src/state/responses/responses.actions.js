@@ -18,7 +18,8 @@ import {
   replaceResponses,
   replaceAppletResponse,
   setSchedule,
-  shiftUploadQueue
+  shiftUploadQueue,
+  removeResponseInProgress,
 } from './responses.reducer';
 import { appletsSelector } from '../applet/applet.selectors';
 
@@ -116,7 +117,9 @@ export const completeResponse = createAsyncThunk(RESPONSE_CONSTANTS.COMPLETE_RES
     await dispatch(startUploadQueue());
   }
 
-  // todo
+  dispatch(
+    removeResponseInProgress(activity.event ? activity.id + activity.event.id : activity.id)
+  );
 })
 
 export const downloadResponses = createAsyncThunk(RESPONSE_CONSTANTS.DOWNLOAD_RESPONSES, async (args, { dispatch, getState }) => {

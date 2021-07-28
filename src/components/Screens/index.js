@@ -60,7 +60,7 @@ const Screens = () => {
     await dispatch(completeResponse(false));
 
     if (applet.publicId) {
-      history.push(`/applet/public/${appletId.split('/').pop()}/dashboard`);
+      history.push(`/applet/public/${applet.publicId}`);
     } else {
       history.push(`/applet/${appletId}/dashboard`);
     }

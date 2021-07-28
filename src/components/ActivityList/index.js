@@ -30,7 +30,7 @@ import ActivityItem from './ActivityItem';
 import './style.css'
 
 export const ActivityList = ({ inProgress, finishedEvents }) => {
-  const { appletId } = useParams();
+  const { appletId, publicId } = useParams();
   const applets = useSelector(appletsSelector);
   const history = useHistory();
   const dispatch = useDispatch();
@@ -40,8 +40,12 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
   const [currentAct, setCurrentAct] = useState({});
   const [prizeActivity, setPrizeActivity] = useState(null);
   const [markdown, setMarkDown] = useState("");
-  const [currentApplet] = useState(applets.find(({ id }) => id.includes(appletId)));
+  const [currentApplet] = useState(applets.find((applet) =>
+    appletId && applet.id.includes(appletId) ||
+    publicId && applet.publicId && applet.publicId.includes(publicId)
+  ));
   const screenIndex = useSelector(currentScreenIndexSelector);
+
   const user = useSelector(state => R.path(['user', 'info'])(state));
   const updateStatusDelay = 60 * 1000;
 
@@ -93,8 +97,8 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
           || item.inputType === "slider"
           || item.inputType === "text";
         });
-        
-        
+
+
       return supportedItems.length && !act.isPrize;
     });
     const prizeActs = appletData.activities.filter(act => act.isPrize);

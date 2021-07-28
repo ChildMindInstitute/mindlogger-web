@@ -689,7 +689,7 @@ export const transformApplet = (payload, currentApplets = null) => {
       }
 
       if (payload.schedule) {
-        const events = { ...currentApplet.schedule.events };
+        const events = { ...(currentApplet.schedule?.events || {}) };
         applet.schedule = payload.schedule;
 
         if (!R.isEmpty(payload.schedule.events)) {
@@ -698,16 +698,18 @@ export const transformApplet = (payload, currentApplets = null) => {
           })
         }
 
-        for (const eventId in events) {
-          let isValid = false;
-          for (const eventDate in currentApplet.schedule.data) {
-            if (currentApplet.schedule.data[eventDate].find(({ id }) => id === eventId)) {
-              isValid = true;
+        if (currentApplet.schedule) {
+          for (const eventId in events) {
+            let isValid = false;
+            for (const eventDate in currentApplet.schedule.data) {
+              if (currentApplet.schedule.data[eventDate].find(({ id }) => id === eventId)) {
+                isValid = true;
+              }
             }
-          }
 
-          if (!isValid) {
-            delete events[eventId];
+            if (!isValid) {
+              delete events[eventId];
+            }
           }
         }
         applet.schedule.events = events;

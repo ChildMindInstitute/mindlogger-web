@@ -65,9 +65,5 @@ export const getPublicApplet = createAsyncThunk(APPLET_CONSTANTS.GET_PUBLIC_APPL
 
   applet.publicId = publicId;
 
-  if (!applet.AESKey || !applet.userPublicKey) {
-    // dispatch(updateKeys(applet, userInfo));
-  }
-
   return applet
 });

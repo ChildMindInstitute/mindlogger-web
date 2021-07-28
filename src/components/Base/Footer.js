@@ -2,7 +2,7 @@ import React from 'react'
 
 export const Footer = () => {
   return (
-    <footer className="d-flex justify-content-center align-items-center mt-auto bg-light pt-3 pb-3 mt-3 footer">
+    <footer className="d-flex justify-content-center align-items-center bg-light mt-3 footer">
       <p className="mt-3 text-center">
         <img
           className="logo mr-1"

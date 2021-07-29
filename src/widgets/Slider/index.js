@@ -43,6 +43,21 @@ const SliderWidget = ({
   const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
   const minLabelWidth = Math.floor(90 / itemList.length);
 
+  const changeValue = (value) => {
+    const answer = {
+      value
+    };
+
+    if (!continuousSlider) {
+      answer.value = Math.round(answer.value);
+    }
+
+    if (!data || answer.value != data.value) {
+      setData(answer)
+      handleChange(answer)
+    }
+  }
+
   return (
     <Card className="mb-3" style={{ maxWidth: "auto" }}>
       <Row className="no-gutters">
@@ -60,18 +75,12 @@ const SliderWidget = ({
                   max={maxValue}
                   value={data && data.value || 0}
                   step={0.1}
-                  onChange={(e) => {
-                    const answer = {
-                      value: e.target.value
-                    };
-
-                    if (!continuousSlider) {
-                      answer.value = Math.round(answer.value);
+                  onClick={(e) => {
+                    if (!data) {
+                      changeValue(e.target.value)
                     }
-
-                    setData(answer)
-                    handleChange(answer)
                   }}
+                  onChange={(e) => changeValue(e.target.value)}
                   disabled={!isNextShown}
                 />
                 {

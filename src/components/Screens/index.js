@@ -50,7 +50,7 @@ const Screens = () => {
       dispatch(createResponseInProgress({
         activity: activityAccess,
         event: null,
-        subjectId: user._id,
+        subjectId: user && user._id,
         timeStarted: new Date().getTime()
       }));
     }

@@ -20,8 +20,17 @@ const Radio = (props) => {
   const valueType = item.valueConstraints.valueType;
   const token = valueType && valueType.includes('token');
 
+  const invertColor = (hex) => {
+    let hexcolor = hex.replace("#", "");
+    let r = parseInt(hexcolor.substr(0, 2), 16);
+    let g = parseInt(hexcolor.substr(2, 2), 16);
+    let b = parseInt(hexcolor.substr(4, 2), 16);
+    let yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+    return (yiq >= 128) ? '#333333' : 'white';
+  }
+
   const renderItem = function (obj, index) {
-    return (<div className="response-option">
+    return (<div className="response-option" style={{ background: obj.color ? obj.color : 'none' }}>
       {
         obj.image && <Image className="option-image" src={obj.image} roundedCircle /> ||
         <div className="option-image"></div>
@@ -29,6 +38,7 @@ const Radio = (props) => {
       <Form.Check
         label={obj.name.en}
         name={item.variableName}
+        style={{ color: obj.color ? invertColor(obj.color) : "#333333" }}
         type="radio"
         onChange={
           () => {

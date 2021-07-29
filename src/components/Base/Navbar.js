@@ -100,10 +100,15 @@ const LanguageDropdown = () => {
   const { t, i18n } = useTranslation()
   const [language, setLanguage] = useState(i18n.language || Languages.ENGLISH)
 
-  useEffect(() => changeLanguage(i18n.language), [i18n.language])
+  // useEffect(() => changeLanguage(i18n.language), [i18n.language])
 
   const changeLanguage = (lang) => {
     setLanguage(lang)
+    
+    if (!['en', 'fr'].includes(lang)) {
+      return;
+    }
+    
     i18n.changeLanguage(lang)
   }
 

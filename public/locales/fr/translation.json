@@ -64,10 +64,6 @@
     "passwordRequiredError": "Vous devez spécifier un mot de passe",
     "password": "le mot de passe",
     "passwordError": "Le mot de passe actuel que vous avez entré était incorrect."
-<<<<<<< HEAD
-=======
-
->>>>>>> bceccf72614913cb1d36abf5c02f00c48567a78b
   },
   "Landing": {
     "title": "Bienvenue dans MindLogger",
@@ -104,21 +100,12 @@
     "declineInvitation": "pour refuser cette invitation"
   },
   "InvitationText": {
-<<<<<<< HEAD
-    "loadingInvitation": "Invitation de chargement",
-=======
     "loadingInvitation" : "Chargement de l'invitation",
->>>>>>> bceccf72614913cb1d36abf5c02f00c48567a78b
     "invitationRemoved": "Invitation supprimée",
     "networkError": "Erreur réseau. Revenir ",
     "home": "Maisons",
     "acceptInvitation": "Invitation acceptée"
   },
-<<<<<<< HEAD
-  "InvitationButtons": {
-    "acceptInvitation": "Accepter l'invitation",
-    "declineInvitation": "Refuser l'invitation"
-=======
   "InviteLink": {
     "title": "Vous avez été invité par {{coordinatorName}} (<a href=\"mailto={{email}}\">{{coordinatorEmail}}</a>) à être un utilisateur de <strong>{{displayName}}</strong> sur MindLogger.<br/>Ci-dessous, les utilisateurs qui ont accès à vos données:",
     "loading": "Chargement de l'invitation",
@@ -131,7 +118,6 @@
     "acceptInvitation": "Accepter l'invitation",
     "declineInvitation": "Refuser l'invitation"
 
->>>>>>> bceccf72614913cb1d36abf5c02f00c48567a78b
   },
   "Navbar": {
     "mindLogger": "MindLogger",
@@ -142,11 +128,6 @@
     "settings": "Réglages",
     "english": "Anglaise",
     "french": "français"
-<<<<<<< HEAD
-=======
-
-
->>>>>>> bceccf72614913cb1d36abf5c02f00c48567a78b
   },
   "SetPassword": {
     "please": "S'il te plaît",

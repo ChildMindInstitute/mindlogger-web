@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { Card, Container, Row } from 'react-bootstrap'
+import { Spinner } from 'react-bootstrap'
 import Avatar from 'react-avatar';
 
 import { getPublicApplet } from '../../state/applet/applet.actions'
@@ -35,6 +35,6 @@ export default function PublicApplet() {
   }, [])
 
   return (
-    isLoading && <></> || <ActivityList />
+    isLoading && <div className="text-center mt-4"><Spinner animation="border"></Spinner></div> || <ActivityList />
   )
 }

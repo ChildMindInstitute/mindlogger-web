@@ -8,7 +8,7 @@ const AboutModal = (props) => {
   const { aboutPage, markdown, closeAboutPage } = props;
 
   return (
-    <Modal show={aboutPage} onHide={closeAboutPage} centered>
+    <Modal className="aboutModal" show={aboutPage} onHide={closeAboutPage} centered>
       <Modal.Header closeButton>
         <Modal.Title>About Page</Modal.Title>
       </Modal.Header>

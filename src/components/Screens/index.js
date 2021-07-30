@@ -145,9 +145,9 @@ const Screens = () => {
         handleChange={handleChange}
         handleBack={handleBack}
         isSubmitShown={next === -1}
-        answer={answer}
-        isBackShown={screenIndex === i && i}
-        isNextShown={screenIndex === i}
+        answer={inProgress && inProgress.responses[i]}
+        isBackShown={screenIndex ===  i && i}
+        isNextShown={screenIndex ===  i}
       />
     );
   });

@@ -46,6 +46,7 @@ const Radio = (props) => {
         name={item.variableName}
         style={{ color: obj.color ? invertColor(obj.color) : "#333333" }}
         type="radio"
+        checked={ answer && answer.value == (token ? obj.name.en : obj.value) }
         onChange={
           () => {
             handleChange({ value: token ? obj.name.en : obj.value });

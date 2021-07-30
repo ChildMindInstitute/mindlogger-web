@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useLocation, useHistory } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 
 import {useTranslation} from "react-i18next";
 
 import { Statuses } from '../../constants';
 import { InviteLink } from './InviteLink';
 import { JoinInfo } from './JoinInfo';
-import { setRedirectUrl } from '../../state/app/app.reducer';
 import { SignIn } from '../Signin/SignIn';
 import { loggedInSelector } from '../../state/user/user.selectors';
 import { acceptInviteLink, getInviteLinkInfo } from '../../state/app/app.actions';
@@ -26,13 +25,6 @@ export const Join = () => {
   const isLoggedIn = useSelector(loggedInSelector);
 
   const dispatch = useDispatch();
-  const location = useLocation();
-
-  useEffect(() => {
-    dispatch(setRedirectUrl(location.pathname));
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   useEffect(() => {
     (async () => {

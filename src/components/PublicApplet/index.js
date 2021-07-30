@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { Card, Container, Row } from 'react-bootstrap'
+import { Spinner } from 'react-bootstrap'
 import Avatar from 'react-avatar';
 
 import { getPublicApplet } from '../../state/applet/applet.actions'
@@ -19,7 +19,7 @@ export default function PublicApplet() {
   const dispatch = useDispatch()
   const { publicId } = useParams()
   const [isLoading, setIsLoading] = useState(true);
-  const applets = useSelector(appletsSelector);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetchApplets = async () => {
@@ -27,7 +27,11 @@ export default function PublicApplet() {
       const action = await dispatch(getPublicApplet(publicId));
       const applet = action.payload;
 
-      dispatch(setCurrentApplet(applet.id))
+      if (applet) {
+        dispatch(setCurrentApplet(applet.id))
+      } else {
+        setError(true);
+      }
 
       setIsLoading(false);
     }
@@ -35,6 +39,7 @@ export default function PublicApplet() {
   }, [])
 
   return (
-    isLoading && <></> || <ActivityList />
+      isLoading && <div className="text-center mt-4"><Spinner animation="border"></Spinner></div> ||
+      error ? <h3 className="text-center mt-4">This assessment is no longer accepting respondents.</h3> : <ActivityList />
   )
 }

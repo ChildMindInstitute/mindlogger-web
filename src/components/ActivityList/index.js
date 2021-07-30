@@ -120,13 +120,13 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
       dispatch(createResponseInProgress({
         activity: activity,
         event: null,
-        subjectId: user?._id,
+        subjectId: user && user._id,
         publicId: currentApplet.publicId || null,
         timeStarted: new Date().getTime()
       }));
 
       if (currentApplet.publicId) {
-        history.push(`/applet/public/${appletId}/${activity.id}`);
+        history.push(`/applet/public/${currentApplet.id.split('/').pop()}/${activity.id}`);
       } else {
         history.push(`/applet/${appletId}/${activity.id}`);
       }
@@ -144,7 +144,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
     )
 
     if (currentApplet.publicId) {
-      history.push(`/applet/public/${appletId}/${activity.id}`);
+      history.push(`/applet/public/${currentApplet.id.split('/').pop()}/${activity.id}`);
     } else {
       history.push(`/applet/${appletId}/${activity.id}`);
     }
@@ -163,7 +163,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
     }));
 
     if (currentApplet.publicId) {
-      history.push(`/applet/public/${appletId}/${activity.id}`);
+      history.push(`/applet/public/${currentApplet.id.split('/').pop()}/${activity.id}`);
     } else {
       history.push(`/applet/${appletId}/${activity.id}`);
     }

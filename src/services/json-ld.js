@@ -316,14 +316,14 @@ export const transformInputs = (inputs) =>
       val = flattenItemList(itemList);
     }
 
-    if (inputObj["@type"].includes(AUDIO_OBJECT)) {
+    if ((inputObj["@type"] || []).includes(AUDIO_OBJECT)) {
       val = {
         contentUrl: languageListToObject(inputObj[CONTENT_URL]),
         transcript: languageListToObject(inputObj[TRANSCRIPT]),
       };
     }
 
-    if (inputObj["@type"].includes(IMAGE_OBJECT)) {
+    if ((inputObj["@type"] || []).includes(IMAGE_OBJECT)) {
       val = {
         contentUrl: languageListToObject(inputObj[CONTENT_URL]),
       };
@@ -499,7 +499,7 @@ const transformPureActivity = (activityJson) => {
 
 export const itemTransformJson = (itemJson) => {
   // For items, 'skippable' is undefined if there's no ALLOW prop
-  const allowList = flattenIdList(R.path([ALLOW, 0, "@list"], itemJson));
+  const allowList = flattenIdList(R.path([ALLOW, 0, "@list"], itemJson)) || [];
   const skippable = isSkippable(allowList) ? true : undefined;
 
   const valueConstraintsObj = R.pathOr({}, [RESPONSE_OPTIONS, 0], itemJson);

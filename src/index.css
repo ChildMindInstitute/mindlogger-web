@@ -59,7 +59,7 @@ code {
 
 .question {
   text-align: center;
-  padding: 10px;
+  padding: 20px 10px;
 }
 
 .question img {
@@ -79,7 +79,7 @@ code {
 
 .option-image {
   height: 25px;
-  width: 25px;
+  min-width: 25px;
   margin-right: 10px;
 }
 

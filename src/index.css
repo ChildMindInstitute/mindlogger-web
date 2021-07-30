@@ -86,6 +86,7 @@ code {
 .response-option {
   display: flex;
   align-items: center;
-
   margin: 10px 0px;
+  border-radius: 5px;
+  padding: 2px 5px;
 }

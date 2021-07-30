@@ -51,6 +51,7 @@ import {
   TRANSCRIPT,
   URL,
   VALUE,
+  COLOR,
   PRICE,
   SCORE,
   ALERT,
@@ -73,6 +74,7 @@ import {
   RAW_SCORE,
   SEX,
   T_SCORE,
+  COLOR_PALETTE,
   OUTPUT_TEXT,
   OUTPUT_TYPE,
   RESPONSE_ALERT,
@@ -105,7 +107,7 @@ export const languageListToObject = (list) => {
     {}
   );
 };
-
+ 
 export const listToObject = (list = []) =>
   list.reduce(
     (obj, item) => ({
@@ -133,6 +135,7 @@ export const flattenItemList = (list = []) =>
   list.map((item) => ({
     name: languageListToObject(item[NAME]),
     value: R.path([VALUE, 0, "@value"], item),
+    color: R.path([COLOR, 0, "@value"], item),
     price: R.path([PRICE, 0, "@value"], item),
     score: R.path([SCORE, 0, "@value"], item),
     alert: R.path([ALERT, 0, "@value"], item),
@@ -206,6 +209,13 @@ export const flattenValueConstraints = (vcObj) =>
       return {
         ...accumulator,
         randomizeOptions: R.path([key, 0, "@value"], vcObj)
+      }
+    }
+
+    if (key === COLOR_PALETTE) {
+      return {
+        ...accumulator,
+        colorPalette: R.path([key, 0, "@value"], vcObj)
       }
     }
 

@@ -63,8 +63,8 @@ const UserInfoDropdown = ({ user }) => {
           <NavDropdown
             title={user.firstName}
             id="basic-nav-dropdown"
-            className="text-center"
-            size="lg"
+            className="text-center drop-down"
+            size="xxl"
           >
             <NavDropdown.Item onClick={() => history.push('/changepassword')}>
               {t('Navbar.settings')}
@@ -115,7 +115,7 @@ const LanguageDropdown = () => {
   return (
     <DropdownButton
       alignRight
-      className="text-center"
+      className="text-center drop-down"
       title={
         language === Languages.ENGLISH
           ? t('Navbar.english')

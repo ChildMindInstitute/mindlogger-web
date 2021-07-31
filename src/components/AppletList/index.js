@@ -37,7 +37,7 @@ export default function AppletList() {
 
   return (
     <Container>
-      <Row className="justify-content-md-center">
+      <Row className=" justify-content-md-center">
         {!isLoading && applets.map(applet => (
           <Card className="applet-card" onClick={() => onSelectApplet(applet.id)} key={applet.id}>
             {applet.image ?
@@ -51,6 +51,11 @@ export default function AppletList() {
             </Card.Body>
           </Card>
         ))}
+        {!isLoading && (!applets || applets.length <= 0) &&
+          <div className="notfound">
+            <h3> {"No Applets found"} </h3>
+          </div>
+        }
       </Row>
     </Container>
   )

@@ -36,13 +36,11 @@ const appletSlice = createSlice({
     selectActivity: (state, action) => { state.activityAccess = action.payload },
     prepareResponseKeys: (state, action) => {
       const { appletId, keys } = action.payload;
+      const index = state.applets.findIndex(applet => applet.id == appletId);
 
-      const applet = state.applets.find(applet => applet.id = appletId);
-
-      if (applet) {
-        Object.entries(keys).forEach(entry => {
-          applet[entry[0]] = entry[1];
-        })
+      if (index >= 0) {
+        state.applets[index].AESKey = keys.AESKey;
+        state.applets[index].userPublicKey = keys.userPublicKey;
       }
     }
   },
@@ -54,6 +52,26 @@ const appletSlice = createSlice({
       state.applets = action.payload;
     },
     [`${APPLET_CONSTANTS.GET_APPLETS}/rejected`]: (state, action) => {
+      state.loading = false;
+      state.error = action.error.message;
+    },
+
+    [`${APPLET_CONSTANTS.GET_PUBLIC_APPLET}/pending`]: (state, action) => { state.loading = true; state.error = null; },
+    [`${APPLET_CONSTANTS.GET_PUBLIC_APPLET}/fulfilled`]: (state, action) => {
+      state.loading = false;
+      state.error = null;
+
+      const newApplet = action.payload;
+
+      const index = state.applets.findIndex(applet => applet.id == newApplet.id);
+
+      if (index >= 0) {
+        state.applets[index] = newApplet;
+      } else {
+        state.applets.push(newApplet);
+      }
+    },
+    [`${APPLET_CONSTANTS.GET_PUBLIC_APPLET}/rejected`]: (state, action) => {
       state.loading = false;
       state.error = action.error.message;
     },

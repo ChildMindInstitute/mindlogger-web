@@ -39,8 +39,8 @@ const responseSlice = createSlice({
 
     setAnswer: (state, action) => {
       const { screenIndex, activityId, answer } = action.payload;
-
-      state.inProgress[activityId].responses[screenIndex] = answer;
+      if (!answer) state.inProgress[activityId] = undefined;
+      else state.inProgress[activityId].responses[screenIndex] = answer;
     },
     setInProgress: (state, action) => { state.inProgress = action.payload },
     addToUploadQueue: (state, action) => {
@@ -66,23 +66,27 @@ const responseSlice = createSlice({
     },
     shiftUploadQueue: (state, action) => {
       state.uploadQueue = R.remove(0, 1, state.uploadQueue);
-    }
+    },
+    removeResponseInProgress: (state, action) => {
+      delete state.inProgress[action.payload];
+    },
   },
   extraReducers: {
   }
 })
 
 export const {
-    createResponseInProgress,
-    setCurrentScreen,
-    setAnswer,
-    setInProgress,
-    addToUploadQueue,
-    setDownloadingResponses,
-    setResponsesDownloadProgress,
-    replaceResponses,
-    setSchedule,
-    replaceAppletResponse,
-    shiftUploadQueue
+  createResponseInProgress,
+  setCurrentScreen,
+  setAnswer,
+  setInProgress,
+  addToUploadQueue,
+  setDownloadingResponses,
+  setResponsesDownloadProgress,
+  replaceResponses,
+  setSchedule,
+  replaceAppletResponse,
+  shiftUploadQueue,
+  removeResponseInProgress,
 } = responseSlice.actions;
 export default responseSlice.reducer;

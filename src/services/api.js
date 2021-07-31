@@ -53,6 +53,7 @@ export const uploadResponseQueue = (
   if (responseQueue.length === 0) {
     return Promise.resolve();
   }
+
   return uploadResponse(authToken, responseQueue[0])
     .then(() => {
       progressCallback();
@@ -64,4 +65,3 @@ export const uploadResponseQueue = (
     })
     .catch((e) => console.warn(e));
 };
-

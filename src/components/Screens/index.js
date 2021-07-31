@@ -1,40 +1,76 @@
-import React, { useState } from 'react';
-import _ from "lodash";
+import React, { useState, useEffect } from 'react';
+import _ from 'lodash';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams, useHistory } from 'react-router-dom';
 import { Card, Row, Col, Modal, Button } from 'react-bootstrap';
+import { useParams, useHistory } from 'react-router-dom';
 import Avatar from 'react-avatar';
 
-// Component
 import Item from '../Item';
 import ActivitySummary from '../../widgets/ActivitySummary';
 
 // Constants
+import { testVisibility } from '../../services/visibility';
+import { getNextPos, getLastPos } from '../../services/navigation';
+import { userInfoSelector } from '../../state/user/user.selectors';
 import { currentActivitySelector, currentAppletSelector } from '../../state/app/app.selectors';
+import { completeResponse } from '../../state/responses/responses.actions';
 import {
+  setAnswer,
   setCurrentScreen,
-  setAnswer
+  createResponseInProgress,
 } from '../../state/responses/responses.reducer';
 import { completeResponse } from '../../state/responses/responses.actions';
 import {
+  // responsesSelector,
   currentScreenResponseSelector,
+  currentResponsesSelector,
   currentScreenIndexSelector,
 } from '../../state/responses/responses.selectors';
+import config from '../../util/config';
+
+import "./style.css";
 
 const Screens = (props) => {
   const items = []
   const { appletId } = useParams();
   const dispatch = useDispatch()
   const [data, setData] = useState({});
-  const history = useHistory();
   const [show, setShow] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isSummaryScreen, setIsSummaryScreen] = useState(false);
 
+  const history = useHistory();
+  const { appletId, activityId } = useParams();
+
+  const applet = useSelector(currentAppletSelector);
   const answer = useSelector(currentScreenResponseSelector);
+  const user = useSelector(userInfoSelector);
   const screenIndex = useSelector(currentScreenIndexSelector);
   const activityAccess = useSelector(currentActivitySelector);
-  const applet = useSelector(currentAppletSelector);
+  const inProgress = useSelector(currentResponsesSelector);
+
+  useEffect(() => {
+    if (screenIndex === 0) {
+      dispatch(createResponseInProgress({
+        activity: activityAccess,
+        event: null,
+        subjectId: user && user._id,
+        timeStarted: new Date().getTime()
+      }));
+    }
+  }, [])
+
+  useEffect(() => {
+    if (inProgress && Object.keys(inProgress).length > 0) {
+      const { activity, responses } = inProgress;
+      let obj = data;
+      responses.forEach((val, i) => {
+        const { variableName } = activity.items[i];
+        obj = { ...obj, [variableName]: val && val.value };
+      })
+      setData(obj);
+    }
+  }, [])
 
   const finishResponse = async () => {
     setIsLoading(true);
@@ -48,24 +84,54 @@ const Screens = (props) => {
     } else {
       if (isSummaryScreen) setIsSummaryScreen(false);
 
-      history.push(`/applet/${appletId}/dashboard`);
+      // history.push(`/applet/${appletId}/dashboard`);
+      history.push(`/applet/${appletId}/activity_thanks`);
     }
   };
 
-  const handleNext = (values) => {
-    if (screenIndex == activityAccess.items.length - 1) {
+  const getVisibility = (responses) => {
+    const visibility = activityAccess.items.map((item) =>
+      testVisibility(
+        item.visibility,
+        activityAccess.items,
+        responses
+      )
+    );
+
+    const next = getNextPos(screenIndex, visibility);
+    const prev = getLastPos(screenIndex, visibility);
+
+    return [next, prev];
+  }
+
+  const [next, prev] = getVisibility(inProgress?.responses);
+
+  const handleNext = (e) => {
+    let currentNext = next;
+    if (e.value || e.value === 0) {
+      let responses = [...inProgress?.responses];
+      responses[screenIndex] = e.value;
+
+      [currentNext] = getVisibility(responses);
+    }
+
+    if (currentNext === -1) {
       setShow(true);
     } else {
+      // Go to next item:
       dispatch(
         setCurrentScreen({
           activityId: activityAccess.id,
-          screenIndex: screenIndex + 1
+          screenIndex: currentNext
         })
       )
     }
   }
 
   const handleChange = (answer) => {
+    let responses = [...inProgress?.responses];
+    responses[screenIndex] = answer;
+
     dispatch(
       setAnswer({
         activityId: activityAccess.id,
@@ -80,7 +146,7 @@ const Screens = (props) => {
       dispatch(
         setCurrentScreen({
           activityId: activityAccess.id,
-          screenIndex: screenIndex - 1
+          screenIndex: prev
         })
       );
     }
@@ -90,13 +156,13 @@ const Screens = (props) => {
     items.push(
       <Item
         data={data}
-        type={item.valueConstraints.multipleChoice === true ? "checkbox" : item.inputType}
+        type={item.valueConstraints.multipleChoice ? "checkbox" : item.inputType}
         key={item.id}
         item={item}
         handleSubmit={handleNext}
         handleChange={handleChange}
         handleBack={handleBack}
-        isSubmitShown={i === activityAccess.items.length - 1}
+        isSubmitShown={next === -1}
         answer={answer}
         isBackShown={screenIndex === i && i}
         isNextShown={screenIndex === i}
@@ -125,7 +191,10 @@ const Screens = (props) => {
           {isSummaryScreen ?
             <ActivitySummary {...props} />
             :
-            _.map(items.slice(0, screenIndex + 1))
+            _.map(items.slice(0, screenIndex + 1).reverse())
+          }
+          {applet.watermark &&
+            <img className="watermark" src={applet.watermark} alt="watermark" />
           }
         </Col>
       </Row>
@@ -143,7 +212,6 @@ const Screens = (props) => {
           <Button variant="primary" disabled={isLoading} onClick={() => finishResponse()}>{isLoading ? "Loading..." : "Yes"}</Button>
         </Modal.Footer>
       </Modal>
-
     </div>
   )
 }

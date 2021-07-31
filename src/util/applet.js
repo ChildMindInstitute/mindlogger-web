@@ -7,13 +7,13 @@ export const getLocalInfo = (currentApplets, currentResponses) => {
     currentApplets.forEach(applet => {
       const { contentUpdateTime, id } = applet;
       const response = currentResponses ? currentResponses.find(r => id === r.appletId) : null;
-      const localEvents = Object.keys(applet.schedule.events).map(id => {
+      const localEvents = applet.schedule ? Object.keys(applet.schedule.events).map(id => {
         const event = applet.schedule.events[id];
         return {
           id,
           updated: event.updated,
         };
-      });
+      }) : [];
 
       localInfo[id.split("/").pop()] = {
         appletVersion: applet.schemaVersion.en,
@@ -41,7 +41,7 @@ export const modifyApplet = (appletInfo, currentApplets) => {
   if (appletInfo.schedule) {
     const events = { ...currentApplet.schedule.events };
     currentApplet.schedule = appletInfo.schedule;
-    
+
     if (!R.isEmpty(appletInfo.schedule.events)) {
       Object.keys(appletInfo.schedule.events).forEach(eventId => {
         events[eventId] = appletInfo.schedule.events[eventId];

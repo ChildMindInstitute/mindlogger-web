@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import _ from "lodash";
 import { Row, Card, Col } from 'react-bootstrap';
 
@@ -9,6 +9,7 @@ import "./style.css";
 
 const SliderWidget = ({
   item,
+  values,
   isBackShown,
   isNextShown,
   handleChange,
@@ -36,6 +37,19 @@ const SliderWidget = ({
     itemList.map(item => item.value)
   )
 
+  const [data, setData] = useState(answer);
+
+  useEffect(() => {
+    setData({ value: values[item.variableName] });
+  }, [values[item.variableName]])
+
+  const isNextDisable = () => {
+    return !answer || (!answer.value && answer.value !== 0);
+  }
+
+  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+  const minLabelWidth = Math.floor(90 / itemList.length);
+
   return (
     <Card className="mb-3" style={{ maxWidth: "auto" }}>
       <Row className="no-gutters">
@@ -48,7 +62,7 @@ const SliderWidget = ({
               <div className="slider">
                 <input
                   type="range"
-                  className={!data ? "no-value" : ""}
+                  className={!data && !isSafari ? "no-value" : ""}
                   min={minValue}
                   max={maxValue}
                   value={data && data[item.variableName] || 0}
@@ -65,6 +79,7 @@ const SliderWidget = ({
                     setData(answer)
                     handleChange(answer)
                   }}
+                  disabled={!isNextShown}
                 />
                 {
                   !showTickMarks &&
@@ -81,7 +96,7 @@ const SliderWidget = ({
                 }
 
                 <div className="slider-description">
-                  <div className="first" style={{ width: Math.floor(90 / itemList.length) + '%' }}>
+                  <div className="first" style={{ width: `max(${minLabelWidth}%, 70px)` }}>
                     <img
                       src={itemList[0].image}
                       width="100%"
@@ -93,7 +108,7 @@ const SliderWidget = ({
                       {minLabel}
                     </div>
                   </div>
-                  <div className="last" style={{ width: Math.floor(90 / itemList.length) + '%' }}>
+                  <div className="last" style={{ width: `max(${minLabelWidth}%, 70px)` }}>
                     <img
                       src={itemList[itemList.length - 1].image}
                       width="100%"
@@ -115,6 +130,7 @@ const SliderWidget = ({
       <Navigator
         isBackShown={isBackShown}
         isNextShown={isNextShown}
+        isNextDisable={isNextDisable()}
         handleBack={handleBack}
         isSubmitShown={isSubmitShown}
       />

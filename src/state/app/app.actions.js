@@ -1,12 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { authTokenSelector, userInfoSelector } from "../user/user.selectors";
-import { getLocalInfo, modifyApplet } from "../../util/applet";
-import { appletsSelector, responsesSelector } from "../app/app.selectors";
+import { appletsSelector } from "../app/app.selectors";
 import {
   getInvitationAPI,
   acceptInvitationAPI,
   declineInvitationAPI,
 } from '../../services/invitation.service';
+import {acceptInviteLinkAPI, getInviteLinkInfoAPI} from "../../services/invite-link.service";
 import APP_CONSTANTS from './app.constants';
 
 export const getInvitation = createAsyncThunk(APP_CONSTANTS.GET_INVITATION, async (invitationId, { getState }) => {
@@ -51,3 +51,18 @@ export const declineInvitation = createAsyncThunk(APP_CONSTANTS.DECLINE_INVITATI
   }
 });
 
+
+export const getInviteLinkInfo = createAsyncThunk(APP_CONSTANTS.GET_INVITE_LINK_INFO, async (inviteLinkId, { getState }) => {
+  return await getInviteLinkInfoAPI({ inviteLinkId });
+});
+
+
+export const acceptInviteLink = createAsyncThunk(APP_CONSTANTS.ACCEPT_INVITE_LINK, async (inviteLinkId, { getState }) => {
+  const state = getState();
+  const token = authTokenSelector(state);
+
+  return await acceptInviteLinkAPI({
+    token,
+    inviteLinkId
+  });
+});

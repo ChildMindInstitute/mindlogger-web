@@ -32,6 +32,7 @@ export const currentAppletResponsesSelector = createSelector(
       (x) => x.appletId === currentApplet,
       responses
     );
+
     if (currentAppletResponses.length === 1) {
       // eslint-disable-next-line
       currentAppletResponses = currentAppletResponses[0];

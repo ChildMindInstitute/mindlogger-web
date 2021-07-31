@@ -12,7 +12,7 @@
     "reset": " Reset it",
     "emailRequiredError": "Required",
     "emailErrorMessage": "Invalid email address",
-    "errorMessage": "Login failed!",
+    "errorMessage": "Invalid email address or password!",
     "logging": "Loggin in..."
   },
   "SignUp": {
@@ -27,7 +27,7 @@
     "passwordRequiredError": "You must specify a password",
     "emailRequiredError": "Required",
     "emailErrorMessage": "Invalid email address",
-    "passwordError": "Sign up failed: username may already be in use.",
+    "signUpError": "Sign up failed. Email may already be in use.",
     "accountMessage": " Don't have an account? ",
     "forgotPassword": " Forgot Password?",
     "create": " Create One ",
@@ -106,6 +106,14 @@
     "home": "Home",
     "acceptInvitation": "Invitation Accepted"
   },
+  "InviteLink": {
+    "title": "You were invited by {{coordinatorName}} (<a href=\"mailto={{email}}\">{{coordinatorEmail}}</a>) to be a user of <strong>{{displayName}}</strong> on MindLogger.<br/>Below are users that have access to your data:",
+    "loading": "Loading invite link",
+    "reviewers": "Users who can see your data for this applet:",
+    "managers": "Users who can change this applet's settings, including who can access your data:",
+    "coordinators": "Users who can change this applet's settings, but who cannot change who can see your data:",
+    "notFound": "The invite link is either invalid or no long active."
+  },
   "InvitationButtons": {
     "acceptInvitation": "Accept Invitation",
     "declineInvitation": "Decline Invitation"
@@ -134,11 +142,11 @@
     "howLong": " How long does it last?",
     "benefitsAndRisks": "What are the benefits and risks?",
     "consentForm": "Consent Form",
-    "back" : "Back" ,
-     "next" : "Next",
-     "consent" : "I Consent",
-     "thanks" : "Thanks!",
-    "getStarted" : "You're nearly there. To get started, you'll need to",
+    "back": "Back",
+    "next": "Next",
+    "consent": "I Consent",
+    "thanks": "Thanks!",
+    "getStarted": "You're nearly there. To get started, you'll need to",
     "login": "Login",
     "or": "or",
     "signUp": "Sign Up"
@@ -147,5 +155,10 @@
   "next": "Next",
   "submit": "Submit",
   "incorrect_answer": "Incorrect answer. Please try again",
-  "failed": "Failed"
+  "failed": "Failed",
+  "additional": {
+    "thanks": "Thanks!",
+    "saved_answers": "We've saved your answers!",
+    "close": "Close"
+  }
 }

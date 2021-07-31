@@ -59,22 +59,36 @@ code {
 
 .question {
   text-align: center;
+  padding: 20px 10px;
 }
 
 .question img {
-  width: 250px;
-  max-height: 200px;
-  margin-bottom: 5px;
-  float: left;
-  border-radius: 0.25rem;
-  border: 1px solid #dee2e6;
+  width: 100%;
 }
 
 .question video {
-  width: 250px;
-  float: left;
-  border-radius: 0.25rem;
-  border: 1px solid #dee2e6;
+  width: 100%;
+}
+
+.form-check input {
+  margin-top: 10px;
+}
+.form-check label {
+  font-size: 20px;
+}
+
+.option-image {
+  height: 25px;
+  min-width: 25px;
+  margin-right: 10px;
+}
+
+.response-option {
+  display: flex;
+  align-items: center;
+  margin: 10px 0px;
+  border-radius: 5px;
+  padding: 2px 5px;
 }
 
 .float-right {

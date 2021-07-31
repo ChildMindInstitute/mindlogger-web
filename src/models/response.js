@@ -1,7 +1,8 @@
 import * as R from 'ramda';
 import packageJson from '../../package.json';
+import config from '../util/config';
 import { encryptData, decryptData } from '../services/encryption';
-import { getScoreFromLookupTable, getValuesFromResponse, getFinalSubScale } from '../services/scoring';
+import { getSubScaleResult, getValuesFromResponse, getFinalSubScale } from '../services/scoring';
 import { getAlertsFromResponse } from '../services/alert';
 
 import {
@@ -28,9 +29,10 @@ export const prepareResponseForUpload = (
   const { activity, responses, subjectId } = inProgressResponse;
   const appletVersion = appletMetaData.schemaVersion[languageKey];
   const scheduledTime = activity.event && activity.event.scheduledTime;
-  let cumulative = responseHistory.tokens.cumulativeToken;
+  let cumulative = responseHistory.tokens?.cumulativeToken || 0;
 
   const alerts = [];
+
   for (let i = 0; i < responses.length; i += 1) {
     const item = activity.items[i];
 
@@ -52,6 +54,7 @@ export const prepareResponseForUpload = (
         const responseValues = getValuesFromResponse(item, responses[i].value) || [];
         const positiveSum = responseValues.filter(v => v >= 0).reduce((a, b) => a + b, 0);
         const negativeSum = responseValues.filter(v => v < 0).reduce((a, b) => a + b, 0);
+
         cumulative += positiveSum;
         if (enableNegativeTokens && cumulative + negativeSum >= 0) {
           cumulative += negativeSum;
@@ -67,7 +70,7 @@ export const prepareResponseForUpload = (
       schemaVersion: activity.schemaVersion[languageKey],
     },
     applet: {
-      id: trimId(activity.appletId),
+      id: trimId(appletMetaData.id),
       schema: activity.appletSchema,
       schemaVersion: appletVersion,
     },
@@ -84,13 +87,25 @@ export const prepareResponseForUpload = (
     alerts,
   };
 
+  if (appletMetaData.publicId) {
+    responseData.publicId = appletMetaData.publicId;
+  }
+
+  const index = activity.items.findIndex(
+    item => item.valueConstraints && item.valueConstraints.isResponseIdentifier
+  );
+
+  if (index >= 0) {
+    responseData.identifier = responses[index].value !== undefined ? responses[index].value : responses[index];
+  }
+
   let subScaleResult = [];
   if (activity.subScales) {
-    for (let subScale of activity.subScales) {
-      subScaleResult.push(
-        getScoreFromLookupTable(responses, subScale.jsExpression, activity.items, subScale['lookupTable'])
-      );
-    }
+    subScaleResult = getSubScaleResult(
+      activity.subScales,
+      responses,
+      activity.items
+    )
   }
 
   /** process for encrypting response */

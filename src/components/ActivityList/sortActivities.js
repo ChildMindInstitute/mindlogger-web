@@ -128,7 +128,7 @@ export const getPastdue = (activityList, finishedEvents) => {
 
   return pastActivities;
 }
- 
+
 export default (activityList, inProgress, finishedEvents, scheduleData) => {
   const notInProgress = [];
   const inProgressActivities = [];

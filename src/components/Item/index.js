@@ -11,18 +11,26 @@ import Slider from '../../widgets/Slider/index';
 import "./style.css";
 
 const Item = (props) => {
-  const { data, type, handleSubmit } = props;
+  const { data, type, handleSubmit, handleChange, item } = props;
 
-  const widget = () => {
+  const widget = (handleChange, values) => {
+    const onChange = (answer) => {
+      handleChange(answer);
+
+      if (item.autoAdvance) {
+        handleSubmit(answer);
+      }
+    }
+
     switch (type) {
       case "checkbox":
-        return <Checkbox {...props} />;
+        return <Checkbox {...props} handleChange={onChange} values={values} />;
       case "radio":
-        return <Radio {...props} />;
+        return <Radio {...props} handleChange={onChange} values={values} />;
       case "text":
-        return <TextInput {...props} />;
+        return <TextInput {...props} handleChange={onChange} values={values} />;
       case "slider":
-        return <Slider {...props} />;
+        return <Slider {...props} handleChange={onChange} values={values} />;
       default:
         return <div />;
     }
@@ -30,14 +38,15 @@ const Item = (props) => {
 
   return (
     <Formik
+      enableReinitialize
       initialValues={data}
       onSubmit={(values, { setSubmitting }) => {
         handleSubmit(values)
       }}
     >
-      {({ handleSubmit }) => (
+      {({ handleSubmit, values }) => (
         <Form noValidate onSubmit={handleSubmit}>
-          {widget()}
+          {widget(handleChange, values)}
         </Form>
       )}
     </Formik>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { unwrapResult } from '@reduxjs/toolkit'
-import { Form, Alert, Button } from 'react-bootstrap'
+import { Form, Alert, Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 
 import Avatar from '../Base/Avatar'
@@ -63,60 +63,69 @@ export default () => {
           <h1>{t('ChangePassword.settings')}</h1>
         </div>
         <hr></hr>
-        <h3>{t('ChangePassword.title')}</h3>
-        <h5>{t('ChangePassword.cautionMessage')} </h5>
+        <h3 className="my-3">{t('ChangePassword.title')}</h3>
+        <h5 className="mb-3">{t('ChangePassword.cautionMessage')} </h5>
         <div className="container fluid" id="signup-Form">
           <Form onSubmit={onSubmit} className="change-pass">
-            <div>
-              <Form.Label>{t('ChangePassword.oldPassword')}:</Form.Label>
-              <Form.Control
-                type="password"
-                name="Old password"
-                value={passwordData.oldPassword}
-                placeholder={t('ChangePassword.oldPassword')}
-                className="mb-1"
-                onChange={(e) =>
-                  setPasswordData({
-                    ...passwordData,
-                    oldPassword: e.target.value
-                  })
-                }
-              />
-            </div>
+            <Form.Group as={Row}>
+              <Form.Label column sm="3">
+                {t('ChangePassword.oldPassword')}:
+              </Form.Label>
+              <Col sm="9">
+                <Form.Control
+                  type="password"
+                  name="Old password"
+                  value={passwordData.oldPassword}
+                  placeholder={t('ChangePassword.oldPassword')}
+                  onChange={(e) =>
+                    setPasswordData({
+                      ...passwordData,
+                      oldPassword: e.target.value
+                    })
+                  }
+                />
+              </Col>
+            </Form.Group>
 
-            <div>
-              <Form.Label>{t('ChangePassword.newPassword')}:</Form.Label>
-              <Form.Control
-                type="password"
-                name="New password"
-                value={passwordData.newPassword}
-                placeholder={t('ChangePassword.newPassword')}
-                className="mb-1"
-                onChange={(e) =>
-                  setPasswordData({
-                    ...passwordData,
-                    newPassword: e.target.value
-                  })
-                }
-              />
-            </div>
+            <Form.Group as={Row}>
+              <Form.Label column sm="3">
+                {t('ChangePassword.newPassword')}:
+              </Form.Label>
+              <Col sm="9">
+                <Form.Control
+                  type="password"
+                  name="New password"
+                  value={passwordData.newPassword}
+                  placeholder={t('ChangePassword.newPassword')}
+                  onChange={(e) =>
+                    setPasswordData({
+                      ...passwordData,
+                      newPassword: e.target.value
+                    })
+                  }
+                />
+              </Col>
+            </Form.Group>
 
-            <div>
-              <Form.Label>{t('ChangePassword.confirmPassword')}:</Form.Label>
-              <Form.Control
-                type="password"
-                name="Confirm Password"
-                value={passwordData.confirmPassword}
-                placeholder={t('ChangePassword.confirmPassword')}
-                className="mb-1"
-                onChange={(e) =>
-                  setPasswordData({
-                    ...passwordData,
-                    confirmPassword: e.target.value
-                  })
-                }
-              />
-            </div>
+            <Form.Group as={Row}>
+              <Form.Label column sm="3">
+                {t('ChangePassword.confirmPassword')}:
+              </Form.Label>
+              <Col sm="9">
+                <Form.Control
+                  type="password"
+                  name="Confirm Password"
+                  value={passwordData.confirmPassword}
+                  placeholder={t('ChangePassword.confirmPassword')}
+                  onChange={(e) =>
+                    setPasswordData({
+                      ...passwordData,
+                      confirmPassword: e.target.value
+                    })
+                  }
+                />
+              </Col>
+            </Form.Group>
             {!isPasswordSame && (
               <Alert variant={'danger'} className="error-alert">
                 {t('SignUp.passwordsUnmatched')}
@@ -124,6 +133,7 @@ export default () => {
             )}
             <Button
               type="submit"
+              className="my-2"
               variant="success"
               disabled={
                 loading ||

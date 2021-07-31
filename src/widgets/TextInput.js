@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import _ from "lodash";
 import { useTranslation } from 'react-i18next';
 import {
@@ -13,6 +13,7 @@ import Markdown from '../components/Screens/Markdown';
 
 const TextInput = ({
   item,
+  values,
   isBackShown,
   isNextShown,
   handleChange,
@@ -23,8 +24,11 @@ const TextInput = ({
   const { t } = useTranslation();
 
   const [show, setShow] = useState(false);
-
   const [value, setValue] = useState((answer || ''));
+
+  useEffect(() => {
+    setValue(values[item.variableName]);
+  }, [values[item.variableName]])
 
   return (
     <Card className="mb-3 px-3" style={{ maxWidth: "auto" }}>

@@ -7,7 +7,7 @@ import Markdown from '../components/Screens/Markdown';
 import { isArray } from 'util';
 
 const Checkbox = ({
-  item, isBackShown, isNextShown, handleChange, handleBack, isSubmitShown, ...props
+  item, isBackShown, isNextShown, handleChange, handleBack, isSubmitShown, values, ...props
 }) => {
   const valueType = item.valueConstraints.valueType;
   const token = valueType && valueType.includes('token');
@@ -24,7 +24,7 @@ const Checkbox = ({
       values.push(...answer.value, value);
     }
 
-    handleChange({value: values});
+    handleChange({ value: values });
   }
 
   const invertColor = (hex) => {
@@ -42,13 +42,12 @@ const Checkbox = ({
     return !answer || !answer.value || !answer.value.length;
   }
 
-  const renderItem = function (obj, index) {
-    return (<div className="response-option" style={{ background: obj.color ? obj.color : 'none' }}>
+  const renderItem = (obj, index) => (
+    <div className="response-option" style={{ background: obj.color ? obj.color : 'none' }}>
       {
         obj.image && <Image className="option-image" src={obj.image} roundedCircle /> ||
         <div className="option-image"></div>
       }
-
       <Form.Check
         type="checkbox"
         name={item.variableName}
@@ -57,10 +56,11 @@ const Checkbox = ({
         value={obj.value}
         label={obj.name.en}
         disabled={!isNextShown}
+        defaultChecked={values[item.variableName] && values[item.variableName].includes(obj.value)}
         onChange={(v) => onChangeValue(token ? obj.name.en : obj.value)}
       />
-    </div>);
-  }
+    </div>
+  );
 
   const itemCount = item.valueConstraints.itemList.length;
   return (
@@ -75,13 +75,13 @@ const Checkbox = ({
               <Form.Group as={Row}>
                 <Col md={6}>
                   {_.map(item.valueConstraints.itemList, (obj, i) => (
-                    i < Math.ceil(itemCount/2) ? renderItem(obj, i) : <></>
+                    i < Math.ceil(itemCount / 2) ? renderItem(obj, i) : <></>
                   ))}
                 </Col>
 
                 <Col md={6}>
                   {_.map(item.valueConstraints.itemList, (obj, i) => (
-                    i >= Math.ceil(itemCount/2) ? renderItem(obj, i) : <></>
+                    i >= Math.ceil(itemCount / 2) ? renderItem(obj, i) : <></>
                   ))}
                 </Col>
 

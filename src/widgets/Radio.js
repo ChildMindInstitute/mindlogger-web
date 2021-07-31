@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import _ from "lodash";
 import { Form, Row, Card, Col, Image } from 'react-bootstrap';
 
@@ -8,17 +8,23 @@ import Markdown from '../components/Screens/Markdown';
 const Radio = (props) => {
   const {
     item,
+    values,
     answer,
     isBackShown,
     isNextShown,
     handleChange,
     handleBack,
-    isSubmitShown
+    isSubmitShown,
   } = props;
 
+  const [checked, setChecked] = useState();
   const isNextDisable = !answer && answer !== 0;
   const valueType = item.valueConstraints.valueType;
   const token = valueType && valueType.includes('token');
+
+  useEffect(() => {
+    setChecked(values[item.variableName])
+  }, [values[item.variableName]]);
 
   const invertColor = (hex) => {
     let hexcolor = hex.replace("#", "");
@@ -29,8 +35,8 @@ const Radio = (props) => {
     return (yiq >= 128) ? '#333333' : 'white';
   }
 
-  const renderItem = function (obj, index) {
-    return (<div className="response-option" style={{ background: obj.color ? obj.color : 'none' }}>
+  const renderItem = (obj, index) => (
+    <div className="response-option" style={{ background: obj.color ? obj.color : 'none' }}>
       {
         obj.image && <Image className="option-image" src={obj.image} roundedCircle /> ||
         <div className="option-image"></div>
@@ -42,17 +48,17 @@ const Radio = (props) => {
         type="radio"
         onChange={
           () => {
-            handleChange({
-              value: token ? obj.name.en : obj.value
-            })
+            handleChange({ value: token ? obj.name.en : obj.value });
+            setChecked(token ? obj.name.en : obj.value);
           }
         }
         value={obj.value}
-        id={`${item.variableName}${index}`}
         disabled={!isNextShown}
+        checked={checked == obj.value}
+        id={`${item.variableName}${index}`}
       />
-    </div>);
-  }
+    </div>
+  );
 
   const itemCount = item.valueConstraints.itemList.length;
   return (
@@ -67,13 +73,13 @@ const Radio = (props) => {
               <Form.Group as={Row}>
                 <Col md={6}>
                   {_.map(item.valueConstraints.itemList, (obj, i) => (
-                    i < Math.ceil(itemCount/2) ? renderItem(obj, i) : <></>
+                    i < Math.ceil(itemCount / 2) ? renderItem(obj, i) : <></>
                   ))}
                 </Col>
 
                 <Col md={6}>
                   {_.map(item.valueConstraints.itemList, (obj, i) => (
-                    i >= Math.ceil(itemCount/2) ? renderItem(obj, i) : <></>
+                    i >= Math.ceil(itemCount / 2) ? renderItem(obj, i) : <></>
                   ))}
                 </Col>
               </Form.Group>

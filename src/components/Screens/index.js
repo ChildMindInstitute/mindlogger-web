@@ -29,7 +29,7 @@ import "./style.css";
 const Screens = () => {
   const items = []
   const dispatch = useDispatch()
-  const [data] = useState({});
+  const [data, setData] = useState({});
   const [show, setShow] = useState(false);
 
   const history = useHistory();
@@ -50,6 +50,18 @@ const Screens = () => {
         subjectId: user && user._id,
         timeStarted: new Date().getTime()
       }));
+    }
+  }, [])
+
+  useEffect(() => {
+    if (inProgress && Object.keys(inProgress).length > 0) {
+      const { activity, responses } = inProgress;
+      let obj = data;
+      responses.forEach((val, i) => {
+        const { variableName } = activity.items[i];
+        obj = { ...obj, [variableName]: val && val.value };
+      })
+      setData(obj);
     }
   }, [])
 
@@ -99,7 +111,7 @@ const Screens = () => {
   }
 
   const handleChange = (answer) => {
-    let responses = [...inProgress ?.responses];
+    let responses = [...inProgress?.responses];
     responses[screenIndex] = answer;
 
     dispatch(
@@ -134,8 +146,8 @@ const Screens = () => {
         handleBack={handleBack}
         isSubmitShown={next === -1}
         answer={answer}
-        isBackShown={screenIndex ===  i && i}
-        isNextShown={screenIndex ===  i}
+        isBackShown={screenIndex === i && i}
+        isNextShown={screenIndex === i}
       />
     );
   });

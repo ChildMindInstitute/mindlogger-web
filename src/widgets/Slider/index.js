@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import _ from "lodash";
 import { Row, Card, Col } from 'react-bootstrap';
 
@@ -9,6 +9,7 @@ import "./style.css";
 
 const SliderWidget = ({
   item,
+  values,
   isBackShown,
   isNextShown,
   handleChange,
@@ -35,6 +36,10 @@ const SliderWidget = ({
   )
 
   const [data, setData] = useState(answer);
+
+  useEffect(() => {
+    setData({ value: values[item.variableName] });
+  }, [values[item.variableName]])
 
   const isNextDisable = () => {
     return !answer || (!answer.value && answer.value !== 0);

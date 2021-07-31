@@ -39,8 +39,8 @@ const responseSlice = createSlice({
 
     setAnswer: (state, action) => {
       const { screenIndex, activityId, answer } = action.payload;
-
-      state.inProgress[activityId].responses[screenIndex] = answer;
+      if (!answer) state.inProgress[activityId] = undefined;
+      else state.inProgress[activityId].responses[screenIndex] = answer;
     },
     setInProgress: (state, action) => { state.inProgress = action.payload },
     addToUploadQueue: (state, action) => {

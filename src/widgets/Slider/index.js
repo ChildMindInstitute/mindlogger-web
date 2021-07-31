@@ -37,8 +37,6 @@ const SliderWidget = ({
     itemList.map(item => item.value)
   )
 
-  const [data, setData] = useState(answer);
-
   useEffect(() => {
     setData({ value: values[item.variableName] });
   }, [values[item.variableName]])

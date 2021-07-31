@@ -19,7 +19,6 @@ import {
   setCurrentScreen,
   createResponseInProgress,
 } from '../../state/responses/responses.reducer';
-import { completeResponse } from '../../state/responses/responses.actions';
 import {
   // responsesSelector,
   currentScreenResponseSelector,
@@ -33,14 +32,12 @@ import "./style.css";
 const Screens = (props) => {
   const items = []
   const { appletId } = useParams();
-  const dispatch = useDispatch()
+  const history = useHistory();
+  const dispatch = useDispatch();
   const [data, setData] = useState({});
   const [show, setShow] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isSummaryScreen, setIsSummaryScreen] = useState(false);
-
-  const history = useHistory();
-  const { appletId, activityId } = useParams();
 
   const applet = useSelector(currentAppletSelector);
   const answer = useSelector(currentScreenResponseSelector);

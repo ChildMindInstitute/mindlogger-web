@@ -107,7 +107,7 @@ export const languageListToObject = (list) => {
     {}
   );
 };
- 
+
 export const listToObject = (list = []) =>
   list.reduce(
     (obj, item) => ({
@@ -677,9 +677,8 @@ export const transformApplet = (payload, currentApplets = null) => {
 
                 if (!act.items) {
                   applet.activities[index].items = [];
-                } else {
-                  applet.activities[index].items = [...currentApplet.activities[index].items]
                 }
+
                 act.items.forEach((itemData, i) => {
                   if (itemData.id.split('/')[1] === dataKey.split('/')[1] && !updated) {
                     updated = true;

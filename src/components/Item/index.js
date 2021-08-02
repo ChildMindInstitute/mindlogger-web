@@ -13,7 +13,7 @@ import "./style.css";
 const Item = (props) => {
   const { data, type, handleSubmit, handleChange, item } = props;
 
-  const widget = (handleChange) => {
+  const widget = (handleChange, values) => {
     const onChange = (answer) => {
       handleChange(answer);
 
@@ -24,13 +24,13 @@ const Item = (props) => {
 
     switch (type) {
       case "checkbox":
-        return <Checkbox {...props} handleChange={onChange} />;
+        return <Checkbox {...props} handleChange={onChange} values={values} />;
       case "radio":
-        return <Radio {...props} handleChange={onChange} />;
+        return <Radio {...props} handleChange={onChange} values={values} />;
       case "text":
-        return <TextInput {...props} handleChange={onChange} />;
+        return <TextInput {...props} handleChange={onChange} values={values} />;
       case "slider":
-        return <Slider {...props} handleChange={onChange} />;
+        return <Slider {...props} handleChange={onChange} values={values} />;
       default:
         return <div />;
     }
@@ -38,14 +38,15 @@ const Item = (props) => {
 
   return (
     <Formik
+      enableReinitialize
       initialValues={data}
       onSubmit={(values, { setSubmitting }) => {
         handleSubmit(values)
       }}
     >
-      {({ handleSubmit }) => (
+      {({ handleSubmit, values }) => (
         <Form noValidate onSubmit={handleSubmit}>
-          {widget(handleChange)}
+          {widget(handleChange, values)}
         </Form>
       )}
     </Formik>

@@ -81,11 +81,12 @@ code {
   height: 25px;
   min-width: 25px;
   margin-right: 10px;
+  margin-top: 5px;
 }
 
 .response-option {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   margin: 10px 0px;
   border-radius: 5px;
   padding: 2px 5px;

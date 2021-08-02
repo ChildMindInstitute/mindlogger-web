@@ -20,7 +20,7 @@ import { finishedEventsSelector } from '../../state/app/app.selectors';
 import { appletsSelector } from '../../state/applet/applet.selectors';
 import { setCurrentActivity } from '../../state/app/app.reducer';
 import { setCurrentScreen } from '../../state/responses/responses.reducer';
-import { createResponseInProgress } from '../../state/responses/responses.reducer';
+import { createResponseInProgress, setAnswer } from '../../state/responses/responses.reducer';
 import { parseAppletEvents } from '../../services/json-ld';
 import * as R from 'ramda';
 
@@ -93,10 +93,10 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
     const appletActivities = appletData.activities.filter(act => {
       const supportedItems = act.items.filter(item => {
         return item.inputType === "radio"
-        || item.inputType === "checkox"
+          || item.inputType === "checkox"
           || item.inputType === "slider"
           || item.inputType === "text";
-        });
+      });
 
 
       return supportedItems.length && !act.isPrize;
@@ -132,6 +132,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
       }
     }
   }
+
   const handleResumeActivity = () => {
     const activity = currentAct;
 
@@ -150,6 +151,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
     }
     setStartActivity(false);
   }
+
   const handleRestartActivity = () => {
     const activity = currentAct;
 
@@ -161,6 +163,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
       publicId: currentApplet.publicId || null,
       timeStarted: new Date().getTime()
     }));
+    dispatch(setAnswer({ activityId: activity.id }))
 
     if (currentApplet.publicId) {
       history.push(`/applet/public/${currentApplet.id.split('/').pop()}/${activity.id}`);

@@ -30,8 +30,11 @@ export default () => {
   useEffect(() => {
     if (!loading && info) {
       setIsStarted(true);
-      if (redirectUrl) dispatch(push(redirectUrl));
-      else {
+      if (redirectUrl) {
+        dispatch(push(redirectUrl));
+      } else if (location.state) {
+        dispatch(push(location.state));
+     } else {
         dispatch(push('/profile'));
         dispatch(setRedirectUrl(null));
       }

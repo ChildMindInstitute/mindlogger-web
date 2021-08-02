@@ -38,7 +38,7 @@ const SliderWidget = ({
   )
 
   useEffect(() => {
-    setData({ value: values[item.variableName] });
+    setData({ [item.variableName]: values[item.variableName] });
   }, [values[item.variableName]])
 
   const isNextDisable = () => {
@@ -47,6 +47,18 @@ const SliderWidget = ({
 
   const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
   const minLabelWidth = Math.floor(90 / itemList.length);
+
+  const changeValue = (value) => {
+    const answer = { value };
+    if (!continuousSlider) {
+      answer.value = Math.round(answer.value);
+    }
+
+    if (!data || answer.value != data.value) {
+      setData({ [item.variableName]: answer.value })
+      handleChange(answer)
+    }
+  }
 
   return (
     <Card className="mb-3" style={{ maxWidth: "auto" }}>
@@ -65,18 +77,7 @@ const SliderWidget = ({
                   max={maxValue}
                   value={data && data[item.variableName] || 0}
                   step={0.1}
-                  onChange={(e) => {
-                    const answer = {
-                      [item.variableName]: e.target.value
-                    };
-
-                    if (!continuousSlider) {
-                      answer[item.variableName] = Math.round(answer[item.variableName]);
-                    }
-
-                    setData(answer)
-                    handleChange(answer)
-                  }}
+                  onChange={(e) => changeValue(e.target.value * 1)}
                   disabled={!isNextShown}
                 />
                 {

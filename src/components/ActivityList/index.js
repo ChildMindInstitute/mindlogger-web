@@ -98,7 +98,6 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
           || item.inputType === "text";
       });
 
-
       return supportedItems.length && !act.isPrize;
     });
     const prizeActs = appletData.activities.filter(act => act.isPrize);
@@ -159,7 +158,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
     dispatch(createResponseInProgress({
       activity: activity,
       event: null,
-      subjectId: user ?._id,
+      subjectId: user?._id,
       publicId: currentApplet.publicId || null,
       timeStarted: new Date().getTime()
     }));

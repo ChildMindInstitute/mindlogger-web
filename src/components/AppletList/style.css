@@ -25,3 +25,14 @@
 .applet-card-title:hover {
   text-decoration: underline;
 }
+
+.notfound {
+  height: 20em;
+  display: flex;
+  align-items: center;
+  justify-content: center 
+}
+
+.notfound h3 {
+  margin: 0 
+}

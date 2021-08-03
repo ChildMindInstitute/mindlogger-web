@@ -6,6 +6,9 @@ import { useParams, useHistory } from 'react-router-dom';
 import Avatar from 'react-avatar';
 
 import Item from '../Item';
+import ActivitySummary from '../../widgets/ActivitySummary';
+
+// Constants
 import { testVisibility } from '../../services/visibility';
 import { getNextPos, getLastPos } from '../../services/navigation';
 import { userInfoSelector } from '../../state/user/user.selectors';
@@ -26,14 +29,15 @@ import config from '../../util/config';
 
 import "./style.css";
 
-const Screens = () => {
+const Screens = (props) => {
   const items = []
-  const dispatch = useDispatch()
+  const { appletId } = useParams();
+  const history = useHistory();
+  const dispatch = useDispatch();
   const [data, setData] = useState({});
   const [show, setShow] = useState(false);
-
-  const history = useHistory();
-  const { appletId, activityId } = useParams();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSummaryScreen, setIsSummaryScreen] = useState(false);
 
   const applet = useSelector(currentAppletSelector);
   const answer = useSelector(currentScreenResponseSelector);
@@ -66,9 +70,20 @@ const Screens = () => {
   }, [])
 
   const finishResponse = async () => {
+    setIsLoading(true);
     await dispatch(completeResponse(false));
+    setIsLoading(false);
 
-    history.push(`/applet/${appletId}/activity_thanks`);
+    if (activityAccess.compute && !isSummaryScreen) {
+      setIsSummaryScreen(true);
+      setShow(false);
+
+    } else {
+      if (isSummaryScreen) setIsSummaryScreen(false);
+
+      // history.push(`/applet/${appletId}/dashboard`);
+      history.push(`/applet/${appletId}/activity_thanks`);
+    }
   };
 
   const getVisibility = (responses) => {
@@ -170,10 +185,14 @@ const Screens = () => {
           </Card>
         </Col>
         <Col sm={24} xs={24} md={9}>
+          {isSummaryScreen ?
+            <ActivitySummary {...props} />
+            :
+            _.map(items.slice(0, screenIndex + 1).reverse())
+          }
           {applet.watermark &&
             <img className="watermark" src={applet.watermark} alt="watermark" />
           }
-          {_.map(items.slice(0, screenIndex + 1).reverse())}
         </Col>
       </Row>
 
@@ -186,8 +205,8 @@ const Screens = () => {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShow(false)}>No</Button>
-          <Button variant="primary" onClick={() => finishResponse()}>Yes</Button>
+          <Button variant="secondary" disabled={isLoading} onClick={() => setShow(false)}>No</Button>
+          <Button variant="primary" disabled={isLoading} onClick={() => finishResponse()}>{isLoading ? "Loading..." : "Yes"}</Button>
         </Modal.Footer>
       </Modal>
     </div>

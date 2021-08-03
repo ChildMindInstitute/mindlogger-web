@@ -37,8 +37,6 @@ export const getScoreFromResponse = (item, value) => {
       if (option && option.score) {
         totalScore += option.score;
       }
-    } else {
-
     }
   }
 

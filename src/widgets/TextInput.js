@@ -44,8 +44,8 @@ const TextInput = ({
                 style={{ width: '80%', margin: 'auto' }}
                 value={value}
                 onChange={e => {
-                  setValue(e.target.value)
-                  handleChange(e.target.value);
+                  setValue(e.target.value);
+                  handleChange({ value: e.target.value });
                 }}
                 disabled={!isNextShown}
               />

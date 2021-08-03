@@ -86,7 +86,6 @@ export const completeResponse = createAsyncThunk(RESPONSE_CONSTANTS.COMPLETE_RES
   }
 
   const responseHistory = currentAppletResponsesSelector(state);
-
   if (activity.isPrize === true) {
     const selectedPrizeIndex = inProgressResponse["responses"][0];
     const version = inProgressResponse["activity"].schemaVersion['en'];

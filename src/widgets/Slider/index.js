@@ -17,6 +17,8 @@ const SliderWidget = ({
   isSubmitShown,
   answer
 }) => {
+  const [data, setData] = useState(answer);
+
   const {
     continuousSlider,
     showTickMarks,
@@ -35,10 +37,8 @@ const SliderWidget = ({
     itemList.map(item => item.value)
   )
 
-  const [data, setData] = useState(answer);
-
   useEffect(() => {
-    setData({ value: values[item.variableName] });
+    setData({ [item.variableName]: values[item.variableName] });
   }, [values[item.variableName]])
 
   const isNextDisable = () => {
@@ -49,16 +49,13 @@ const SliderWidget = ({
   const minLabelWidth = Math.floor(90 / itemList.length);
 
   const changeValue = (value) => {
-    const answer = {
-      value
-    };
-
+    const answer = { value };
     if (!continuousSlider) {
       answer.value = Math.round(answer.value);
     }
 
     if (!data || answer.value != data.value) {
-      setData(answer)
+      setData({ [item.variableName]: answer.value })
       handleChange(answer)
     }
   }
@@ -78,14 +75,9 @@ const SliderWidget = ({
                   className={!data && !isSafari ? "no-value" : ""}
                   min={minValue}
                   max={maxValue}
-                  value={data && data.value || 0}
+                  value={data && data[item.variableName] || 0}
                   step={0.1}
-                  onClick={(e) => {
-                    if (!data) {
-                      changeValue(e.target.value)
-                    }
-                  }}
-                  onChange={(e) => changeValue(e.target.value)}
+                  onChange={(e) => changeValue(e.target.value * 1)}
                   disabled={!isNextShown}
                 />
                 {

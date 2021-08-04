@@ -6,6 +6,8 @@ import Navigator from '../Navigator';
 import Markdown from '../../components/Screens/Markdown';
 
 import "./style.css";
+import ReactBootstrapSlider from 'react-bootstrap-slider';
+import "bootstrap-slider/dist/css/bootstrap-slider.css"
 
 const SliderWidget = ({
   item,
@@ -17,7 +19,9 @@ const SliderWidget = ({
   isSubmitShown,
   answer
 }) => {
-  const [data, setData] = useState(answer);
+  const [data, setData] = useState({
+    [item.variableName]: answer && answer.value || null
+  });
 
   const {
     continuousSlider,
@@ -37,15 +41,10 @@ const SliderWidget = ({
     itemList.map(item => item.value)
   )
 
-  useEffect(() => {
-    setData({ [item.variableName]: values[item.variableName] });
-  }, [values[item.variableName]])
-
   const isNextDisable = () => {
     return !answer || (!answer.value && answer.value !== 0);
   }
 
-  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
   const minLabelWidth = Math.floor(90 / itemList.length);
 
   const changeValue = (value) => {
@@ -69,17 +68,18 @@ const SliderWidget = ({
               <Markdown>{item.question.en}</Markdown>
             </Card.Title>
             <Row className="no-gutters no-gutters px-4 py-4">
-              <div className="slider">
-                <input
-                  type="range"
-                  className={!data && !isSafari ? "no-value" : ""}
+              <div className={`slider-widget ${!data || data[item.variableName] === null ? 'no-value' : ''}`}>
+                <ReactBootstrapSlider
                   min={minValue}
                   max={maxValue}
                   value={data && data[item.variableName] || 0}
-                  step={0.1}
-                  onChange={(e) => changeValue(e.target.value * 1)}
-                  disabled={!isNextShown}
+                  slideStop={(e) => {
+                    changeValue(e.target.value * 1)
+                  }}
+                  tooltip={'hide'}
+                  step={continuousSlider ? 0.1 : 1}
                 />
+
                 {
                   !showTickMarks &&
                   <div className="ticks">

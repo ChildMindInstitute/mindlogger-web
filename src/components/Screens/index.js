@@ -185,13 +185,13 @@ const Screens = (props) => {
           </Card>
         </Col>
         <Col sm={24} xs={24} md={9}>
+          {applet.watermark &&
+            <img className="watermark" src={applet.watermark} alt="watermark" />
+          }
           {isSummaryScreen ?
             <ActivitySummary {...props} />
             :
             _.map(items.slice(0, screenIndex + 1).reverse())
-          }
-          {applet.watermark &&
-            <img className="watermark" src={applet.watermark} alt="watermark" />
           }
         </Col>
       </Row>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { push } from 'connected-react-router'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
@@ -21,12 +21,16 @@ export default function Login() {
   const dispatch = useDispatch()
   const { redirectUrl } = useSelector(state => state.app);
   let { loading, info, error } = useSelector(state => state.user);
+  const location = useLocation();
 
   useEffect(() => {
     if (!loading && info) {
       setIsStarted(true);
-      if (redirectUrl) dispatch(push(redirectUrl));
-      else {
+      if (redirectUrl) {
+        dispatch(push(redirectUrl));
+      } else if (location.state) {
+        dispatch(push(location.state));
+      } else {
         dispatch(push('/dashboard'));
         dispatch(setRedirectUrl(null));
       }

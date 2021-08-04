@@ -22,6 +22,10 @@ $dark-green: darken($green, 25);
   // background: linear-gradient(90deg, $dark-blue 0%, $green 100%);
 }
 
+.drop-down {
+  width: 100%;
+}
+
 // Set brand colors
 $brand-primary:     $dark-blue;
 $brand-success:     $green;

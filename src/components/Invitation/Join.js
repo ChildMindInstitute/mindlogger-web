@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams, useLocation, useHistory } from 'react-router-dom';
 
 import {useTranslation} from "react-i18next";
 
@@ -25,6 +25,7 @@ export const Join = () => {
   const isLoggedIn = useSelector(loggedInSelector);
 
   const dispatch = useDispatch();
+  const location = useLocation();
 
   useEffect(() => {
     (async () => {
@@ -105,7 +106,7 @@ export const Join = () => {
       return undefined;
     }
 
-    return <SignIn></SignIn>;
+    return <SignIn redirectUrl={location.pathname}></SignIn>;
   }
 
   function renderNotFound() {

@@ -20,20 +20,20 @@ export default Navigator = (props) => {
     <div className="row no-gutters d-flex flex-row justify-content-between">
       {
         isBackShown &&
-          <MyButton
-            label={t("back")}
-            classes="ml-5 mb-2"
-            handleClick={handleBack}
-          />
+        <MyButton
+          label={t("back")}
+          classes="ml-5 mb-2"
+          handleClick={handleBack}
+        />
         || <div />
       }
 
       {
         isNextShown
-          &&
+        &&
         <MyButton
           type="submit"
-          label={ isSubmitShown ? t("submit") : t("next") }
+          label={isSubmitShown ? t("submit") : t("next")}
           classes="mr-5 mb-2"
           disabled={isNextDisable}
           handleClick={(e) => {

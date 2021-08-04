@@ -70,8 +70,6 @@ export const getApplets = createAsyncThunk(APPLET_CONSTANTS.GET_APPLETS, async (
         return !act.isPrize;
       });
 
-      console.log(isIgnore);
-
       if (appletActivities.length > 0 && !isIgnore) {
         if (!applet.AESKey || !applet.userPublicKey) {
           dispatch(updateKeys(applet, userInfo));

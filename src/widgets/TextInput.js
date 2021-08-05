@@ -5,7 +5,8 @@ import {
   Modal,
   Card,
   Row,
-  Col
+  Col,
+  Image
 } from 'react-bootstrap';
 
 import Navigator from './Navigator';
@@ -18,6 +19,7 @@ const TextInput = ({
   isNextShown,
   handleChange,
   handleBack,
+  watermark,
   isSubmitShown,
   answer
 }) => {
@@ -35,6 +37,9 @@ const TextInput = ({
       <Row className="no-gutters">
         <Col md={12}>
           <Card.Title className="question">
+            {watermark &&
+              <Image className="watermark" src={watermark} alt="watermark" rounded />
+            }
             <Markdown>{item.question.en}</Markdown>
           </Card.Title>
           <Card.Body>

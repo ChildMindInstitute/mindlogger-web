@@ -149,6 +149,8 @@ const Screens = (props) => {
     }
   }
 
+  let availableItems = 0;
+
   activityAccess.items.forEach((item, i) => {
     const isVisible = testVisibility(
       item.visibility,
@@ -156,11 +158,16 @@ const Screens = (props) => {
       inProgress ?.responses
     );
 
+
     if (isVisible) {
+      if (screenIndex >= i) {
+        availableItems += 1;
+      }
       items.push(
         <Item
           data={data}
           type={item.valueConstraints.multipleChoice ? "checkbox" : item.inputType}
+          watermark={applet.watermark}
           key={item.id}
           item={item}
           handleSubmit={handleNext}
@@ -193,13 +200,10 @@ const Screens = (props) => {
           </Card>
         </Col>
         <Col sm={24} xs={24} md={9}>
-          {applet.watermark &&
-            <img className="watermark" src={applet.watermark} alt="watermark" />
-          }
           {isSummaryScreen ?
             <ActivitySummary {...props} />
             :
-            _.map(items.slice(0, screenIndex + 1).reverse())
+            _.map(items.slice(0, availableItems).reverse())
           }
         </Col>
       </Row>

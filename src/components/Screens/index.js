@@ -150,21 +150,29 @@ const Screens = (props) => {
   }
 
   activityAccess.items.forEach((item, i) => {
-    items.push(
-      <Item
-        data={data}
-        type={item.valueConstraints.multipleChoice ? "checkbox" : item.inputType}
-        key={item.id}
-        item={item}
-        handleSubmit={handleNext}
-        handleChange={handleChange}
-        handleBack={handleBack}
-        isSubmitShown={next === -1}
-        answer={inProgress && inProgress.responses[i]}
-        isBackShown={screenIndex ===  i && i}
-        isNextShown={screenIndex ===  i}
-      />
+    const isVisible = testVisibility(
+      item.visibility,
+      activityAccess.items,
+      inProgress ?.responses
     );
+
+    if (isVisible) {
+      items.push(
+        <Item
+          data={data}
+          type={item.valueConstraints.multipleChoice ? "checkbox" : item.inputType}
+          key={item.id}
+          item={item}
+          handleSubmit={handleNext}
+          handleChange={handleChange}
+          handleBack={handleBack}
+          isSubmitShown={next === -1}
+          answer={answer}
+          isBackShown={screenIndex === i && i}
+          isNextShown={screenIndex === i}
+        />
+      );
+    }
   });
 
   return (

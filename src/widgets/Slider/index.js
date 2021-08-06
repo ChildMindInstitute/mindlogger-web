@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import _ from "lodash";
-import { Row, Card, Col } from 'react-bootstrap';
+import { Row, Card, Col, Image } from 'react-bootstrap';
 
 import Navigator from '../Navigator';
 import Markdown from '../../components/Screens/Markdown';
@@ -17,6 +17,7 @@ const SliderWidget = ({
   handleChange,
   handleBack,
   isSubmitShown,
+  watermark,
   answer
 }) => {
   const [data, setData] = useState({
@@ -65,6 +66,9 @@ const SliderWidget = ({
         <Col md={12}>
           <Card.Body>
             <Card.Title className="question">
+              {watermark &&
+                <Image className="watermark" src={watermark} alt="watermark" rounded />
+              }
               <Markdown>{item.question.en}</Markdown>
             </Card.Title>
             <Row className="no-gutters no-gutters px-4 py-4">

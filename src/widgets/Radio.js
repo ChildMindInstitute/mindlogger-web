@@ -8,6 +8,7 @@ import Markdown from '../components/Screens/Markdown';
 const Radio = (props) => {
   const {
     item,
+    watermark,
     values,
     answer,
     isBackShown,
@@ -68,6 +69,9 @@ const Radio = (props) => {
         <Col md={12}>
           <Card.Body>
             <Card.Title className="question">
+              {watermark &&
+                <Image className="watermark" src={watermark} alt="watermark" rounded />
+              }
               <Markdown>{item.question.en}</Markdown>
             </Card.Title>
             <div className="no-gutters">

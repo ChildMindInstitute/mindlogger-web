@@ -54,7 +54,6 @@ const Checkbox = ({
         id={`${item.variableName}${index}`}
         style={{ color: obj.color ? invertColor(obj.color) : "#333333" }}
         value={obj.value}
-        checked={ Array.isArray(props.answer?.value) && props.answer.value.includes(token ? obj.name.en : obj.value) }
         label={obj.name.en}
         disabled={!isNextShown}
         defaultChecked={values[item.variableName] && values[item.variableName].includes(obj.value)}
@@ -70,6 +69,9 @@ const Checkbox = ({
         <Col md={12}>
           <Card.Body>
             <Card.Title className="question">
+              {props.watermark &&
+                <Image className="watermark" src={props.watermark} alt="watermark" rounded />
+              }
               <Markdown>{item.question.en}</Markdown>
             </Card.Title>
             <div className="no-gutters">

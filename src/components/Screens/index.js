@@ -174,7 +174,7 @@ const Screens = (props) => {
           handleChange={handleChange}
           handleBack={handleBack}
           isSubmitShown={next === -1}
-          answer={answer}
+          answer={inProgress?.responses[i]}
           isBackShown={screenIndex === i && i}
           isNextShown={screenIndex === i}
         />

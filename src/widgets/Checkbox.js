@@ -56,7 +56,7 @@ const Checkbox = ({
         value={obj.value}
         label={obj.name.en}
         disabled={!isNextShown}
-        defaultChecked={values[item.variableName] && values[item.variableName].includes(obj.value)}
+        defaultChecked={props.answer && Array.isArray(props.answer.value) && props.answer.value.includes(obj.value)}
         onChange={(v) => onChangeValue(token ? obj.name.en : obj.value)}
       />
     </div>

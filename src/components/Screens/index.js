@@ -167,7 +167,7 @@ const Screens = (props) => {
         <Item
           data={data}
           type={item.valueConstraints.multipleChoice ? "checkbox" : item.inputType}
-          watermark={applet.watermark}
+          watermark={screenIndex === i ? applet.watermark : ''}
           key={item.id}
           item={item}
           handleSubmit={handleNext}

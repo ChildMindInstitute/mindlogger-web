@@ -85,9 +85,9 @@ code {
 
 .watermark {
   position: absolute;
+  top: 20px;
   left: 20px;
   width: 50px;
-  margin-bottom: 15px;
 }
 
 .response-option {

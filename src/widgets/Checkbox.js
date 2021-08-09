@@ -3,7 +3,7 @@ import _ from "lodash";
 import { Form, Row, Card, Col, Image } from 'react-bootstrap';
 
 import Navigator from './Navigator';
-import Markdown from '../components/Screens/Markdown';
+import Markdown from '../components/Markdown';
 import { isArray } from 'util';
 
 const Checkbox = ({
@@ -69,10 +69,13 @@ const Checkbox = ({
         <Col md={12}>
           <Card.Body>
             <Card.Title className="question">
-              {props.watermark &&
+              {
+                props.watermark &&
                 <Image className="watermark" src={props.watermark} alt="watermark" rounded />
               }
-              <Markdown>{item.question.en}</Markdown>
+              <Markdown
+                markdown={item.question.en.replace(/(!\[.*\]\s*\(.*?) =\d*x\d*(\))/g, '$1$2')}
+              />
             </Card.Title>
             <div className="no-gutters">
               <Form.Group as={Row}>

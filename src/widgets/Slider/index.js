@@ -3,7 +3,7 @@ import _ from "lodash";
 import { Row, Card, Col, Image } from 'react-bootstrap';
 
 import Navigator from '../Navigator';
-import Markdown from '../../components/Screens/Markdown';
+import Markdown from '../../components/Markdown';
 
 import "./style.css";
 import ReactBootstrapSlider from 'react-bootstrap-slider';
@@ -66,10 +66,13 @@ const SliderWidget = ({
         <Col md={12}>
           <Card.Body>
             <Card.Title className="question">
-              {watermark &&
+              {
+                watermark &&
                 <Image className="watermark" src={watermark} alt="watermark" rounded />
               }
-              <Markdown>{item.question.en}</Markdown>
+              <Markdown
+                markdown={item.question.en.replace(/(!\[.*\]\s*\(.*?) =\d*x\d*(\))/g, '$1$2')}
+              />
             </Card.Title>
             <Row className="no-gutters no-gutters px-4 py-4">
               <div className={`slider-widget ${!data || data[item.variableName] === null ? 'no-value' : ''}`}>

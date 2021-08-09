@@ -1,7 +1,6 @@
 import React from 'react'
 import { Modal } from 'react-bootstrap'
-import MDEditor from '@uiw/react-md-editor';
-
+import Markdown from '../Markdown';
 import './style.css'
 
 const AboutModal = (props) => {
@@ -13,7 +12,7 @@ const AboutModal = (props) => {
         <Modal.Title>About Page</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <MDEditor.Markdown source={markdown} />
+        <Markdown markdown={markdown} />
       </Modal.Body>
     </Modal>
   );

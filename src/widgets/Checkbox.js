@@ -73,9 +73,11 @@ const Checkbox = ({
                 props.watermark &&
                 <Image className="watermark" src={props.watermark} alt="watermark" rounded />
               }
-              <Markdown
-                markdown={item.question.en.replace(/(!\[.*\]\s*\(.*?) =\d*x\d*(\))/g, '$1$2')}
-              />
+              <div className="markdown">
+                <Markdown
+                  markdown={item.question.en.replace(/(!\[.*\]\s*\(.*?) =\d*x\d*(\))/g, '$1$2')}
+                />
+              </div>
             </Card.Title>
             <div className="no-gutters">
               <Form.Group as={Row}>

@@ -82,6 +82,7 @@ const SliderWidget = ({
                   }}
                   tooltip={'hide'}
                   step={continuousSlider ? 0.1 : 1}
+                  disabled={!isNextShown ? 'disabled' : 'enabled'}
                 />
 
                 {

@@ -185,7 +185,7 @@ const Screens = (props) => {
   return (
     <div className="container">
       <Row className="mt-5 activity">
-        <Col sm={24} xs={24} md={3}>
+        <Col xl={3}>
           <Card className="hover">
             <div>
               {applet.image ?
@@ -199,7 +199,7 @@ const Screens = (props) => {
             </Card.Body>
           </Card>
         </Col>
-        <Col sm={24} xs={24} md={9}>
+        <Col xl={9}>
           {isSummaryScreen ?
             <ActivitySummary {...props} />
             :

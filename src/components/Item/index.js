@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Formik, Form } from 'formik';
 
 // Widgets
@@ -36,6 +36,14 @@ const Item = (props) => {
     }
   }
 
+  const ref = useRef();
+
+  useEffect(() => {
+    if (props.isNextShown) {
+      ref.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [props.isNextShown])
+
   return (
     <Formik
       enableReinitialize
@@ -46,6 +54,7 @@ const Item = (props) => {
     >
       {({ handleSubmit, values }) => (
         <Form noValidate onSubmit={handleSubmit}>
+          <div ref={ref}></div>
           {widget(handleChange, values)}
         </Form>
       )}

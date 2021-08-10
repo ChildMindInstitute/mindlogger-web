@@ -41,9 +41,11 @@ const TextInput = ({
               watermark &&
               <Image className="watermark" src={watermark} alt="watermark" rounded />
             }
-            <Markdown
-              markdown={item.question.en.replace(/(!\[.*\]\s*\(.*?) =\d*x\d*(\))/g, '$1$2')}
-            />
+            <div className="markdown">
+              <Markdown
+                markdown={item.question.en.replace(/(!\[.*\]\s*\(.*?) =\d*x\d*(\))/g, '$1$2')}
+              />
+            </div>
           </Card.Title>
           <Card.Body>
             <Row className="no-gutters px-4 py-4">

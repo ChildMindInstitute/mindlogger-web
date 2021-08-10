@@ -70,9 +70,11 @@ const SliderWidget = ({
                 watermark &&
                 <Image className="watermark" src={watermark} alt="watermark" rounded />
               }
-              <Markdown
-                markdown={item.question.en.replace(/(!\[.*\]\s*\(.*?) =\d*x\d*(\))/g, '$1$2')}
-              />
+              <div className="markdown">
+                <Markdown
+                  markdown={item.question.en.replace(/(!\[.*\]\s*\(.*?) =\d*x\d*(\))/g, '$1$2')}
+                />
+              </div>
             </Card.Title>
             <Row className="no-gutters no-gutters px-4 py-4">
               <div className={`slider-widget ${!data || data[item.variableName] === null ? 'no-value' : ''}`}>

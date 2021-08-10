@@ -30,9 +30,13 @@
   height: 20em;
   display: flex;
   align-items: center;
-  justify-content: center 
+  justify-content: center
 }
 
 .notfound h3 {
-  margin: 0 
+  margin: 0
+}
+
+.applet-list {
+  justify-content: center;
 }

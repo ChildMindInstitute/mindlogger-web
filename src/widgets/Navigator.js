@@ -17,13 +17,13 @@ export default Navigator = (props) => {
   } = props;
 
   return (
-    <div className="row no-gutters d-flex flex-row justify-content-between">
+    <div className="row no-gutters d-flex flex-row justify-content-around">
       {
         isBackShown &&
         <MyButton
           label={t("back")}
-          classes="ml-5 mb-2"
           handleClick={handleBack}
+          classes="mb-2"
         />
         || <div />
       }
@@ -34,8 +34,8 @@ export default Navigator = (props) => {
         <MyButton
           type="submit"
           label={isSubmitShown ? t("submit") : t("next")}
-          classes="mr-5 mb-2"
           disabled={isNextDisable}
+          classes="mb-2"
           handleClick={(e) => {
             if (typeof canSubmit === 'function' && !canSubmit(e)) {
               e.preventDefault();

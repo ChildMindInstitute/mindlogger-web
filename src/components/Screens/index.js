@@ -186,7 +186,7 @@ const Screens = (props) => {
     <div className="container">
       <Row className="mt-5 activity">
         <Col xl={3}>
-          <Card className="hover">
+          <Card className="hover text-center">
             <div>
               {applet.image ?
                 <Card.Img variant="top" src={applet.image} className="rounded border w-h" />

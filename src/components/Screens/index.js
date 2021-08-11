@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Card, Row, Col, Modal, Button } from 'react-bootstrap';
 import { useParams, useHistory } from 'react-router-dom';
 import Avatar from 'react-avatar';
+import { useTranslation } from 'react-i18next';
 
 import Item from '../Item';
 import ActivitySummary from '../../widgets/ActivitySummary';
@@ -34,6 +35,7 @@ const Screens = (props) => {
   const { appletId } = useParams();
   const history = useHistory();
   const dispatch = useDispatch();
+  const { t } = useTranslation()
   const [data, setData] = useState({});
   const [show, setShow] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -217,8 +219,8 @@ const Screens = (props) => {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="secondary" disabled={isLoading} onClick={() => setShow(false)}>No</Button>
-          <Button variant="primary" disabled={isLoading} onClick={() => finishResponse()}>{isLoading ? "Loading..." : "Yes"}</Button>
+          <Button variant="secondary" disabled={isLoading} onClick={() => setShow(false)}>{t('additional.no')}</Button>
+          <Button variant="primary" disabled={isLoading} onClick={() => finishResponse()}>{t('additional.yes')}</Button>
         </Modal.Footer>
       </Modal>
     </div>

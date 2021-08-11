@@ -15,6 +15,9 @@
     "errorMessage": "Invalid email address or password!",
     "logging": "Loggin in..."
   },
+  "About": {
+    "about": "About"
+  },
   "SignUp": {
     "title": "Sign up",
     "submit": "Submit",
@@ -151,14 +154,23 @@
     "or": "or",
     "signUp": "Sign Up"
   },
-  "back": "Back",
-  "next": "Next",
   "submit": "Submit",
   "incorrect_answer": "Incorrect answer. Please try again",
   "failed": "Failed",
   "additional": {
     "thanks": "Thanks!",
     "saved_answers": "We've saved your answers!",
-    "close": "Close"
+    "close": "Close",
+    "resume_activity": "Resume activity",
+    "activity_resume_restart":"Would you like to resume this activity in progress or restart?",
+    "restart": "Restart",
+    "resume": "Resume",
+    "in_progress": "In Progress",
+    "unscheduled":"Unscheduled",
+    "scheduled": "Scheduled",
+    "past_due": "Past Due",
+    "available": "Available",
+    "yes": "Yes",
+    "no": "No"
   }
 }

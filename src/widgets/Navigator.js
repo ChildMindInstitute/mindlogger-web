@@ -7,6 +7,7 @@ import MyButton from '../components/Button';
 
 export default Navigator = (props) => {
   const { t } = useTranslation();
+
   const {
     isBackShown,
     isNextShown,
@@ -21,7 +22,7 @@ export default Navigator = (props) => {
       {
         isBackShown &&
         <MyButton
-          label={t("back")}
+          label={t("Consent.back")}
           handleClick={handleBack}
           classes="mb-2"
         />
@@ -33,7 +34,7 @@ export default Navigator = (props) => {
         &&
         <MyButton
           type="submit"
-          label={isSubmitShown ? t("submit") : t("next")}
+          label={isSubmitShown ? t("submit") : t("Consent.next")}
           disabled={isNextDisable}
           classes="mb-2"
           handleClick={(e) => {

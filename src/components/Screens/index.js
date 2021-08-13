@@ -212,10 +212,10 @@ const Screens = (props) => {
 
       <Modal show={show} onHide={() => setShow(false)} centered>
         <Modal.Header closeButton>
-          <Modal.Title>{'Response Submit'}</Modal.Title>
+          <Modal.Title>{t('additional.response_submit')}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {'Would you like to submit response?'}
+          {t('additional.response_submit_text')}
         </Modal.Body>
 
         <Modal.Footer>

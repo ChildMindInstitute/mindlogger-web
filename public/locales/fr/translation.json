@@ -169,6 +169,9 @@
     "past_due": "En retard",
     "available": "disponible",
     "yes": "Oui",
-    "no": "Non"
+    "no": "Non",
+    "response_submit": "Soumettre une réponse",
+    "response_submit_text": "Souhaitez-vous soumettre une réponse?",
+    "invalid_public_url": "Cette évaluation n'accepte plus de répondants"
   }
 }

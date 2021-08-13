@@ -171,6 +171,9 @@
     "past_due": "Past Due",
     "available": "Available",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "response_submit": "Response Submit",
+    "response_submit_text": "Would you like to submit response?",
+    "invalid_public_url": "This assessment is no longer accepting respondents"
   }
 }

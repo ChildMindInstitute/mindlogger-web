@@ -15,6 +15,9 @@
     "errorMessage": "Adresse e-mail ou mot de passe invalide!",
     "logging": "Se connecter..."
   },
+  "About": {
+    "about": "À propos"
+  },
   "SignUp": {
     "title": "S'inscrire",
     "submit": "Nous faire parvenir",
@@ -149,11 +152,26 @@
     "or": "ou",
     "signUp": "S'inscrire"
   },
+  "submit": "Soumettre",
   "incorrect_answer": "Incorrect answer. Please try again",
   "failed": "Failed",
   "additional": {
     "thanks": "Merci!",
     "saved_answers": "Réponses sauvegardées !",
-    "close": "Fermer"
+    "close": "Fermer",
+    "resume_activity": "Reprendre l'activité",
+    "activity_resume_restart":"Souhaitez-vous reprendre cette activité en cours ou la recommencer?",
+    "restart": "Recommencer",
+    "resume": "Reprendre",
+    "in_progress": "En cours",
+    "unscheduled":"Non programmé",
+    "scheduled": "Programmé",
+    "past_due": "En retard",
+    "available": "disponible",
+    "yes": "Oui",
+    "no": "Non",
+    "response_submit": "Soumettre une réponse",
+    "response_submit_text": "Souhaitez-vous soumettre une réponse?",
+    "invalid_public_url": "Cette évaluation n'accepte plus de répondants"
   }
 }

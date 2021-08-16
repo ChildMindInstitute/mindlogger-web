@@ -3,6 +3,7 @@ import { useHistory, useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { Spinner } from 'react-bootstrap'
 import Avatar from 'react-avatar';
+import { useTranslation } from 'react-i18next';
 
 import { getPublicApplet } from '../../state/applet/applet.actions'
 import { appletsSelector } from '../../state/applet/applet.selectors';
@@ -20,6 +21,7 @@ export default function PublicApplet() {
   const { publicId } = useParams()
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
+  const { t } = useTranslation()
 
   useEffect(() => {
     const fetchApplets = async () => {
@@ -40,6 +42,6 @@ export default function PublicApplet() {
 
   return (
       isLoading && <div className="text-center mt-4"><Spinner animation="border"></Spinner></div> ||
-      error ? <h3 className="text-center mt-4">This assessment is no longer accepting respondents.</h3> : <ActivityList />
+      error ? <h3 className="text-center mt-4">{t('additional.invalid_public_url')}</h3> : <ActivityList />
   )
 }

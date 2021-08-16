@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { useSelector, connect, useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 import {
   Container,
   Card,
@@ -34,6 +35,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
   const applets = useSelector(appletsSelector);
   const history = useHistory();
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const [aboutPage, showAboutPage] = useState(false);
   const [startActivity, setStartActivity] = useState(false);
   const [activities, setActivities] = useState([]);
@@ -206,7 +208,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
                 onClick={openAboutPage}
                 variant="link"
               >
-                {`About Page`}
+                { t('About.about') }
               </Button>
             </Card.Body>
           </Card>
@@ -231,15 +233,15 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
       </Row>
       <Modal show={startActivity} onHide={handleClose} animation={true}>
         <Modal.Header closeButton>
-          <Modal.Title>Resume Activity</Modal.Title>
+          <Modal.Title>{t('additional.resume_activity')}</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Would you like to resume this activity in progress or restart?</Modal.Body>
+          <Modal.Body>{t('additional.activity_resume_restart')}</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleRestartActivity}>
-            Restart
+            {t('additional.restart')}
           </Button>
           <Button variant="primary" onClick={handleResumeActivity}>
-            Resume
+            {t('additional.resume')}
           </Button>
         </Modal.Footer>
       </Modal>

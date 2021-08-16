@@ -37,7 +37,7 @@ export default function AppletList() {
 
   return (
     <Container>
-      <Row className="justify-content-md-center">
+      <Row className="applet-list">
         {!isLoading ?
           applets.length && applets.map(applet => (
             <Card className="applet-card" onClick={() => onSelectApplet(applet.id)} key={applet.id}>

@@ -7,6 +7,7 @@ import Radio from '../../widgets/Radio';
 import Checkbox from '../../widgets/Checkbox';
 import TextInput from '../../widgets/TextInput';
 import Slider from '../../widgets/Slider/index';
+import TimeDuration from '../../widgets/TimeDuration';
 
 import "./style.css";
 
@@ -31,6 +32,8 @@ const Item = (props) => {
         return <TextInput {...props} handleChange={onChange} values={values} />;
       case "slider":
         return <Slider {...props} handleChange={onChange} values={values} />;
+      case "duration":
+        return <TimeDuration {...props} handleChange={onChange} values={values} />;
       default:
         return <div />;
     }

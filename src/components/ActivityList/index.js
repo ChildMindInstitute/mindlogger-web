@@ -95,6 +95,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
         return item.inputType === "radio"
           || item.inputType === "checkox"
           || item.inputType === "slider"
+          || item.inputType === "duration"
           || item.inputType === "text";
       });
 

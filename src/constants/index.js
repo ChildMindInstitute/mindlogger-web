@@ -74,6 +74,7 @@ export const OUTPUT_TYPE = "reprolib:terms/outputType";
 export const RESPONSE_ALERT = "reprolib:terms/responseAlert";
 export const RANDOMIZE_OPTIONS = "reprolib:terms/randomizeOptions";
 export const CONTINOUS_SLIDER = "reprolib:terms/continousSlider";
+export const TIME_DURATION = "schema:timeDuration";
 export const SHOW_TICK_MARKS = "reprolib:terms/showTickMarks";
 export const IS_OPTIONAL_TEXT = "reprolib:terms/isOptionalText";
 export const IS_OPTIONAL_TEXT_REQUIRED = "reprolib:terms/isOptionalTextRequired";

@@ -80,6 +80,7 @@ import {
   RESPONSE_ALERT,
   RANDOMIZE_OPTIONS,
   CONTINOUS_SLIDER,
+  TIME_DURATION,
   SHOW_TICK_MARKS,
   IS_OPTIONAL_TEXT,
   IS_OPTIONAL_TEXT_REQUIRED,
@@ -153,6 +154,9 @@ export const flattenValueConstraints = (vcObj) =>
     }
     if (key === MAX_VALUE) {
       return { ...accumulator, maxValue: R.path([key, 0, "@value"], vcObj) };
+    }
+    if (key === TIME_DURATION) {
+      return { ...accumulator, timeDuration: R.path([key, 0, "@value"], vcObj) };
     }
     if (key === MIN_VALUE) {
       return { ...accumulator, minValue: R.path([key, 0, "@value"], vcObj) };

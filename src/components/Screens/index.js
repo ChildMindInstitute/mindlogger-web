@@ -22,6 +22,7 @@ import {
 import {
   // responsesSelector,
   currentScreenResponseSelector,
+  screenResponsesSelector,
   currentResponsesSelector,
   currentScreenIndexSelector,
 } from '../../state/responses/responses.selectors';
@@ -41,6 +42,7 @@ const Screens = (props) => {
 
   const applet = useSelector(currentAppletSelector);
   const answer = useSelector(currentScreenResponseSelector);
+  const responses = useSelector(screenResponsesSelector);
   const user = useSelector(userInfoSelector);
   const screenIndex = useSelector(currentScreenIndexSelector);
   const activityAccess = useSelector(currentActivitySelector);
@@ -174,7 +176,7 @@ const Screens = (props) => {
           handleChange={handleChange}
           handleBack={handleBack}
           isSubmitShown={next === -1}
-          answer={answer}
+          answer={responses ? responses[i] : answer}
           isBackShown={screenIndex === i && i}
           isNextShown={screenIndex === i}
         />

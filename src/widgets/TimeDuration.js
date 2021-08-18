@@ -26,7 +26,7 @@ const TimeDuration = ({
   answer
 }) => {
   const { timeDuration } = item.valueConstraints;
-  const durations = timeDuration.split(' ');
+  const durations = timeDuration ? timeDuration.split(' ') : [];
   let finalAnswer = answer ? answer : {};
 
   const capitalizeFirstLetter = (string) => {
@@ -70,6 +70,7 @@ const TimeDuration = ({
           variant="none"
           title={finalAnswer[type] || 0}
           onSelect={(v) => onChangeValue(type, v)}
+          disabled={!isNextShown}
         >
           {items.map(item => 
             <Dropdown.Item eventKey={item.value}>{item.label}</Dropdown.Item>

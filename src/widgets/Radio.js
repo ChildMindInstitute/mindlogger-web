@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import _ from "lodash";
-import { Form, Row, Card, Col, Image } from 'react-bootstrap';
+import { 
+  Form,
+  Row,
+  Card,
+  Col, 
+  Image,
+  OverlayTrigger,
+  Tooltip
+} from 'react-bootstrap';
 
 import Navigator from './Navigator';
 import Markdown from '../components/Markdown';
@@ -37,29 +45,39 @@ const Radio = (props) => {
   }
 
   const renderItem = (obj, index) => (
-    <div className="response-option" style={{ background: obj.color ? obj.color : 'none' }}>
-      {
-        obj.image && <Image className="option-image" src={obj.image} roundedCircle /> ||
-        <div className="option-image"></div>
+    <OverlayTrigger
+      placement="left"
+      delay={{ show: 250, hide: 200 }}
+      overlay={
+        <Tooltip id="button-tooltip" style={{ display: obj.description ? 'block' : 'none'}}>
+          {obj.description || ''}
+        </Tooltip>
       }
-      <Form.Check
-        label={obj.name.en}
-        name={item.variableName}
-        style={{ color: obj.color ? invertColor(obj.color) : "#333333" }}
-        type="radio"
-        checked={ answer && answer.value == (token ? obj.name.en : obj.value) }
-        onChange={
-          () => {
-            handleChange({ value: token ? obj.name.en : obj.value });
-            setChecked(token ? obj.name.en : obj.value);
-          }
+    >
+      <div className="response-option" style={{ background: obj.color ? obj.color : 'none' }}>
+        {
+          obj.image && <Image className="option-image" src={obj.image} roundedCircle /> ||
+          <div className="option-image"></div>
         }
-        value={obj.value}
-        disabled={!isNextShown}
-        checked={checked == obj.value}
-        id={`${item.variableName}${index}`}
-      />
-    </div>
+        <Form.Check
+          label={obj.name.en}
+          name={item.variableName}
+          style={{ color: obj.color ? invertColor(obj.color) : "#333333" }}
+          type="radio"
+          checked={ answer && answer.value == (token ? obj.name.en : obj.value) }
+          onChange={
+            () => {
+              handleChange({ value: token ? obj.name.en : obj.value });
+              setChecked(token ? obj.name.en : obj.value);
+            }
+          }
+          value={obj.value}
+          disabled={!isNextShown}
+          checked={checked == obj.value}
+          id={`${item.variableName}${index}`}
+        />
+      </div>
+    </OverlayTrigger>
   );
 
   const itemCount = item.valueConstraints.itemList.length;

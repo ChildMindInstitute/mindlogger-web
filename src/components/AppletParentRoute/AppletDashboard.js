@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import MDEditor from "@uiw/react-md-editor";
 import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next'
 import {
   Container,
   Card,
@@ -21,6 +22,7 @@ export const AppletDashboard = ({ history }) => {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const { applet } = useSelector(state => state.applet);
+  const { t } = useTranslation();
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -47,7 +49,7 @@ export const AppletDashboard = ({ history }) => {
                   onClick={handleShow}
                   variant="link"
                 >
-                  About Page
+                  { t('About.about') }
                 </Button>
               </Card.Title>
             </Card.Body>

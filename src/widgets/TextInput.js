@@ -10,7 +10,7 @@ import {
 } from 'react-bootstrap';
 
 import Navigator from './Navigator';
-import Markdown from '../components/Screens/Markdown';
+import Markdown from '../components/Markdown';
 
 const TextInput = ({
   item,
@@ -37,10 +37,15 @@ const TextInput = ({
       <Row className="no-gutters">
         <Col md={12}>
           <Card.Title className="question">
-            {watermark &&
+            {
+              watermark &&
               <Image className="watermark" src={watermark} alt="watermark" rounded />
             }
-            <Markdown>{item.question.en}</Markdown>
+            <div className="markdown">
+              <Markdown
+                markdown={item.question.en.replace(/(!\[.*\]\s*\(.*?) =\d*x\d*(\))/g, '$1$2')}
+              />
+            </div>
           </Card.Title>
           <Card.Body>
             <Row className="no-gutters px-4 py-4">

@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Card, Row, Col, Modal, Button } from 'react-bootstrap';
 import { useParams, useHistory } from 'react-router-dom';
 import Avatar from 'react-avatar';
+import { useTranslation } from 'react-i18next';
 
 import Item from '../Item';
 import ActivitySummary from '../../widgets/ActivitySummary';
@@ -35,6 +36,7 @@ const Screens = (props) => {
   const { appletId } = useParams();
   const history = useHistory();
   const dispatch = useDispatch();
+  const { t } = useTranslation()
   const [data, setData] = useState({});
   const [show, setShow] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -169,7 +171,7 @@ const Screens = (props) => {
         <Item
           data={data}
           type={item.valueConstraints.multipleChoice ? "checkbox" : item.inputType}
-          watermark={applet.watermark}
+          watermark={screenIndex === i ? applet.watermark : ''}
           key={item.id}
           item={item}
           handleSubmit={handleNext}
@@ -187,8 +189,8 @@ const Screens = (props) => {
   return (
     <div className="container">
       <Row className="mt-5 activity">
-        <Col sm={24} xs={24} md={3}>
-          <Card className="hover">
+        <Col xl={3}>
+          <Card className="hover text-center">
             <div>
               {applet.image ?
                 <Card.Img variant="top" src={applet.image} className="rounded border w-h" />
@@ -201,7 +203,7 @@ const Screens = (props) => {
             </Card.Body>
           </Card>
         </Col>
-        <Col sm={24} xs={24} md={9}>
+        <Col xl={9}>
           {isSummaryScreen ?
             <ActivitySummary {...props} />
             :
@@ -212,15 +214,15 @@ const Screens = (props) => {
 
       <Modal show={show} onHide={() => setShow(false)} centered>
         <Modal.Header closeButton>
-          <Modal.Title>{'Response Submit'}</Modal.Title>
+          <Modal.Title>{t('additional.response_submit')}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {'Would you like to submit response?'}
+          {t('additional.response_submit_text')}
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="secondary" disabled={isLoading} onClick={() => setShow(false)}>No</Button>
-          <Button variant="primary" disabled={isLoading} onClick={() => finishResponse()}>{isLoading ? "Loading..." : "Yes"}</Button>
+          <Button variant="secondary" disabled={isLoading} onClick={() => setShow(false)}>{t('additional.no')}</Button>
+          <Button variant="primary" disabled={isLoading} onClick={() => finishResponse()}>{t('additional.yes')}</Button>
         </Modal.Footer>
       </Modal>
     </div>

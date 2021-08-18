@@ -65,15 +65,25 @@ code {
   padding: 20px 10px;
 }
 
-.question video {
-  width: 100%;
+.question .markdown img {
+  width: 250px;
 }
 
 .form-check input {
-  margin-top: 10px;
+  margin-top: 6px;
 }
 .form-check label {
-  font-size: 20px;
+  font-size: 16px;
+}
+
+@media only screen and (max-width: 767px) {
+  .form-check input {
+    margin-top: 7px;
+  }
+
+  .form-check label {
+    font-size: 18px;
+  }
 }
 
 .option-image {
@@ -85,9 +95,9 @@ code {
 
 .watermark {
   position: absolute;
+  top: 20px;
   left: 20px;
   width: 50px;
-  margin-bottom: 15px;
 }
 
 .response-option {
@@ -96,6 +106,10 @@ code {
   margin: 10px 0px;
   border-radius: 5px;
   padding: 2px 5px;
+}
+
+.response-option:first-child {
+  margin-top: 0px;
 }
 
 .float-right {
@@ -107,4 +121,8 @@ code {
   margin-bottom: 1rem;
   border: 0;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.text-center {
+  text-align: center;
 }

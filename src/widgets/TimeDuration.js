@@ -12,7 +12,7 @@ import {
 } from 'react-bootstrap';
 
 import Navigator from './Navigator';
-import Markdown from '../components/Screens/Markdown';
+import Markdown from '../components/Markdown';
 
 const TimeDuration = ({
   item,

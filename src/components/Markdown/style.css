@@ -1,3 +1,6 @@
+.markdown-body {
+  line-height: 1.5;
+}
 .markdown-body img {
   max-width: 90%;
 }
@@ -67,4 +70,5 @@
 .markdown-body mark {
   background-color: #ff0;
   color: #000;
+  padding: 0;
 }

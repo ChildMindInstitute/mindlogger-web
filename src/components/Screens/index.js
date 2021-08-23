@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
 import { useSelector, useDispatch } from 'react-redux';
-import { Card, Row, Col, Modal, Button } from 'react-bootstrap';
+import { Container, Card, Row, Col, Modal, Button, ProgressBar } from 'react-bootstrap';
 import { useParams, useHistory } from 'react-router-dom';
 import Avatar from 'react-avatar';
 import { useTranslation } from 'react-i18next';
@@ -25,6 +25,7 @@ import {
   currentScreenResponseSelector,
   currentResponsesSelector,
   currentScreenIndexSelector,
+  inProgressSelector,
 } from '../../state/responses/responses.selectors';
 import config from '../../util/config';
 
@@ -43,6 +44,7 @@ const Screens = (props) => {
 
   const applet = useSelector(currentAppletSelector);
   const answer = useSelector(currentScreenResponseSelector);
+  const progress = useSelector(inProgressSelector);
   const user = useSelector(userInfoSelector);
   const screenIndex = useSelector(currentScreenIndexSelector);
   const activityAccess = useSelector(currentActivitySelector);
@@ -103,6 +105,17 @@ const Screens = (props) => {
     return [next, prev];
   }
 
+  const getPercentages = (activities, progress) => {
+    return activities.map(activity => {
+      const currentId = progress[activity.id] ? progress[activity.id].screenIndex : 0;
+
+      return {
+        label: activity.name.en,
+        percentage: currentId / activity.items.length * 100
+      }
+    })
+  }
+
   const [next, prev] = getVisibility(inProgress?.responses);
 
   const handleNext = (e) => {
@@ -152,6 +165,10 @@ const Screens = (props) => {
   }
 
   let availableItems = 0;
+  const activityStatus = getPercentages(applet.activities.filter(({ id }) => id !== activityAccess.id), progress);
+  const percentage = screenIndex ?
+    screenIndex / activityAccess.items.length * 100
+    : 0;
 
   activityAccess.items.forEach((item, i) => {
     const isVisible = testVisibility(
@@ -185,10 +202,16 @@ const Screens = (props) => {
   });
 
   return (
-    <div className="container">
-      <Row className="mt-5 activity">
+    <Container>
+      <Row className="mt-5">
+        <Col xl={3} />
+        <Col xl={9} >
+          <ProgressBar striped className="mb-2" now={percentage} />
+        </Col>
+      </Row>
+      <Row className="mt-2 activity">
         <Col xl={3}>
-          <Card className="hover text-center">
+          <Card className="hover text-center mb-4">
             <div>
               {applet.image ?
                 <Card.Img variant="top" src={applet.image} className="rounded border w-h" />
@@ -200,6 +223,13 @@ const Screens = (props) => {
               <Card.Text>{applet.name.en}</Card.Text>
             </Card.Body>
           </Card>
+
+          {activityStatus.map(status => 
+            <div className="mt-2 rounded border w-h p-2 text-center">
+              <div className="mb-2">{status.label}</div>
+              <ProgressBar className="mb-2" now={status.percentage} />
+            </div>
+          )}
         </Col>
         <Col xl={9}>
           {isSummaryScreen ?
@@ -223,7 +253,7 @@ const Screens = (props) => {
           <Button variant="primary" disabled={isLoading} onClick={() => finishResponse()}>{t('additional.yes')}</Button>
         </Modal.Footer>
       </Modal>
-    </div>
+    </Container>
   )
 }
 

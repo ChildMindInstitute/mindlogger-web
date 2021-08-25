@@ -40,8 +40,8 @@ export const getApplets = createAsyncThunk(APPLET_CONSTANTS.GET_APPLETS, async (
         if (isIgnore) return;
 
         isIgnore = act.items.find(item => !INPUT_TYPES.includes(item.inputType));
-        if (!isIgnore)
-          isIgnore = act.compute && act.compute[0];
+        // if (!isIgnore)
+        //   isIgnore = act.compute && act.compute[0];
 
         return !act.isPrize;
       });
@@ -64,8 +64,8 @@ export const getApplets = createAsyncThunk(APPLET_CONSTANTS.GET_APPLETS, async (
         if (isIgnore) return;
         isIgnore = act.items.find(item => !INPUT_TYPES.includes(item.inputType));
 
-        if (!isIgnore)
-          isIgnore = act.compute && act.compute[0];
+        // if (!isIgnore)
+          // isIgnore = act.compute && act.compute[0];
 
         return !act.isPrize;
       });

@@ -22,6 +22,7 @@ export default function Login() {
   const dispatch = useDispatch()
   const { redirectUrl } = useSelector(state => state.app);
   let { loading, info, error } = useSelector(state => state.user);
+  let errorMsg = "";
   const location = useLocation();
 
   useEffect(() => {
@@ -74,7 +75,7 @@ export default function Login() {
           <Form onSubmit={onSubmit}>
             <div className="form-group"></div>
             <div className="form-group">
-              {isStarted && error && <Alert variant={'danger'}>{t('Login.errorMessage')}</Alert>}
+              {errorMessage && <Alert variant={'danger'}>{errorMessage}</Alert>}
               <Form.Control
                 type="text"
                 placeholder={t('Login.email')}

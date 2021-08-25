@@ -88,14 +88,7 @@ export default () => {
         <div className="container fluid" id="signupForm">
           <Form onSubmit={onSubmit}>
             <div className="form-group">
-              {isStarted && error && (
-                <Alert variant={'danger'}>
-                  {user.password.length < 6
-                    ? t('SignUp.passwordErrorMessage')
-                    : t('SignUp.signUpError')
-                }
-                </Alert>
-              )}
+              {errorMessage && <Alert variant={'danger'}>{errorMessage}</Alert>}
               <Form.Control
                 name="user"
                 type="text"
@@ -155,7 +148,7 @@ export default () => {
             </Button>
           </Form>
           {isRouted && (
-            <p className="my-3">
+            <p>
               {' '}
               {t('SignUp.account')}{' '}
               <Link to="/login"> {t('SignUp.logIn')}</Link>

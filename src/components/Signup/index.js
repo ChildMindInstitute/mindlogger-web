@@ -19,13 +19,13 @@ export default () => {
     confirmPassword: ''
   })
   const [isStarted, setIsStarted] = useState(false);
+  const [errorMessage, setErrorMsg] = useState("");
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const location = useLocation()
   const { redirectUrl } = useSelector(state => state.app);
-  let { loading, info, error } = useSelector(state => state.user);
-
   const isRouted = location.pathname.includes('signup');
+  let { loading, info, error } = useSelector(state => state.user);
 
   useEffect(() => {
     if (!loading && info) {
@@ -40,6 +40,30 @@ export default () => {
       }
     }
   }, [!loading && info])
+
+  if (isStarted && error) {
+    let errorMsg = "";
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+    if (!user.email) {
+      errorMsg = t('SignUp.emailErrorMessage');
+    } else if (!emailPattern.test(user.email)) {
+      errorMsg = t('SignUp.invalidEmailError');
+    } else if (!user.firstName) {
+      errorMsg = t('SignUp.firstNameRequiredError');
+    } else if (!user.password) {
+      errorMsg = t('SignUp.passwordErrorMessage');
+    } else if (user.password !== user.confirmPassword) {
+      errorMsg = t('SignUp.passwordsUnmatched');
+    } else if (user.password.length < 6) {
+      errorMsg = t('SignUp.passwordLengthError');
+    } else if (error.includes("already registered")) {
+      errorMsg = t('SignUp.existingEmailError');
+    }
+
+    setErrorMsg(errorMsg);
+    setIsStarted(false);
+  }
 
   /**
    * Sends the New User details to the server for Creating User.
@@ -74,12 +98,11 @@ export default () => {
               )}
               <Form.Control
                 name="user"
-                type="email"
+                type="text"
                 placeholder={t('SignUp.email')}
                 className="mb-3"
                 value={user.email}
                 onChange={(e) => setUser({ ...user, email: e.target.value })}
-                required
               />
               <Form.Control
                 type="text "
@@ -120,12 +143,6 @@ export default () => {
                   setUser({ ...user, confirmPassword: e.target.value })
                 }
               />
-
-              {!isPasswordSame && (
-                <Alert variant={'danger'}>
-                  {t('SignUp.passwordsUnmatched')}
-                </Alert>
-              )}
             </div>
             <Button
               type="submit"

@@ -83,6 +83,7 @@ export const MAX_ALERT_VALUE = "schema:maxAlertValue";
 export const ORDER = "reprolib:terms/order";
 export const HAS_RESPONSE_IDENTIFIER = "reprolib:terms/hasResponseIdentifier";
 export const IS_RESPONSE_IDENTIFIER = "reprolib:terms/isResponseIdentifier";
+export const IS_REVIEWER_ACTIVITY = "reprolib:terms/isReviewerActivity";
 
 export const Statuses = {
   LOADING: 'loading',

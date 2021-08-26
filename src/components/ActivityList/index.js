@@ -220,7 +220,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
         </Col>
         <Col lg={1} />
         <Col lg={8}>
-          {activities.map(activity => (
+          {activities.filter(activity => !activity.isReviewerActivity).map(activity => (
             <ActivityItem
               activity={activity}
               onPress={() => onPressActivity(activity)}

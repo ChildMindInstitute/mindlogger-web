@@ -128,7 +128,7 @@ export const getPastdue = (activityList, finishedEvents) => {
 
   return pastActivities;
 }
- 
+
 export default (activityList, inProgress, finishedEvents, scheduleData) => {
   const notInProgress = [];
   const inProgressActivities = [];
@@ -180,15 +180,15 @@ export default (activityList, inProgress, finishedEvents, scheduleData) => {
     .sort(compareByNameAlpha);
 
   return [
-    ...addSectionHeader(addProp('status', 'pastdue', pastdue), i18n.t('additional:past due')),
+    ...addSectionHeader(addProp('status', 'pastdue', pastdue), i18n.t('additional:available')),
     ...addSectionHeader(
       addProp('status', 'in-progress', inProgressActivities),
-      i18n.t('additional:in_progress'),
+      i18n.t('additional.in_progress'),
     ),
     ...addSectionHeader(
       addProp('status', 'unscheduled', unscheduled),
-      i18n.t('additional:unscheduled'),
+      i18n.t('additional.unscheduled'),
     ),
-    ...addSectionHeader(addProp('status', 'scheduled', scheduled), i18n.t('additional:scheduled')),
+    ...addSectionHeader(addProp('status', 'scheduled', scheduled), i18n.t('additional.scheduled')),
   ];
 };

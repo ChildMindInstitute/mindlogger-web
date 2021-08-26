@@ -1,12 +1,13 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
-import { useHistory } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 import { useSelector, connect, useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 import {
   Container,
   Card,
   Button,
+  Modal,
   Row,
   Col,
 } from 'react-bootstrap'
@@ -15,11 +16,14 @@ import Avatar from 'react-avatar';
 // Local
 import { delayedExec, clearExec } from '../../util/interval';
 import sortActivities from './sortActivities';
-import { inProgressSelector } from '../../state/responses/responses.selectors';
+import { inProgressSelector, currentScreenIndexSelector } from '../../state/responses/responses.selectors';
 import { finishedEventsSelector } from '../../state/app/app.selectors';
 import { appletsSelector } from '../../state/applet/applet.selectors';
 import { setCurrentActivity } from '../../state/app/app.reducer';
+import { setCurrentScreen } from '../../state/responses/responses.reducer';
+import { createResponseInProgress, setAnswer } from '../../state/responses/responses.reducer';
 import { parseAppletEvents } from '../../services/json-ld';
+import * as R from 'ramda';
 
 import AboutModal from '../AboutModal';
 import ActivityItem from './ActivityItem';
@@ -27,15 +31,24 @@ import ActivityItem from './ActivityItem';
 import './style.css'
 
 export const ActivityList = ({ inProgress, finishedEvents }) => {
-  const { appletId } = useParams();
+  const { appletId, publicId } = useParams();
   const applets = useSelector(appletsSelector);
   const history = useHistory();
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const [aboutPage, showAboutPage] = useState(false);
+  const [startActivity, setStartActivity] = useState(false);
   const [activities, setActivities] = useState([]);
+  const [currentAct, setCurrentAct] = useState({});
   const [prizeActivity, setPrizeActivity] = useState(null);
   const [markdown, setMarkDown] = useState("");
-  const [currentApplet] = useState(applets.find(({ id }) => id.includes(appletId)));
+  const [currentApplet] = useState(applets.find((applet) =>
+    appletId && applet.id.includes(appletId) ||
+    publicId && applet.publicId && applet.publicId.includes(publicId)
+  ));
+  const screenIndex = useSelector(currentScreenIndexSelector);
+
+  const user = useSelector(state => R.path(['user', 'info'])(state));
   const updateStatusDelay = 60 * 1000;
 
   useEffect(() => {
@@ -79,29 +92,96 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
 
   const updateActivites = () => {
     const appletData = parseAppletEvents(currentApplet);
-    const appletActivities = appletData.activities.filter(act => !act.isPrize);
+    const appletActivities = appletData.activities.filter(act => {
+      const supportedItems = act.items.filter(item => {
+        return item.inputType === "radio"
+          || item.inputType === "checkox"
+          || item.inputType === "slider"
+          || item.inputType === "text";
+      });
+
+      return supportedItems.length && !act.isPrize;
+    });
     const prizeActs = appletData.activities.filter(act => act.isPrize);
 
     if (prizeActs.length === 1) {
       setPrizeActivity(prizeActs[0]);
     }
 
-    const temp = sortActivities(appletActivities, inProgress, finishedEvents, currentApplet.schedule.data);
+    const temp = sortActivities(appletActivities, inProgress, finishedEvents, currentApplet.schedule?.data);
     setActivities(temp);
   }
 
   const onPressActivity = (activity) => {
-    dispatch(setCurrentActivity(activity.id));
+    if (activity.status === "in-progress") {
+      setCurrentAct(activity);
+      setStartActivity(true);
+    } else {
+      dispatch(setCurrentActivity(activity.id));
+      dispatch(createResponseInProgress({
+        activity: activity,
+        event: null,
+        subjectId: user && user._id,
+        publicId: currentApplet.publicId || null,
+        timeStarted: new Date().getTime()
+      }));
 
-    history.push(`/applet/${appletId}/${activity.id}`);
+      if (currentApplet.publicId) {
+        history.push(`/applet/public/${currentApplet.id.split('/').pop()}/${activity.id}`);
+      } else {
+        history.push(`/applet/${appletId}/${activity.id}`);
+      }
+    }
   }
+
+  const handleResumeActivity = () => {
+    const activity = currentAct;
+
+    dispatch(setCurrentActivity(activity.id));
+    dispatch(
+      setCurrentScreen({
+        activityId: activity.id,
+        screenIndex: screenIndex || 0,
+      })
+    )
+
+    if (currentApplet.publicId) {
+      history.push(`/applet/public/${currentApplet.id.split('/').pop()}/${activity.id}`);
+    } else {
+      history.push(`/applet/${appletId}/${activity.id}`);
+    }
+    setStartActivity(false);
+  }
+
+  const handleRestartActivity = () => {
+    const activity = currentAct;
+
+    dispatch(setCurrentActivity(activity.id));
+    dispatch(createResponseInProgress({
+      activity: activity,
+      event: null,
+      subjectId: user?._id,
+      publicId: currentApplet.publicId || null,
+      timeStarted: new Date().getTime()
+    }));
+    dispatch(setAnswer({ activityId: activity.id }))
+
+    if (currentApplet.publicId) {
+      history.push(`/applet/public/${currentApplet.id.split('/').pop()}/${activity.id}`);
+    } else {
+      history.push(`/applet/${appletId}/${activity.id}`);
+    }
+    setStartActivity(false);
+  }
+
   const closeAboutPage = () => showAboutPage(false);
   const openAboutPage = () => showAboutPage(true);
+  const handleClose = () => setStartActivity(false);
 
   return (
     <Container fluid>
       <Row className="ds-applet-layout">
-        <Col sm={3}>
+        <Col lg={3}>
           <Card className="ds-card">
             {currentApplet.image &&
               <Card.Img
@@ -128,7 +208,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
                 onClick={openAboutPage}
                 variant="link"
               >
-                {`About Page`}
+                { t('About.about') }
               </Button>
             </Card.Body>
           </Card>
@@ -138,8 +218,8 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
             closeAboutPage={closeAboutPage}
           />
         </Col>
-        <Col sm={1} />
-        <Col sm={8}>
+        <Col lg={1} />
+        <Col lg={8}>
           {activities.map(activity => (
             <ActivityItem
               activity={activity}
@@ -151,6 +231,20 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
 
         </Col>
       </Row>
+      <Modal show={startActivity} onHide={handleClose} animation={true}>
+        <Modal.Header closeButton>
+          <Modal.Title>{t('additional.resume_activity')}</Modal.Title>
+        </Modal.Header>
+          <Modal.Body>{t('additional.activity_resume_restart')}</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleRestartActivity}>
+            {t('additional.restart')}
+          </Button>
+          <Button variant="primary" onClick={handleResumeActivity}>
+            {t('additional.resume')}
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 }

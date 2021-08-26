@@ -15,6 +15,9 @@
     "errorMessage": "Incorrect password if that user exists.",
     "logging": "Loggin in..."
   },
+  "About": {
+    "about": "About"
+  },
   "SignUp": {
     "title": "Sign up",
     "submit": "Submit",
@@ -155,9 +158,26 @@
     "or": "or",
     "signUp": "Sign Up"
   },
-  "back": "Back",
-  "next": "Next",
   "submit": "Submit",
   "incorrect_answer": "Incorrect answer. Please try again",
-  "failed": "Failed"
+  "failed": "Failed",
+  "additional": {
+    "thanks": "Thanks!",
+    "saved_answers": "We've saved your answers!",
+    "close": "Close",
+    "resume_activity": "Resume activity",
+    "activity_resume_restart":"Would you like to resume this activity in progress or restart?",
+    "restart": "Restart",
+    "resume": "Resume",
+    "in_progress": "In Progress",
+    "unscheduled":"Unscheduled",
+    "scheduled": "Scheduled",
+    "past_due": "Past Due",
+    "available": "Available",
+    "yes": "Yes",
+    "no": "No",
+    "response_submit": "Response Submit",
+    "response_submit_text": "Would you like to submit response?",
+    "invalid_public_url": "This assessment is no longer accepting respondents"
+  }
 }

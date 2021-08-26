@@ -51,6 +51,7 @@ import {
   TRANSCRIPT,
   URL,
   VALUE,
+  COLOR,
   PRICE,
   SCORE,
   ALERT,
@@ -69,9 +70,11 @@ import {
   MESSAGE,
   LOOKUP_TABLE,
   AGE,
+  WATERMARK,
   RAW_SCORE,
   SEX,
   T_SCORE,
+  COLOR_PALETTE,
   OUTPUT_TEXT,
   OUTPUT_TYPE,
   RESPONSE_ALERT,
@@ -84,6 +87,8 @@ import {
   MIN_ALERT_VALUE,
   MAX_ALERT_VALUE,
   ORDER,
+  HAS_RESPONSE_IDENTIFIER,
+  IS_RESPONSE_IDENTIFIER,
 } from '../constants';
 
 export const languageListToObject = (list) => {
@@ -130,6 +135,7 @@ export const flattenItemList = (list = []) =>
   list.map((item) => ({
     name: languageListToObject(item[NAME]),
     value: R.path([VALUE, 0, "@value"], item),
+    color: R.path([COLOR, 0, "@value"], item),
     price: R.path([PRICE, 0, "@value"], item),
     score: R.path([SCORE, 0, "@value"], item),
     alert: R.path([ALERT, 0, "@value"], item),
@@ -155,6 +161,13 @@ export const flattenValueConstraints = (vcObj) =>
       return {
         ...accumulator,
         multipleChoice: R.path([key, 0, "@value"], vcObj),
+      };
+    }
+
+    if (key == IS_RESPONSE_IDENTIFIER) {
+      return {
+        ...accumulator,
+        isResponseIdentifier: R.path([key, 0, "@value"], vcObj),
       };
     }
 
@@ -199,10 +212,17 @@ export const flattenValueConstraints = (vcObj) =>
       }
     }
 
+    if (key === COLOR_PALETTE) {
+      return {
+        ...accumulator,
+        colorPalette: R.path([key, 0, "@value"], vcObj)
+      }
+    }
+
     if (key === CONTINOUS_SLIDER) {
       return {
         ...accumulator,
-        continousSlider: R.path([key, 0, "@value"], vcObj),
+        continuousSlider: R.path([key, 0, "@value"], vcObj),
       }
     }
     if (key === RESPONSE_ALERT_MESSAGE) {
@@ -306,14 +326,14 @@ export const transformInputs = (inputs) =>
       val = flattenItemList(itemList);
     }
 
-    if (inputObj["@type"].includes(AUDIO_OBJECT)) {
+    if ((inputObj["@type"] || []).includes(AUDIO_OBJECT)) {
       val = {
         contentUrl: languageListToObject(inputObj[CONTENT_URL]),
         transcript: languageListToObject(inputObj[TRANSCRIPT]),
       };
     }
 
-    if (inputObj["@type"].includes(IMAGE_OBJECT)) {
+    if ((inputObj["@type"] || []).includes(IMAGE_OBJECT)) {
       val = {
         contentUrl: languageListToObject(inputObj[CONTENT_URL]),
       };
@@ -435,10 +455,13 @@ const transformPureActivity = (activityJson) => {
     }
   }, activityJson[COMPUTE]);
   const subScales = activityJson[SUBSCALES] && R.map((subScale) => {
+    const jsExpression = R.path([JS_EXPRESSION, 0, "@value"], subScale);
+
     return {
-      jsExpression: R.path([JS_EXPRESSION, 0, "@value"], subScale),
+      jsExpression,
       variableName: R.path([VARIABLE_NAME, 0, "@value"], subScale),
-      lookupTable: flattenLookupTable(subScale[LOOKUP_TABLE], false)
+      lookupTable: flattenLookupTable(subScale[LOOKUP_TABLE], false),
+      innerSubScales: jsExpression.split('+').filter(name => name.includes('(')).map(name => name.trim().replace(/[()]/g, ''))
     }
   }, activityJson[SUBSCALES])
 
@@ -470,6 +493,7 @@ const transformPureActivity = (activityJson) => {
     fullScreen: allowList.includes(FULL_SCREEN),
     autoAdvance: allowList.includes(AUTO_ADVANCE),
     isPrize: R.path([ISPRIZE, 0, "@value"], activityJson) || false,
+    hasResponseIdentifier: R.path([HAS_RESPONSE_IDENTIFIER, 0, "@value"], activityJson) || false,
     compute,
     subScales,
     finalSubScale,
@@ -485,7 +509,7 @@ const transformPureActivity = (activityJson) => {
 
 export const itemTransformJson = (itemJson) => {
   // For items, 'skippable' is undefined if there's no ALLOW prop
-  const allowList = flattenIdList(R.path([ALLOW, 0, "@list"], itemJson));
+  const allowList = flattenIdList(R.path([ALLOW, 0, "@list"], itemJson)) || [];
   const skippable = isSkippable(allowList) ? true : undefined;
 
   const valueConstraintsObj = R.pathOr({}, [RESPONSE_OPTIONS, 0], itemJson);
@@ -540,6 +564,7 @@ export const appletTransformJson = (appletJson) => {
     altLabel: languageListToObject(applet[ALT_LABEL]),
     visibility: listToVisObject(applet[ADD_PROPERTIES]),
     image: applet[IMAGE],
+    watermark: R.path([WATERMARK, 0, "@id"], applet),
     order: flattenIdList(applet[ORDER][0]["@list"]),
     schedule,
     contentUpdateTime: updated,
@@ -631,7 +656,7 @@ export const transformApplet = (payload, currentApplets = null) => {
               updated = true;
               applet.activities[index] = {
                 ...activity,
-                items: act.items,
+                items: [...act.items],
               };
             }
           });
@@ -653,6 +678,7 @@ export const transformApplet = (payload, currentApplets = null) => {
                 if (!act.items) {
                   applet.activities[index].items = [];
                 }
+
                 act.items.forEach((itemData, i) => {
                   if (itemData.id.split('/')[1] === dataKey.split('/')[1] && !updated) {
                     updated = true;
@@ -672,7 +698,7 @@ export const transformApplet = (payload, currentApplets = null) => {
       }
 
       if (payload.schedule) {
-        const events = { ...currentApplet.schedule.events };
+        const events = { ...(currentApplet.schedule?.events || {}) };
         applet.schedule = payload.schedule;
 
         if (!R.isEmpty(payload.schedule.events)) {
@@ -681,16 +707,18 @@ export const transformApplet = (payload, currentApplets = null) => {
           })
         }
 
-        for (const eventId in events) {
-          let isValid = false;
-          for (const eventDate in currentApplet.schedule.data) {
-            if (currentApplet.schedule.data[eventDate].find(({ id }) => id === eventId)) {
-              isValid = true;
+        if (currentApplet.schedule) {
+          for (const eventId in events) {
+            let isValid = false;
+            for (const eventDate in currentApplet.schedule.data) {
+              if (currentApplet.schedule.data[eventDate].find(({ id }) => id === eventId)) {
+                isValid = true;
+              }
             }
-          }
 
-          if (!isValid) {
-            delete events[eventId];
+            if (!isValid) {
+              delete events[eventId];
+            }
           }
         }
         applet.schedule.events = events;
@@ -743,7 +771,7 @@ export const transformApplet = (payload, currentApplets = null) => {
 const getActivityAbility = (schedule, activityId) => {
   let availability = false;
 
-  Object.keys(schedule.events).forEach(key => {
+  schedule && Object.keys(schedule.events).forEach(key => {
     const e = schedule.events[key];
 
     if (e.data.activity_id === activityId.substring(9)) {
@@ -759,19 +787,21 @@ export const parseAppletEvents = (applet) => {
     const events = [];
     const availability = getActivityAbility(applet.schedule, act.id);
 
-    for (let eventId in applet.schedule.events) {
-      const event = { ...applet.schedule.events[eventId] };
-      const futureSchedule = Parse.schedule(event.schedule).forecast(
-        Day.fromDate(new Date()),
-        true,
-        1,
-        0,
-        true,
-      );
+    if (applet.schedule) {
+      for (let eventId in applet.schedule.events) {
+        const event = { ...applet.schedule.events[eventId] };
+        const futureSchedule = Parse.schedule(event.schedule).forecast(
+          Day.fromDate(new Date()),
+          true,
+          1,
+          0,
+          true,
+        );
 
-      event.scheduledTime = getStartOfInterval(futureSchedule.array()[0]);
-      if (event.data.activity_id === act.id.substring(9)) {
-        events.push(event);
+        event.scheduledTime = getStartOfInterval(futureSchedule.array()[0]);
+        if (event.data.activity_id === act.id.substring(9) && !act.hasResponseIdentifier) {
+          events.push(event);
+        }
       }
     }
 

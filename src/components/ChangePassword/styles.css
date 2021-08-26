@@ -13,7 +13,6 @@
   align-items: flex-start;
 }
 .error-alert, .success-alert{
-  margin-top: 20px;
   width: 77%;
-  margin-left: auto;
+  margin: 1.5rem auto 1rem auto;
 }

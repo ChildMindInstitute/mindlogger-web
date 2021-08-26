@@ -36,6 +36,7 @@ const ActivityItem = (props) => {
     )
   }
 
+  const dueDateStr = activityDueDate();
   return (
     <Button
       className="ds-shadow ds-activity-button"
@@ -44,8 +45,11 @@ const ActivityItem = (props) => {
       disabled={isActivityDisabled()}
       block
     >
-      {activity.name.en}
-      {activityDueDate()}
+      <div className="activity-name-date">{ activity.name.en } { dueDateStr ? ' - ' + dueDateStr : '' } </div>
+
+      {
+        activity.description && <div className="activity-description">{ activity.description.en }</div>
+      }
     </Button>
   )
 }

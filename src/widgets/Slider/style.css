@@ -1,26 +1,38 @@
-.slider {
+.slider-widget {
     width: 80%;
     margin: auto;
 }
 
-.slider input[type="range"] {
+.slider-widget .widget {
     width: 100%;
     height: 2px;
 }
 
-.slider .ticks {
+.slider-widget .ticks {
     display: flex;
     justify-content: space-between;
     padding: 5px;
 }
 
-.slider .ticks .tick {
+.slider-widget .ticks .tick {
     height: 10px;
     width: 1px;
     background: black;
     display: flex;
     justify-content: center;
     line-height: 40px;
+}
+
+.slider-widget.no-value .slider .slider-handle {
+    display: none;
+}
+
+.slider-widget input[type='range'] {
+    display: none;
+}
+
+.slider {
+    width: 100% !important;
 }
 
 .slider-description {

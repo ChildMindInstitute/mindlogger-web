@@ -61,7 +61,7 @@ const DeclineInvitation = () => {
   return (
     <div className="mt-3 pt-3 container">
       {isLoggedIn
-        ?
+        ? 
         <InvitationText status={status} invitationText={invitationText} />
         :
         <div className="heading">

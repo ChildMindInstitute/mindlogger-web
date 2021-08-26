@@ -36,7 +36,7 @@ const Summary = (props) => {
       let scores = [], maxScores = [];
       for (let i = 0; i < activity.items.length; i++) {
         const { variableName } = activity.items[i];
-        let score = getScoreFromResponse(activity.items[i], responses[i][variableName]);
+        let score = getScoreFromResponse(activity.items[i], responses[i][variableName] ? responses[i][variableName] : responses[i]);
         scores.push(score);
         maxScores.push(getMaxScore(activity.items[i]))
       }

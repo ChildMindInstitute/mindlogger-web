@@ -64,4 +64,4 @@ export const InvitationText = (props) => {
     default:
       return null;
   }
-};
+}

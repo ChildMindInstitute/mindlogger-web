@@ -53,6 +53,7 @@ import {
   TRANSCRIPT,
   URL,
   VALUE,
+  COLOR,
   PRICE,
   SCORE,
   ALERT,
@@ -75,6 +76,7 @@ import {
   RAW_SCORE,
   SEX,
   T_SCORE,
+  COLOR_PALETTE,
   OUTPUT_TEXT,
   OUTPUT_TYPE,
   RESPONSE_ALERT,
@@ -89,6 +91,7 @@ import {
   ORDER,
   HAS_RESPONSE_IDENTIFIER,
   IS_RESPONSE_IDENTIFIER,
+  IS_REVIEWER_ACTIVITY,
 } from '../constants';
 
 export const languageListToObject = (list) => {
@@ -135,6 +138,7 @@ export const flattenItemList = (list = []) =>
   list.map((item) => ({
     name: languageListToObject(item[NAME]),
     value: R.path([VALUE, 0, "@value"], item),
+    color: R.path([COLOR, 0, "@value"], item),
     price: R.path([PRICE, 0, "@value"], item),
     score: R.path([SCORE, 0, "@value"], item),
     alert: R.path([ALERT, 0, "@value"], item),
@@ -214,6 +218,13 @@ export const flattenValueConstraints = (vcObj) =>
       return {
         ...accumulator,
         randomizeOptions: R.path([key, 0, "@value"], vcObj)
+      }
+    }
+
+    if (key === COLOR_PALETTE) {
+      return {
+        ...accumulator,
+        colorPalette: R.path([key, 0, "@value"], vcObj)
       }
     }
 
@@ -324,14 +335,14 @@ export const transformInputs = (inputs) =>
       val = flattenItemList(itemList);
     }
 
-    if (inputObj["@type"].includes(AUDIO_OBJECT)) {
+    if ((inputObj["@type"] || []).includes(AUDIO_OBJECT)) {
       val = {
         contentUrl: languageListToObject(inputObj[CONTENT_URL]),
         transcript: languageListToObject(inputObj[TRANSCRIPT]),
       };
     }
 
-    if (inputObj["@type"].includes(IMAGE_OBJECT)) {
+    if ((inputObj["@type"] || []).includes(IMAGE_OBJECT)) {
       val = {
         contentUrl: languageListToObject(inputObj[CONTENT_URL]),
       };
@@ -491,6 +502,7 @@ const transformPureActivity = (activityJson) => {
     fullScreen: allowList.includes(FULL_SCREEN),
     autoAdvance: allowList.includes(AUTO_ADVANCE),
     isPrize: R.path([ISPRIZE, 0, "@value"], activityJson) || false,
+    isReviewerActivity: R.path([IS_REVIEWER_ACTIVITY, 0, '@value'], activityJson) || false,
     hasResponseIdentifier: R.path([HAS_RESPONSE_IDENTIFIER, 0, "@value"], activityJson) || false,
     compute,
     subScales,
@@ -507,7 +519,7 @@ const transformPureActivity = (activityJson) => {
 
 export const itemTransformJson = (itemJson) => {
   // For items, 'skippable' is undefined if there's no ALLOW prop
-  const allowList = flattenIdList(R.path([ALLOW, 0, "@list"], itemJson));
+  const allowList = flattenIdList(R.path([ALLOW, 0, "@list"], itemJson)) || [];
   const skippable = isSkippable(allowList) ? true : undefined;
 
   const valueConstraintsObj = R.pathOr({}, [RESPONSE_OPTIONS, 0], itemJson);
@@ -654,7 +666,7 @@ export const transformApplet = (payload, currentApplets = null) => {
               updated = true;
               applet.activities[index] = {
                 ...activity,
-                items: act.items,
+                items: [...act.items],
               };
             }
           });
@@ -675,9 +687,8 @@ export const transformApplet = (payload, currentApplets = null) => {
 
                 if (!act.items) {
                   applet.activities[index].items = [];
-                } else {
-                  applet.activities[index].items = [...currentApplet.activities[index].items]
                 }
+
                 act.items.forEach((itemData, i) => {
                   if (itemData.id.split('/')[1] === dataKey.split('/')[1] && !updated) {
                     updated = true;
@@ -697,7 +708,7 @@ export const transformApplet = (payload, currentApplets = null) => {
       }
 
       if (payload.schedule) {
-        const events = { ...currentApplet.schedule.events };
+        const events = { ...(currentApplet.schedule?.events || {}) };
         applet.schedule = payload.schedule;
 
         if (!R.isEmpty(payload.schedule.events)) {
@@ -706,16 +717,18 @@ export const transformApplet = (payload, currentApplets = null) => {
           })
         }
 
-        for (const eventId in events) {
-          let isValid = false;
-          for (const eventDate in currentApplet.schedule.data) {
-            if (currentApplet.schedule.data[eventDate].find(({ id }) => id === eventId)) {
-              isValid = true;
+        if (currentApplet.schedule) {
+          for (const eventId in events) {
+            let isValid = false;
+            for (const eventDate in currentApplet.schedule.data) {
+              if (currentApplet.schedule.data[eventDate].find(({ id }) => id === eventId)) {
+                isValid = true;
+              }
             }
-          }
 
-          if (!isValid) {
-            delete events[eventId];
+            if (!isValid) {
+              delete events[eventId];
+            }
           }
         }
         applet.schedule.events = events;

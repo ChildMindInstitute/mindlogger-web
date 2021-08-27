@@ -12,7 +12,8 @@
 
 .applet-card {
   margin: 20px;
-  width: 18rem;
+  min-width: 280px !important;
+  width: 280px;
   box-shadow: 0 3px 1px -2px rgb(0 0 0 / 20%), 0 2px 2px 0 rgb(0 0 0 / 14%), 0 1px 5px 0 rgb(0 0 0 / 12%);
   cursor: pointer;
 }
@@ -23,4 +24,8 @@
 
 .applet-card-title:hover {
   text-decoration: underline;
+}
+
+.text-center {
+  text-align: center;
 }

@@ -2,7 +2,7 @@
   "Login": {
     "title": "Login",
     "submit": "Submit",
-    "passwordErrorMessage": "Password must have at least 6 characters",
+    "passwordErrorMessage": "Password is required.",
     "passwordRequiredError": "You must specify a password",
     "password": "Password",
     "email": "Email",
@@ -11,9 +11,12 @@
     "create": " Create One ",
     "reset": " Reset it",
     "emailRequiredError": "Required",
-    "emailErrorMessage": "Invalid email address",
-    "errorMessage": "Invalid email address or password!",
+    "emailErrorMessage": "Email address is required.",
+    "errorMessage": "Incorrect password if that user exists.",
     "logging": "Loggin in..."
+  },
+  "About": {
+    "about": "About"
   },
   "SignUp": {
     "title": "Sign up",
@@ -23,10 +26,14 @@
     "confirmPassword": "Confirm Password",
     "password": "Password",
     "lastName": "Last Name",
-    "passwordErrorMessage": "Password must have at least 6 characters",
+    "firstNameRequiredError": "First name is required.",
+    "passwordErrorMessage": "Password is required.",
+    "passwordLengthError": "Password must be at least 6 characters.",
     "passwordRequiredError": "You must specify a password",
     "emailRequiredError": "Required",
-    "emailErrorMessage": "Invalid email address",
+    "existingEmailError": "That email is already registered in the system.",
+    "invalidEmailError": "Invalid email",
+    "emailErrorMessage": "Email address is required.",
     "signUpError": "Sign up failed. Email may already be in use.",
     "accountMessage": " Don't have an account? ",
     "forgotPassword": " Forgot Password?",
@@ -111,7 +118,8 @@
     "loading": "Loading invite link",
     "reviewers": "Users who can see your data for this applet:",
     "managers": "Users who can change this applet's settings, including who can access your data:",
-    "coordinators": "Users who can change this applet's settings, but who cannot change who can see your data:"
+    "coordinators": "Users who can change this applet's settings, but who cannot change who can see your data:",
+    "notFound": "The invite link is either invalid or no long active."
   },
   "InvitationButtons": {
     "acceptInvitation": "Accept Invitation",
@@ -150,9 +158,26 @@
     "or": "or",
     "signUp": "Sign Up"
   },
-  "back": "Back",
-  "next": "Next",
   "submit": "Submit",
   "incorrect_answer": "Incorrect answer. Please try again",
-  "failed": "Failed"
+  "failed": "Failed",
+  "additional": {
+    "thanks": "Thanks!",
+    "saved_answers": "We've saved your answers!",
+    "close": "Close",
+    "resume_activity": "Resume activity",
+    "activity_resume_restart":"Would you like to resume this activity in progress or restart?",
+    "restart": "Restart",
+    "resume": "Resume",
+    "in_progress": "In Progress",
+    "unscheduled":"Unscheduled",
+    "scheduled": "Scheduled",
+    "past_due": "Past Due",
+    "available": "Available",
+    "yes": "Yes",
+    "no": "No",
+    "response_submit": "Response Submit",
+    "response_submit_text": "Would you like to submit response?",
+    "invalid_public_url": "This assessment is no longer accepting respondents"
+  }
 }

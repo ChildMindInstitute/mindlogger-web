@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { useSelector, connect, useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 import {
   Container,
   Card,
@@ -20,7 +21,7 @@ import { finishedEventsSelector } from '../../state/app/app.selectors';
 import { appletsSelector } from '../../state/applet/applet.selectors';
 import { setCurrentActivity } from '../../state/app/app.reducer';
 import { setCurrentScreen } from '../../state/responses/responses.reducer';
-import { createResponseInProgress } from '../../state/responses/responses.reducer';
+import { createResponseInProgress, setAnswer } from '../../state/responses/responses.reducer';
 import { parseAppletEvents } from '../../services/json-ld';
 import * as R from 'ramda';
 
@@ -30,18 +31,23 @@ import ActivityItem from './ActivityItem';
 import './style.css'
 
 export const ActivityList = ({ inProgress, finishedEvents }) => {
-  const { appletId } = useParams();
+  const { appletId, publicId } = useParams();
   const applets = useSelector(appletsSelector);
   const history = useHistory();
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const [aboutPage, showAboutPage] = useState(false);
   const [startActivity, setStartActivity] = useState(false);
   const [activities, setActivities] = useState([]);
   const [currentAct, setCurrentAct] = useState({});
   const [prizeActivity, setPrizeActivity] = useState(null);
   const [markdown, setMarkDown] = useState("");
-  const [currentApplet] = useState(applets.find(({ id }) => id.includes(appletId)));
+  const [currentApplet] = useState(applets.find((applet) =>
+    appletId && applet.id.includes(appletId) ||
+    publicId && applet.publicId && applet.publicId.includes(publicId)
+  ));
   const screenIndex = useSelector(currentScreenIndexSelector);
+
   const user = useSelector(state => R.path(['user', 'info'])(state));
   const updateStatusDelay = 60 * 1000;
 
@@ -89,13 +95,12 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
     const appletActivities = appletData.activities.filter(act => {
       const supportedItems = act.items.filter(item => {
         return item.inputType === "radio"
-        || item.inputType === "checkox"
+          || item.inputType === "checkox"
           || item.inputType === "slider"
           || item.inputType === "ageSelector"
           || item.inputType === "text";
-        });
-        
-        
+      });
+
       return supportedItems.length && !act.isPrize;
     });
     const prizeActs = appletData.activities.filter(act => act.isPrize);
@@ -117,18 +122,19 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
       dispatch(createResponseInProgress({
         activity: activity,
         event: null,
-        subjectId: user?._id,
+        subjectId: user && user._id,
         publicId: currentApplet.publicId || null,
         timeStarted: new Date().getTime()
       }));
 
       if (currentApplet.publicId) {
-        history.push(`/applet/public/${appletId}/${activity.id}`);
+        history.push(`/applet/public/${currentApplet.id.split('/').pop()}/${activity.id}`);
       } else {
         history.push(`/applet/${appletId}/${activity.id}`);
       }
     }
   }
+
   const handleResumeActivity = () => {
     const activity = currentAct;
 
@@ -141,12 +147,13 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
     )
 
     if (currentApplet.publicId) {
-      history.push(`/applet/public/${appletId}/${activity.id}`);
+      history.push(`/applet/public/${currentApplet.id.split('/').pop()}/${activity.id}`);
     } else {
       history.push(`/applet/${appletId}/${activity.id}`);
     }
     setStartActivity(false);
   }
+
   const handleRestartActivity = () => {
     const activity = currentAct;
 
@@ -154,13 +161,14 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
     dispatch(createResponseInProgress({
       activity: activity,
       event: null,
-      subjectId: user ?._id,
+      subjectId: user?._id,
       publicId: currentApplet.publicId || null,
       timeStarted: new Date().getTime()
     }));
+    dispatch(setAnswer({ activityId: activity.id }))
 
     if (currentApplet.publicId) {
-      history.push(`/applet/public/${appletId}/${activity.id}`);
+      history.push(`/applet/public/${currentApplet.id.split('/').pop()}/${activity.id}`);
     } else {
       history.push(`/applet/${appletId}/${activity.id}`);
     }
@@ -174,7 +182,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
   return (
     <Container fluid>
       <Row className="ds-applet-layout">
-        <Col sm={3}>
+        <Col lg={3}>
           <Card className="ds-card">
             {currentApplet.image &&
               <Card.Img
@@ -201,7 +209,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
                 onClick={openAboutPage}
                 variant="link"
               >
-                {`About Page`}
+                { t('About.about') }
               </Button>
             </Card.Body>
           </Card>
@@ -211,9 +219,9 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
             closeAboutPage={closeAboutPage}
           />
         </Col>
-        <Col sm={1} />
-        <Col sm={8}>
-          {activities.map(activity => (
+        <Col lg={1} />
+        <Col lg={8}>
+          {activities.filter(activity => !activity.isReviewerActivity).map(activity => (
             <ActivityItem
               activity={activity}
               onPress={() => onPressActivity(activity)}
@@ -226,15 +234,15 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
       </Row>
       <Modal show={startActivity} onHide={handleClose} animation={true}>
         <Modal.Header closeButton>
-          <Modal.Title>Resume Activity</Modal.Title>
+          <Modal.Title>{t('additional.resume_activity')}</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Would you like to resume this activity in progress or restart?</Modal.Body>
+          <Modal.Body>{t('additional.activity_resume_restart')}</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleRestartActivity}>
-            Restart
+            {t('additional.restart')}
           </Button>
           <Button variant="primary" onClick={handleResumeActivity}>
-            Resume
+            {t('additional.resume')}
           </Button>
         </Modal.Footer>
       </Modal>

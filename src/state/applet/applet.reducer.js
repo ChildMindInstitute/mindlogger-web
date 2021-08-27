@@ -60,7 +60,16 @@ const appletSlice = createSlice({
     [`${APPLET_CONSTANTS.GET_PUBLIC_APPLET}/fulfilled`]: (state, action) => {
       state.loading = false;
       state.error = null;
-      state.applets = [action.payload];
+
+      const newApplet = action.payload;
+
+      const index = state.applets.findIndex(applet => applet.id == newApplet.id);
+
+      if (index >= 0) {
+        state.applets[index] = newApplet;
+      } else {
+        state.applets.push(newApplet);
+      }
     },
     [`${APPLET_CONSTANTS.GET_PUBLIC_APPLET}/rejected`]: (state, action) => {
       state.loading = false;

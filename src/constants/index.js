@@ -5,6 +5,7 @@ export const ALT_LABEL = "http://www.w3.org/2004/02/skos/core#altLabel";
 export const AUDIO_OBJECT = "schema:AudioObject";
 export const AUTO_ADVANCE = "reprolib:terms/auto_advance";
 export const BACK_DISABLED = "reprolib:terms/disable_back";
+export const COLOR_PALETTE = "reprolib:terms/colorPalette";
 export const CONTENT_URL = "schema:contentUrl";
 export const DELAY = "reprolib:terms/delay";
 export const DESCRIPTION = "schema:description";
@@ -48,6 +49,7 @@ export const TIMER = "reprolib:terms/timer";
 export const TRANSCRIPT = "schema:transcript";
 export const URL = "schema:url";
 export const VALUE = "schema:value";
+export const COLOR = "schema:color";
 export const PRICE = "schema:price";
 export const SCORE = "schema:score";
 export const ALERT = "schema:alert";
@@ -83,6 +85,7 @@ export const MAX_ALERT_VALUE = "schema:maxAlertValue";
 export const ORDER = "reprolib:terms/order";
 export const HAS_RESPONSE_IDENTIFIER = "reprolib:terms/hasResponseIdentifier";
 export const IS_RESPONSE_IDENTIFIER = "reprolib:terms/isResponseIdentifier";
+export const IS_REVIEWER_ACTIVITY = "reprolib:terms/isReviewerActivity";
 
 export const Statuses = {
   LOADING: 'loading',

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { push } from 'connected-react-router'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
@@ -16,22 +16,46 @@ import './styles.css'
  */
 export default function Login() {
   const [user, setUser] = useState({ email: '', password: '' })
+  const [errorMessage, setErrorMsg] = useState("");
   const [isStarted, setIsStarted] = useState(false);
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const { redirectUrl } = useSelector(state => state.app);
   let { loading, info, error } = useSelector(state => state.user);
+  let errorMsg = "";
+  const location = useLocation();
 
   useEffect(() => {
     if (!loading && info) {
       setIsStarted(true);
-      if (redirectUrl) dispatch(push(redirectUrl));
-      else {
+      if (redirectUrl) {
+        dispatch(push(redirectUrl));
+      } else if (location.state) {
+        dispatch(push(location.state));
+      } else {
         dispatch(push('/dashboard'));
         dispatch(setRedirectUrl(null));
       }
     }
   }, [!loading && info])
+
+  if (isStarted && error) {
+    let errorMsg = "";
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+    if (!user.email) {
+      errorMsg = t('Login.emailErrorMessage');
+    } else if (!emailPattern.test(user.email)) {
+      errorMsg = t('SignUp.invalidEmailError');
+    } else if (!user.password) {
+      errorMsg = t('Login.passwordErrorMessage');
+    } else {
+      errorMsg = t('Login.errorMessage');
+    }
+
+    setErrorMsg(errorMsg);
+    setIsStarted(false);
+  }
 
   /**
    * Sends the Authentication request to the server.
@@ -51,21 +75,21 @@ export default function Login() {
           <Form onSubmit={onSubmit}>
             <div className="form-group"></div>
             <div className="form-group">
-              {isStarted && error && <Alert variant={'danger'}>{t('Login.errorMessage')}</Alert>}
+              {errorMessage && <Alert variant={'danger'}>{errorMessage}</Alert>}
               <Form.Control
-                type="email"
+                type="text"
                 placeholder={t('Login.email')}
                 className="mb-3"
                 value={user.email}
                 onChange={(e) => setUser({ ...user, email: e.target.value })}
-                required
+                // required
               />
               <Form.Control
                 type="password"
                 placeholder={t('Login.password')}
                 value={user.password}
                 onChange={(e) => setUser({ ...user, password: e.target.value })}
-                required
+                // required
               />
             </div>
             <Button

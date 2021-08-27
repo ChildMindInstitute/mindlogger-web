@@ -1,6 +1,7 @@
 .ds-card {
   width: 15rem;
   border: 0 !important;
+  margin: auto;
 }
 
 .ds-card-title {
@@ -20,6 +21,18 @@
 
 .ds-activity-button {
   border: none;
+}
+
+.ds-activity-button .activity-name-date {
+  font-weight: 500;
+  font-size: 22px;
+}
+
+.ds-activity-button .activity-description {
+  font-weight: 500;
+  font-size: 16px;
+  margin-top: 5px;
+  color: grey;
 }
 
 .ds-activity-status {

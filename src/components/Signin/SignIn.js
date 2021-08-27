@@ -6,17 +6,17 @@ import { useTranslation } from 'react-i18next';
 
 import { useHistory } from 'react-router-dom';
 
-export const SignIn = () => {
+export const SignIn = ({redirectUrl}) => {
   const { t } = useTranslation();
 
   const history = useHistory();
 
   const handleLogin = () => {
-    history.push('/login');
+    history.push('/login', redirectUrl);
   };
 
   const handleSignup = () => {
-    history.push('/signup');
+    history.push('/signup', redirectUrl);
   };
 
   return (

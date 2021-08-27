@@ -1,37 +1,51 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import _ from "lodash";
 import { useTranslation } from 'react-i18next';
 import {
   Modal,
   Card,
   Row,
-  Col
+  Col,
+  Image
 } from 'react-bootstrap';
 
 import Navigator from './Navigator';
-import Markdown from '../components/Screens/Markdown';
+import Markdown from '../components/Markdown';
 
 const TextInput = ({
   item,
+  values,
   isBackShown,
   isNextShown,
   handleChange,
   handleBack,
+  watermark,
   isSubmitShown,
   answer
 }) => {
   const { t } = useTranslation();
 
   const [show, setShow] = useState(false);
-
   const [value, setValue] = useState((answer || ''));
+
+  useEffect(() => {
+    setValue(values[item.variableName]);
+  }, [values[item.variableName]])
 
   return (
     <Card className="mb-3 px-3" style={{ maxWidth: "auto" }}>
       <Row className="no-gutters">
         <Col md={12}>
           <Card.Title className="question">
-            <Markdown>{item.question.en}</Markdown>
+            {
+              watermark &&
+              <Image className="watermark" src={watermark} alt="watermark" rounded />
+            }
+            <div className="markdown">
+              <Markdown
+                markdown={item.question.en.replace(/(!\[.*\]\s*\(.*?) =\d*x\d*(\))/g, '$1$2')}
+              />
+            </div>
           </Card.Title>
           <Card.Body>
             <Row className="no-gutters px-4 py-4">
@@ -40,8 +54,8 @@ const TextInput = ({
                 style={{ width: '80%', margin: 'auto' }}
                 value={value}
                 onChange={e => {
-                  setValue(e.target.value)
-                  handleChange(e.target.value);
+                  setValue(e.target.value);
+                  handleChange({ value: e.target.value });
                 }}
                 disabled={!isNextShown}
               />

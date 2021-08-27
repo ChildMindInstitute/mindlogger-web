@@ -7,6 +7,7 @@ import MyButton from '../components/Button';
 
 export default Navigator = (props) => {
   const { t } = useTranslation();
+
   const {
     isBackShown,
     isNextShown,
@@ -17,25 +18,25 @@ export default Navigator = (props) => {
   } = props;
 
   return (
-    <div className="row no-gutters d-flex flex-row justify-content-between">
+    <div className="row no-gutters d-flex flex-row justify-content-around">
       {
         isBackShown &&
-          <MyButton
-            label={t("back")}
-            classes="ml-5 mb-2"
-            handleClick={handleBack}
-          />
+        <MyButton
+          label={t("Consent.back")}
+          handleClick={handleBack}
+          classes="mb-2"
+        />
         || <div />
       }
 
       {
         isNextShown
-          &&
+        &&
         <MyButton
           type="submit"
-          label={ isSubmitShown ? t("submit") : t("next") }
-          classes="mr-5 mb-2"
+          label={isSubmitShown ? t("submit") : t("Consent.next")}
           disabled={isNextDisable}
+          classes="mb-2"
           handleClick={(e) => {
             if (typeof canSubmit === 'function' && !canSubmit(e)) {
               e.preventDefault();

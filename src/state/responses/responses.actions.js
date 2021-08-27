@@ -18,7 +18,8 @@ import {
   replaceResponses,
   replaceAppletResponse,
   setSchedule,
-  shiftUploadQueue
+  shiftUploadQueue,
+  removeResponseInProgress,
 } from './responses.reducer';
 import { appletsSelector } from '../applet/applet.selectors';
 
@@ -80,12 +81,11 @@ export const completeResponse = createAsyncThunk(RESPONSE_CONSTANTS.COMPLETE_RES
       dispatch(updateKeys(applet, userInfoSelector(state)));
     }
 
-    state = getState()
-    applet = currentAppletSelector(state)
+    // state = getState()
+    // applet = currentAppletSelector(state)
   }
 
   const responseHistory = currentAppletResponsesSelector(state);
-
   if (activity.isPrize === true) {
     const selectedPrizeIndex = inProgressResponse["responses"][0];
     const version = inProgressResponse["activity"].schemaVersion['en'];
@@ -116,7 +116,12 @@ export const completeResponse = createAsyncThunk(RESPONSE_CONSTANTS.COMPLETE_RES
     await dispatch(startUploadQueue());
   }
 
-  // todo
+  setTimeout(() => {
+    const { activity } = inProgressResponse;
+    dispatch(
+      removeResponseInProgress(activity.event ? activity.id + activity.event.id : activity.id)
+    );
+  }, 100);
 })
 
 export const downloadResponses = createAsyncThunk(RESPONSE_CONSTANTS.DOWNLOAD_RESPONSES, async (args, { dispatch, getState }) => {

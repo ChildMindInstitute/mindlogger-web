@@ -1,21 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import _ from "lodash";
-import { Row, Card, Col } from 'react-bootstrap';
+import { Row, Card, Col, Image } from 'react-bootstrap';
 
 import Navigator from '../Navigator';
-import Markdown from '../../components/Screens/Markdown';
+import Markdown from '../../components/Markdown';
 
 import "./style.css";
+import ReactBootstrapSlider from 'react-bootstrap-slider';
+import "bootstrap-slider/dist/css/bootstrap-slider.css"
 
 const SliderWidget = ({
   item,
+  values,
   isBackShown,
   isNextShown,
   handleChange,
   handleBack,
   isSubmitShown,
+  watermark,
   answer
 }) => {
+  const [data, setData] = useState({
+    [item.variableName]: answer && answer.value || null
+  });
+
   const {
     continuousSlider,
     showTickMarks,
@@ -34,10 +42,22 @@ const SliderWidget = ({
     itemList.map(item => item.value)
   )
 
-  const [data, setData] = useState(answer);
-
   const isNextDisable = () => {
     return !answer || (!answer.value && answer.value !== 0);
+  }
+
+  const minLabelWidth = Math.floor(90 / itemList.length);
+
+  const changeValue = (value) => {
+    const answer = { value };
+    if (!continuousSlider) {
+      answer.value = Math.round(answer.value);
+    }
+
+    if (!data || answer.value != data.value) {
+      setData({ [item.variableName]: answer.value })
+      handleChange(answer)
+    }
   }
 
   return (
@@ -46,31 +66,30 @@ const SliderWidget = ({
         <Col md={12}>
           <Card.Body>
             <Card.Title className="question">
-              <Markdown>{item.question.en}</Markdown>
+              {
+                watermark &&
+                <Image className="watermark" src={watermark} alt="watermark" rounded />
+              }
+              <div className="markdown">
+                <Markdown
+                  markdown={item.question.en.replace(/(!\[.*\]\s*\(.*?) =\d*x\d*(\))/g, '$1$2')}
+                />
+              </div>
             </Card.Title>
             <Row className="no-gutters no-gutters px-4 py-4">
-              <div className="slider">
-                <input
-                  type="range"
-                  className={!data ? "no-value" : ""}
+              <div className={`slider-widget ${!data || data[item.variableName] === null ? 'no-value' : ''}`}>
+                <ReactBootstrapSlider
                   min={minValue}
                   max={maxValue}
-                  value={data && data.value || 0}
-                  step={0.1}
-                  onChange={(e) => {
-                    const answer = {
-                      value: e.target.value
-                    };
-
-                    if (!continuousSlider) {
-                      answer.value = Math.round(answer.value);
-                    }
-
-                    setData(answer)
-                    handleChange(answer)
+                  value={data && data[item.variableName] || 0}
+                  slideStop={(e) => {
+                    changeValue(e.target.value * 1)
                   }}
-                  disabled={!isNextShown}
+                  tooltip={'hide'}
+                  step={continuousSlider ? 0.1 : 1}
+                  disabled={!isNextShown ? 'disabled' : 'enabled'}
                 />
+
                 {
                   !showTickMarks &&
                   <div className="ticks">
@@ -86,7 +105,7 @@ const SliderWidget = ({
                 }
 
                 <div className="slider-description">
-                  <div className="first" style={{ width: Math.floor(90 / itemList.length) + '%' }}>
+                  <div className="first" style={{ width: `max(${minLabelWidth}%, 70px)` }}>
                     <img
                       src={itemList[0].image}
                       width="100%"
@@ -98,7 +117,7 @@ const SliderWidget = ({
                       {minLabel}
                     </div>
                   </div>
-                  <div className="last" style={{ width: Math.floor(90 / itemList.length) + '%' }}>
+                  <div className="last" style={{ width: `max(${minLabelWidth}%, 70px)` }}>
                     <img
                       src={itemList[itemList.length - 1].image}
                       width="100%"

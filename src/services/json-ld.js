@@ -26,8 +26,6 @@ import {
   MAX_VALUE,
   MEDIA,
   MIN_VALUE,
-  MIN_AGE,
-  MAX_AGE,
   MULTIPLE_CHOICE,
   MIN_VALUE_IMAGE,
   MAX_VALUE_IMAGE,
@@ -159,12 +157,6 @@ export const flattenValueConstraints = (vcObj) =>
     }
     if (key === MIN_VALUE) {
       return { ...accumulator, minValue: R.path([key, 0, "@value"], vcObj) };
-    }
-    if (key === MIN_AGE) {
-      return { ...accumulator, minAge: Number(R.path([key, 0, "@value"], vcObj)) };
-    }
-    if (key === MAX_AGE) {
-      return { ...accumulator, maxAge: Number(R.path([key, 0, "@value"], vcObj)) };
     }
     if (key === MULTIPLE_CHOICE) {
       return {

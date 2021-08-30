@@ -5,7 +5,6 @@ import { Formik, Form } from 'formik';
 // Widgets
 import Radio from '../../widgets/Radio';
 import Checkbox from '../../widgets/Checkbox';
-import AgeSelector from '../../widgets/AgeSelector';
 import TextInput from '../../widgets/TextInput';
 import Slider from '../../widgets/Slider/index';
 
@@ -31,9 +30,7 @@ const Item = (props) => {
       case "text":
         return <TextInput {...props} handleChange={onChange} values={values} />;
       case "slider":
-        return <Slider {...props} handleChange={onChange} />;
-      case "ageSelector":
-        return <AgeSelector {...props} handleChange={onChange} />;
+        return <Slider {...props} handleChange={onChange} values={values} />;
       default:
         return <div />;
     }

@@ -126,7 +126,7 @@ const Summary = styled(({ className, ...props }) => {
                 <div key={i}>
                   <p class="font-weight-bold mb-1">{item.category.replace(/_/g, ' ')}</p>
                   <div class="mb-4">
-                    <Markdown markdown={item.compute.description.replace(MARKDOWN_REGEX, '$1$2')} />
+                    <Markdown markdown={_.get(item, 'compute.description', '').replace(MARKDOWN_REGEX, '$1$2')} />
                   </div>
                   <img
                     className={cn('score-bar mb-4', { reverse: !item.compute.direction })}

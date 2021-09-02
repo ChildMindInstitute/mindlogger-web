@@ -178,7 +178,6 @@
     "no": "No",
     "response_submit": "Response Submit",
     "response_submit_text": "Would you like to submit response?",
-    "invalid_public_url": "This assessment is no longer accepting respondents",
-    "share_report": "Share Report"
+    "invalid_public_url": "This assessment is no longer accepting respondents"
   }
 }

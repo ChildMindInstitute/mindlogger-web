@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import _ from "lodash";
-import { 
+import {
   Form,
   Row,
   Card,
-  Col, 
+  Col,
   Image,
   OverlayTrigger,
   Tooltip
@@ -50,7 +50,9 @@ const Radio = (props) => {
       delay={{ show: 250, hide: 200 }}
       overlay={
         <Tooltip id="button-tooltip" style={{ display: obj.description ? 'block' : 'none'}}>
-          {obj.description || ''}
+          <Markdown
+            markdown={obj.description || ''}
+          />
         </Tooltip>
       }
     >

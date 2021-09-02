@@ -3,7 +3,7 @@ import _ from "lodash";
 import { Form, Row, Card, Col, Image } from 'react-bootstrap';
 
 import Navigator from './Navigator';
-import Markdown from '../components/Screens/Markdown';
+import Markdown from '../components/Markdown';
 import { isArray } from 'util';
 
 const AgeSelector = ({
@@ -28,7 +28,9 @@ const AgeSelector = ({
         <Col md={12}>
           <Card.Body>
             <Card.Title className="question">
-              <Markdown>{item.question.en}</Markdown>
+              <Markdown
+                markdown={item.question.en.replace(/(!\[.*\]\s*\(.*?) =\d*x\d*(\))/g, '$1$2')}
+              />
             </Card.Title>
             <Row className="no-gutters pl-5">
               <Form.Group controlId="SelectToBucket" as={Row}>

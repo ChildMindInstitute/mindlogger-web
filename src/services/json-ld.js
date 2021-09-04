@@ -1,5 +1,6 @@
 import * as R from "ramda";
 import moment from 'moment';
+import _ from 'lodash';
 import { Parse, Day } from 'dayspan';
 import { getStartOfInterval } from '../util/time';
 
@@ -61,6 +62,8 @@ import {
   RESPONSE_OPTIONS,
   VARIABLE_NAME,
   JS_EXPRESSION,
+  SCORE_OVERVIEW,
+  DIRECTION,
   VERSION,
   IS_VIS,
   ADD_PROPERTIES,
@@ -460,7 +463,9 @@ const transformPureActivity = (activityJson) => {
   const compute = activityJson[COMPUTE] && R.map((item) => {
     return {
       jsExpression: R.path([JS_EXPRESSION, 0, "@value"], item),
-      variableName: R.path([VARIABLE_NAME, 0, "@value"], item)
+      variableName: R.path([VARIABLE_NAME, 0, "@value"], item),
+      description: _.get(item, [DESCRIPTION, 0, "@value"]),
+      direction: _.get(item, [DIRECTION, 0, "@value"], true),
     }
   }, activityJson[COMPUTE]);
   const subScales = activityJson[SUBSCALES] && R.map((subScale) => {
@@ -505,6 +510,7 @@ const transformPureActivity = (activityJson) => {
     isReviewerActivity: R.path([IS_REVIEWER_ACTIVITY, 0, '@value'], activityJson) || false,
     hasResponseIdentifier: R.path([HAS_RESPONSE_IDENTIFIER, 0, "@value"], activityJson) || false,
     compute,
+    scoreOverview: _.get(activityJson, [SCORE_OVERVIEW, 0, "@value"], ""),
     subScales,
     finalSubScale,
     messages,

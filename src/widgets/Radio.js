@@ -12,6 +12,8 @@ import {
 
 import Navigator from './Navigator';
 import Markdown from '../components/Markdown';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faQuestion } from "@fortawesome/free-solid-svg-icons";
 
 const Radio = (props) => {
   const {
@@ -45,41 +47,49 @@ const Radio = (props) => {
   }
 
   const renderItem = (obj, index) => (
-    <OverlayTrigger
-      placement="left"
-      delay={{ show: 250, hide: 200 }}
-      overlay={
-        <Tooltip id="button-tooltip" style={{ display: obj.description ? 'block' : 'none'}}>
-          <Markdown
-            markdown={obj.description || ''}
-          />
-        </Tooltip>
+    <div className="response-option" style={{ background: obj.color ? obj.color : 'none' }}>
+      {
+         !obj.image && <div className="option-image"></div>
       }
-    >
-      <div className="response-option" style={{ background: obj.color ? obj.color : 'none' }}>
-        {
-          obj.image && <Image className="option-image" src={obj.image} roundedCircle /> ||
-          <div className="option-image"></div>
-        }
-        <Form.Check
-          label={obj.name.en}
-          name={item.variableName}
-          style={{ color: obj.color ? invertColor(obj.color) : "#333333" }}
-          type="radio"
-          checked={ answer && answer.value == (token ? obj.name.en : obj.value) }
-          onChange={
-            () => {
-              handleChange({ value: token ? obj.name.en : obj.value });
-              setChecked(token ? obj.name.en : obj.value);
-            }
+      {
+        obj.description &&
+        <OverlayTrigger
+          placement="bottom"
+          delay={{ show: 250, hide: 200 }}
+          overlay={
+            <Tooltip id="button-tooltip">
+              <Markdown
+                markdown={obj.description || ''}
+              />
+            </Tooltip>
           }
-          value={obj.value}
-          disabled={!isNextShown}
-          checked={checked == obj.value}
-          id={`${item.variableName}${index}`}
-        />
-      </div>
-    </OverlayTrigger>
+        >
+          <FontAwesomeIcon icon={faQuestion} className="tooltip-icon" />
+        </OverlayTrigger> ||
+        <div className="option-tooltip"></div>
+      }
+
+      {
+        obj.image && <Image className="option-image" src={obj.image} roundedCircle />
+      }
+      <Form.Check
+        label={obj.name.en}
+        name={item.variableName}
+        style={{ color: obj.color ? invertColor(obj.color) : "#333333" }}
+        type="radio"
+        checked={ answer && answer.value == (token ? obj.name.en : obj.value) }
+        onChange={
+          () => {
+            handleChange({ value: token ? obj.name.en : obj.value });
+            setChecked(token ? obj.name.en : obj.value);
+          }
+        }
+        value={obj.value}
+        disabled={!isNextShown}
+        checked={checked == obj.value}
+        id={`${item.variableName}${index}`}
+      />
+    </div>
   );
 
   const itemCount = item.valueConstraints.itemList.length;

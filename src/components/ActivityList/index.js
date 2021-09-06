@@ -101,7 +101,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
           || item.inputType === "text";
       });
 
-      return supportedItems.length && !act.isPrize;
+      return supportedItems.length && !act.isPrize && !act.isVis;
     });
     const prizeActs = appletData.activities.filter(act => act.isPrize);
 

@@ -32,7 +32,6 @@ export const Join = () => {
       await getInviteLink();
     })();
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inviteLinkId]);
 
   const getInviteLink = async () => {

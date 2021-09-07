@@ -103,7 +103,7 @@ const Summary = (props) => {
           type="submit"
           label={t("next")}
           classes="mr-5 mb-2 float-right"
-          handleClick={(e) => history.push(`/applet/${appletId}/dashboard`)}
+          handleClick={(e) => history.push(`/applet/${appletId}/activity_thanks`)}
         />
       </div>
     </Card>

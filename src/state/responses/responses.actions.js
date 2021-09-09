@@ -81,8 +81,8 @@ export const completeResponse = createAsyncThunk(RESPONSE_CONSTANTS.COMPLETE_RES
       dispatch(updateKeys(applet, userInfoSelector(state)));
     }
 
-    // state = getState()
-    // applet = currentAppletSelector(state)
+    state = getState()
+    applet = currentAppletSelector(state)
   }
 
   const responseHistory = currentAppletResponsesSelector(state);

@@ -76,7 +76,7 @@ const Screens = (props) => {
     await dispatch(completeResponse(false));
     setIsLoading(false);
 
-    if (activityAccess.compute && !isSummaryScreen) {
+    if (activityAccess.compute && !isSummaryScreen && !activityAccess.disableSummary) {
       setIsSummaryScreen(true);
       setShow(false);
 

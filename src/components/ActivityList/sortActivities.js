@@ -130,7 +130,7 @@ export const getPastdue = (activityList, finishedEvents) => {
 }
 
 export default (activityList, inProgress, finishedEvents, scheduleData) => {
-  const notInProgress = [];
+  let notInProgress = [];
   const inProgressActivities = [];
   const inProgressKeys = Object.keys(inProgress);
 

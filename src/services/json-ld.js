@@ -92,6 +92,7 @@ import {
   HAS_RESPONSE_IDENTIFIER,
   IS_RESPONSE_IDENTIFIER,
   IS_REVIEWER_ACTIVITY,
+  DISABLE_SUMMARY,
 } from '../constants';
 
 export const languageListToObject = (list) => {
@@ -499,6 +500,7 @@ const transformPureActivity = (activityJson) => {
     image: languageListToObject(activityJson[IMAGE]),
     skippable: isSkippable(allowList),
     backDisabled: allowList.includes(BACK_DISABLED),
+    disableSummary: allowList.includes(DISABLE_SUMMARY),
     fullScreen: allowList.includes(FULL_SCREEN),
     autoAdvance: allowList.includes(AUTO_ADVANCE),
     isPrize: R.path([ISPRIZE, 0, "@value"], activityJson) || false,

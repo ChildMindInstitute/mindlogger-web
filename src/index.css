@@ -86,6 +86,24 @@ code {
   }
 }
 
+.tooltip-icon {
+  color: gray;
+  border: 1px solid gray;
+  padding: 2px;
+  border-radius: 50%;
+  width: 20px !important;
+  height: 20px;
+}
+
+.option-tooltip {
+  width: 20px;
+}
+
+.option-tooltip, .tooltip-icon {
+  margin-right: 5px;
+  margin-top: 2px;
+}
+
 .option-image {
   height: 25px;
   min-width: 25px;

@@ -283,7 +283,7 @@ const Screens = (props) => {
       items.push(
         <Item
           data={data}
-          type={item.valueConstraints.multipleChoice ? "checkbox" : item.inputType}
+          type={item.inputType === "radio" && item.valueConstraints.multipleChoice ? "checkbox" : item.inputType}
           watermark={screenIndex === i ? applet.watermark : ''}
           key={item.id}
           item={{

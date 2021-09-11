@@ -45,6 +45,7 @@ const AcceptInvitation = () => {
 
       setStatus(Statuses.ACCEPTED)
       setInvitationText(body)
+      dispatch(setRedirectUrl(null));
     } catch {
       setStatus(Statuses.ERROR)
     }

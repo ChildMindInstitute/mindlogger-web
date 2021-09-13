@@ -76,7 +76,7 @@ const TextInput = ({
       <Navigator
         isBackShown={isBackShown}
         isNextShown={isNextShown}
-        isNextDisable={!answer}
+        isNextDisable={!value || !value.length}
         handleBack={handleBack}
         isSubmitShown={isSubmitShown}
         canSubmit={(e) => {

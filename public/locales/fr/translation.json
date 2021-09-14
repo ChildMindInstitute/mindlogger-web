@@ -110,6 +110,7 @@
     "loadingInvitation" : "Chargement de l'invitation",
     "invitationRemoved": "Invitation supprimée",
     "networkError": "Erreur réseau. Revenir ",
+    "invitationAlreadyRemoved": "Votre invitation a déjà été supprimée.",
     "home": "Maisons",
     "acceptInvitation": "Invitation acceptée"
   },

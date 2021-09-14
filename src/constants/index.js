@@ -76,7 +76,6 @@ export const SEX = "reprolib:terms/sex";
 export const T_SCORE = "reprolib:terms/tScore";
 export const OUTPUT_TEXT = "reprolib:terms/outputText";
 export const OUTPUT_TYPE = "reprolib:terms/outputType";
-export const NEXT_ACTIVITY = "reprolib:terms/nextActivity";
 export const RESPONSE_ALERT = "reprolib:terms/responseAlert";
 export const RANDOMIZE_OPTIONS = "reprolib:terms/randomizeOptions";
 export const CONTINOUS_SLIDER = "reprolib:terms/continousSlider";

@@ -45,6 +45,7 @@ const DeclineInvitation = () => {
 
       setStatus(Statuses.DECLINED)
       setInvitationText(body)
+      dispatch(setRedirectUrl(null));
     } catch {
       setStatus(Statuses.ERROR)
     }
@@ -61,7 +62,7 @@ const DeclineInvitation = () => {
   return (
     <div className="mt-3 pt-3 container">
       {isLoggedIn
-        ? 
+        ?
         <InvitationText status={status} invitationText={invitationText} />
         :
         <div className="heading">

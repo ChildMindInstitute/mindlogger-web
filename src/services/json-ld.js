@@ -95,6 +95,8 @@ import {
   HAS_RESPONSE_IDENTIFIER,
   IS_RESPONSE_IDENTIFIER,
   IS_REVIEWER_ACTIVITY,
+  DISABLE_SUMMARY,
+  NEXT_ACTIVITY
 } from '../constants';
 
 export const languageListToObject = (list) => {
@@ -490,6 +492,7 @@ const transformPureActivity = (activityJson) => {
       message: R.path([MESSAGE, 0, "@value"], item),
       jsExpression: R.path([JS_EXPRESSION, 0, "@value"], item),
       outputType: R.path([OUTPUT_TYPE, 0, "@value"], item),
+      nextActivity: R.path([NEXT_ACTIVITY, 0, "@value"], item),
     }
   }, activityJson[MESSAGES]);
 
@@ -504,6 +507,7 @@ const transformPureActivity = (activityJson) => {
     image: languageListToObject(activityJson[IMAGE]),
     skippable: isSkippable(allowList),
     backDisabled: allowList.includes(BACK_DISABLED),
+    disableSummary: allowList.includes(DISABLE_SUMMARY),
     fullScreen: allowList.includes(FULL_SCREEN),
     autoAdvance: allowList.includes(AUTO_ADVANCE),
     isPrize: R.path([ISPRIZE, 0, "@value"], activityJson) || false,

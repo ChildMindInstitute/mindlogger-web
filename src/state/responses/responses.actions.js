@@ -81,8 +81,8 @@ export const completeResponse = createAsyncThunk(RESPONSE_CONSTANTS.COMPLETE_RES
       dispatch(updateKeys(applet, userInfoSelector(state)));
     }
 
-    // state = getState()
-    // applet = currentAppletSelector(state)
+    state = getState()
+    applet = currentAppletSelector(state)
   }
 
   const responseHistory = currentAppletResponsesSelector(state);
@@ -121,7 +121,7 @@ export const completeResponse = createAsyncThunk(RESPONSE_CONSTANTS.COMPLETE_RES
     dispatch(
       removeResponseInProgress(activity.event ? activity.id + activity.event.id : activity.id)
     );
-  }, 100);
+  }, 200);
 })
 
 export const downloadResponses = createAsyncThunk(RESPONSE_CONSTANTS.DOWNLOAD_RESPONSES, async (args, { dispatch, getState }) => {

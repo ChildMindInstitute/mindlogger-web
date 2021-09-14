@@ -40,6 +40,10 @@ const Invitation = () => {
 
       setInvitationText(body);
       setStatus(acceptable ? Statuses.READY : Statuses.ALREADY_ACCEPTED);
+
+      if (!acceptable) {
+        dispatch(setRedirectUrl(null));
+      }
     } catch (error) {
       setStatus(Statuses.ERROR);
     }
@@ -57,6 +61,7 @@ const Invitation = () => {
 
       setStatus(Statuses.ACCEPTED);
       setInvitationText(body);
+      dispatch(setRedirectUrl(null));
     } catch (error) {
       setStatus(Statuses.ERROR);
     }
@@ -74,6 +79,7 @@ const Invitation = () => {
 
       setStatus(Statuses.REMOVED);
       setInvitationText(body);
+      dispatch(setRedirectUrl(null));
     } catch (error) {
       setStatus(Statuses.ERROR);
     }

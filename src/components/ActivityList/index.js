@@ -12,13 +12,14 @@ import {
   Col,
 } from 'react-bootstrap'
 import Avatar from 'react-avatar';
+import _ from 'lodash';
 
 // Local
 import { delayedExec, clearExec } from '../../util/interval';
 import sortActivities from './sortActivities';
 import { inProgressSelector, currentScreenIndexSelector } from '../../state/responses/responses.selectors';
 import { finishedEventsSelector } from '../../state/app/app.selectors';
-import { appletsSelector } from '../../state/applet/applet.selectors';
+import { appletCumulativeActivities, appletsSelector } from '../../state/applet/applet.selectors';
 import { setCurrentActivity } from '../../state/app/app.reducer';
 import { setCurrentScreen } from '../../state/responses/responses.reducer';
 import { createResponseInProgress, setAnswer } from '../../state/responses/responses.reducer';
@@ -33,6 +34,7 @@ import './style.css'
 export const ActivityList = ({ inProgress, finishedEvents }) => {
   const { appletId, publicId } = useParams();
   const applets = useSelector(appletsSelector);
+  const cumulativeActivities = useSelector(appletCumulativeActivities);
   const history = useHistory();
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -92,7 +94,32 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
 
   const updateActivites = () => {
     const appletData = parseAppletEvents(currentApplet);
-    const appletActivities = appletData.activities.filter(act => {
+    const prizeActs = appletData.activities.filter(act => act.isPrize);
+
+    if (prizeActs.length === 1) {
+      setPrizeActivity(prizeActs[0]);
+    }
+
+    const notShownActs = [];
+    for (let index = 0; index < appletData.activities.length; index++) {
+      const act = appletData.activities[index];
+      if (act.messages && (act.messages[0].nextActivity || act.messages[1].nextActivity)) notShownActs.push(act);
+    }
+    const appletActivities = [];
+
+    for (let index = 0; index < appletData.activities.length; index++) {
+      let isNextActivityShown = true;
+      const act = appletData.activities[index];
+
+      for (let index = 0; index < notShownActs.length; index++) {
+        const notShownAct = notShownActs[index];
+        const alreadyAct = cumulativeActivities && cumulativeActivities[`${notShownAct.id}/nextActivity`];
+
+        isNextActivityShown = alreadyAct && alreadyAct.includes(act.name.en)
+          ? true
+          : checkActivityIsShown(act.name.en, notShownAct.messages)
+      }
+
       const supportedItems = act.items.filter(item => {
         return item.inputType === "radio"
           || item.inputType === "checkox"
@@ -101,16 +128,16 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
           || item.inputType === "text";
       });
 
-      return supportedItems.length && !act.isPrize;
-    });
-    const prizeActs = appletData.activities.filter(act => act.isPrize);
-
-    if (prizeActs.length === 1) {
-      setPrizeActivity(prizeActs[0]);
+      if (supportedItems.length && act.isPrize != true && isNextActivityShown && act.isReviewerActivity != true)
+        appletActivities.push(act);
     }
 
-    const temp = sortActivities(appletActivities, inProgress, finishedEvents, currentApplet.schedule?.data);
-    setActivities(temp);
+    setActivities(sortActivities(appletActivities, inProgress, finishedEvents, currentApplet.schedule?.data));
+  }
+
+  const checkActivityIsShown = (name, messages) => {
+    if (!name || !messages) return true;
+    return _.findIndex(messages, { nextActivity: name }) === -1;
   }
 
   const onPressActivity = (activity) => {

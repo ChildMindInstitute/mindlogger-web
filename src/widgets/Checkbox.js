@@ -13,6 +13,9 @@ import {
 import Navigator from './Navigator';
 import Markdown from '../components/Markdown';
 import { isArray } from 'util';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faQuestion } from "@fortawesome/free-solid-svg-icons";
+
 
 const Checkbox = ({
   item, isBackShown, isNextShown, handleChange, handleBack, isSubmitShown, values, ...props
@@ -51,35 +54,43 @@ const Checkbox = ({
   }
 
   const renderItem = (obj, index) => (
-    <OverlayTrigger
-      placement="left"
-      delay={{ show: 250, hide: 200 }}
-      overlay={
-        <Tooltip id="button-tooltip" style={{ display: obj.description ? 'block' : 'none' }}>
-          <Markdown
-            markdown={obj.description || ''}
-          />
-        </Tooltip>
+    <div className="response-option" style={{ background: obj.color ? obj.color : 'none' }}>
+      {
+         !obj.image && <div className="option-image"></div>
       }
-    >
-      <div className="response-option" style={{ background: obj.color ? obj.color : 'none' }}>
-        {
-          obj.image && <Image className="option-image" src={obj.image} roundedCircle /> ||
-          <div className="option-image"></div>
-        }
-        <Form.Check
-          type="checkbox"
-          name={item.variableName}
-          id={`${item.variableName}${index}`}
-          style={{ color: obj.color ? invertColor(obj.color) : "#333333" }}
-          value={obj.value}
-          label={obj.name.en}
-          disabled={!isNextShown}
-          defaultChecked={props.answer && Array.isArray(props.answer.value) && props.answer.value.includes(obj.value)}
-          onChange={(v) => onChangeValue(token ? obj.name.en : obj.value)}
-        />
-      </div>
-    </OverlayTrigger>
+      {
+        obj.description &&
+        <OverlayTrigger
+          placement="bottom"
+          delay={{ show: 250, hide: 200 }}
+          overlay={
+            <Tooltip id="button-tooltip">
+              <Markdown
+                markdown={obj.description || ''}
+              />
+            </Tooltip>
+          }
+        >
+          <FontAwesomeIcon icon={faQuestion} className="tooltip-icon" />
+        </OverlayTrigger> ||
+        <div className="option-tooltip"></div>
+      }
+
+      {
+        obj.image && <Image className="option-image" src={obj.image} roundedCircle />
+      }
+      <Form.Check
+        type="checkbox"
+        name={item.variableName}
+        id={`${item.variableName}${index}`}
+        style={{ color: obj.color ? invertColor(obj.color) : "#333333" }}
+        value={obj.value}
+        label={obj.name.en}
+        disabled={!isNextShown}
+        defaultChecked={props.answer && Array.isArray(props.answer.value) && props.answer.value.includes(obj.value)}
+        onChange={(v) => onChangeValue(token ? obj.name.en : obj.value)}
+      />
+    </div>
   );
 
   const itemCount = item.valueConstraints.itemList.length;

@@ -179,5 +179,9 @@
     "response_submit": "Response Submit",
     "response_submit_text": "Would you like to submit response?",
     "invalid_public_url": "This assessment is no longer accepting respondents"
+  },
+  "timed_activity":{
+    "time_to_complete": "Time to complete",
+    "hours" : "hours"
   }
 }

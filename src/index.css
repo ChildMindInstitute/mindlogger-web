@@ -88,9 +88,7 @@ code {
 
 .tooltip-icon {
   color: gray;
-  border: 1px solid gray;
   padding: 2px;
-  border-radius: 50%;
   width: 20px !important;
   height: 20px;
 }

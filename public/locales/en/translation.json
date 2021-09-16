@@ -110,6 +110,7 @@
     "loadingInvitation": "Loading Invitation",
     "invitationRemoved": "Invitation Removed",
     "networkError": "Network Error. Return ",
+    "invitationAlreadyRemoved": "Your invitation has already been removed.",
     "home": "Home",
     "acceptInvitation": "Invitation Accepted"
   },

@@ -13,9 +13,7 @@ import {
 import Navigator from './Navigator';
 import Markdown from '../components/Markdown';
 import { isArray } from 'util';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faQuestion } from "@fortawesome/free-solid-svg-icons";
-
+import questionMark from '../assets/question-mark.svg';
 
 const Checkbox = ({
   item, isBackShown, isNextShown, handleChange, handleBack, isSubmitShown, values, ...props
@@ -71,7 +69,7 @@ const Checkbox = ({
             </Tooltip>
           }
         >
-          <FontAwesomeIcon icon={faQuestion} className="tooltip-icon" />
+          <Image src={questionMark} className="tooltip-icon" />
         </OverlayTrigger> ||
         <div className="option-tooltip"></div>
       }

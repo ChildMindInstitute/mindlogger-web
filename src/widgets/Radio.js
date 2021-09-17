@@ -12,8 +12,7 @@ import {
 
 import Navigator from './Navigator';
 import Markdown from '../components/Markdown';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faQuestion } from "@fortawesome/free-solid-svg-icons";
+import questionMark from '../assets/question-mark.svg';
 
 const Radio = (props) => {
   const {
@@ -64,7 +63,7 @@ const Radio = (props) => {
             </Tooltip>
           }
         >
-          <FontAwesomeIcon icon={faQuestion} className="tooltip-icon" />
+          <Image src={questionMark} className="tooltip-icon" />
         </OverlayTrigger> ||
         <div className="option-tooltip"></div>
       }

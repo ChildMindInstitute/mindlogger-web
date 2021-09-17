@@ -1,9 +1,10 @@
-
 import { createAsyncThunk } from "@reduxjs/toolkit";
+
 import RESPONSE_CONSTANTS from './responses.constants';
 import { authTokenSelector, userInfoSelector, loggedInSelector } from "../user/user.selectors";
 import { prepareResponseKeys } from '../applet/applet.reducer';
-import { currentAppletSelector, currentActivitySelector } from '../app/app.selectors';
+import { setFinishedEvents } from '../app/app.reducer';
+import { currentAppletSelector, currentActivitySelector, currentEventSelector } from '../app/app.selectors';
 import { getPrivateKey } from '../../services/encryption';
 import {
   currentResponsesSelector,
@@ -63,7 +64,7 @@ export const completeResponse = createAsyncThunk(RESPONSE_CONSTANTS.COMPLETE_RES
   let applet = currentAppletSelector(state);
   const inProgressResponse = currentResponsesSelector(state);
   const activity = currentActivitySelector(state);
-  // const event = currentEventSelector(state);
+  const event = currentEventSelector(state);
 
   if ((!applet.AESKey || !applet.userPublicKey || applet.publicId)) {
     if (applet.publicId) {
@@ -115,6 +116,8 @@ export const completeResponse = createAsyncThunk(RESPONSE_CONSTANTS.COMPLETE_RES
     dispatch(addToUploadQueue(preparedResponse));
     await dispatch(startUploadQueue());
   }
+
+  if (event) dispatch(setFinishedEvents(event));
 
   setTimeout(() => {
     const { activity } = inProgressResponse;

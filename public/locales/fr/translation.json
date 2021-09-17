@@ -110,6 +110,7 @@
     "loadingInvitation" : "Chargement de l'invitation",
     "invitationRemoved": "Invitation supprimée",
     "networkError": "Erreur réseau. Revenir ",
+    "invitationAlreadyRemoved": "Votre invitation a déjà été supprimée.",
     "home": "Maisons",
     "acceptInvitation": "Invitation acceptée"
   },
@@ -177,5 +178,6 @@
     "response_submit": "Soumettre une réponse",
     "response_submit_text": "Souhaitez-vous soumettre une réponse?",
     "invalid_public_url": "Cette évaluation n'accepte plus de répondants"
-  }
+  },
+  "no_markdown": "Les auteurs de cette applet n'ont fourni aucune information !"
 }

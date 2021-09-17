@@ -165,7 +165,7 @@ const Summary = styled(({ className, ...props }) => {
         </div>
         <MyButton
           type="submit"
-          label={t('next')}
+          label={t("Consent.next")}
           classes="mr-5 mb-2 float-right"
           handleClick={(e) => history.push(`/applet/${appletId}/activity_thanks`)}
         />

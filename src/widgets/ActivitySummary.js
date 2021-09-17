@@ -213,7 +213,8 @@ const Summary = styled(({ className, ...props }) => {
                   </p>
 
                   <div className="mb-4">
-                    Your/Your child’s score on the {item.category.replace(/_/g, ' ')} subscale was {item.scoreValue}.
+                    Your/Your child’s score on the {item.category.replace(/_/g, ' ')} subscale was{' '}
+                    <span className="text-danger">{item.scoreValue}</span>.
                     <Markdown markdown={item.message.replace(MARKDOWN_REGEX, '$1$2')} />
                   </div>
                 </div>

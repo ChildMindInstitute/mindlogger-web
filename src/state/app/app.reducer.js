@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-import APP_CONSTANTS from './app.constants'
 import config from '../../util/config'
 
 export const initialState = {
@@ -14,6 +13,7 @@ export const initialState = {
   mobileDataAllowed: true,
   lastUpdatedTime: {},
   finishedEvents: {},
+  startedTimes: {},
   responses: [],
   redirectUrl: null
 }
@@ -27,13 +27,15 @@ const AppSlice = createSlice({
     setSkin: (state, action) => { state.skin = action.payload },
     setUpdatedTime: (state, action) => { state.lastUpdatedTime = action.payload },
     setCurrentApplet: (state, action) => { state.currentApplet = action.payload },
-    setCurrentActivity: (state, action) => { state.currentActivity = action.payload },
+    setCurrentActivity: (state, action) => { state.currentActivity = action.payload.id },
     setAppletSelectionDisabled: (state, action) => { state.appletSelectionDisabled = action.payload },
-    setFinishedEvents: (state, action) => { state.finishedEvents = action.payload },
+    setFinishedEvents: (state, action) => { state.finishedEvents = { ...state.finishedEvents, [action.payload]: Date.now() } },
     setActivitySelectionDisabled: (state, action) => { state.activitySelectionDisabled = action.payload },
     setAppStatus: (state, action) => { state.appStatus = action.payload },
     toggleMobileDataAllowed: (state, action) => { state.mobileDataAllowed = !state.mobileDataAllowed },
     setRedirectUrl: (state, action) => { state.redirectUrl = action.payload },
+    setActivityStartTime: (state, action) => { state.startedTimes = { ...state.startedTimes, [action.payload]: Date.now() } },
+    clearActivityStartTime: (state, action) => { state.startedTimes = { ...state.startedTimes, [action.payload]: "" } },
   }
 })
 
@@ -51,4 +53,6 @@ export const {
   setRedirectUrl,
   toggleMobileDataAllowed,
   resetApiHost,
+  setActivityStartTime,
+  clearActivityStartTime
 } = AppSlice.actions;

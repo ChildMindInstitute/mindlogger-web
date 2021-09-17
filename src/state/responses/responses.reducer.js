@@ -14,6 +14,7 @@ export const initialState = {
   uploadQueue: [],
   schedule: {},
   activityOpened: false,
+  currentEvent: null,
 };
 
 const responseSlice = createSlice({
@@ -22,6 +23,7 @@ const responseSlice = createSlice({
   reducers: {
     createResponseInProgress: (state, action) => {
       const { activity, event, subjectId, timeStarted } = action.payload;
+      if (event) state.currentEvent = event.id.toString();
 
       state.inProgress[activity.id] = {
         responses: new Array(activity.items.length),

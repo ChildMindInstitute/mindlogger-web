@@ -256,7 +256,6 @@ const Summary = styled(({ className, ...props }) => {
     width: 100%;
     max-width: 400px;
     padding: 60px 0 20px;
-    box-sizing: border-box;
 
     .score-bar {
       height: 40px;

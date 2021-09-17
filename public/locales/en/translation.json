@@ -181,6 +181,7 @@
     "response_submit_text": "Would you like to submit response?",
     "invalid_public_url": "This assessment is no longer accepting respondents"
   },
+  "no_markdown": "The authors of this applet have not provided any information!",
   "timed_activity":{
     "time_to_complete": "Time to complete",
     "hours" : "hours"

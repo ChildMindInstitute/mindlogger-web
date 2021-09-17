@@ -64,7 +64,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
       } else if (aboutContent && aboutContent.en) {
         setMarkDown(aboutContent.en);
       } else {
-        setMarkDown("The authors of this applet have not provided any information!");
+        setMarkDown(t('no_markdown'));
       }
     }
 

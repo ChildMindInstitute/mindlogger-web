@@ -176,8 +176,8 @@ const Summary = styled(({ className, ...props }) => {
             {messages &&
               messages.map((item, i) => (
                 <div key={i}>
-                  <p class="font-weight-bold mb-1">{item.category.replace(/_/g, ' ')}</p>
-                  <div class="mb-4">
+                  <p className="font-weight-bold mb-1">{item.category.replace(/_/g, ' ')}</p>
+                  <div className="mb-4">
                     <Markdown markdown={_.get(item, 'compute.description', '').replace(MARKDOWN_REGEX, '$1$2')} />
                   </div>
                   <div className="score-area">
@@ -200,16 +200,16 @@ const Summary = styled(({ className, ...props }) => {
                       })}
                     />
                     <div
-                      className={cn('score-spliter')}
+                      className="score-spliter"
                       style={{ left: `${(item.scoreValue / item.maxScoreValue) * 100}%` }}
                     />
                     <p className="score-max-value">
                       <strong>{item.maxScoreValue}</strong>
                     </p>
                   </div>
-                  <p class="text-uppercase font-weight-bold font-italic mb-1">
+                  <p className="text-uppercase font-weight-bold font-italic mb-1">
                     If score
-                    <span class="ml-2">{item.jsExpression}</span>
+                    <span className="ml-2">{item.jsExpression}</span>
                   </p>
 
                   <div className="mb-4">
@@ -219,7 +219,7 @@ const Summary = styled(({ className, ...props }) => {
                   </div>
                 </div>
               ))}
-            <p class="mb-5">{termsText}</p>
+            <p className="mb-5">{termsText}</p>
             <p>{footerText}</p>
           </PDFExport>
         </div>

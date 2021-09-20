@@ -23,18 +23,6 @@ export default ({ user }) => {
   const [expanded, setExpanded] = useState(false)
   const ref = useRef();
 
-  useEffect(() => {
-    const onMouseDown = (evt) => {
-      const src = evt.srcElement;
-      if (!ref.current.contains(src)) {
-        setExpanded(false);
-      }
-    };
-
-    window.addEventListener('mousedown', onMouseDown);
-
-    return () => window.removeEventListener(onMouseDown);
-  }, []);
 
   return (
     <Navbar
@@ -50,20 +38,20 @@ export default ({ user }) => {
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="mr-auto">
+        <Nav onClick={() => setExpanded(false)} className="mr-auto">
           {/* <Nav.Link onClick={() => history.push('/applet')}>
             {t('Navbar.applets')}
           </Nav.Link> */}
         </Nav>
         <Nav className="ml-auto">
-          <UserInfoDropdown user={user} />
+          <UserInfoDropdown user={user} setExpanded={setExpanded} />
         </Nav>
       </Navbar.Collapse>
     </Navbar>
   )
 }
 
-const UserInfoDropdown = ({ user }) => {
+const UserInfoDropdown = ({ user, setExpanded }) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const history = useHistory()
@@ -71,13 +59,29 @@ const UserInfoDropdown = ({ user }) => {
   const logOut = () => {
     dispatch(doLogout())
     dispatch(push('/login'))
+    setExpanded(false);
+  }
+
+  const onSettings = () => {
+    history.push('/changepassword');
+    setExpanded(false);
+  }
+
+  const onLogin = () => {
+    history.push('/login')
+    setExpanded(false);
+  }
+
+  const onProfileSelect = () => {
+    history.push('/profile')
+    setExpanded(false);
   }
 
   if (user) {
     return (
       <Row>
         <Col xs={12} md={6} className="App container justify-content-center">
-          <LanguageDropdown />
+          <LanguageDropdown setExpanded={setExpanded} />
         </Col>
 
         <Col xs={12} md={6} className="App container justify-content-center">
@@ -87,10 +91,10 @@ const UserInfoDropdown = ({ user }) => {
             className="text-center drop-down"
             size="xxl"
           >
-            <NavDropdown.Item onClick={() => history.push('/changepassword')}>
+            <NavDropdown.Item onClick={onSettings}>
               {t('Navbar.settings')}
             </NavDropdown.Item>
-            <NavDropdown.Item onClick={() => history.push('/profile')}>
+            <NavDropdown.Item onClick={onProfileSelect}>
               {t('Navbar.profile')}
             </NavDropdown.Item>
             <NavDropdown.Divider />
@@ -105,10 +109,10 @@ const UserInfoDropdown = ({ user }) => {
     return (
       <Row>
         <Col xs={12} md={6} className="App container justify-content-center">
-          <LanguageDropdown />
+          <LanguageDropdown setExpanded={setExpanded} />
         </Col>
         <Col xs={12} md={6} className="App container justify-content-center">
-          <Nav.Link onClick={() => history.push('/login')}>
+          <Nav.Link onClick={onLogin}>
             {t('Navbar.logIn')}
           </Nav.Link>
         </Col>
@@ -117,7 +121,7 @@ const UserInfoDropdown = ({ user }) => {
   }
 }
 
-const LanguageDropdown = () => {
+const LanguageDropdown = ({ setExpanded }) => {
   const { t, i18n } = useTranslation()
   const [language, setLanguage] = useState(i18n.language || Languages.ENGLISH)
 
@@ -145,10 +149,10 @@ const LanguageDropdown = () => {
       id="dropdown-menu-align-right"
       onSelect={changeLanguage}
     >
-      <Dropdown.Item eventKey={Languages.ENGLISH}>
+      <Dropdown.Item onClick={() => setExpanded(false)} eventKey={Languages.ENGLISH}>
         {t('Navbar.english')}
       </Dropdown.Item>
-      <Dropdown.Item eventKey={Languages.FRENCH}>
+      <Dropdown.Item onClick={() => setExpanded(false)} eventKey={Languages.FRENCH}>
         {t('Navbar.french')}
       </Dropdown.Item>
     </DropdownButton>

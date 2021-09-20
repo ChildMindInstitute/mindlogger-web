@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import _ from "lodash";
+import _ from 'lodash';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import { Card, Row, Col } from 'react-bootstrap';
@@ -22,9 +22,10 @@ import { appletCumulativeActivities } from '../state/applet/applet.selectors';
 import { getScoreFromResponse, evaluateScore, getMaxScore } from '../services/scoring';
 
 const MARKDOWN_REGEX = /(!\[.*\]\s*\(.*?) =\d*x\d*(\))/g;
-const termsText = "I understand that the information provided by this questionnaire is not intended to replace the advice, diagnosis, or treatment offered by a medical or mental health professional, and that my anonymous responses may be used and shared for general research on children’s mental health.";
-const footerText = "CHILD MIND INSTITUTE, INC. AND CHILD MIND MEDICAL PRACTICE, PLLC (TOGETHER, “CMI”) DOES NOT DIRECTLY OR INDIRECTLY PRACTICE MEDICINE OR DISPENSE MEDICAL ADVICE AS PART OF THIS QUESTIONNAIRE. CMI ASSUMES NO LIABILITY FOR ANY DIAGNOSIS, TREATMENT, DECISION MADE, OR ACTION TAKEN IN RELIANCE UPON INFORMATION PROVIDED BY THIS QUESTIONNAIRE, AND ASSUMES NO RESPONSIBILITY FOR YOUR USE OF THIS QUESTIONNAIRE.";
-
+const termsText =
+  'I understand that the information provided by this questionnaire is not intended to replace the advice, diagnosis, or treatment offered by a medical or mental health professional, and that my anonymous responses may be used and shared for general research on children’s mental health.';
+const footerText =
+  'CHILD MIND INSTITUTE, INC. AND CHILD MIND MEDICAL PRACTICE, PLLC (TOGETHER, “CMI”) DOES NOT DIRECTLY OR INDIRECTLY PRACTICE MEDICINE OR DISPENSE MEDICAL ADVICE AS PART OF THIS QUESTIONNAIRE. CMI ASSUMES NO LIABILITY FOR ANY DIAGNOSIS, TREATMENT, DECISION MADE, OR ACTION TAKEN IN RELIANCE UPON INFORMATION PROVIDED BY THIS QUESTIONNAIRE, AND ASSUMES NO RESPONSIBILITY FOR YOUR USE OF THIS QUESTIONNAIRE.';
 
 const Summary = styled(({ className, ...props }) => {
   const { appletId, activityId } = useParams();
@@ -51,25 +52,37 @@ const Summary = styled(({ className, ...props }) => {
           comparison: true,
         });
 
-        let scores = [], maxScores = [];
+        let scores = [],
+          maxScores = [];
         for (let i = 0; i < activity.items.length; i++) {
           const { variableName } = activity.items[i];
-          let score = getScoreFromResponse(activity.items[i], responses[i][variableName] ? responses[i][variableName] : responses[i]);
+          let score = getScoreFromResponse(
+            activity.items[i],
+            responses[i][variableName] ? responses[i][variableName] : responses[i],
+          );
           scores.push(score);
-          maxScores.push(getMaxScore(activity.items[i]))
+          maxScores.push(getMaxScore(activity.items[i]));
         }
 
         const cumulativeScores = activity.compute.reduce((accumulator, itemCompute) => {
           return {
             ...accumulator,
-            [itemCompute.variableName.trim().replace(/\s/g, '__')]: evaluateScore(itemCompute.jsExpression, activity.items, scores),
+            [itemCompute.variableName.trim().replace(/\s/g, '__')]: evaluateScore(
+              itemCompute.jsExpression,
+              activity.items,
+              scores,
+            ),
           };
         }, {});
 
         const cumulativeMaxScores = activity.compute.reduce((accumulator, itemCompute) => {
           return {
             ...accumulator,
-            [itemCompute.variableName.trim().replace(/\s/g, '__')]: evaluateScore(itemCompute.jsExpression, activity.items, maxScores),
+            [itemCompute.variableName.trim().replace(/\s/g, '__')]: evaluateScore(
+              itemCompute.jsExpression,
+              activity.items,
+              maxScores,
+            ),
           };
         }, {});
 
@@ -78,24 +91,39 @@ const Summary = styled(({ className, ...props }) => {
         activity.messages.forEach((msg) => {
           const { jsExpression, message, outputType, nextActivity } = msg;
 
-          const variableName = jsExpression.split(/[><]/g)[0];
+          const exprArr = jsExpression.split(/[><]/g);
+          const variableName = exprArr[0];
+          const exprValue = parseFloat(exprArr[1].split(' ')[1]);
           const category = variableName.trim().replace(/\s/g, '__');
           const expr = parser.parse(category + jsExpression.substr(variableName.length));
 
           const variableScores = {
-            [category]: outputType == 'percentage' ? Math.round(cumulativeMaxScores[category] ? cumulativeScores[category] * 100 / cumulativeMaxScores[category] : 0) : cumulativeScores[category]
-          }
+            [category]:
+              outputType == 'percentage'
+                ? Math.round(
+                    cumulativeMaxScores[category]
+                      ? (cumulativeScores[category] * 100) / cumulativeMaxScores[category]
+                      : 0,
+                  )
+                : cumulativeScores[category],
+          };
 
           if (expr.evaluate(variableScores)) {
             if (nextActivity) cumActivities.push(nextActivity);
 
-            const compute = activity.compute.find(itemCompute => itemCompute.variableName.trim() == variableName.trim())
+            const compute = activity.compute.find(
+              (itemCompute) => itemCompute.variableName.trim() == variableName.trim(),
+            );
 
             reportMessages.push({
               category,
               message,
               score: variableScores[category] + (outputType == 'percentage' ? '%' : ''),
               compute,
+              jsExpression: jsExpression.substr(variableName.length),
+              scoreValue: cumulativeScores[category],
+              maxScoreValue: cumulativeMaxScores[category],
+              exprValue: outputType == 'percentage' ? (exprValue * cumulativeMaxScores[category]) / 100 : exprValue,
             });
           }
         });
@@ -116,20 +144,23 @@ const Summary = styled(({ className, ...props }) => {
   }, [response && Object.keys(response).length > 1]);
 
   return (
-    <Card className={cn("mb-3", className)}>
+    <Card className={cn('mb-3', className)}>
       <Row className="no-gutters">
         <Col md={12}>
           <Card.Body>
-            {messages && messages.map((item, i) => (
-              <>
-                <div key={i}>
-                  <h1>{item.category.replace(/_/g, ' ')}</h1>
-                  <h3><strong>{item.score}</strong></h3>
-                  <Markdown markdown={item.message.replace(MARKDOWN_REGEX, '$1$2')} />
-                </div>
-                {messages.length > 1 && <div key={`${i}-hr`} className="hr" />}
-              </>
-            ))}
+            {messages &&
+              messages.map((item, i) => (
+                <>
+                  <div key={i}>
+                    <h1>{item.category.replace(/_/g, ' ')}</h1>
+                    <h3>
+                      <strong>{item.score}</strong>
+                    </h3>
+                    <Markdown markdown={item.message.replace(MARKDOWN_REGEX, '$1$2')} />
+                  </div>
+                  {messages.length > 1 && <div key={`${i}-hr`} className="hr" />}
+                </>
+              ))}
           </Card.Body>
         </Col>
       </Row>
@@ -145,27 +176,56 @@ const Summary = styled(({ className, ...props }) => {
             {messages &&
               messages.map((item, i) => (
                 <div key={i}>
-                  <p class="font-weight-bold mb-1">{item.category.replace(/_/g, ' ')}</p>
-                  <div class="mb-4">
+                  <p className="font-weight-bold mb-1">{item.category.replace(/_/g, ' ')}</p>
+                  <div className="mb-4">
                     <Markdown markdown={_.get(item, 'compute.description', '').replace(MARKDOWN_REGEX, '$1$2')} />
                   </div>
-                  <img
-                    className={cn('score-bar mb-4', { reverse: !item.compute.direction })}
-                    src="https://raw.githubusercontent.com/ChildMindInstitute/mindlogger-app/master/img/score_bar.png"
-                  />
-                  <h3><strong>{item.score}</strong></h3>
+                  <div className="score-area">
+                    <p
+                      className="score-title text-nowrap"
+                      style={{ left: `${(item.scoreValue / item.maxScoreValue) * 100}%` }}>
+                      Your/Your Child’s Score
+                    </p>
+                    <div
+                      className={cn('score-bar score-below', {
+                        'score-positive': item.compute.direction,
+                        'score-negative': !item.compute.direction,
+                      })}
+                      style={{ width: `${(item.exprValue / item.maxScoreValue) * 100}%` }}
+                    />
+                    <div
+                      className={cn('score-bar score-above', {
+                        'score-positive': !item.compute.direction,
+                        'score-negative': item.compute.direction,
+                      })}
+                    />
+                    <div
+                      className="score-spliter"
+                      style={{ left: `${(item.scoreValue / item.maxScoreValue) * 100}%` }}
+                    />
+                    <p className="score-max-value">
+                      <strong>{item.maxScoreValue}</strong>
+                    </p>
+                  </div>
+                  <p className="text-uppercase font-weight-bold font-italic mb-1">
+                    If score
+                    <span className="ml-2">{item.jsExpression}</span>
+                  </p>
+
                   <div className="mb-4">
+                    Your/Your child’s score on the {item.category.replace(/_/g, ' ')} subscale was{' '}
+                    <span className="text-danger">{item.scoreValue}</span>.
                     <Markdown markdown={item.message.replace(MARKDOWN_REGEX, '$1$2')} />
                   </div>
                 </div>
               ))}
-            <p class="mb-5">{termsText}</p>
+            <p className="mb-5">{termsText}</p>
             <p>{footerText}</p>
           </PDFExport>
         </div>
         <MyButton
           type="submit"
-          label={t("Consent.next")}
+          label={t('Consent.next')}
           classes="mr-5 mb-2 float-right"
           handleClick={(e) => history.push(`/applet/${appletId}/activity_thanks`)}
         />
@@ -191,12 +251,43 @@ const Summary = styled(({ className, ...props }) => {
     left: -2000px;
     top: 0;
   }
-  .score-bar {
+  .score-area {
+    position: relative;
+    display: flex;
     width: 100%;
-  }
-  .score-bar.reverse{
-    -webkit-transform: scaleX(-1);
-    transform: scaleX(-1);
+    max-width: 400px;
+    padding: 60px 0 20px;
+
+    .score-bar {
+      height: 40px;
+    }
+    .score-positive {
+      background-color: #a1cd63;
+    }
+    .score-negative {
+      background-color: #b02318;
+    }
+    .score-above {
+      flex: 1;
+    }
+    .score-spliter {
+      position: absolute;
+      top: 40px;
+      width: 5px;
+      height: 80px;
+      background-color: #000;
+    }
+    .score-title {
+      position: absolute;
+      top: 0;
+      transform: translateX(-50%);
+    }
+    .score-max-value {
+      position: absolute;
+      margin: 0;
+      right: 0;
+      bottom: 0;
+    }
   }
 `;
 

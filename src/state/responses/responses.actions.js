@@ -113,6 +113,7 @@ export const completeResponse = createAsyncThunk(RESPONSE_CONSTANTS.COMPLETE_RES
 
   } else {
     const preparedResponse = prepareResponseForUpload(inProgressResponse, applet, responseHistory, isTimeout);
+
     dispatch(addToUploadQueue(preparedResponse));
     await dispatch(startUploadQueue());
   }

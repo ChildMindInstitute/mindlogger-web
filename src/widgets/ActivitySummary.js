@@ -148,18 +148,22 @@ const Summary = styled(({ className, ...props }) => {
       <Row className="no-gutters">
         <Col md={12}>
           <Card.Body>
+            <div className="mb-4">
+              <Markdown markdown={_.get(activity, 'scoreOverview', '').replace(MARKDOWN_REGEX, '$1$2')} />
+            </div>
             {messages &&
               messages.map((item, i) => (
-                <>
-                  <div key={i}>
-                    <h1>{item.category.replace(/_/g, ' ')}</h1>
-                    <h3>
-                      <strong>{item.score}</strong>
-                    </h3>
-                    <Markdown markdown={item.message.replace(MARKDOWN_REGEX, '$1$2')} />
+                <div key={i}>
+                  <h1>{item.category.replace(/_/g, ' ')}</h1>
+                  <h3>
+                    <strong>{item.score}</strong>
+                  </h3>
+                  <div className="mb-4">
+                    <Markdown markdown={_.get(item, 'compute.description', '').replace(MARKDOWN_REGEX, '$1$2')} />
                   </div>
+                  <Markdown markdown={item.message.replace(MARKDOWN_REGEX, '$1$2')} />
                   {messages.length > 1 && <div key={`${i}-hr`} className="hr" />}
-                </>
+                </div>
               ))}
           </Card.Body>
         </Col>
@@ -176,13 +180,13 @@ const Summary = styled(({ className, ...props }) => {
             {messages &&
               messages.map((item, i) => (
                 <div key={i}>
-                  <p className="font-weight-bold mb-1">{item.category.replace(/_/g, ' ')}</p>
+                  <p className="text-primary font-weight-bold mb-1">{item.category.replace(/_/g, ' ')}</p>
                   <div className="mb-4">
                     <Markdown markdown={_.get(item, 'compute.description', '').replace(MARKDOWN_REGEX, '$1$2')} />
                   </div>
                   <div className="score-area">
                     <p
-                      className="score-title text-nowrap"
+                      className="score-title font-weight-bold text-nowrap"
                       style={{ left: `${(item.scoreValue / item.maxScoreValue) * 100}%` }}>
                       Your/Your Child’s Score
                     </p>
@@ -213,7 +217,7 @@ const Summary = styled(({ className, ...props }) => {
                   </p>
 
                   <div className="mb-4">
-                    Your/Your child’s score on the {item.category.replace(/_/g, ' ')} subscale was{' '}
+                    Your/Your child's score on the {item.category.replace(/_/g, ' ')} subscale was{' '}
                     <span className="text-danger">{item.scoreValue}</span>.
                     <Markdown markdown={item.message.replace(MARKDOWN_REGEX, '$1$2')} />
                   </div>
@@ -250,16 +254,17 @@ const Summary = styled(({ className, ...props }) => {
     position: absolute;
     left: -2000px;
     top: 0;
+    font-size: 9pt;
   }
   .score-area {
     position: relative;
     display: flex;
     width: 100%;
     max-width: 400px;
-    padding: 60px 0 20px;
+    padding: 60px 0 30px;
 
     .score-bar {
-      height: 40px;
+      height: 60px;
     }
     .score-positive {
       background-color: #a1cd63;
@@ -272,9 +277,9 @@ const Summary = styled(({ className, ...props }) => {
     }
     .score-spliter {
       position: absolute;
-      top: 40px;
+      top: 30px;
       width: 5px;
-      height: 80px;
+      height: 120px;
       background-color: #000;
     }
     .score-title {

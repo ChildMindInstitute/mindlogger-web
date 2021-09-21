@@ -182,7 +182,9 @@ const Summary = styled(({ className, ...props }) => {
             {messages &&
               messages.map((item, i) => (
                 <div key={i}>
-                  <p className="text-primary font-weight-bold mb-1">{item.category.replace(/_/g, ' ')}</p>
+                  <p className="text-primary mb-1">
+                    <b>{item.category.replace(/_/g, ' ')}</b>
+                  </p>
                   <div className="mb-4">
                     <Markdown markdown={_.get(item, 'compute.description', '').replace(MARKDOWN_REGEX, '$1$2')} />
                   </div>

@@ -259,11 +259,11 @@ const Summary = styled(({ className, ...props }) => {
   .score-area {
     position: relative;
     display: flex;
-    width: 400px;
-    padding: 60px 0 30px;
+    width: 300px;
+    padding: 50px 0 30px;
 
     .score-bar {
-      height: 60px;
+      height: 40px;
     }
     .score-positive {
       background-color: #a1cd63;
@@ -277,8 +277,8 @@ const Summary = styled(({ className, ...props }) => {
     .score-spliter {
       position: absolute;
       top: 30px;
-      width: 5px;
-      height: 120px;
+      width: 3px;
+      height: 80px;
       background-color: #000;
     }
     .score-title {

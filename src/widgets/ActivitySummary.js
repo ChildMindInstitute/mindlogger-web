@@ -257,6 +257,7 @@ const Summary = styled(({ className, ...props }) => {
     left: -2000px;
     top: 0;
     font-size: 10pt;
+    font-family: sans-serif;
   }
   .score-area {
     position: relative;

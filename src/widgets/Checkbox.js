@@ -52,7 +52,7 @@ const Checkbox = ({
   }
 
   const renderItem = (obj, index) => (
-    <div className="response-option" style={{ background: obj.color ? obj.color : 'none' }}>
+    <div key={index} className="response-option" style={{ background: obj.color ? obj.color : 'none' }}>
       {
          !obj.image && <div className="option-image"></div>
       }

@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import _ from 'lodash';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import { Card, Row, Col } from 'react-bootstrap';
@@ -8,6 +7,7 @@ import { Parser } from 'expr-eval';
 import { PDFExport } from '@progress/kendo-react-pdf';
 import styled from 'styled-components';
 import cn from 'classnames';
+import _ from 'lodash';
 
 // Component
 import MyButton from '../components/Button';
@@ -156,7 +156,7 @@ const Summary = styled(({ className, ...props }) => {
                 <div key={i}>
                   <h1>{item.category.replace(/_/g, ' ')}</h1>
                   <h3>
-                    <strong>{item.score}</strong>
+                    <b>{item.score}</b>
                   </h3>
                   <div className="mb-4">
                     <Markdown markdown={_.get(item, 'compute.description', '').replace(MARKDOWN_REGEX, '$1$2')} />
@@ -171,8 +171,10 @@ const Summary = styled(({ className, ...props }) => {
       <div>
         <div className="pdf-container">
           <PDFExport paperSize="A4" margin="2cm" ref={pdfRef}>
-            <p className="font-weight-bold mb-4">
-              <u>{_.get(activity, 'name.en')} Report</u>
+            <p className="mb-4" style={{ fontWeight: 900 }}>
+              <u>
+                <b>{_.get(activity, 'name.en')} Report</b>
+              </u>
             </p>
             <div className="mb-4">
               <Markdown markdown={_.get(activity, 'scoreOverview', '').replace(MARKDOWN_REGEX, '$1$2')} />
@@ -180,15 +182,17 @@ const Summary = styled(({ className, ...props }) => {
             {messages &&
               messages.map((item, i) => (
                 <div key={i}>
-                  <p className="text-primary font-weight-bold mb-1">{item.category.replace(/_/g, ' ')}</p>
+                  <p className="text-primary mb-1">
+                    <b>{item.category.replace(/_/g, ' ')}</b>
+                  </p>
                   <div className="mb-4">
                     <Markdown markdown={_.get(item, 'compute.description', '').replace(MARKDOWN_REGEX, '$1$2')} />
                   </div>
                   <div className="score-area">
                     <p
-                      className="score-title font-weight-bold text-nowrap"
+                      className="score-title text-nowrap"
                       style={{ left: `${(item.scoreValue / item.maxScoreValue) * 100}%` }}>
-                      Your/Your Child’s Score
+                      <b>Your/Your Child’s Score</b>
                     </p>
                     <div
                       className={cn('score-bar score-below', {
@@ -208,12 +212,16 @@ const Summary = styled(({ className, ...props }) => {
                       style={{ left: `${(item.scoreValue / item.maxScoreValue) * 100}%` }}
                     />
                     <p className="score-max-value">
-                      <strong>{item.maxScoreValue}</strong>
+                      <b>{item.maxScoreValue}</b>
                     </p>
                   </div>
-                  <p className="text-uppercase font-weight-bold font-italic mb-1">
-                    If score
-                    <span className="ml-2">{item.jsExpression}</span>
+                  <p className="text-uppercase mb-1">
+                    <b>
+                      <i>
+                        If score
+                        <span className="ml-2">{item.jsExpression}</span>
+                      </i>
+                    </b>
                   </p>
 
                   <div className="mb-4">
@@ -237,34 +245,28 @@ const Summary = styled(({ className, ...props }) => {
           type="button"
           label={t('additional.share_report')}
           classes="mr-5 mb-2 float-right"
-          handleClick={(e) => {
-            if (pdfRef.current) {
-              pdfRef.current.save();
-            }
-          }}
+          handleClick={(e) => pdfRef.current && pdfRef.current.save()}
         />
       </div>
     </Card>
   );
 })`
-  max-width: auto;
-
   .pdf-container {
     max-width: 1000px;
     position: absolute;
     left: -2000px;
     top: 0;
-    font-size: 9pt;
+    font-size: 10pt;
+    font-family: Arial, Helvetica, sans-serif;
   }
   .score-area {
     position: relative;
     display: flex;
-    width: 100%;
-    max-width: 400px;
-    padding: 60px 0 30px;
+    width: 300px;
+    padding: 50px 0 30px;
 
     .score-bar {
-      height: 60px;
+      height: 40px;
     }
     .score-positive {
       background-color: #a1cd63;
@@ -278,8 +280,8 @@ const Summary = styled(({ className, ...props }) => {
     .score-spliter {
       position: absolute;
       top: 30px;
-      width: 5px;
-      height: 120px;
+      width: 3px;
+      height: 80px;
       background-color: #000;
     }
     .score-title {

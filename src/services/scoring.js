@@ -299,7 +299,7 @@ export const evaluateCumulatives = (responses, activity) => {
     }, {});
 
     activity.messages.forEach((msg) => {
-      const { jsExpression, message, outputType, nextActivity } = msg;
+      const { jsExpression, message, outputType, nextActivity, hideActivity } = msg;
 
       const exprArr = jsExpression.split(/[><]/g);
       const variableName = exprArr[0];
@@ -328,7 +328,7 @@ export const evaluateCumulatives = (responses, activity) => {
       };
 
       if (expr.evaluate(variableScores)) {
-        if (nextActivity) cumActivities.push(nextActivity);
+        if (nextActivity && (hideActivity || hideActivity === undefined)) cumActivities.push(nextActivity);
 
         const compute = activity?.compute?.find((itemCompute) => itemCompute.variableName.trim() == variableName.trim());
 

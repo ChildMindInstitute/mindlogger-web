@@ -203,21 +203,41 @@ export const getActivityAvailabilityFromDependency = (g, availableActivities = [
   return activities;
 }
 
-export const getDependency = (activities) => {
+export const getDependency = (activities, cumulativeActivities) => {
   const dependency = []
 
   for (let i = 0; i < activities.length; i++) {
     dependency.push([])
   }
 
-  for (let i = 0; i < activities.length; i++) {
-    const activity = activities[i];
+  const notShownActs = [];
+  for (let index = 0; index < activities.length; index++) {
+    const act = activities[index];
+    const { messages } = act;
+    if (messages?.length && (messages[0].nextActivity || messages[1].nextActivity)) notShownActs.push(act);
+  }
 
+  for (let i = 0; i < activities.length; i++) {
+    let isNextActivityShown = true;
+    const activity = activities[i];
+  
+    for (let index = 0; index < notShownActs.length; index++) {
+      const notShownAct = notShownActs[index];
+      const alreadyAct = cumulativeActivities && cumulativeActivities[`${notShownAct.id}/nextActivity`];
+  
+      isNextActivityShown = alreadyAct && alreadyAct.includes(activity.name.en)
+        ? true
+        : checkActivityIsShown(activity.name.en, notShownAct.messages)
+    }
+ 
+    console.log('0------------------------------0');
+    console.log(activity, isNextActivityShown);
+    
     if (activity.messages) {
       for (const message of activity.messages) {
         if (message.nextActivity) {
           const index = findActivityFromName(activities, message.nextActivity)
-          if (index >= 0) {
+          if (index >= 0 || isNextActivityShown) {
             dependency[index].push(i);
           }
         }
@@ -304,3 +324,7 @@ export const getChainedActivities = (activities, currentActivity) => {
   return chainedActivities;
 }
 
+const checkActivityIsShown = (name, messages) => {
+  if (!name || !messages) return true;
+  return _.findIndex(messages, obj => obj.nextActivity === name && (obj.hideActivity || obj.hideActivity === undefined)) === -1;
+}

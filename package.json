@@ -1,8 +1,14 @@
 {
   "name": "mindlogger-webapp",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "dependencies": {
+    "@progress/kendo-drawing": "^1.11.0",
+    "@progress/kendo-licensing": "^1.2.0",
+    "@progress/kendo-react-pdf": "^4.8.0",
+    "@fortawesome/fontawesome-svg-core": "^1.2.36",
+    "@fortawesome/free-solid-svg-icons": "^5.15.4",
+    "@fortawesome/react-fontawesome": "^0.1.15",
     "@reduxjs/toolkit": "^1.5.1",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -36,7 +42,7 @@
     "markdown-it-sup": "^1.0.0",
     "markdown-it-task-lists": "^2.1.1",
     "moment": "^2.29.1",
-    "node-sass": "^4.14.1",
+    "node-sass": "^6.0.1",
     "object-to-formdata": "^4.1.0",
     "popper.js": "^1.16.1",
     "ramda": "^0.27.1",
@@ -52,7 +58,7 @@
     "react-redux": "^7.2.1",
     "react-redux-form": "^1.16.14",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.3",
+    "react-scripts": "^4.0.3",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-form": "^8.3.6",
@@ -74,6 +80,7 @@
       "pre-commit": "lint-staged"
     }
   },
+  "lint": "eslint --max-warnings=0 ...",
   "lint-staged": {
     "*.{js,json,css}": [
       "prettier --write",

@@ -26,7 +26,7 @@ const TextInput = ({
   const { t } = useTranslation();
 
   const [show, setShow] = useState(false);
-  const [value, setValue] = useState((answer || ''));
+  const [value, setValue] = useState(answer && typeof answer === "object" ? answer.value : (answer || ''));
 
   useEffect(() => {
     setValue(values[item.variableName]);
@@ -76,7 +76,7 @@ const TextInput = ({
       <Navigator
         isBackShown={isBackShown}
         isNextShown={isNextShown}
-        isNextDisable={!answer}
+        isNextDisable={!value || !value.length}
         handleBack={handleBack}
         isSubmitShown={isSubmitShown}
         canSubmit={(e) => {

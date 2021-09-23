@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import _ from "lodash";
-import { 
+import {
   Form,
   Row,
   Card,
-  Col, 
+  Col,
   Image,
   OverlayTrigger,
   Tooltip
@@ -12,6 +12,7 @@ import {
 
 import Navigator from './Navigator';
 import Markdown from '../components/Markdown';
+import questionMark from '../assets/question-mark.svg';
 
 const Radio = (props) => {
   const {
@@ -45,39 +46,49 @@ const Radio = (props) => {
   }
 
   const renderItem = (obj, index) => (
-    <OverlayTrigger
-      placement="left"
-      delay={{ show: 250, hide: 200 }}
-      overlay={
-        <Tooltip id="button-tooltip" style={{ display: obj.description ? 'block' : 'none'}}>
-          {obj.description || ''}
-        </Tooltip>
+    <div className="response-option" style={{ background: obj.color ? obj.color : 'none' }}>
+      {
+         !obj.image && <div className="option-image"></div>
       }
-    >
-      <div className="response-option" style={{ background: obj.color ? obj.color : 'none' }}>
-        {
-          obj.image && <Image className="option-image" src={obj.image} roundedCircle /> ||
-          <div className="option-image"></div>
-        }
-        <Form.Check
-          label={obj.name.en}
-          name={item.variableName}
-          style={{ color: obj.color ? invertColor(obj.color) : "#333333" }}
-          type="radio"
-          checked={ answer && answer.value == (token ? obj.name.en : obj.value) }
-          onChange={
-            () => {
-              handleChange({ value: token ? obj.name.en : obj.value });
-              setChecked(token ? obj.name.en : obj.value);
-            }
+      {
+        obj.description &&
+        <OverlayTrigger
+          placement="bottom"
+          delay={{ show: 250, hide: 200 }}
+          overlay={
+            <Tooltip id="button-tooltip">
+              <Markdown
+                markdown={obj.description || ''}
+              />
+            </Tooltip>
           }
-          value={obj.value}
-          disabled={!isNextShown}
-          checked={checked == obj.value}
-          id={`${item.variableName}${index}`}
-        />
-      </div>
-    </OverlayTrigger>
+        >
+          <Image src={questionMark} className="tooltip-icon" />
+        </OverlayTrigger> ||
+        <div className="option-tooltip"></div>
+      }
+
+      {
+        obj.image && <Image className="option-image" src={obj.image} roundedCircle />
+      }
+      <Form.Check
+        label={obj.name.en}
+        name={item.variableName}
+        style={{ color: obj.color ? invertColor(obj.color) : "#333333" }}
+        type="radio"
+        checked={ answer && answer.value == (token ? obj.name.en : obj.value) }
+        onChange={
+          () => {
+            handleChange({ value: token ? obj.name.en : obj.value });
+            setChecked(token ? obj.name.en : obj.value);
+          }
+        }
+        value={obj.value}
+        disabled={!isNextShown}
+        checked={checked == obj.value}
+        id={`${item.variableName}${index}`}
+      />
+    </div>
   );
 
   const itemCount = item.valueConstraints.itemList.length;

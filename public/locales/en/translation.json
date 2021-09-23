@@ -110,6 +110,7 @@
     "loadingInvitation": "Loading Invitation",
     "invitationRemoved": "Invitation Removed",
     "networkError": "Network Error. Return ",
+    "invitationAlreadyRemoved": "Your invitation has already been removed.",
     "home": "Home",
     "acceptInvitation": "Invitation Accepted"
   },
@@ -178,6 +179,12 @@
     "no": "No",
     "response_submit": "Response Submit",
     "response_submit_text": "Would you like to submit response?",
-    "invalid_public_url": "This assessment is no longer accepting respondents"
+    "invalid_public_url": "This assessment is no longer accepting respondents",
+    "share_report": "Share Report"
+  },
+  "no_markdown": "The authors of this applet have not provided any information!",
+  "timed_activity":{
+    "time_to_complete": "Time to complete",
+    "hours" : "hours"
   }
 }

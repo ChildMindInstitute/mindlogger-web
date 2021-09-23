@@ -1,17 +1,15 @@
 /* eslint-disable react/prop-types */
-import React from 'react'
-import { Button } from 'react-bootstrap'
+import React from 'react';
 import moment from 'moment';
+import { Button } from 'react-bootstrap';
+
+import TimedActivity from './TimedActivity';
 
 import { scheduledEndTime, convertDateString } from '../../util/time';
 import './style.css'
 
 const ActivityItem = (props) => {
-  const { activity, onPress } = props;
-
-  const isActivityDisabled = () => {
-    return activity.status === 'scheduled' && !activity.event.data.timeout.access;
-  }
+  const { activity, disabled, onPress } = props;
 
   const activityDueDate = () => {
     if (activity.status === 'scheduled' && activity.event) {
@@ -42,14 +40,15 @@ const ActivityItem = (props) => {
       className="ds-shadow ds-activity-button"
       variant="link"
       onClick={() => onPress(activity)}
-      disabled={isActivityDisabled()}
+      disabled={disabled}
       block
     >
-      <div className="activity-name-date">{ activity.name.en } { dueDateStr ? ' - ' + dueDateStr : '' } </div>
+      <div className="activity-name-date">{activity.name.en} {dueDateStr ? ' - ' + dueDateStr : ''} </div>
 
       {
-        activity.description && <div className="activity-description">{ activity.description.en }</div>
+        activity.description && <div className="activity-description">{activity.description.en}</div>
       }
+      <TimedActivity activity={activity} />
     </Button>
   )
 }

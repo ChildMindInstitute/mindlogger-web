@@ -171,10 +171,10 @@ const Summary = styled(({ className, ...props }) => {
       <div>
         <div className="pdf-container">
           <PDFExport paperSize="A4" margin="2cm" ref={pdfRef}>
-            <p className="mb-4" style={{ fontWeight: 900 }}>
-              <u>
-                <b>{_.get(activity, 'name.en')} Report</b>
-              </u>
+            <p className="mb-4">
+              <b>
+                <u>{_.get(activity, 'name.en')} Report</u>
+              </b>
             </p>
             <div className="mb-4">
               <Markdown markdown={_.get(activity, 'scoreOverview', '').replace(MARKDOWN_REGEX, '$1$2')} />
@@ -191,7 +191,9 @@ const Summary = styled(({ className, ...props }) => {
                   <div className="score-area">
                     <p
                       className="score-title text-nowrap"
-                      style={{ left: `${(item.scoreValue / item.maxScoreValue) * 100}%` }}>
+                      style={{
+                        left: `max(75px, ${(item.scoreValue / item.maxScoreValue) * 100}%)`,
+                      }}>
                       <b>Your/Your Child’s Score</b>
                     </p>
                     <div
@@ -296,6 +298,9 @@ const Summary = styled(({ className, ...props }) => {
       bottom: 0;
     }
   }
+  img {
+    max-width: 100%;
+  }  
 `;
 
 export default Summary;

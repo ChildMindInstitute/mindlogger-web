@@ -52,7 +52,7 @@ export const currentAppletTokenBalanceSelector = createSelector(
 
 export const currentResponsesSelector = createSelector(
   R.path(["app", "currentActivity"]),
-  R.path(["responses", "currentEven"]),
+  R.path(["responses", "currentEvent"]),
   inProgressSelector,
   (activityId, eventId, inProgress) => {
     return inProgress[eventId ? activityId + eventId : activityId]

@@ -22,7 +22,7 @@ import { inProgressSelector, currentScreenIndexSelector } from '../../state/resp
 import { finishedEventsSelector, startedTimesSelector } from '../../state/app/app.selectors';
 import { appletCumulativeActivities, appletsSelector } from '../../state/applet/applet.selectors';
 import { setActivityStartTime, setCurrentActivity } from '../../state/app/app.reducer';
-import { setCurrentScreen } from '../../state/responses/responses.reducer';
+import { setCurrentEvent } from '../../state/responses/responses.reducer';
 import { createResponseInProgress, setAnswer } from '../../state/responses/responses.reducer';
 import { parseAppletEvents } from '../../services/json-ld';
 
@@ -175,7 +175,8 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
     const activity = currentAct;
 
     dispatch(setCurrentActivity(activity));
-    dispatch(setCurrentScreen({ activityId: activity.id, screenIndex: screenIndex || 0, }))
+    dispatch(setCurrentEvent(activity.event ? activity.event.id : ''));
+
     if (activity.event
       && activity.event.data.timedActivity.allow
       && startedTimes
@@ -203,7 +204,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
       publicId: currentApplet.publicId || null,
       timeStarted: new Date().getTime()
     }));
-    dispatch(setAnswer({ activityId: activity.id }))
+
     if (activity.event
       && activity.event.data.timedActivity.allow
       && startedTimes

@@ -10,6 +10,7 @@ import { replaceResponses } from '../responses/responses.reducer';
 import { transformApplet, parseAppletEvents } from '../../services/json-ld';
 import { getAppletsAPI, getPublicAppletAPI } from '../../services/applet.service';
 import { decryptAppletResponses } from '../../models/response';
+import { setFinishedEvents } from '../app/app.reducer';
 
 import APPLET_CONSTANTS from './applet.constants';
 
@@ -27,8 +28,12 @@ export const getApplets = createAsyncThunk(APPLET_CONSTANTS.GET_APPLETS, async (
   const applets = await getAppletsAPI({ token, localInfo });
 
   const transformedApplets = [];
+  let finishedEvents = {}
+
   for (let index = 0; index < applets.data.length; index++) {
     const appletInfo = applets.data[index];
+
+    Object.assign(finishedEvents, appletInfo.finishedEvents);
 
     if (!appletInfo.applet) {
       const applet = modifyApplet(appletInfo, currentApplets);
@@ -84,6 +89,7 @@ export const getApplets = createAsyncThunk(APPLET_CONSTANTS.GET_APPLETS, async (
     }
   };
 
+  dispatch(setFinishedEvents(finishedEvents));
   dispatch(replaceResponses(responses));
 
   return transformedApplets;

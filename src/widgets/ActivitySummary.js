@@ -155,14 +155,12 @@ const Summary = styled(({ className, ...props }) => {
               messages.map((item, i) => (
                 <div key={i}>
                   <h1>{item.category.replace(/_/g, ' ')}</h1>
-                  <h3>
-                    <b>{item.score}</b>
-                  </h3>
                   <div className="mb-4">
                     <Markdown markdown={_.get(item, 'compute.description', '').replace(MARKDOWN_REGEX, '$1$2')} />
                   </div>
+                  <h3>{item.score}</h3>
                   <Markdown markdown={item.message.replace(MARKDOWN_REGEX, '$1$2')} />
-                  {messages.length > 1 && <div key={`${i}-hr`} className="hr" />}
+                  {messages.length > 1 && <div className="hr" />}
                 </div>
               ))}
           </Card.Body>
@@ -300,7 +298,7 @@ const Summary = styled(({ className, ...props }) => {
   }
   img {
     max-width: 100%;
-  }  
+  }
 `;
 
 export default Summary;

@@ -505,7 +505,7 @@ const transformPureActivity = (activityJson) => {
     version: languageListToObject(activityJson[VERSION]),
     altLabel: languageListToObject(activityJson[ALT_LABEL]),
     shuffle: R.path([SHUFFLE, 0, "@value"], activityJson),
-    image: languageListToObject(activityJson[IMAGE]),
+    image: activityJson[IMAGE],
     skippable: isSkippable(allowList),
     backDisabled: allowList.includes(BACK_DISABLED),
     disableSummary: allowList.includes(DISABLE_SUMMARY),

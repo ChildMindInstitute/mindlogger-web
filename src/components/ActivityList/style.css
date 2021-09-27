@@ -21,6 +21,19 @@
 
 .ds-activity-button {
   border: none;
+  display: flex !important;
+}
+
+.ds-activity-button .activity-image {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+.ds-activity-button .activity-data {
+  flex-grow: 1;
 }
 
 .ds-activity-button .activity-name-date {

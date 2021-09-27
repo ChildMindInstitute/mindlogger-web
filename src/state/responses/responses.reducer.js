@@ -24,8 +24,9 @@ const responseSlice = createSlice({
     createResponseInProgress: (state, action) => {
       const { activity, event, subjectId, timeStarted } = action.payload;
       if (event) state.currentEvent = event.id.toString();
+      else state.currentEvent = '';
 
-      state.inProgress[activity.id] = {
+      state.inProgress[activity.event ? activity.id + activity.event.id : activity.id] = {
         responses: new Array(activity.items.length),
         subjectId: subjectId,
         timeStarted: timeStarted,
@@ -34,15 +35,20 @@ const responseSlice = createSlice({
       }
     },
 
+    setCurrentEvent: (state, action) => {
+      state.currentEvent = action.payload;
+    },
+
     setCurrentScreen: (state, action) => {
       const { screenIndex, activityId } = action.payload;
-      state.inProgress[activityId].screenIndex = screenIndex;
+      state.inProgress[activityId + (state.currentEvent || '')].screenIndex = screenIndex;
     },
 
     setAnswer: (state, action) => {
       const { screenIndex, activityId, answer } = action.payload;
-      if (!answer) state.inProgress[activityId] = undefined;
-      else state.inProgress[activityId].responses[screenIndex] = answer;
+      const currentEvent = state.currentEvent || '';
+
+      state.inProgress[activityId + currentEvent].responses[screenIndex] = answer;
     },
     setInProgress: (state, action) => { state.inProgress = action.payload },
     addToUploadQueue: (state, action) => {
@@ -80,6 +86,7 @@ const responseSlice = createSlice({
 export const {
   createResponseInProgress,
   setCurrentScreen,
+  setCurrentEvent,
   setAnswer,
   setInProgress,
   addToUploadQueue,

@@ -49,17 +49,6 @@ const Screens = (props) => {
   const inProgress = useSelector(currentResponsesSelector);
 
   useEffect(() => {
-    if (screenIndex === 0) {
-      dispatch(createResponseInProgress({
-        activity: activityAccess,
-        event: activityAccess.event,
-        subjectId: user && user._id,
-        timeStarted: new Date().getTime()
-      }));
-    }
-  }, [])
-
-  useEffect(() => {
     if (inProgress && Object.keys(inProgress).length > 0) {
       const { activity, responses } = inProgress;
       let obj = data;

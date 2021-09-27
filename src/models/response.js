@@ -23,7 +23,8 @@ export const prepareResponseForUpload = (
   inProgressResponse,
   appletMetaData,
   responseHistory,
-  isTimeout
+  isTimeout,
+  finishedTime
 ) => {
   const languageKey = "en";
   const { activity, responses, subjectId } = inProgressResponse;
@@ -78,7 +79,11 @@ export const prepareResponseForUpload = (
     responseStarted: inProgressResponse.timeStarted,
     responseCompleted: Date.now(),
     timeout: isTimeout ? 1 : 0,
-    scheduledTime: new Date(scheduledTime).getTime(),
+    event: activity.event ? {
+      id: activity.event.id,
+      scheduledTime: new Date(scheduledTime).getTime(),
+      finishedTime: finishedTime.getTime()
+    } : null,
     client: {
       appId: 'mindlogger-web',
       appVersion: packageJson.version

@@ -72,7 +72,7 @@ export const getScheduled = (activityList, finishedEvents) => {
   activityList.forEach(activity => {
     activity.events.forEach(event => {
       const today = new Date();
-      const { scheduledTime, data } = event;
+      const scheduledTime = new Date(event.scheduledTime), data = event.data;
 
       if (!activity.availability
         && scheduledTime > today
@@ -97,7 +97,7 @@ export const getPastdue = (activityList, finishedEvents) => {
   activityList.forEach(activity => {
     activity.events.forEach(event => {
       const today = new Date();
-      const { scheduledTime, data } = event;
+      const scheduledTime = new Date(event.scheduledTime), data = event.data;
       const activityTimeout = data.timeout.day * 864000000
         + data.timeout.hour * 3600000
         + data.timeout.minute * 60000;

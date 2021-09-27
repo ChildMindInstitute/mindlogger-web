@@ -1,11 +1,10 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { unwrapResult } from '@reduxjs/toolkit'
 import { Alert } from 'react-bootstrap'
-import { history } from '../../store'
 import { forgotPassword } from '../../state/user/user.actions'
 
 import './styles.css'
@@ -18,6 +17,7 @@ import './styles.css'
 export default function ForgotPassword() {
   const { t } = useTranslation()
   const dispatch = useDispatch()
+  const history = useHistory();
   const { register, handleSubmit, setError, errors } = useForm()
 
   /**
@@ -28,8 +28,7 @@ export default function ForgotPassword() {
     try {
       let result = await dispatch(forgotPassword(body.email));
       result = unwrapResult(result);
-      history.push('/login');
-
+      history.push({ pathname: '/login', state: { reset: true }});
     } catch (error) {
       setError('email', {
         type: 'manual',

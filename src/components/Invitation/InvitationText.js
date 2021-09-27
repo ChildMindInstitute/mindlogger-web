@@ -37,7 +37,7 @@ export const InvitationText = (props) => {
     case Statuses.ERROR:
       return (
         <div className={'heading'}>
-          {t('InvitationText.networkError')} <Link to={'/profile'}>{t('InvitationText.home')}</Link>
+          <h1 className={'invitationMessage'}>{t('InvitationText.invitationAlreadyRemoved')}</h1>
         </div>
       );
 

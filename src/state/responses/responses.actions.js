@@ -1,9 +1,10 @@
-
 import { createAsyncThunk } from "@reduxjs/toolkit";
+
 import RESPONSE_CONSTANTS from './responses.constants';
 import { authTokenSelector, userInfoSelector, loggedInSelector } from "../user/user.selectors";
 import { prepareResponseKeys } from '../applet/applet.reducer';
-import { currentAppletSelector, currentActivitySelector } from '../app/app.selectors';
+import { setFinishedEvents } from '../app/app.reducer';
+import { currentAppletSelector, currentActivitySelector, currentEventSelector } from '../app/app.selectors';
 import { getPrivateKey } from '../../services/encryption';
 import {
   currentResponsesSelector,
@@ -63,7 +64,7 @@ export const completeResponse = createAsyncThunk(RESPONSE_CONSTANTS.COMPLETE_RES
   let applet = currentAppletSelector(state);
   const inProgressResponse = currentResponsesSelector(state);
   const activity = currentActivitySelector(state);
-  // const event = currentEventSelector(state);
+  const event = currentEventSelector(state);
 
   if ((!applet.AESKey || !applet.userPublicKey || applet.publicId)) {
     if (applet.publicId) {
@@ -81,11 +82,13 @@ export const completeResponse = createAsyncThunk(RESPONSE_CONSTANTS.COMPLETE_RES
       dispatch(updateKeys(applet, userInfoSelector(state)));
     }
 
-    // state = getState()
-    // applet = currentAppletSelector(state)
+    state = getState()
+    applet = currentAppletSelector(state)
   }
 
   const responseHistory = currentAppletResponsesSelector(state);
+  const finishedTime = new Date();
+
   if (activity.isPrize === true) {
     const selectedPrizeIndex = inProgressResponse["responses"][0];
     const version = inProgressResponse["activity"].schemaVersion['en'];
@@ -111,9 +114,16 @@ export const completeResponse = createAsyncThunk(RESPONSE_CONSTANTS.COMPLETE_RES
     }
 
   } else {
-    const preparedResponse = prepareResponseForUpload(inProgressResponse, applet, responseHistory, isTimeout);
+    const preparedResponse = prepareResponseForUpload(inProgressResponse, applet, responseHistory, isTimeout, finishedTime);
+
     dispatch(addToUploadQueue(preparedResponse));
     await dispatch(startUploadQueue());
+  }
+
+  if (event) {
+    dispatch(setFinishedEvents({
+      [event]: finishedTime.getTime()
+    }));
   }
 
   setTimeout(() => {
@@ -121,7 +131,7 @@ export const completeResponse = createAsyncThunk(RESPONSE_CONSTANTS.COMPLETE_RES
     dispatch(
       removeResponseInProgress(activity.event ? activity.id + activity.event.id : activity.id)
     );
-  }, 100);
+  }, 200);
 })
 
 export const downloadResponses = createAsyncThunk(RESPONSE_CONSTANTS.DOWNLOAD_RESPONSES, async (args, { dispatch, getState }) => {

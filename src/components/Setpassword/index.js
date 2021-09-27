@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link, useParams, useHistory } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 import { Form, Alert, Button, Col, Row } from 'react-bootstrap'
 import { unwrapResult } from '@reduxjs/toolkit'
 import { useSelector, useDispatch } from 'react-redux'
@@ -17,7 +17,7 @@ import { checkTemporaryPassword } from '../../services/authentication.service'
 export default function SetPassword() {
   const { userId, temporaryToken } = useParams()
   const [status, setStatus] = useState("")
-  const [isValidToken, setIsValidToken] = useState(false)
+  const [isValidToken, setIsValidToken] = useState("")
   const [passwordData, setPasswordData] = useState({
     newPassword: '',
     confirmPassword: ''
@@ -36,9 +36,9 @@ export default function SetPassword() {
     try {
       const response = await checkTemporaryPassword(userId, temporaryToken)
       setToken(response.authToken.token)
-      setIsValidToken(true)
+      setIsValidToken("valid")
     } catch (error) {
-      console.log(error);
+      setIsValidToken("invalid")
       setStatus(Statuses.ERROR)
     }
   }
@@ -77,9 +77,11 @@ export default function SetPassword() {
   const isPasswordEmpty = !passwordData.newPassword
   const isPasswordShort = passwordData.newPassword.length < 6
 
+  if (!isValidToken) return <div />;
+
   return (
     <div className="demo mb-3">
-      {isValidToken
+      {isValidToken === "valid"
         ? (
           <div id="login" className="text-center mb-0">
             <div className="d-flex justify-content-center align-items-center">
@@ -155,21 +157,10 @@ export default function SetPassword() {
           </div>
         )
         : (
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              width: '100%'
-            }}
-          >
-            <p>
-              {' '}
-              {t('SetPassword.please')}
-              <Link to="/login"> {t('SetPassword.login')} </Link>
-              {t('SetPassword.toSeeThePage')}
-            </p>
-          </div>
+          <Alert className="w-100 text-center" variant="danger">
+            Invalid or Expired Link.
+            <Alert.Link href="/login"> Please Login </Alert.Link>
+          </Alert>
         )}
     </div>
   )

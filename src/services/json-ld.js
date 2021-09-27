@@ -1,5 +1,6 @@
 import * as R from "ramda";
 import moment from 'moment';
+import _ from 'lodash';
 import { Parse, Day } from 'dayspan';
 import { getStartOfInterval } from '../util/time';
 
@@ -61,6 +62,8 @@ import {
   RESPONSE_OPTIONS,
   VARIABLE_NAME,
   JS_EXPRESSION,
+  SCORE_OVERVIEW,
+  DIRECTION,
   VERSION,
   IS_VIS,
   ADD_PROPERTIES,
@@ -92,6 +95,8 @@ import {
   HAS_RESPONSE_IDENTIFIER,
   IS_RESPONSE_IDENTIFIER,
   IS_REVIEWER_ACTIVITY,
+  DISABLE_SUMMARY,
+  NEXT_ACTIVITY
 } from '../constants';
 
 export const languageListToObject = (list) => {
@@ -462,13 +467,16 @@ const transformPureActivity = (activityJson) => {
   const compute = activityJson[COMPUTE] && R.map((item) => {
     return {
       jsExpression: R.path([JS_EXPRESSION, 0, "@value"], item),
-      variableName: R.path([VARIABLE_NAME, 0, "@value"], item)
+      variableName: R.path([VARIABLE_NAME, 0, "@value"], item),
+      description: _.get(item, [DESCRIPTION, 0, "@value"]),
+      direction: _.get(item, [DIRECTION, 0, "@value"], true),
     }
   }, activityJson[COMPUTE]);
   const subScales = activityJson[SUBSCALES] && R.map((subScale) => {
     const jsExpression = R.path([JS_EXPRESSION, 0, "@value"], subScale);
 
     return {
+      isAverageScore: R.path([IS_AVERAGE_SCORE, 0, "@value"], subScale),
       jsExpression,
       variableName: R.path([VARIABLE_NAME, 0, "@value"], subScale),
       lookupTable: flattenLookupTable(subScale[LOOKUP_TABLE], false),
@@ -487,6 +495,7 @@ const transformPureActivity = (activityJson) => {
       message: R.path([MESSAGE, 0, "@value"], item),
       jsExpression: R.path([JS_EXPRESSION, 0, "@value"], item),
       outputType: R.path([OUTPUT_TYPE, 0, "@value"], item),
+      nextActivity: R.path([NEXT_ACTIVITY, 0, "@value"], item),
     }
   }, activityJson[MESSAGES]);
 
@@ -501,6 +510,7 @@ const transformPureActivity = (activityJson) => {
     image: languageListToObject(activityJson[IMAGE]),
     skippable: isSkippable(allowList),
     backDisabled: allowList.includes(BACK_DISABLED),
+    disableSummary: allowList.includes(DISABLE_SUMMARY),
     fullScreen: allowList.includes(FULL_SCREEN),
     autoAdvance: allowList.includes(AUTO_ADVANCE),
     isPrize: R.path([ISPRIZE, 0, "@value"], activityJson) || false,
@@ -508,6 +518,7 @@ const transformPureActivity = (activityJson) => {
     hasResponseIdentifier: R.path([HAS_RESPONSE_IDENTIFIER, 0, "@value"], activityJson) || false,
     isVis,
     compute,
+    scoreOverview: _.get(activityJson, [SCORE_OVERVIEW, 0, "@value"], ""),
     subScales,
     finalSubScale,
     messages,
@@ -813,7 +824,8 @@ export const parseAppletEvents = (applet) => {
           true,
         );
 
-        event.scheduledTime = getStartOfInterval(futureSchedule.array()[0]);
+        event.scheduledTime = getStartOfInterval(futureSchedule.array()[0]).getTime();
+
         if (event.data.activity_id === act.id.substring(9) && !act.hasResponseIdentifier) {
           events.push(event);
         }

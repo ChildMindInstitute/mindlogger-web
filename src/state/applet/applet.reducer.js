@@ -25,6 +25,7 @@ export const initialState = {
   currentInvite: '',
   appletResponseData: {},
   activityAccess: {},
+  cumulativeActivities: {},
 };
 
 const appletSlice = createSlice({
@@ -34,6 +35,7 @@ const appletSlice = createSlice({
     clearApplets: () => initialState,
     selectApplet: (state, action) => { state.applet = action.payload },
     selectActivity: (state, action) => { state.activityAccess = action.payload },
+    setCumulativeActivities: (state, action) => { state.cumulativeActivities = action.payload },
     prepareResponseKeys: (state, action) => {
       const { appletId, keys } = action.payload;
       const index = state.applets.findIndex(applet => applet.id == appletId);
@@ -81,4 +83,4 @@ const appletSlice = createSlice({
 
 export default appletSlice.reducer;
 
-export const { clearApplets, selectApplet, selectActivity, prepareResponseKeys } = appletSlice.actions;
+export const { clearApplets, selectApplet, selectActivity, prepareResponseKeys, setCumulativeActivities } = appletSlice.actions;

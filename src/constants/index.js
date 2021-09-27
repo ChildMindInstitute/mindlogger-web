@@ -9,6 +9,7 @@ export const COLOR_PALETTE = "reprolib:terms/colorPalette";
 export const CONTENT_URL = "schema:contentUrl";
 export const DELAY = "reprolib:terms/delay";
 export const DESCRIPTION = "schema:description";
+export const SPLASH = "schema:splash";
 export const DO_NOT_KNOW = "reprolib:terms/dont_know_answer";
 export const ENCODING_FORMAT = "schema:encodingFormat";
 export const FULL_SCREEN = "reprolib:terms/full_screen";
@@ -57,6 +58,8 @@ export const CORRECT_ANSWER = "schema:correctAnswer";
 export const RESPONSE_OPTIONS = "reprolib:terms/responseOptions";
 export const VARIABLE_NAME = "reprolib:terms/variableName";
 export const JS_EXPRESSION = "reprolib:terms/jsExpression";
+export const SCORE_OVERVIEW = "reprolib:terms/scoreOverview";
+export const DIRECTION = "reprolib:terms/direction";
 export const VERSION = "schema:version";
 export const IS_VIS = "reprolib:terms/isVis";
 export const ADD_PROPERTIES = "reprolib:terms/addProperties";
@@ -86,6 +89,8 @@ export const ORDER = "reprolib:terms/order";
 export const HAS_RESPONSE_IDENTIFIER = "reprolib:terms/hasResponseIdentifier";
 export const IS_RESPONSE_IDENTIFIER = "reprolib:terms/isResponseIdentifier";
 export const IS_REVIEWER_ACTIVITY = "reprolib:terms/isReviewerActivity";
+export const DISABLE_SUMMARY = "reprolib:terms/disable_summary";
+export const NEXT_ACTIVITY = "reprolib:terms/nextActivity";
 
 export const Statuses = {
   LOADING: 'loading',

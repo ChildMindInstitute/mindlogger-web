@@ -15,6 +15,7 @@ import { getNextPos, getLastPos } from '../../services/navigation';
 import { userInfoSelector } from '../../state/user/user.selectors';
 import { currentActivitySelector, currentAppletSelector } from '../../state/app/app.selectors';
 import { completeResponse } from '../../state/responses/responses.actions';
+import { clearActivityStartTime } from '../../state/app/app.reducer';
 import {
   setAnswer,
   setCurrentScreen,
@@ -26,7 +27,6 @@ import {
   currentResponsesSelector,
   currentScreenIndexSelector,
 } from '../../state/responses/responses.selectors';
-import config from '../../util/config';
 
 import "./style.css";
 
@@ -57,17 +57,6 @@ const Screens = (props) => {
   const screenIndex = getNextPos(currentScreenIndex - 1, visibility)
 
   useEffect(() => {
-    if (screenIndex === 0) {
-      dispatch(createResponseInProgress({
-        activity: activityAccess,
-        event: null,
-        subjectId: user && user._id,
-        timeStarted: new Date().getTime()
-      }));
-    }
-  }, [])
-
-  useEffect(() => {
     if (inProgress && Object.keys(inProgress).length > 0) {
       const { activity, responses } = inProgress;
       let obj = data;
@@ -83,8 +72,10 @@ const Screens = (props) => {
     setIsLoading(true);
     await dispatch(completeResponse(false));
     setIsLoading(false);
+    const { activity } = inProgress;
+    clearActivityStartTime(activity.event ? activity.id + activity.event.id : activity.id)
 
-    if (activityAccess.compute && !isSummaryScreen) {
+    if (activityAccess.compute && !isSummaryScreen && !activityAccess.disableSummary) {
       setIsSummaryScreen(true);
       setShow(false);
 
@@ -165,7 +156,7 @@ const Screens = (props) => {
     const isVisible = item.isVis ? false : testVisibility(
       item.visibility,
       activityAccess.items,
-      inProgress ?.responses
+      inProgress?.responses
     );
 
 

@@ -7,6 +7,7 @@ export const getAppletsAPI = async ({ token, localInfo, currentApplet = '', next
     getAllApplets: true,
     retrieveSchedule: true,
     retrieveResponses: true,
+    retrieveLastResponseTime: true,
     numberOfDays: 7,
     groupByDateActivity: false,
     currentApplet,

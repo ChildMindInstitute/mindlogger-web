@@ -11,19 +11,20 @@ import {
   Row,
   Col,
 } from 'react-bootstrap'
+import _ from 'lodash';
+import * as R from 'ramda';
 import Avatar from 'react-avatar';
 
 // Local
-import { delayedExec, clearExec } from '../../util/interval';
 import sortActivities from './sortActivities';
+import { delayedExec, clearExec } from '../../util/interval';
 import { inProgressSelector, currentScreenIndexSelector } from '../../state/responses/responses.selectors';
-import { finishedEventsSelector } from '../../state/app/app.selectors';
-import { appletsSelector } from '../../state/applet/applet.selectors';
-import { setCurrentActivity } from '../../state/app/app.reducer';
-import { setCurrentScreen } from '../../state/responses/responses.reducer';
+import { finishedEventsSelector, startedTimesSelector } from '../../state/app/app.selectors';
+import { appletCumulativeActivities, appletsSelector } from '../../state/applet/applet.selectors';
+import { setActivityStartTime, setCurrentActivity } from '../../state/app/app.reducer';
+import { setCurrentEvent } from '../../state/responses/responses.reducer';
 import { createResponseInProgress, setAnswer } from '../../state/responses/responses.reducer';
 import { parseAppletEvents } from '../../services/json-ld';
-import * as R from 'ramda';
 
 import AboutModal from '../AboutModal';
 import ActivityItem from './ActivityItem';
@@ -33,6 +34,7 @@ import './style.css'
 export const ActivityList = ({ inProgress, finishedEvents }) => {
   const { appletId, publicId } = useParams();
   const applets = useSelector(appletsSelector);
+  const cumulativeActivities = useSelector(appletCumulativeActivities);
   const history = useHistory();
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -47,6 +49,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
     publicId && applet.publicId && applet.publicId.includes(publicId)
   ));
   const screenIndex = useSelector(currentScreenIndexSelector);
+  const startedTimes = useSelector(startedTimesSelector);
 
   const user = useSelector(state => R.path(['user', 'info'])(state));
   const updateStatusDelay = 60 * 1000;
@@ -61,7 +64,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
       } else if (aboutContent && aboutContent.en) {
         setMarkDown(aboutContent.en);
       } else {
-        setMarkDown("The authors of this applet have not provided any information!");
+        setMarkDown(t('no_markdown'));
       }
     }
 
@@ -92,7 +95,32 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
 
   const updateActivites = () => {
     const appletData = parseAppletEvents(currentApplet);
-    const appletActivities = appletData.activities.filter(act => {
+    const prizeActs = appletData.activities.filter(act => act.isPrize);
+
+    if (prizeActs.length === 1) {
+      setPrizeActivity(prizeActs[0]);
+    }
+
+    const notShownActs = [];
+    for (let index = 0; index < appletData.activities.length; index++) {
+      const act = appletData.activities[index];
+      if (act.messages && (act.messages[0].nextActivity || act.messages[1].nextActivity)) notShownActs.push(act);
+    }
+    const appletActivities = [];
+
+    for (let index = 0; index < appletData.activities.length; index++) {
+      let isNextActivityShown = true;
+      const act = appletData.activities[index];
+
+      for (let index = 0; index < notShownActs.length; index++) {
+        const notShownAct = notShownActs[index];
+        const alreadyAct = cumulativeActivities && cumulativeActivities[`${notShownAct.id}/nextActivity`];
+
+        isNextActivityShown = alreadyAct && alreadyAct.includes(act.name.en)
+          ? true
+          : checkActivityIsShown(act.name.en, notShownAct.messages)
+      }
+
       const supportedItems = act.items.filter(item => {
         return item.inputType === "radio"
           || item.inputType === "checkox"
@@ -101,16 +129,16 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
           || item.inputType === "text";
       });
 
-      return supportedItems.length && !act.isPrize && !act.isVis;
-    });
-    const prizeActs = appletData.activities.filter(act => act.isPrize);
-
-    if (prizeActs.length === 1) {
-      setPrizeActivity(prizeActs[0]);
+      if (supportedItems.length && act.isPrize != true && isNextActivityShown && act.isReviewerActivity != true)
+        appletActivities.push(act);
     }
 
-    const temp = sortActivities(appletActivities, inProgress, finishedEvents, currentApplet.schedule?.data);
-    setActivities(temp);
+    setActivities(sortActivities(appletActivities, inProgress, finishedEvents, currentApplet.schedule?.data));
+  }
+
+  const checkActivityIsShown = (name, messages) => {
+    if (!name || !messages) return true;
+    return _.findIndex(messages, { nextActivity: name }) === -1;
   }
 
   const onPressActivity = (activity) => {
@@ -118,14 +146,22 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
       setCurrentAct(activity);
       setStartActivity(true);
     } else {
-      dispatch(setCurrentActivity(activity.id));
+      if (activity.event
+        && activity.event.data.timedActivity.allow
+        && startedTimes
+        && !startedTimes[activity.id + activity.event.id]
+      ) {
+        dispatch(setActivityStartTime(activity.id + activity.event.id));
+      }
       dispatch(createResponseInProgress({
         activity: activity,
-        event: null,
+        event: activity.event,
         subjectId: user && user._id,
         publicId: currentApplet.publicId || null,
         timeStarted: new Date().getTime()
       }));
+
+      dispatch(setCurrentActivity(activity));
 
       if (currentApplet.publicId) {
         history.push(`/applet/public/${currentApplet.id.split('/').pop()}/${activity.id}`);
@@ -138,13 +174,16 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
   const handleResumeActivity = () => {
     const activity = currentAct;
 
-    dispatch(setCurrentActivity(activity.id));
-    dispatch(
-      setCurrentScreen({
-        activityId: activity.id,
-        screenIndex: screenIndex || 0,
-      })
-    )
+    dispatch(setCurrentActivity(activity));
+    dispatch(setCurrentEvent(activity.event ? activity.event.id : ''));
+
+    if (activity.event
+      && activity.event.data.timedActivity.allow
+      && startedTimes
+      && !startedTimes[activity.id + activity.event.id]
+    ) {
+      dispatch(setActivityStartTime(activity.id + activity.event.id));
+    }
 
     if (currentApplet.publicId) {
       history.push(`/applet/public/${currentApplet.id.split('/').pop()}/${activity.id}`);
@@ -157,15 +196,22 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
   const handleRestartActivity = () => {
     const activity = currentAct;
 
-    dispatch(setCurrentActivity(activity.id));
+    dispatch(setCurrentActivity(activity));
     dispatch(createResponseInProgress({
       activity: activity,
-      event: null,
+      event: activity.event,
       subjectId: user?._id,
       publicId: currentApplet.publicId || null,
       timeStarted: new Date().getTime()
     }));
-    dispatch(setAnswer({ activityId: activity.id }))
+
+    if (activity.event
+      && activity.event.data.timedActivity.allow
+      && startedTimes
+      && !startedTimes[activity.id + activity.event.id]
+    ) {
+      dispatch(setActivityStartTime(activity.id + activity.event.id));
+    }
 
     if (currentApplet.publicId) {
       history.push(`/applet/public/${currentApplet.id.split('/').pop()}/${activity.id}`);
@@ -209,7 +255,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
                 onClick={openAboutPage}
                 variant="link"
               >
-                { t('About.about') }
+                {t('About.about')}
               </Button>
             </Card.Body>
           </Card>
@@ -236,7 +282,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
         <Modal.Header closeButton>
           <Modal.Title>{t('additional.resume_activity')}</Modal.Title>
         </Modal.Header>
-          <Modal.Body>{t('additional.activity_resume_restart')}</Modal.Body>
+        <Modal.Body>{t('additional.activity_resume_restart')}</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleRestartActivity}>
             {t('additional.restart')}

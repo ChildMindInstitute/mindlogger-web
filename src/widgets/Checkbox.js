@@ -111,13 +111,13 @@ const Checkbox = ({
             <div className="no-gutters">
               <Form.Group as={Row}>
                 <Col md={6}>
-                  {_.map(item.valueConstraints.itemList, (obj, i) => (
+                  {item.valueConstraints.itemList.filter(obj => !obj.isVis).map((obj, i) => (
                     i < Math.ceil(itemCount / 2) ? renderItem(obj, i) : <></>
                   ))}
                 </Col>
 
                 <Col md={6}>
-                  {_.map(item.valueConstraints.itemList, (obj, i) => (
+                  {item.valueConstraints.itemList.filter(obj => !obj.isVis).map((obj, i) => (
                     i >= Math.ceil(itemCount / 2) ? renderItem(obj, i) : <></>
                   ))}
                 </Col>

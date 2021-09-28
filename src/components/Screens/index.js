@@ -46,9 +46,17 @@ const Screens = (props) => {
   const answer = useSelector(currentScreenResponseSelector);
   const progress = useSelector(inProgressSelector);
   const user = useSelector(userInfoSelector);
-  const screenIndex = useSelector(currentScreenIndexSelector);
+  const currentScreenIndex = useSelector(currentScreenIndexSelector);
   const activityAccess = useSelector(currentActivitySelector);
   const inProgress = useSelector(currentResponsesSelector);
+  const visibility = activityAccess.items.map((item) =>
+    item.isVis ? false : testVisibility(
+      item.visibility,
+      activityAccess.items,
+      inProgress ?.responses
+    )
+  );
+  const screenIndex = getNextPos(currentScreenIndex - 1, visibility)
 
   useEffect(() => {
     if (inProgress && Object.keys(inProgress).length > 0) {
@@ -83,7 +91,7 @@ const Screens = (props) => {
 
   const getVisibility = (responses) => {
     const visibility = activityAccess.items.map((item) =>
-      testVisibility(
+      item.isVis ? false : testVisibility(
         item.visibility,
         activityAccess.items,
         responses
@@ -145,7 +153,7 @@ const Screens = (props) => {
   }
 
   const handleBack = () => {
-    if (screenIndex >= 0) {
+    if (screenIndex >= 0 && prev >= 0) {
       dispatch(
         setCurrentScreen({
           activityId: activityAccess.id,
@@ -162,7 +170,7 @@ const Screens = (props) => {
     : 0;
 
   activityAccess.items.forEach((item, i) => {
-    const isVisible = testVisibility(
+    const isVisible = item.isVis ? false : testVisibility(
       item.visibility,
       activityAccess.items,
       inProgress?.responses
@@ -185,7 +193,7 @@ const Screens = (props) => {
           handleBack={handleBack}
           isSubmitShown={next === -1}
           answer={inProgress?.responses[i]}
-          isBackShown={screenIndex === i && i}
+          isBackShown={screenIndex === i && i && prev >= 0}
           isNextShown={screenIndex === i}
         />
       );

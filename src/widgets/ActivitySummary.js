@@ -155,14 +155,12 @@ const Summary = styled(({ className, ...props }) => {
               messages.map((item, i) => (
                 <div key={i}>
                   <h1>{item.category.replace(/_/g, ' ')}</h1>
-                  <h3>
-                    <b>{item.score}</b>
-                  </h3>
                   <div className="mb-4">
                     <Markdown markdown={_.get(item, 'compute.description', '').replace(MARKDOWN_REGEX, '$1$2')} />
                   </div>
+                  <h3>{item.score}</h3>
                   <Markdown markdown={item.message.replace(MARKDOWN_REGEX, '$1$2')} />
-                  {messages.length > 1 && <div key={`${i}-hr`} className="hr" />}
+                  {messages.length > 1 && <div className="hr" />}
                 </div>
               ))}
           </Card.Body>
@@ -171,10 +169,10 @@ const Summary = styled(({ className, ...props }) => {
       <div>
         <div className="pdf-container">
           <PDFExport paperSize="A4" margin="2cm" ref={pdfRef}>
-            <p className="mb-4" style={{ fontWeight: 900 }}>
-              <u>
-                <b>{_.get(activity, 'name.en')} Report</b>
-              </u>
+            <p className="mb-4">
+              <b>
+                <u>{_.get(activity, 'name.en')} Report</u>
+              </b>
             </p>
             <div className="mb-4">
               <Markdown markdown={_.get(activity, 'scoreOverview', '').replace(MARKDOWN_REGEX, '$1$2')} />
@@ -191,7 +189,9 @@ const Summary = styled(({ className, ...props }) => {
                   <div className="score-area">
                     <p
                       className="score-title text-nowrap"
-                      style={{ left: `${(item.scoreValue / item.maxScoreValue) * 100}%` }}>
+                      style={{
+                        left: `max(75px, ${(item.scoreValue / item.maxScoreValue) * 100}%)`,
+                      }}>
                       <b>Your/Your Child’s Score</b>
                     </p>
                     <div
@@ -295,6 +295,9 @@ const Summary = styled(({ className, ...props }) => {
       right: 0;
       bottom: 0;
     }
+  }
+  img {
+    max-width: 100%;
   }
 `;
 

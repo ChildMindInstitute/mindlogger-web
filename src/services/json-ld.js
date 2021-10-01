@@ -426,13 +426,19 @@ export const isSkippable = (allowList) => {
 export const itemAttachExtras = (
   transformedItem,
   schemaUri,
-  addProperties = {},
-) => ({
-  ...transformedItem,
-  schema: schemaUri,
-  variableName: R.path([0, "@value"], addProperties[VARIABLE_NAME]),
-  visibility: R.path([0, "@value"], addProperties[IS_VIS]),
-});
+  addProperties = [],
+) => {
+  const config = addProperties.find(
+    config => R.path([0, "@value"], config[VARIABLE_NAME]) == transformedItem.variableName
+  ) || {};
+
+  return {
+    ...transformedItem,
+    schema: schemaUri,
+    variableName: R.path([0, "@value"], config[VARIABLE_NAME]),
+    visibility: R.path([0, "@value"], config[IS_VIS]),
+  }
+};
 
 const SHORT_PREAMBLE_LENGTH = 90;
 
@@ -567,6 +573,7 @@ export const itemTransformJson = (itemJson) => {
     autoAdvance: allowList.includes(AUTO_ADVANCE),
     inputs: inputsObj,
     media,
+    variableName: itemJson['@id']
   };
 
   if (res.inputType === 'markdown-message') {
@@ -618,7 +625,7 @@ export const activityTransformJson = (activityJson, itemsJson) => {
       return null;
     }
     const item = itemTransformJson(itemsJson[itemKey]);
-    return itemAttachExtras(item, itemKey, activity.addProperties[itemIndex]);
+    return itemAttachExtras(item, itemKey, activity.addProperties);
   });
   const nonEmptyItems = R.filter(item => item, mapItems(activity.order));
   const items = attachPreamble(activity.preamble, nonEmptyItems);
@@ -658,7 +665,7 @@ export const transformApplet = (payload, currentApplets = null) => {
               if (act.id.substring(9) === keys[0]) {
                 act.items.forEach((itemData, i) => {
                   if (itemData.id === payload.items[dataKey]) {
-                    const item = itemAttachExtras(itemTransformJson(payload.items[dataKey]), dataKey);
+                    const item = itemAttachExtras(itemTransformJson(payload.items[dataKey]), dataKey, applet.activities[index].addProperties);
                     item.variableName = payload.items[dataKey]['@id'];
 
                     applet.activities[index].items[i] = {
@@ -696,7 +703,7 @@ export const transformApplet = (payload, currentApplets = null) => {
 
             applet.activities.forEach((act, index) => {
               if (act.id.substring(9) === keys[0]) {
-                const item = itemAttachExtras(itemTransformJson(payload.items[dataKey]), dataKey);
+                const item = itemAttachExtras(itemTransformJson(payload.items[dataKey]), dataKey, applet.activities[index].addProperties);
                 item.variableName = payload.items[dataKey]['@id'];
 
                 let updated = false;

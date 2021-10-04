@@ -13,12 +13,15 @@ export const testVisibility = (testExpression = true, items = [], responses = []
     comparison: true,
   });
 
-  let testExpressionFixed = testExpression.replace(/&&/g, ' and ');
-  testExpressionFixed = testExpressionFixed.replace(/\|\|/g, ' or ');
-  testExpressionFixed = testExpressionFixed.replace('===', '==');
-  testExpressionFixed = testExpressionFixed.replace('!==', '!=');
-  testExpressionFixed = testExpressionFixed.replace(/(\w+\.)/g, 'arrayIncludes($&');
-  testExpressionFixed = testExpressionFixed.replace(/.includes\(/g, ', ');
+  let testExpressionFixed = testExpression
+    .replace(/&&/g, ' and ')
+    .replace(/\|\|/g, ' or ')
+    .replace('===', '==')
+    .replace('!==', '!=')
+    .replace(/(\w+\.)/g, 'arrayIncludes($&')
+    .replace(/.includes\(/g, ', ')
+    .replace(/\!(?!=)/g, 'not ');
+
 
   // Custom function to test if element is present in array
   const arrayIncludes = (array, element) => {

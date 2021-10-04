@@ -147,7 +147,7 @@ export const flattenItemList = (list = []) =>
     price: R.path([PRICE, 0, "@value"], item),
     score: R.path([SCORE, 0, "@value"], item),
     alert: R.path([ALERT, 0, "@value"], item),
-    isVis: item[IS_VIS] ? R.path([IS_VIS, 0, "@value"], item) : false,
+    isVis: item[IS_VIS] ? R.path([IS_VIS, 0, "@value"], item) : undefined,
     description: R.path([DESCRIPTION, 0, "@value"], item),
     image: item[IMAGE],
     valueConstraints: item[RESPONSE_OPTIONS]
@@ -463,7 +463,7 @@ const transformPureActivity = (activityJson) => {
   const order = (activityJson[ORDER] && flattenIdList(activityJson[ORDER][0]["@list"])) || [];
   const notification = {}; // TO DO
   const info = languageListToObject(activityJson.info); // TO DO
-  const isVis = activityJson[IS_VIS] ? R.path([IS_VIS, 0, "@value"], activityJson) : false;
+  const isVis = activityJson[IS_VIS] ? R.path([IS_VIS, 0, "@value"], activityJson) : undefined;
   const compute = activityJson[COMPUTE] && R.map((item) => {
     return {
       jsExpression: R.path([JS_EXPRESSION, 0, "@value"], item),
@@ -538,7 +538,7 @@ export const itemTransformJson = (itemJson) => {
 
   const valueConstraintsObj = R.pathOr({}, [RESPONSE_OPTIONS, 0], itemJson);
   const valueConstraints = flattenValueConstraints(valueConstraintsObj);
-  const isVis = itemJson[IS_VIS] ? R.path([IS_VIS, 0, "@value"], itemJson) : false;
+  const isVis = itemJson[IS_VIS] ? R.path([IS_VIS, 0, "@value"], itemJson) : undefined;
 
   const inputs = R.pathOr([], [INPUTS], itemJson);
   const inputsObj = transformInputs(inputs);

@@ -129,7 +129,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
           || item.inputType === "text";
       });
 
-      if (supportedItems.length && act.isPrize != true && isNextActivityShown && act.isReviewerActivity != true)
+      if (supportedItems.length && act.isPrize != true && isNextActivityShown && act.isReviewerActivity != true && act.isVis !== true)
         appletActivities.push(act);
     }
 

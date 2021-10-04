@@ -159,7 +159,6 @@ export default function SetPassword() {
         : (
           <Alert className="w-100 text-center" variant="danger">
             Invalid or Expired Link.
-            <Alert.Link href="/login"> Please Login </Alert.Link>
           </Alert>
         )}
     </div>

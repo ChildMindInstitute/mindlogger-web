@@ -50,6 +50,20 @@ const responseSlice = createSlice({
 
       state.inProgress[activityId + currentEvent].responses[screenIndex] = answer;
     },
+    setEndTime: (state, action) => {
+      const { screenIndex, activityId } = action.payload;
+      const currentEvent = state.currentEvent || '';
+
+      if (state.inProgress[activityId + currentEvent]?.nextsAt)
+        state.inProgress[activityId + currentEvent].nextsAt[screenIndex] = new Date().getTime();
+      else
+        state.inProgress[activityId + currentEvent] = {
+          ...state.inProgress[activityId + currentEvent],
+          nextsAt: {
+            [screenIndex]: new Date().getTime()
+          }
+        };
+    },
     setInProgress: (state, action) => { state.inProgress = action.payload },
     addToUploadQueue: (state, action) => {
       state.uploadQueue.push(action.payload);
@@ -94,6 +108,7 @@ export const {
   setResponsesDownloadProgress,
   replaceResponses,
   setSchedule,
+  setEndTime,
   replaceAppletResponse,
   shiftUploadQueue,
   removeResponseInProgress,

@@ -32,7 +32,7 @@ export const prepareResponseForUpload = (
   const scheduledTime = activity.event && activity.event.scheduledTime;
   let cumulative = responseHistory.tokens?.cumulativeToken || 0;
 
-  const alerts = [];
+  const alerts = [], nextsAt = {};
 
   for (let i = 0; i < responses.length; i += 1) {
     const item = activity.items[i];
@@ -169,8 +169,14 @@ export const prepareResponseForUpload = (
     responseData['tokenCumulation'] = {
       value: cumulative
     };
-
   }
+
+  let i = 0;
+  for (const key in responseData.responses) {
+    nextsAt[key] = inProgressResponse.nextsAt && inProgressResponse.nextsAt[i] || Date.now();
+    i++;
+  }
+  responseData['nextsAt'] = nextsAt; 
 
   return responseData;
 };

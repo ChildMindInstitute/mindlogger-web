@@ -66,6 +66,9 @@ export const completeResponse = createAsyncThunk(RESPONSE_CONSTANTS.COMPLETE_RES
   const activity = currentActivitySelector(state);
   const event = currentEventSelector(state);
 
+  console.log('-------inProgressResponse---------');
+  console.log(inProgressResponse);
+
   if ((!applet.AESKey || !applet.userPublicKey || applet.publicId)) {
     if (applet.publicId) {
       const pass = activity.items.findIndex(item => item.correctAnswer?.en)

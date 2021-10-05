@@ -18,6 +18,7 @@ import { completeResponse } from '../../state/responses/responses.actions';
 import { clearActivityStartTime } from '../../state/app/app.reducer';
 import {
   setAnswer,
+  setEndTime,
   setCurrentScreen,
   createResponseInProgress,
 } from '../../state/responses/responses.reducer';
@@ -53,7 +54,7 @@ const Screens = (props) => {
     item.isVis ? false : testVisibility(
       item.visibility,
       activityAccess.items,
-      inProgress ?.responses
+      inProgress?.responses
     )
   );
   const screenIndex = getNextPos(currentScreenIndex - 1, visibility)
@@ -125,6 +126,8 @@ const Screens = (props) => {
 
       [currentNext] = getVisibility(responses);
     }
+
+    dispatch(setEndTime({ activityId: activityAccess.id, screenIndex: screenIndex }));
 
     if (currentNext === -1) {
       setShow(true);

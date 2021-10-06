@@ -33,7 +33,7 @@ export default ({ user }) => {
       expanded={expanded}
       onToggle={() => setExpanded(!expanded)}
     >
-      <Navbar.Brand role={'button'} onClick={() => history.push('/dashboard')}>
+      <Navbar.Brand role={'button'} onClick={() => history.push('/applet')}>
         {t('Navbar.mindLogger')}
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />

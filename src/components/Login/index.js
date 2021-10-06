@@ -34,7 +34,7 @@ export default function Login() {
       } else if (location.state) {
         dispatch(push(location.state));
       } else {
-        dispatch(push('/dashboard'));
+        dispatch(push('/applet'));
         dispatch(setRedirectUrl(null));
       }
     }

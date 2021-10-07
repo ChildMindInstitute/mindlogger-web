@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
+import { useSelector } from 'react-redux';
+
 import _ from "lodash";
 import { useTranslation } from 'react-i18next';
 import {
@@ -10,6 +12,9 @@ import {
 } from 'react-bootstrap';
 
 import Navigator from './Navigator';
+import { parseMarkdown } from '../services/helper';
+import { activityLastResponseTimeSelector } from '../state/responses/responses.selectors';
+
 import Markdown from '../components/Markdown';
 
 const TextInput = ({
@@ -24,6 +29,9 @@ const TextInput = ({
   answer
 }) => {
   const { t } = useTranslation();
+
+  const lastResponseTime = useSelector(activityLastResponseTimeSelector);
+  const markdown = useRef(parseMarkdown(item.question.en, lastResponseTime)).current;
 
   const [show, setShow] = useState(false);
   const [value, setValue] = useState(answer && typeof answer === "object" ? answer.value : (answer || ''));
@@ -43,7 +51,7 @@ const TextInput = ({
             }
             <div className="markdown">
               <Markdown
-                markdown={item.question.en.replace(/(!\[.*\]\s*\(.*?) =\d*x\d*(\))/g, '$1$2')}
+                markdown={markdown}
               />
             </div>
           </Card.Title>

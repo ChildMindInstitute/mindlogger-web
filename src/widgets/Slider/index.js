@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import _ from "lodash";
 import { Row, Card, Col, Image } from 'react-bootstrap';
 
@@ -8,6 +9,9 @@ import Markdown from '../../components/Markdown';
 import "./style.css";
 import ReactBootstrapSlider from 'react-bootstrap-slider';
 import "bootstrap-slider/dist/css/bootstrap-slider.css"
+
+import { parseMarkdown } from '../../services/helper';
+import { activityLastResponseTimeSelector } from '../../state/responses/responses.selectors';
 
 const SliderWidget = ({
   item,
@@ -23,6 +27,8 @@ const SliderWidget = ({
   const [data, setData] = useState({
     [item.variableName]: answer && answer.value || null
   });
+  const lastResponseTime = useSelector(activityLastResponseTimeSelector);
+  const markdown = useRef(parseMarkdown(item.question.en, lastResponseTime)).current;
 
   const {
     continuousSlider,
@@ -72,7 +78,7 @@ const SliderWidget = ({
               }
               <div className="markdown">
                 <Markdown
-                  markdown={item.question.en.replace(/(!\[.*\]\s*\(.*?) =\d*x\d*(\))/g, '$1$2')}
+                  markdown={markdown}
                 />
               </div>
             </Card.Title>

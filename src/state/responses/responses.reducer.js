@@ -83,8 +83,8 @@ const responseSlice = createSlice({
     replaceAppletResponse: (state, action) => {
       state.responseHistory[action.payload.index] = action.payload.response;
     },
-    setSchedule: (state, action) => {
-      state.schedule = action.payload
+    setLastResponseTime: (state, action) => {
+      state.lastResponseTime = action.payload
     },
     shiftUploadQueue: (state, action) => {
       state.uploadQueue = R.remove(0, 1, state.uploadQueue);
@@ -107,7 +107,7 @@ export const {
   setDownloadingResponses,
   setResponsesDownloadProgress,
   replaceResponses,
-  setSchedule,
+  setLastResponseTime,
   setEndTime,
   replaceAppletResponse,
   shiftUploadQueue,

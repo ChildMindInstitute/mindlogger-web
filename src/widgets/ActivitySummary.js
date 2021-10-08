@@ -175,7 +175,7 @@ const Summary = styled(({ className, ...props }) => {
               </b>
             </p>
             <div className="mb-4">
-              <Markdown markdown={_.get(activity, 'scoreOverview', '').replace(MARKDOWN_REGEX, '$1$2')} />
+              <Markdown useCORS={true} markdown={_.get(activity, 'scoreOverview', '').replace(MARKDOWN_REGEX, '$1$2')} />
             </div>
             {messages &&
               messages.map((item, i) => (
@@ -184,7 +184,10 @@ const Summary = styled(({ className, ...props }) => {
                     <b>{item.category.replace(/_/g, ' ')}</b>
                   </p>
                   <div className="mb-4">
-                    <Markdown markdown={_.get(item, 'compute.description', '').replace(MARKDOWN_REGEX, '$1$2')} />
+                    <Markdown
+                      markdown={_.get(item, 'compute.description', '').replace(MARKDOWN_REGEX, '$1$2')}
+                      useCORS={true}
+                    />
                   </div>
                   <div className="score-area">
                     <p
@@ -227,7 +230,10 @@ const Summary = styled(({ className, ...props }) => {
                   <div className="mb-4">
                     Your/Your child's score on the {item.category.replace(/_/g, ' ')} subscale was{' '}
                     <span className="text-danger">{item.scoreValue}</span>.
-                    <Markdown markdown={item.message.replace(MARKDOWN_REGEX, '$1$2')} />
+                    <Markdown
+                      markdown={item.message.replace(MARKDOWN_REGEX, '$1$2')}
+                      useCORS={true}
+                    />
                   </div>
                 </div>
               ))}

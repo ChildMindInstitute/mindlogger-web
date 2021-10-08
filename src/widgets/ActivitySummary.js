@@ -14,9 +14,9 @@ import MyButton from '../components/Button';
 import Markdown from '../components/Markdown';
 
 // State
-import { setCumulativeActivities } from '../state/applet/applet.reducer';
 import { inProgressSelector } from '../state/responses/responses.selectors';
-import { appletCumulativeActivities } from '../state/applet/applet.selectors';
+import { setCumulativeActivities, setHiddenCumulativeActivities } from '../state/applet/applet.reducer';
+import { appletCumulativeActivities, appletHiddenCumulativeActivities } from '../state/applet/applet.selectors';
 
 // services
 import { getScoreFromResponse, evaluateScore, getMaxScore } from '../services/scoring';
@@ -38,6 +38,7 @@ const Summary = styled(({ className, ...props }) => {
 
   const response = useSelector(inProgressSelector);
   const cumulativeActivities = useSelector(appletCumulativeActivities);
+  const hiddenCumulativeActivities = useSelector(appletHiddenCumulativeActivities);
 
   const pdfRef = useRef(null);
 
@@ -101,10 +102,10 @@ const Summary = styled(({ className, ...props }) => {
             [category]:
               outputType == 'percentage'
                 ? Math.round(
-                    cumulativeMaxScores[category]
-                      ? (cumulativeScores[category] * 100) / cumulativeMaxScores[category]
-                      : 0,
-                  )
+                  cumulativeMaxScores[category]
+                    ? (cumulativeScores[category] * 100) / cumulativeMaxScores[category]
+                    : 0,
+                )
                 : cumulativeScores[category],
           };
 
@@ -134,8 +135,11 @@ const Summary = styled(({ className, ...props }) => {
             cumActivities = [...cumulativeActivities[`${activity.id}/nextActivity`], ...cumActivities];
             dispatch(setCumulativeActivities({ [`${activity.id}/nextActivity`]: cumActivities }));
           }
+          if (!hiddenCumulativeActivities?.includes(activity.id)) dispatch(setHiddenCumulativeActivities(activity.id));
         } else {
           dispatch(setCumulativeActivities({ [`${activity.id}/nextActivity`]: cumActivities }));
+          if (cumActivities.length > 0 && !hiddenCumulativeActivities?.includes(activity.id))
+            dispatch(setHiddenCumulativeActivities(activity.id));
         }
 
         setMessages(reportMessages);

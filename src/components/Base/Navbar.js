@@ -60,6 +60,7 @@ const UserInfoDropdown = ({ user, setExpanded }) => {
     dispatch(doLogout())
     dispatch(push('/login'))
     setExpanded(false);
+    localStorage.clear()
   }
 
   const onSettings = () => {

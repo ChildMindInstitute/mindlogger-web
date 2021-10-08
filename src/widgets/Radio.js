@@ -48,7 +48,7 @@ const Radio = (props) => {
   const renderItem = (obj, index) => (
     <div className="response-option" style={{ background: obj.color ? obj.color : 'none' }}>
       {
-         !obj.image && <div className="option-image"></div>
+        !obj.image && <div className="option-image"></div>
       }
       {
         obj.description &&
@@ -76,7 +76,7 @@ const Radio = (props) => {
         name={item.variableName}
         style={{ color: obj.color ? invertColor(obj.color) : "#333333" }}
         type="radio"
-        checked={ answer && answer.value == (token ? obj.name.en : obj.value) }
+        checked={(answer || answer === 0) && answer.value == (token ? obj.name.en : obj.value)}
         onChange={
           () => {
             handleChange({ value: token ? obj.name.en : obj.value });
@@ -85,7 +85,6 @@ const Radio = (props) => {
         }
         value={obj.value}
         disabled={!isNextShown}
-        checked={checked == obj.value}
         id={`${item.variableName}${index}`}
       />
     </div>

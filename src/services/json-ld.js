@@ -96,7 +96,8 @@ import {
   IS_RESPONSE_IDENTIFIER,
   IS_REVIEWER_ACTIVITY,
   DISABLE_SUMMARY,
-  NEXT_ACTIVITY
+  NEXT_ACTIVITY,
+  REMOVE_BACK_OPTION
 } from '../constants';
 
 export const languageListToObject = (list) => {
@@ -319,6 +320,13 @@ export const flattenValueConstraints = (vcObj) =>
           sliderLabel: R.path([SLIDER_LABEL, 0, "@value"], option),
           itemList: flattenItemList(R.path([ITEM_LIST_ELEMENT], option))
         }))
+      }
+    }
+
+    if (key === REMOVE_BACK_OPTION) {
+      return {
+        ...accumulator,
+        removeBackOption: R.path([key, 0, "@value"], vcObj)
       }
     }
 

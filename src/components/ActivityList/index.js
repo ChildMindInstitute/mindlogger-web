@@ -20,8 +20,8 @@ import sortActivities from './sortActivities';
 import { delayedExec, clearExec } from '../../util/interval';
 import { inProgressSelector, currentScreenIndexSelector } from '../../state/responses/responses.selectors';
 import { finishedEventsSelector, startedTimesSelector } from '../../state/app/app.selectors';
-import { appletCumulativeActivities, appletsSelector } from '../../state/applet/applet.selectors';
-import { setActivityStartTime, setCurrentActivity } from '../../state/app/app.reducer';
+import { appletCumulativeActivities, appletsSelector, appletHiddenCumulativeActivities } from '../../state/applet/applet.selectors';
+import { setActivityStartTime, setCurrentActivity, } from '../../state/app/app.reducer';
 import { setCurrentEvent } from '../../state/responses/responses.reducer';
 import { createResponseInProgress, setAnswer } from '../../state/responses/responses.reducer';
 import { parseAppletEvents } from '../../services/json-ld';
@@ -35,6 +35,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
   const { appletId, publicId } = useParams();
   const applets = useSelector(appletsSelector);
   const cumulativeActivities = useSelector(appletCumulativeActivities);
+  const hiddenCumulativeActivities = useSelector(appletHiddenCumulativeActivities);
   const history = useHistory();
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -112,13 +113,19 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
       let isNextActivityShown = true;
       const act = appletData.activities[index];
 
-      for (let index = 0; index < notShownActs.length; index++) {
-        const notShownAct = notShownActs[index];
+      for (let j = 0; j < notShownActs.length; j++) {
+        const notShownAct = notShownActs[j];
         const alreadyAct = cumulativeActivities && cumulativeActivities[`${notShownAct.id}/nextActivity`];
 
-        isNextActivityShown = alreadyAct && alreadyAct.includes(act.name.en)
-          ? true
-          : checkActivityIsShown(act.name.en, notShownAct.messages)
+        if (isNextActivityShown !== false)
+          isNextActivityShown = alreadyAct?.includes(act.name.en)
+            ? true
+            : checkActivityIsShown(act.name.en, notShownAct.messages)
+
+        if (alreadyAct?.includes(act.name.en)) {
+          isNextActivityShown = alreadyAct?.includes(act.name.en);
+          break;
+        };
       }
 
       const supportedItems = act.items.filter(item => {
@@ -129,7 +136,11 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
           || item.inputType === "text";
       });
 
-      if (supportedItems.length && act.isPrize != true && isNextActivityShown && act.isReviewerActivity != true && act.isVis !== true)
+      if (supportedItems.length && act.isPrize != true && isNextActivityShown &&
+        act.isReviewerActivity != true &&
+        act.isVis !== true &&
+        !hiddenCumulativeActivities?.includes(act.id)
+      )
         appletActivities.push(act);
     }
 

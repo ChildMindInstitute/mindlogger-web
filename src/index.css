@@ -50,7 +50,10 @@ code {
   margin-right: 15px;
 }
 .app-container{
-  min-height: calc(100vh - 180px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 144px);
 }
 .dropdown-menu{
   right: 0px;

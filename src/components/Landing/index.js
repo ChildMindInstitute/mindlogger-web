@@ -15,16 +15,15 @@ export default function Landing () {
   return (
     <div className="my-3 h-100">
       <div className="mb-3 pt-3 d-flex flex-column align-items-center">
-        <h1>{t('Landing.title')}</h1>
-        <p className="lead">{t('Landing.reserchStudies')}</p>
         <img
-          style={{ maxWidth: '500px', width: '100%' }}
-          src="/undraw_data_xmfy.svg"
+          style={{ maxWidth: '120px', width: '100%' }}
+          className="mb-2"
+          src="/favicon.png"
         />
         <div>
           {isLoggedIn
             ? (
-            <div className="mt-3">
+            <div className="mt-4">
               <Link to="/applet">
                 <Button type="button" className="btn btn-danger btn-lg">
                   {t('Landing.getStart')}
@@ -34,7 +33,7 @@ export default function Landing () {
               )
             : (
             <div>
-              <p className="mt-3 text-center">{t('Landing.toGet')}</p>
+              <p className="mt-4 text-center">{t('Landing.toGet')}</p>
               <Link to="/login">
                 <Button type="button" variant="primary" className="btn btn-primary btn-lg mr-1">
                   {t('Landing.login')}

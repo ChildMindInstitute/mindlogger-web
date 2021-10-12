@@ -38,8 +38,8 @@ const App = () => {
   return (
     <ConnectedRouter history={history}>
       <NavBar user={user} />
-      <Container className={'main-container'}>
-        <Container style={{ justifyContent: 'center', margin: 'unset' }} className={'app-container'}>
+      <div className={'main-container'}>
+        <div style={{ justifyContent: 'center', margin: 'unset' }} className={'app-container'}>
           <Switch>
             <Route path="/applet/public/:publicId" exact component={PublicApplet} />
             <Route path="/applet/public/:appletId/activity/:activityId" exact component={Screens} />
@@ -78,8 +78,8 @@ const App = () => {
               </>
             )}
           </Switch>
-        </Container>
-      </Container>
+        </div>
+      </div>
       <Footer />
     </ConnectedRouter>
   );

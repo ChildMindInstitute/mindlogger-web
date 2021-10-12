@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory, useLocation } from 'react-router-dom'
 import { push } from 'connected-react-router'
+import { loggedInSelector } from '../../state/user/user.selectors'
 import { doLogout } from '../../state/user/user.actions'
 import { Languages } from '../../constants/index'
 
@@ -22,10 +23,13 @@ export default ({ user }) => {
   const history = useHistory()
   const location = useLocation()
   const [expanded, setExpanded] = useState(false)
+  const isLoggedIn = useSelector(loggedInSelector)
   const ref = useRef();
 
   const onLogoClick = () => {
-    if (location.pathname === '/applet') {
+    if (!isLoggedIn) {
+      history.push('/dashboard');
+    } else if (location.pathname === '/applet') {
       history.go(0)
     } else {
       history.push('/applet')

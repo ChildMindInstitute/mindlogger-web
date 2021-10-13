@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import { Card, Row, Col } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { Parser } from 'expr-eval';
 import { PDFExport } from '@progress/kendo-react-pdf';
 import styled from 'styled-components';
 import cn from 'classnames';
@@ -19,7 +18,7 @@ import { inProgressSelector } from '../state/responses/responses.selectors';
 import { appletCumulativeActivities } from '../state/applet/applet.selectors';
 
 // services
-import { getScoreFromResponse, evaluateScore, getMaxScore } from '../services/scoring';
+import { evaluateCumulatives } from '../services/scoring';
 
 const MARKDOWN_REGEX = /(!\[.*\]\s*\(.*?) =\d*x\d*(\))/g;
 const termsText =
@@ -47,86 +46,7 @@ const Summary = styled(({ className, ...props }) => {
       setActivity(activity);
 
       if (responses && responses.length > 0) {
-        const parser = new Parser({
-          logical: true,
-          comparison: true,
-        });
-
-        let scores = [],
-          maxScores = [];
-        for (let i = 0; i < activity.items.length; i++) {
-          const { variableName } = activity.items[i];
-          let score = getScoreFromResponse(
-            activity.items[i],
-            responses[i][variableName] ? responses[i][variableName] : responses[i],
-          );
-          scores.push(score);
-          maxScores.push(getMaxScore(activity.items[i]));
-        }
-
-        const cumulativeScores = activity.compute.reduce((accumulator, itemCompute) => {
-          return {
-            ...accumulator,
-            [itemCompute.variableName.trim().replace(/\s/g, '__')]: evaluateScore(
-              itemCompute.jsExpression,
-              activity.items,
-              scores,
-            ),
-          };
-        }, {});
-
-        const cumulativeMaxScores = activity.compute.reduce((accumulator, itemCompute) => {
-          return {
-            ...accumulator,
-            [itemCompute.variableName.trim().replace(/\s/g, '__')]: evaluateScore(
-              itemCompute.jsExpression,
-              activity.items,
-              maxScores,
-            ),
-          };
-        }, {});
-
-        const reportMessages = [];
-        let cumActivities = [];
-        activity.messages.forEach((msg) => {
-          const { jsExpression, message, outputType, nextActivity } = msg;
-
-          const exprArr = jsExpression.split(/[><]/g);
-          const variableName = exprArr[0];
-          const exprValue = parseFloat(exprArr[1].split(' ')[1]);
-          const category = variableName.trim().replace(/\s/g, '__');
-          const expr = parser.parse(category + jsExpression.substr(variableName.length));
-
-          const variableScores = {
-            [category]:
-              outputType == 'percentage'
-                ? Math.round(
-                    cumulativeMaxScores[category]
-                      ? (cumulativeScores[category] * 100) / cumulativeMaxScores[category]
-                      : 0,
-                  )
-                : cumulativeScores[category],
-          };
-
-          if (expr.evaluate(variableScores)) {
-            if (nextActivity) cumActivities.push(nextActivity);
-
-            const compute = activity.compute.find(
-              (itemCompute) => itemCompute.variableName.trim() == variableName.trim(),
-            );
-
-            reportMessages.push({
-              category,
-              message,
-              score: variableScores[category] + (outputType == 'percentage' ? '%' : ''),
-              compute,
-              jsExpression: jsExpression.substr(variableName.length),
-              scoreValue: cumulativeScores[category],
-              maxScoreValue: cumulativeMaxScores[category],
-              exprValue: outputType == 'percentage' ? (exprValue * cumulativeMaxScores[category]) / 100 : exprValue,
-            });
-          }
-        });
+        let { cumActivities, reportMessages } = evaluateCumulatives(responses, activity);
 
         if (cumulativeActivities && cumulativeActivities[`${activity.id}/nextActivity`]) {
           cumActivities = _.difference(cumActivities, cumulativeActivities[`${activity.id}/nextActivity`]);

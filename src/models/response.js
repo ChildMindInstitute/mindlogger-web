@@ -2,7 +2,7 @@ import * as R from 'ramda';
 import packageJson from '../../package.json';
 import config from '../util/config';
 import { encryptData, decryptData } from '../services/encryption';
-import { getSubScaleResult, getValuesFromResponse, getFinalSubScale } from '../services/scoring';
+import { getSubScaleResult, getValuesFromResponse, getFinalSubScale, evaluateCumulatives } from '../services/scoring';
 import { getAlertsFromResponse } from '../services/alert';
 
 import {
@@ -27,6 +27,7 @@ export const prepareResponseForUpload = (
 ) => {
   const languageKey = "en";
   const { activity, responses, subjectId } = inProgressResponse;
+  const { cumActivities } = evaluateCumulatives(responses, activity);
   const appletVersion = appletMetaData.schemaVersion[languageKey];
   const scheduledTime = activity.event && activity.event.scheduledTime;
   let cumulative = responseHistory.tokens?.cumulativeToken || 0;
@@ -85,6 +86,10 @@ export const prepareResponseForUpload = (
     },
     languageCode: languageKey,
     alerts,
+    nextActivities: cumActivities.map(name => {
+      const activity = appletMetaData.activities.find(activity => activity.name.en == name)
+      return activity && activity.id.split('/').pop()
+    }).filter(id => id)
   };
 
   if (appletMetaData.publicId) {

@@ -33,7 +33,7 @@ const appletSlice = createSlice({
   name: "applet",
   initialState,
   reducers: {
-    clearApplets: () => initialState,
+    clearApplets: () => ({ ...initialState, cumulativeActivities, hiddenCumulativeActivities }),
     selectApplet: (state, action) => { state.applet = action.payload },
     selectActivity: (state, action) => { state.activityAccess = action.payload },
     setCumulativeActivities: (state, action) => { state.cumulativeActivities = { ...state.cumulativeActivities, ...action.payload } },

@@ -239,6 +239,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
   return (
     <Container fluid>
       <Row className="ds-applet-layout">
+        <Col lg={1} />
         <Col lg={3}>
           <Card className="ds-card">
             {currentApplet.image &&
@@ -276,8 +277,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
             closeAboutPage={closeAboutPage}
           />
         </Col>
-        <Col lg={1} />
-        <Col lg={8}>
+        <Col lg={7}>
           {activities.filter(activity => !activity.isReviewerActivity).map(activity => (
             <ActivityItem
               activity={activity}

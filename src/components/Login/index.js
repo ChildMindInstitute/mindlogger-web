@@ -80,7 +80,7 @@ export default function Login() {
 
   return (
     <div className="demo mp-3 align-self-center w-100">
-      <div id="login" className="text-center mb-0">
+      <div id="login" className="text-center mb-0 px-3">
         <h1>{t('Login.title')}</h1>
         <div className="container fluid" id="signupForm">
           <Form onSubmit={onSubmit}>

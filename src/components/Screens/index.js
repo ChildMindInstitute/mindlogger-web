@@ -227,7 +227,7 @@ const Screens = (props) => {
           </Card>
 
           {activityStatus.map(status => 
-            <div className="mt-2 rounded border w-h p-2 text-center">
+            <div className="mt-2 rounded border w-h p-2 text-center bg-white">
               <div className="mb-2">{status.label}</div>
               <ProgressBar className="mb-2" now={status.percentage} />
             </div>

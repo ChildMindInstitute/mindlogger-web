@@ -262,6 +262,8 @@ export const evaluateCumulatives = (responses, activity) => {
   let scores = [],
     maxScores = [];
   for (let i = 0; i < activity.items.length; i++) {
+    if (!activity.items[i] || !responses[i]) continue;
+
     const { variableName } = activity.items[i];
     let score = getScoreFromResponse(
       activity.items[i],
@@ -311,21 +313,17 @@ export const evaluateCumulatives = (responses, activity) => {
         [category]:
           outputType == 'percentage'
             ? Math.round(
-                cumulativeMaxScores[category]
-                  ? (cumulativeScores[category] * 100) / cumulativeMaxScores[category]
-                  : 0,
-              )
+              cumulativeMaxScores[category]
+                ? (cumulativeScores[category] * 100) / cumulativeMaxScores[category]
+                : 0,
+            )
             : cumulativeScores[category],
       };
 
       if (expr.evaluate(variableScores)) {
-        if (nextActivity) {
-          cumActivities.push(nextActivity);
-        }
+        if (nextActivity) cumActivities.push(nextActivity);
 
-        const compute = activity.compute.find(
-          (itemCompute) => itemCompute.variableName.trim() == variableName.trim(),
-        );
+        const compute = activity?.compute?.find((itemCompute) => itemCompute.variableName.trim() == variableName.trim());
 
         reportMessages.push({
           category,
@@ -340,9 +338,6 @@ export const evaluateCumulatives = (responses, activity) => {
       }
     });
   }
-
-  return {
-    cumActivities,
-    reportMessages
-  }
+ 
+  return { reportMessages, cumActivities }
 }

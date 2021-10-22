@@ -143,7 +143,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
       )
         appletActivities.push(act);
     }
-
+    appletActivities.length === 0 && appletActivities.push(currentApplet?.activities[0]);
     setActivities(sortActivities(appletActivities, inProgress, finishedEvents, currentApplet.schedule?.data));
   }
 

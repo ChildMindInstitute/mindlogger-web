@@ -19,6 +19,7 @@ import { appletCumulativeActivities, appletHiddenCumulativeActivities } from '..
 
 // services
 import { evaluateCumulatives } from '../services/scoring';
+import { currentActivitySelector, currentAppletSelector } from '../state/app/app.selectors';
 
 const MARKDOWN_REGEX = /(!\[.*\]\s*\(.*?) =\d*x\d*(\))/g;
 const termsText =
@@ -35,37 +36,58 @@ const Summary = styled(({ className, ...props }) => {
 
   const dispatch = useDispatch();
 
+  const applet = useSelector(currentAppletSelector);
   const response = useSelector(inProgressSelector);
+  const activityAccess = useSelector(currentActivitySelector);
   const cumulativeActivities = useSelector(appletCumulativeActivities);
   const hiddenCumulativeActivities = useSelector(appletHiddenCumulativeActivities);
 
   const pdfRef = useRef(null);
 
   useEffect(() => {
-    if (response[`activity/${activityId}`]) {
-      const { responses, activity } = response[`activity/${activityId}`];
-      setActivity(activity);
-
-      if (responses && responses.length > 0) {
-        let { cumActivities, reportMessages } = evaluateCumulatives(responses, activity);
-
-        if (cumulativeActivities && cumulativeActivities[`${activity.id}/nextActivity`]) {
-          cumActivities = _.difference(cumActivities, cumulativeActivities[`${activity.id}/nextActivity`]);
-          if (cumActivities.length > 0) {
-            cumActivities = [...cumulativeActivities[`${activity.id}/nextActivity`], ...cumActivities];
-            dispatch(setCumulativeActivities({ [`${activity.id}/nextActivity`]: cumActivities }));
-          }
-          if (!hiddenCumulativeActivities?.includes(activity.id)) dispatch(setHiddenCumulativeActivities(activity.id));
-        } else {
-          dispatch(setCumulativeActivities({ [`${activity.id}/nextActivity`]: cumActivities }));
-          if (cumActivities.length > 0 && !hiddenCumulativeActivities?.includes(activity.id))
-            dispatch(setHiddenCumulativeActivities(activity.id));
-        }
-
-        setMessages(reportMessages);
-      }
+    try {
+      if (response[`activity/${activityId}`]) updateActivity(response[`activity/${activityId}`]);
+    } catch (error) {
+      console.log(error);
     }
+    if (activityAccess?.disableSummary) history.push(`/applet/${appletId}/activity_thanks`);
   }, [response && Object.keys(response).length > 1]);
+
+  const updateActivity = (response = {}) => {
+    const { responses, activity } = response;
+    setActivity(activity);
+
+    if (responses && responses.length > 0) {
+      let { cumActivities, reportMessages } = evaluateCumulatives(responses, activity);
+      const cumulativeActivity = findActivity(cumActivities && cumActivities[0], applet?.activities);
+
+      if (cumulativeActivities && cumulativeActivities[`${activity.id}/nextActivity`]) {
+        if (cumActivities.length > 0 && !hiddenCumulativeActivities?.includes(activity.id)) dispatch(setHiddenCumulativeActivities({ id: activity.id }));
+
+        cumActivities = _.difference(cumActivities, cumulativeActivities[`${activity.id}/nextActivity`]);
+        if (cumActivities.length > 0) {
+          cumActivities = [...cumulativeActivities[`${activity.id}/nextActivity`], ...cumActivities];
+          dispatch(setCumulativeActivities({ [`${activity.id}/nextActivity`]: cumActivities }));
+        }
+        if (hiddenCumulativeActivities?.includes(cumulativeActivity?.id)) dispatch(setHiddenCumulativeActivities({ id: cumulativeActivity?.id, isRemove: true }));
+      } else {
+        dispatch(setCumulativeActivities({ [`${activity.id}/nextActivity`]: cumActivities }));
+        if (cumActivities.length > 0 && !hiddenCumulativeActivities?.includes(activity.id))
+          dispatch(setHiddenCumulativeActivities({ id: activity.id }));
+
+        if (hiddenCumulativeActivities?.includes(cumulativeActivity?.id)) dispatch(setHiddenCumulativeActivities({ id: cumulativeActivity?.id, isRemove: true }));
+      }
+
+      setMessages(reportMessages);
+    }
+  }
+
+  const findActivity = (name, activities = []) => {
+    if (!name) return undefined;
+    return _.find(activities, { name: { en: name } });
+  }
+
+  if (activityAccess.disableSummary) return <div />;
 
   return (
     <Card className={cn('mb-3', className)}>

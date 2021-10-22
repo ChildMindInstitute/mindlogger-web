@@ -38,7 +38,7 @@ export const getApplets = createAsyncThunk(APPLET_CONSTANTS.GET_APPLETS, async (
       response[`activity/${activityId}/nextActivity`] = nextActivities[activityId].map(id => {
         const activity = applet.activities.find(activity => activity.id.split('/').pop() == id)
         return activity && activity.name.en;
-      }).filter(name => name.length)
+      })?.filter(name => name?.length)
     }
 
     return response;
@@ -107,7 +107,7 @@ export const getApplets = createAsyncThunk(APPLET_CONSTANTS.GET_APPLETS, async (
   };
 
   dispatch(setFinishedEvents(finishedEvents));
-  dispatch(setCumulativeActivities(cumulativeActivities));
+  // dispatch(setCumulativeActivities(cumulativeActivities));
   dispatch(replaceResponses(responses));
 
   return transformedApplets;

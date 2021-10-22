@@ -208,7 +208,9 @@ const Screens = (props) => {
       <Row className="mt-5">
         <Col xl={3} />
         <Col xl={9} >
-          <ProgressBar striped className="mb-2" now={percentage} />
+          <Card className="bg-white p-2" >
+            <ProgressBar striped className="mb-2" now={percentage} />
+          </Card>
         </Col>
       </Row>
       <Row className="mt-2 activity">
@@ -227,7 +229,7 @@ const Screens = (props) => {
           </Card>
 
           {activityStatus.map(status => 
-            <div className="mt-2 rounded border w-h p-2 text-center bg-white">
+            <div className="my-2 rounded border w-h p-2 text-center bg-white">
               <div className="mb-2">{status.label}</div>
               <ProgressBar className="mb-2" now={status.percentage} />
             </div>

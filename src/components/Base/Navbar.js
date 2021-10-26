@@ -7,8 +7,9 @@ import NavDropdown from 'react-bootstrap/NavDropdown'
 import { DropdownButton, Dropdown } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 import { push } from 'connected-react-router'
+import { loggedInSelector } from '../../state/user/user.selectors'
 import { doLogout } from '../../state/user/user.actions'
 import { Languages } from '../../constants/index'
 
@@ -20,9 +21,20 @@ import { Languages } from '../../constants/index'
 export default ({ user }) => {
   const { t } = useTranslation()
   const history = useHistory()
+  const location = useLocation()
   const [expanded, setExpanded] = useState(false)
+  const isLoggedIn = useSelector(loggedInSelector)
   const ref = useRef();
 
+  const onLogoClick = () => {
+    if (!isLoggedIn) {
+      history.push('/dashboard');
+    } else if (location.pathname === '/applet') {
+      history.go(0)
+    } else {
+      history.push('/applet')
+    }
+  }
 
   return (
     <Navbar
@@ -33,7 +45,7 @@ export default ({ user }) => {
       expanded={expanded}
       onToggle={() => setExpanded(!expanded)}
     >
-      <Navbar.Brand role={'button'} onClick={() => history.push('/dashboard')}>
+      <Navbar.Brand role={'button'} onClick={onLogoClick}>
         {t('Navbar.mindLogger')}
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -60,6 +72,7 @@ const UserInfoDropdown = ({ user, setExpanded }) => {
     dispatch(doLogout())
     dispatch(push('/login'))
     setExpanded(false);
+    localStorage.clear()
   }
 
   const onSettings = () => {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
 import { useSelector, useDispatch } from 'react-redux';
-import { Card, Row, Col, Modal, Button } from 'react-bootstrap';
+import { Container, Card, Row, Col, Modal, Button, ProgressBar } from 'react-bootstrap';
 import { useParams, useHistory } from 'react-router-dom';
 import Avatar from 'react-avatar';
 import { useTranslation } from 'react-i18next';
@@ -18,6 +18,7 @@ import { completeResponse } from '../../state/responses/responses.actions';
 import { clearActivityStartTime } from '../../state/app/app.reducer';
 import {
   setAnswer,
+  setEndTime,
   setCurrentScreen,
   createResponseInProgress,
 } from '../../state/responses/responses.reducer';
@@ -26,6 +27,7 @@ import {
   currentScreenResponseSelector,
   currentResponsesSelector,
   currentScreenIndexSelector,
+  inProgressSelector,
 } from '../../state/responses/responses.selectors';
 
 import "./style.css";
@@ -43,21 +45,19 @@ const Screens = (props) => {
 
   const applet = useSelector(currentAppletSelector);
   const answer = useSelector(currentScreenResponseSelector);
+  const progress = useSelector(inProgressSelector);
   const user = useSelector(userInfoSelector);
-  const screenIndex = useSelector(currentScreenIndexSelector);
+  const currentScreenIndex = useSelector(currentScreenIndexSelector);
   const activityAccess = useSelector(currentActivitySelector);
   const inProgress = useSelector(currentResponsesSelector);
-
-  useEffect(() => {
-    if (screenIndex === 0) {
-      dispatch(createResponseInProgress({
-        activity: activityAccess,
-        event: activityAccess.event,
-        subjectId: user && user._id,
-        timeStarted: new Date().getTime()
-      }));
-    }
-  }, [])
+  const visibility = activityAccess.items.map((item) =>
+    item.isVis ? false : testVisibility(
+      item.visibility,
+      activityAccess.items,
+      inProgress?.responses
+    )
+  );
+  const screenIndex = getNextPos(currentScreenIndex - 1, visibility)
 
   useEffect(() => {
     if (inProgress && Object.keys(inProgress).length > 0) {
@@ -78,7 +78,7 @@ const Screens = (props) => {
     const { activity } = inProgress;
     clearActivityStartTime(activity.event ? activity.id + activity.event.id : activity.id)
 
-    if (activityAccess.compute && !isSummaryScreen && !activityAccess.disableSummary) {
+    if (activityAccess.compute && !isSummaryScreen) {
       setIsSummaryScreen(true);
       setShow(false);
 
@@ -92,7 +92,7 @@ const Screens = (props) => {
 
   const getVisibility = (responses) => {
     const visibility = activityAccess.items.map((item) =>
-      testVisibility(
+      item.isVis ? false : testVisibility(
         item.visibility,
         activityAccess.items,
         responses
@@ -105,6 +105,17 @@ const Screens = (props) => {
     return [next, prev];
   }
 
+  const getPercentages = (activities, progress) => {
+    return activities.map(activity => {
+      const currentId = progress[activity.id] ? progress[activity.id].screenIndex : 0;
+
+      return {
+        label: activity.name.en,
+        percentage: currentId / activity.items.length * 100
+      }
+    })
+  }
+
   const [next, prev] = getVisibility(inProgress?.responses);
 
   const handleNext = (e) => {
@@ -115,6 +126,8 @@ const Screens = (props) => {
 
       [currentNext] = getVisibility(responses);
     }
+
+    dispatch(setEndTime({ activityId: activityAccess.id, screenIndex: screenIndex }));
 
     if (currentNext === -1) {
       setShow(true);
@@ -143,7 +156,7 @@ const Screens = (props) => {
   }
 
   const handleBack = () => {
-    if (screenIndex >= 0) {
+    if (screenIndex >= 0 && prev >= 0) {
       dispatch(
         setCurrentScreen({
           activityId: activityAccess.id,
@@ -154,9 +167,13 @@ const Screens = (props) => {
   }
 
   let availableItems = 0;
+  const activityStatus = getPercentages(applet.activities.filter(({ id }) => id !== activityAccess.id), progress);
+  const percentage = screenIndex ?
+    screenIndex / activityAccess.items.length * 100
+    : 0;
 
   activityAccess.items.forEach((item, i) => {
-    const isVisible = testVisibility(
+    const isVisible = item.isVis ? false : testVisibility(
       item.visibility,
       activityAccess.items,
       inProgress?.responses
@@ -179,7 +196,7 @@ const Screens = (props) => {
           handleBack={handleBack}
           isSubmitShown={next === -1}
           answer={inProgress?.responses[i]}
-          isBackShown={screenIndex === i && i}
+          isBackShown={screenIndex === i && i && prev >= 0}
           isNextShown={screenIndex === i}
         />
       );
@@ -187,10 +204,18 @@ const Screens = (props) => {
   });
 
   return (
-    <div className="container">
-      <Row className="mt-5 activity">
+    <Container>
+      <Row className="mt-5">
+        <Col xl={3} />
+        <Col xl={9} >
+          <Card className="bg-white p-2" >
+            <ProgressBar striped className="mb-2" now={percentage} />
+          </Card>
+        </Col>
+      </Row>
+      <Row className="mt-2 activity">
         <Col xl={3}>
-          <Card className="hover text-center">
+          <Card className="hover text-center mb-4">
             <div>
               {applet.image ?
                 <Card.Img variant="top" src={applet.image} className="rounded border w-h" />
@@ -202,6 +227,13 @@ const Screens = (props) => {
               <Card.Text>{applet.name.en}</Card.Text>
             </Card.Body>
           </Card>
+
+          {activityStatus.map(status => 
+            <div className="my-2 rounded border w-h p-2 text-center bg-white">
+              <div className="mb-2">{status.label}</div>
+              <ProgressBar className="mb-2" now={status.percentage} />
+            </div>
+          )}
         </Col>
         <Col xl={9}>
           {isSummaryScreen ?
@@ -225,7 +257,7 @@ const Screens = (props) => {
           <Button variant="primary" disabled={isLoading} onClick={() => finishResponse()}>{t('additional.yes')}</Button>
         </Modal.Footer>
       </Modal>
-    </div>
+    </Container>
   )
 }
 

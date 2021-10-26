@@ -29,7 +29,7 @@ const AppSlice = createSlice({
     setCurrentApplet: (state, action) => { state.currentApplet = action.payload },
     setCurrentActivity: (state, action) => { state.currentActivity = action.payload.id },
     setAppletSelectionDisabled: (state, action) => { state.appletSelectionDisabled = action.payload },
-    setFinishedEvents: (state, action) => { state.finishedEvents = { ...state.finishedEvents, [action.payload]: Date.now() } },
+    setFinishedEvents: (state, action) => { state.finishedEvents = { ...state.finishedEvents, ...action.payload } },
     setActivitySelectionDisabled: (state, action) => { state.activitySelectionDisabled = action.payload },
     setAppStatus: (state, action) => { state.appStatus = action.payload },
     toggleMobileDataAllowed: (state, action) => { state.mobileDataAllowed = !state.mobileDataAllowed },

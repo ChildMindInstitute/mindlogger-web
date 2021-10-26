@@ -13,18 +13,24 @@ export default function Landing () {
   const { t } = useTranslation()
   const isLoggedIn = useSelector(loggedInSelector)
   return (
-    <div className="my-3 h-100">
-      <div className="mb-3 pt-3 d-flex flex-column align-items-center">
-        <h1>{t('Landing.title')}</h1>
-        <p className="lead">{t('Landing.reserchStudies')}</p>
+    <div className="position-absolute d-flex landing-container">
+      <div>
         <img
-          style={{ maxWidth: '500px', width: '100%' }}
-          src="/undraw_data_xmfy.svg"
+          style={{ maxWidth: '70px', width: '100%' }}
+          className="mb-2 ml-2"
+          src="/apple.png"
+        />
+      </div>
+      <div className="mb-3 pt-3 d-flex flex-column align-items-center">
+        <img
+          style={{ maxWidth: '120px', width: '100%' }}
+          className="mb-2"
+          src="/favicon.png"
         />
         <div>
           {isLoggedIn
             ? (
-            <div className="mt-3">
+            <div className="mt-4">
               <Link to="/applet">
                 <Button type="button" className="btn btn-danger btn-lg">
                   {t('Landing.getStart')}
@@ -34,21 +40,27 @@ export default function Landing () {
               )
             : (
             <div>
-              <p className="mt-3 text-center">{t('Landing.toGet')}</p>
-              <Link to="/login">
-                <Button type="button" variant="primary" className="btn btn-primary btn-lg mr-1">
+              <p className="mt-4 text-center">{t('Landing.toGet')}</p>
+              <Link className="d-flex justify-content-center mb-2" to="/login">
+                <Button type="button" variant="primary" className="btn btn-primary btn-lg">
                   {t('Landing.login')}
                 </Button>
               </Link>
-              {t('Landing.or')}
-              <Link to="/signup">
-                <Button type="button" variant="success" className="btn btn-primary btn-lg ml-1">
+              <Link className="d-flex justify-content-center" to="/signup">
+                <Button type="button" variant="success" className="btn btn-primary btn-lg">
                   {t('Landing.signUp')}
                 </Button>
               </Link>
             </div>
               )}
         </div>
+      </div>
+      <div>
+        <img
+          style={{ maxWidth: '60px', width: '100%' }}
+          className="mb-2 mr-4"
+          src="/android.png"
+        />
       </div>
     </div>
   )

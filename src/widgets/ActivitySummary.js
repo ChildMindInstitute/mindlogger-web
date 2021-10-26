@@ -13,12 +13,13 @@ import MyButton from '../components/Button';
 import Markdown from '../components/Markdown';
 
 // State
-import { setCumulativeActivities } from '../state/applet/applet.reducer';
 import { inProgressSelector } from '../state/responses/responses.selectors';
-import { appletCumulativeActivities } from '../state/applet/applet.selectors';
+import { setCumulativeActivities, setHiddenCumulativeActivities } from '../state/applet/applet.reducer';
+import { appletCumulativeActivities, appletHiddenCumulativeActivities } from '../state/applet/applet.selectors';
 
 // services
 import { evaluateCumulatives } from '../services/scoring';
+import { currentActivitySelector, currentAppletSelector } from '../state/app/app.selectors';
 
 const MARKDOWN_REGEX = /(!\[.*\]\s*\(.*?) =\d*x\d*(\))/g;
 const termsText =
@@ -35,33 +36,58 @@ const Summary = styled(({ className, ...props }) => {
 
   const dispatch = useDispatch();
 
+  const applet = useSelector(currentAppletSelector);
   const response = useSelector(inProgressSelector);
+  const activityAccess = useSelector(currentActivitySelector);
   const cumulativeActivities = useSelector(appletCumulativeActivities);
+  const hiddenCumulativeActivities = useSelector(appletHiddenCumulativeActivities);
 
   const pdfRef = useRef(null);
 
   useEffect(() => {
-    if (response[`activity/${activityId}`]) {
-      const { responses, activity } = response[`activity/${activityId}`];
-      setActivity(activity);
+    try {
+      if (response[`activity/${activityId}`]) updateActivity(response[`activity/${activityId}`]);
+    } catch (error) {
+      console.log(error);
+    }
+    if (activityAccess?.disableSummary) history.push(`/applet/${appletId}/activity_thanks`);
+  }, [response && Object.keys(response).length > 1]);
 
-      if (responses && responses.length > 0) {
-        let { cumActivities, reportMessages } = evaluateCumulatives(responses, activity);
+  const updateActivity = (response = {}) => {
+    const { responses, activity } = response;
+    setActivity(activity);
 
-        if (cumulativeActivities && cumulativeActivities[`${activity.id}/nextActivity`]) {
-          cumActivities = _.difference(cumActivities, cumulativeActivities[`${activity.id}/nextActivity`]);
-          if (cumActivities.length > 0) {
-            cumActivities = [...cumulativeActivities[`${activity.id}/nextActivity`], ...cumActivities];
-            dispatch(setCumulativeActivities({ [`${activity.id}/nextActivity`]: cumActivities }));
-          }
-        } else {
+    if (responses && responses.length > 0) {
+      let { cumActivities, reportMessages } = evaluateCumulatives(responses, activity);
+      const cumulativeActivity = findActivity(cumActivities && cumActivities[0], applet?.activities);
+
+      if (cumulativeActivities && cumulativeActivities[`${activity.id}/nextActivity`]) {
+        if (cumActivities.length > 0 && !hiddenCumulativeActivities?.includes(activity.id)) dispatch(setHiddenCumulativeActivities({ id: activity.id }));
+
+        cumActivities = _.difference(cumActivities, cumulativeActivities[`${activity.id}/nextActivity`]);
+        if (cumActivities.length > 0) {
+          cumActivities = [...cumulativeActivities[`${activity.id}/nextActivity`], ...cumActivities];
           dispatch(setCumulativeActivities({ [`${activity.id}/nextActivity`]: cumActivities }));
         }
+        if (hiddenCumulativeActivities?.includes(cumulativeActivity?.id)) dispatch(setHiddenCumulativeActivities({ id: cumulativeActivity?.id, isRemove: true }));
+      } else {
+        dispatch(setCumulativeActivities({ [`${activity.id}/nextActivity`]: cumActivities }));
+        if (cumActivities.length > 0 && !hiddenCumulativeActivities?.includes(activity.id))
+          dispatch(setHiddenCumulativeActivities({ id: activity.id }));
 
-        setMessages(reportMessages);
+        if (hiddenCumulativeActivities?.includes(cumulativeActivity?.id)) dispatch(setHiddenCumulativeActivities({ id: cumulativeActivity?.id, isRemove: true }));
       }
+
+      setMessages(reportMessages);
     }
-  }, [response && Object.keys(response).length > 1]);
+  }
+
+  const findActivity = (name, activities = []) => {
+    if (!name) return undefined;
+    return _.find(activities, { name: { en: name } });
+  }
+
+  if (activityAccess.disableSummary) return <div />;
 
   return (
     <Card className={cn('mb-3', className)}>
@@ -75,14 +101,12 @@ const Summary = styled(({ className, ...props }) => {
               messages.map((item, i) => (
                 <div key={i}>
                   <h1>{item.category.replace(/_/g, ' ')}</h1>
-                  <h3>
-                    <b>{item.score}</b>
-                  </h3>
                   <div className="mb-4">
                     <Markdown markdown={_.get(item, 'compute.description', '').replace(MARKDOWN_REGEX, '$1$2')} />
                   </div>
+                  <h3>{item.score}</h3>
                   <Markdown markdown={item.message.replace(MARKDOWN_REGEX, '$1$2')} />
-                  {messages.length > 1 && <div key={`${i}-hr`} className="hr" />}
+                  {messages.length > 1 && <div className="hr" />}
                 </div>
               ))}
           </Card.Body>
@@ -91,13 +115,13 @@ const Summary = styled(({ className, ...props }) => {
       <div>
         <div className="pdf-container">
           <PDFExport paperSize="A4" margin="2cm" ref={pdfRef}>
-            <p className="mb-4" style={{ fontWeight: 900 }}>
-              <u>
-                <b>{_.get(activity, 'name.en')} Report</b>
-              </u>
+            <p className="mb-4">
+              <b>
+                <u>{_.get(activity, 'name.en')} Report</u>
+              </b>
             </p>
             <div className="mb-4">
-              <Markdown markdown={_.get(activity, 'scoreOverview', '').replace(MARKDOWN_REGEX, '$1$2')} />
+              <Markdown useCORS={true} markdown={_.get(activity, 'scoreOverview', '').replace(MARKDOWN_REGEX, '$1$2')} />
             </div>
             {messages &&
               messages.map((item, i) => (
@@ -106,12 +130,17 @@ const Summary = styled(({ className, ...props }) => {
                     <b>{item.category.replace(/_/g, ' ')}</b>
                   </p>
                   <div className="mb-4">
-                    <Markdown markdown={_.get(item, 'compute.description', '').replace(MARKDOWN_REGEX, '$1$2')} />
+                    <Markdown
+                      markdown={_.get(item, 'compute.description', '').replace(MARKDOWN_REGEX, '$1$2')}
+                      useCORS={true}
+                    />
                   </div>
                   <div className="score-area">
                     <p
                       className="score-title text-nowrap"
-                      style={{ left: `${(item.scoreValue / item.maxScoreValue) * 100}%` }}>
+                      style={{
+                        left: `max(75px, ${(item.scoreValue / item.maxScoreValue) * 100}%)`,
+                      }}>
                       <b>Your/Your Child’s Score</b>
                     </p>
                     <div
@@ -147,7 +176,10 @@ const Summary = styled(({ className, ...props }) => {
                   <div className="mb-4">
                     Your/Your child's score on the {item.category.replace(/_/g, ' ')} subscale was{' '}
                     <span className="text-danger">{item.scoreValue}</span>.
-                    <Markdown markdown={item.message.replace(MARKDOWN_REGEX, '$1$2')} />
+                    <Markdown
+                      markdown={item.message.replace(MARKDOWN_REGEX, '$1$2')}
+                      useCORS={true}
+                    />
                   </div>
                 </div>
               ))}
@@ -215,6 +247,9 @@ const Summary = styled(({ className, ...props }) => {
       right: 0;
       bottom: 0;
     }
+  }
+  img {
+    max-width: 100%;
   }
 `;
 

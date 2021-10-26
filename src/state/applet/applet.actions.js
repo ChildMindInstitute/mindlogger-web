@@ -11,6 +11,7 @@ import { setCumulativeActivities } from './applet.reducer';
 import { transformApplet, parseAppletEvents } from '../../services/json-ld';
 import { getAppletsAPI, getPublicAppletAPI } from '../../services/applet.service';
 import { decryptAppletResponses } from '../../models/response';
+import { setFinishedEvents } from '../app/app.reducer';
 
 import APPLET_CONSTANTS from './applet.constants';
 
@@ -28,6 +29,7 @@ export const getApplets = createAsyncThunk(APPLET_CONSTANTS.GET_APPLETS, async (
   const applets = await getAppletsAPI({ token, localInfo });
 
   const transformedApplets = [];
+  let finishedEvents = {};
   let cumulativeActivities = {};
 
   const getCumulativeActivities = (applet, nextActivities) => {
@@ -36,7 +38,7 @@ export const getApplets = createAsyncThunk(APPLET_CONSTANTS.GET_APPLETS, async (
       response[`activity/${activityId}/nextActivity`] = nextActivities[activityId].map(id => {
         const activity = applet.activities.find(activity => activity.id.split('/').pop() == id)
         return activity && activity.name.en;
-      }).filter(name => name.length)
+      })?.filter(name => name?.length)
     }
 
     return response;
@@ -45,6 +47,7 @@ export const getApplets = createAsyncThunk(APPLET_CONSTANTS.GET_APPLETS, async (
   for (let index = 0; index < applets.data.length; index++) {
     const appletInfo = applets.data[index];
     const nextActivities = appletInfo.cumulativeActivities;
+    Object.assign(finishedEvents, appletInfo.finishedEvents);
 
     if (!appletInfo.applet) {
       const applet = modifyApplet(appletInfo, currentApplets);
@@ -102,7 +105,8 @@ export const getApplets = createAsyncThunk(APPLET_CONSTANTS.GET_APPLETS, async (
     }
   };
 
-  dispatch(setCumulativeActivities(cumulativeActivities));
+  dispatch(setFinishedEvents(finishedEvents));
+  // dispatch(setCumulativeActivities(cumulativeActivities));
   dispatch(replaceResponses(responses));
 
   return transformedApplets;

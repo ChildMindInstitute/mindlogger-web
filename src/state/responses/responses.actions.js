@@ -66,6 +66,9 @@ export const completeResponse = createAsyncThunk(RESPONSE_CONSTANTS.COMPLETE_RES
   const activity = currentActivitySelector(state);
   const event = currentEventSelector(state);
 
+  console.log('-------inProgressResponse---------');
+  console.log(inProgressResponse);
+
   if ((!applet.AESKey || !applet.userPublicKey || applet.publicId)) {
     if (applet.publicId) {
       const pass = activity.items.findIndex(item => item.correctAnswer?.en)
@@ -87,6 +90,8 @@ export const completeResponse = createAsyncThunk(RESPONSE_CONSTANTS.COMPLETE_RES
   }
 
   const responseHistory = currentAppletResponsesSelector(state);
+  const finishedTime = new Date();
+
   if (activity.isPrize === true) {
     const selectedPrizeIndex = inProgressResponse["responses"][0];
     const version = inProgressResponse["activity"].schemaVersion['en'];
@@ -112,13 +117,17 @@ export const completeResponse = createAsyncThunk(RESPONSE_CONSTANTS.COMPLETE_RES
     }
 
   } else {
-    const preparedResponse = prepareResponseForUpload(inProgressResponse, applet, responseHistory, isTimeout);
+    const preparedResponse = prepareResponseForUpload(inProgressResponse, applet, responseHistory, isTimeout, finishedTime);
 
     dispatch(addToUploadQueue(preparedResponse));
     await dispatch(startUploadQueue());
   }
 
-  if (event) dispatch(setFinishedEvents(event));
+  if (event) {
+    dispatch(setFinishedEvents({
+      [event]: finishedTime.getTime()
+    }));
+  }
 
   setTimeout(() => {
     const { activity } = inProgressResponse;

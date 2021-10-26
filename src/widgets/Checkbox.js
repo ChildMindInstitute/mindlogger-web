@@ -12,7 +12,6 @@ import {
 
 import Navigator from './Navigator';
 import Markdown from '../components/Markdown';
-import { isArray } from 'util';
 import questionMark from '../assets/question-mark.svg';
 
 const Checkbox = ({
@@ -25,7 +24,7 @@ const Checkbox = ({
     const { answer } = props;
     let values = [];
 
-    if (!answer || !answer.value || !isArray(answer.value)) {
+    if (!answer || !answer.value || !_.isArray(answer.value)) {
       values.push(value);
     } else if (answer.value.includes(value)) {
       values = answer.value.filter(option => option !== value);
@@ -111,13 +110,13 @@ const Checkbox = ({
             <div className="no-gutters">
               <Form.Group as={Row}>
                 <Col md={6}>
-                  {_.map(item.valueConstraints.itemList, (obj, i) => (
+                  {item.valueConstraints.itemList.filter(obj => !obj.isVis).map((obj, i) => (
                     i < Math.ceil(itemCount / 2) ? renderItem(obj, i) : <></>
                   ))}
                 </Col>
 
                 <Col md={6}>
-                  {_.map(item.valueConstraints.itemList, (obj, i) => (
+                  {item.valueConstraints.itemList.filter(obj => !obj.isVis).map((obj, i) => (
                     i >= Math.ceil(itemCount / 2) ? renderItem(obj, i) : <></>
                   ))}
                 </Col>

@@ -263,7 +263,6 @@ export const evaluateCumulatives = (responses, activity) => {
     maxScores = [];
   for (let i = 0; i < activity.items.length; i++) {
     if (!activity.items[i] || !responses[i]) continue;
-
     const { variableName } = activity.items[i];
     let score = getScoreFromResponse(
       activity.items[i],
@@ -338,6 +337,5 @@ export const evaluateCumulatives = (responses, activity) => {
       }
     });
   }
- 
   return { reportMessages, cumActivities }
 }

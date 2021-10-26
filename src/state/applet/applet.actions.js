@@ -47,7 +47,6 @@ export const getApplets = createAsyncThunk(APPLET_CONSTANTS.GET_APPLETS, async (
   for (let index = 0; index < applets.data.length; index++) {
     const appletInfo = applets.data[index];
     const nextActivities = appletInfo.cumulativeActivities;
-
     Object.assign(finishedEvents, appletInfo.finishedEvents);
 
     if (!appletInfo.applet) {

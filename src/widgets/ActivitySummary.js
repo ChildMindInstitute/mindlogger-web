@@ -99,7 +99,7 @@ const Summary = styled(({ className, ...props }) => {
         const imgData = canvas.toDataURL('image/png');
         const pdf = new jsPDF('p', 'pt', 'a4', false);
         pdf.addImage(imgData, 'PNG', 30, 50, 500, 0, undefined, false);
-        pdf.save("download.pdf");
+        pdf.save("export.pdf");
       });
     } else
       pdfRef.current && pdfRef.current.save();

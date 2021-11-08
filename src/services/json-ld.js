@@ -485,7 +485,7 @@ const transformPureActivity = (activityJson) => {
       description: _.get(item, [DESCRIPTION, 0, "@value"]),
       direction: _.get(item, [DIRECTION, 0, "@value"], true),
     }
-  }, activityJson[COMPUTE]);
+  }, activityJson[COMPUTE]) || [];
   const subScales = activityJson[SUBSCALES] && R.map((subScale) => {
     const jsExpression = R.path([JS_EXPRESSION, 0, "@value"], subScale);
 
@@ -511,7 +511,7 @@ const transformPureActivity = (activityJson) => {
       outputType: R.path([OUTPUT_TYPE, 0, "@value"], item),
       nextActivity: R.path([NEXT_ACTIVITY, 0, "@value"], item),
     }
-  }, activityJson[MESSAGES]);
+  }, activityJson[MESSAGES]) || [];
 
   return {
     id: activityJson._id,

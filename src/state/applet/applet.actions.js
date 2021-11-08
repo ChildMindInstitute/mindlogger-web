@@ -32,18 +32,6 @@ export const getApplets = createAsyncThunk(APPLET_CONSTANTS.GET_APPLETS, async (
   let finishedEvents = {};
   let cumulativeActivities = {};
 
-  const getCumulativeActivities = (applet, nextActivities) => {
-    const response = {};
-    for (const activityId in nextActivities) {
-      response[`activity/${activityId}/nextActivity`] = nextActivities[activityId].map(id => {
-        const activity = applet.activities.find(activity => activity.id.split('/').pop() == id)
-        return activity && activity.name.en;
-      })?.filter(name => name?.length)
-    }
-
-    return response;
-  }
-
   for (let index = 0; index < applets.data.length; index++) {
     const appletInfo = applets.data[index];
     const nextActivities = appletInfo.cumulativeActivities;
@@ -72,7 +60,7 @@ export const getApplets = createAsyncThunk(APPLET_CONSTANTS.GET_APPLETS, async (
         });
 
         transformedApplets.push(applet)
-        Object.assign(cumulativeActivities, getCumulativeActivities(applet, nextActivities))
+        cumulativeActivities[applet.id] = nextActivities;
       }
     } else {
       const applet = transformApplet(appletInfo, currentApplets);
@@ -100,13 +88,14 @@ export const getApplets = createAsyncThunk(APPLET_CONSTANTS.GET_APPLETS, async (
           appletId: 'applet/' + appletInfo.id
         });
         transformedApplets.push(applet);
-        Object.assign(cumulativeActivities, getCumulativeActivities(applet, nextActivities))
+
+        cumulativeActivities[applet.id] = nextActivities;
       }
     }
   };
 
   dispatch(setFinishedEvents(finishedEvents));
-  // dispatch(setCumulativeActivities(cumulativeActivities));
+  dispatch(setCumulativeActivities(cumulativeActivities));
   dispatch(replaceResponses(responses));
 
   return transformedApplets;

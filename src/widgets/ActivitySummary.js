@@ -7,6 +7,8 @@ import { PDFExport } from '@progress/kendo-react-pdf';
 import styled from 'styled-components';
 import cn from 'classnames';
 import _ from 'lodash';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 // Component
 import MyButton from '../components/Button';
@@ -43,6 +45,7 @@ const Summary = styled(({ className, ...props }) => {
   const hiddenCumulativeActivities = useSelector(appletHiddenCumulativeActivities);
 
   const pdfRef = useRef(null);
+  const ref = React.createRef();
 
   useEffect(() => {
     try {
@@ -87,6 +90,20 @@ const Summary = styled(({ className, ...props }) => {
     return _.find(activities, { name: { en: name } });
   }
 
+  const handlePDFSave = () => {
+    const isIOSSafari = !!window.navigator.userAgent.match(/Version\/[\d\.]+.*Safari/);
+    if (isIOSSafari) {
+      html2canvas(document.body.querySelector('#PDF')).then(canvas => {
+        document.body.appendChild(canvas);
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('p', 'pt', 'a4', false);
+        pdf.addImage(imgData, 'PNG', 30, 50, 500, 0, undefined, false);
+        pdf.save("export.pdf");
+      });
+    } else
+      pdfRef.current && pdfRef.current.save();
+  }
+
   if (activityAccess.disableSummary) return <div />;
 
   return (
@@ -115,76 +132,78 @@ const Summary = styled(({ className, ...props }) => {
       <div>
         <div className="pdf-container">
           <PDFExport paperSize="A4" margin="2cm" ref={pdfRef}>
-            <p className="mb-4">
-              <b>
-                <u>{_.get(activity, 'name.en')} Report</u>
-              </b>
-            </p>
-            <div className="mb-4">
-              <Markdown useCORS={true} markdown={_.get(activity, 'scoreOverview', '').replace(MARKDOWN_REGEX, '$1$2')} />
-            </div>
-            {messages &&
-              messages.map((item, i) => (
-                <div key={i}>
-                  <p className="text-primary mb-1">
-                    <b>{item.category.replace(/_/g, ' ')}</b>
-                  </p>
-                  <div className="mb-4">
-                    <Markdown
-                      markdown={_.get(item, 'compute.description', '').replace(MARKDOWN_REGEX, '$1$2')}
-                      useCORS={true}
-                    />
-                  </div>
-                  <div className="score-area">
-                    <p
-                      className="score-title text-nowrap"
-                      style={{
-                        left: `max(75px, ${(item.scoreValue / item.maxScoreValue) * 100}%)`,
-                      }}>
-                      <b>Your/Your Child’s Score</b>
+            <div id="PDF" ref={ref}>
+              <p className="mb-4">
+                <b>
+                  <u>{_.get(activity, 'name.en')} Report</u>
+                </b>
+              </p>
+              <div className="mb-4">
+                <Markdown useCORS={true} markdown={_.get(activity, 'scoreOverview', '').replace(MARKDOWN_REGEX, '$1$2')} />
+              </div>
+              {messages &&
+                messages.map((item, i) => (
+                  <div key={i}>
+                    <p className="text-primary mb-1">
+                      <b>{item.category.replace(/_/g, ' ')}</b>
                     </p>
-                    <div
-                      className={cn('score-bar score-below', {
-                        'score-positive': item.compute.direction,
-                        'score-negative': !item.compute.direction,
-                      })}
-                      style={{ width: `${(item.exprValue / item.maxScoreValue) * 100}%` }}
-                    />
-                    <div
-                      className={cn('score-bar score-above', {
-                        'score-positive': !item.compute.direction,
-                        'score-negative': item.compute.direction,
-                      })}
-                    />
-                    <div
-                      className="score-spliter"
-                      style={{ left: `${(item.scoreValue / item.maxScoreValue) * 100}%` }}
-                    />
-                    <p className="score-max-value">
-                      <b>{item.maxScoreValue}</b>
-                    </p>
-                  </div>
-                  <p className="text-uppercase mb-1">
-                    <b>
-                      <i>
-                        If score
+                    <div className="mb-4">
+                      <Markdown
+                        markdown={_.get(item, 'compute.description', '').replace(MARKDOWN_REGEX, '$1$2')}
+                        useCORS={true}
+                      />
+                    </div>
+                    <div className="score-area">
+                      <p
+                        className="score-title text-nowrap"
+                        style={{
+                          left: `max(75px, ${(item.scoreValue / item.maxScoreValue) * 100}%)`,
+                        }}>
+                        <b>Your/Your Child’s Score</b>
+                      </p>
+                      <div
+                        className={cn('score-bar score-below', {
+                          'score-positive': item.compute.direction,
+                          'score-negative': !item.compute.direction,
+                        })}
+                        style={{ width: `${(item.exprValue / item.maxScoreValue) * 100}%` }}
+                      />
+                      <div
+                        className={cn('score-bar score-above', {
+                          'score-positive': !item.compute.direction,
+                          'score-negative': item.compute.direction,
+                        })}
+                      />
+                      <div
+                        className="score-spliter"
+                        style={{ left: `${(item.scoreValue / item.maxScoreValue) * 100}%` }}
+                      />
+                      <p className="score-max-value">
+                        <b>{item.maxScoreValue}</b>
+                      </p>
+                    </div>
+                    <p className="text-uppercase mb-1">
+                      <b>
+                        <i>
+                          If score
                         <span className="ml-2">{item.jsExpression}</span>
-                      </i>
-                    </b>
-                  </p>
+                        </i>
+                      </b>
+                    </p>
 
-                  <div className="mb-4">
-                    Your/Your child's score on the {item.category.replace(/_/g, ' ')} subscale was{' '}
-                    <span className="text-danger">{item.scoreValue}</span>.
+                    <div className="mb-4">
+                      Your/Your child's score on the {item.category.replace(/_/g, ' ')} subscale was{' '}
+                      <span className="text-danger">{item.scoreValue}</span>.
                     <Markdown
-                      markdown={item.message.replace(MARKDOWN_REGEX, '$1$2')}
-                      useCORS={true}
-                    />
+                        markdown={item.message.replace(MARKDOWN_REGEX, '$1$2')}
+                        useCORS={true}
+                      />
+                    </div>
                   </div>
-                </div>
-              ))}
-            <p className="mb-5">{termsText}</p>
-            <p>{footerText}</p>
+                ))}
+              <p className="mb-5">{termsText}</p>
+              <p>{footerText}</p>
+            </div>
           </PDFExport>
         </div>
         <MyButton
@@ -197,7 +216,7 @@ const Summary = styled(({ className, ...props }) => {
           type="button"
           label={t('additional.share_report')}
           classes="mr-5 mb-2 float-right"
-          handleClick={(e) => pdfRef.current && pdfRef.current.save()}
+          handleClick={(e) => handlePDFSave()}
         />
       </div>
     </Card>

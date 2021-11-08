@@ -105,7 +105,7 @@ const SliderWidget = ({
                 }
 
                 <div className="slider-description">
-                  <div className="first" style={{ width: `max(${minLabelWidth}%, 70px)` }}>
+                  <div className="first" style={{ width: `max(${minLabelWidth}%, 100px)` }}>
                     <img
                       src={itemList[0].image}
                       width="100%"
@@ -117,7 +117,7 @@ const SliderWidget = ({
                       {minLabel}
                     </div>
                   </div>
-                  <div className="last" style={{ width: `max(${minLabelWidth}%, 70px)` }}>
+                  <div className="last" style={{ width: `max(${minLabelWidth}%, 100px)` }}>
                     <img
                       src={itemList[itemList.length - 1].image}
                       width="100%"

@@ -14,13 +14,17 @@ export default function Landing () {
   const isLoggedIn = useSelector(loggedInSelector)
   return (
     <div className="position-absolute d-flex landing-container">
-      <div>
+      <a
+        target="_blank"
+        href="https://apps.apple.com/us/app/mindlogger-pilot/id1301092229"
+      >
         <img
           style={{ maxWidth: '70px', width: '100%' }}
           className="mb-2 ml-2"
           src="/apple.png"
         />
-      </div>
+      </a>
+
       <div className="mb-3 pt-3 d-flex flex-column align-items-center">
         <img
           style={{ maxWidth: '120px', width: '100%' }}
@@ -41,27 +45,33 @@ export default function Landing () {
             : (
             <div>
               <p className="mt-4 text-center">{t('Landing.toGet')}</p>
-              <Link className="d-flex justify-content-center mb-2" to="/login">
-                <Button type="button" variant="primary" className="btn btn-primary btn-lg">
-                  {t('Landing.login')}
-                </Button>
-              </Link>
-              <Link className="d-flex justify-content-center" to="/signup">
+
+              <div className="buttons">
+                <Link className="d-flex justify-content-center mx-2 mb-2" to="/login">
+                  <Button type="button" variant="primary" className="btn btn-primary btn-lg">
+                    {t('Landing.login')}
+                  </Button>
+                </Link>
+                <Link className="d-flex justify-content-center mx-2 mb-2" to="/signup">
                 <Button type="button" variant="success" className="btn btn-primary btn-lg">
                   {t('Landing.signUp')}
                 </Button>
               </Link>
+              </div>
             </div>
               )}
         </div>
       </div>
-      <div>
+      <a
+        target="_blank"
+        href="https://play.google.com/store/apps/details?id=lab.childmindinstitute.data&hl=en_US&gl=US"
+      >
         <img
           style={{ maxWidth: '60px', width: '100%' }}
           className="mb-2 mr-4"
           src="/android.png"
         />
-      </div>
+      </a>
     </div>
   )
 }

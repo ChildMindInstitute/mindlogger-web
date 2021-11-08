@@ -55,6 +55,13 @@ code {
   height: calc(100vh - 144px);
   overflow: auto;
 }
+
+@media only screen and (max-height: 767px) {
+  .app-container {
+    height: unset;
+  }
+}
+
 .dropdown-menu{
   right: 0px;
   left: unset;

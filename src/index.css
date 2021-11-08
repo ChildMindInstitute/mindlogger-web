@@ -31,11 +31,7 @@ code {
   width: 40px;
 }
 .logo {
-  background: #005fa3;
-  border-style: solid;
-  border-radius: 25px;
-  border-width: 0px;
-  padding: 10px;
+  padding: 5px;
   height: 40px;
 }
 .avatar{

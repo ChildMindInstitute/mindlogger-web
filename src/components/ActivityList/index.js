@@ -97,7 +97,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
     return activities.findIndex(activity => activity.name.en == name)
   }
 
-  const getActivityAvailabilityFromDependency = (g, availableActivities) => {
+  const getActivityAvailabilityFromDependency = (g, availableActivities, archievedActivities) => {
     const marked = [], activities = [];
     let markedCount = 0;
 
@@ -105,19 +105,24 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
       marked.push(false)
     }
 
-    for (let i = 0; i < g.length; i++) {
-      if (!g[i].length) {
-        activities.push(i);
+    for (let index of availableActivities) {
+      markedCount++;
+      marked[index] = true;
+      activities.push(index);
+    }
+
+    for (let index of archievedActivities) {
+      if (!marked[index]) {
+        marked[index] = true;
         markedCount++;
-        marked[i] = true;
       }
     }
 
-    for (let index of availableActivities) {
-      if (!marked[index]) {
+    for (let i = 0; i < g.length; i++) {
+      if (!g[i].length && !marked[i]) {
+        activities.push(i);
         markedCount++;
-        marked[index] = true;
-        activities.push(index);
+        marked[i] = true;
       }
     }
 
@@ -178,14 +183,18 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
       }
     }
 
-    const availableActivites = (cumulativeActivities[appletData.id] || [])
+    const convertToIndexes = (activities) => activities
       .map(id => {
         const index = appletData.activities.findIndex(activity => activity.id.split('/').pop() == id)
         return index;
       })
       .filter(index => index >= 0)
 
-    let appletActivities = getActivityAvailabilityFromDependency(dependency, availableActivites)
+    let appletActivities = getActivityAvailabilityFromDependency(
+      dependency,
+      convertToIndexes(cumulativeActivities[appletData.id].available),
+      convertToIndexes(cumulativeActivities[appletData.id].archieved)
+    )
 
     appletActivities = appletActivities
       .map(index => appletData.activities[index])

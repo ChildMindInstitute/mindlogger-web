@@ -119,22 +119,28 @@ export const completeResponse = createAsyncThunk(RESPONSE_CONSTANTS.COMPLETE_RES
     let { cumActivities } = evaluateCumulatives(inProgressResponse.responses, activity);
     const cumulativeActivities = appletCumulativeActivities(state);
 
-    console.log('cum activities', cumActivities)
-
     if (cumActivities.length) {
-      const availableActivities = (cumulativeActivities[applet.id] || [])
-        .concat(
-          cumActivities.map(name => {
-            const activity = applet.activities.find(activity => activity.name.en == name)
-            return activity && activity.id.split('/').pop()
-          }).filter(id => id)
-        )
-        .filter(id => id != activity.id.split('/').pop())
+      const archieved = [...cumulativeActivities[applet.id].archieved];
+      const activityId = activity.id.split('/').pop();
+
+      if (archieved.indexOf(activityId) < 0) {
+        archieved.push(activityId);
+      }
 
       dispatch(
         setCumulativeActivities({
           ...cumulativeActivities,
-          [applet.id]: availableActivities
+          [applet.id]: {
+            available: cumulativeActivities[applet.id].available
+              .concat(
+                cumActivities.map(name => {
+                  const activity = applet.activities.find(activity => activity.name.en == name)
+                  return activity && activity.id.split('/').pop()
+                }).filter(id => id)
+              )
+              .filter(id => id != activity.id.split('/').pop()),
+            archieved
+          }
         })
       );
     }

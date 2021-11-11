@@ -43,10 +43,14 @@ const Summary = styled(({ className, ...props }) => {
   const activityAccess = useSelector(currentActivitySelector);
   const cumulativeActivities = useSelector(appletCumulativeActivities);
   const hiddenCumulativeActivities = useSelector(appletHiddenCumulativeActivities);
+  let url = "";
 
   const pdfRef = useRef(null);
-
   const ref = React.createRef();
+
+  if (activity.splash && activity.splash.en) {
+    url = activity.splash.en;
+  }
 
   useEffect(() => {
     try {
@@ -132,13 +136,26 @@ const Summary = styled(({ className, ...props }) => {
       </Row>
       <div>
         <div className="pdf-container">
-          <PDFExport paperSize="A4" margin="2cm" ref={pdfRef}>
+          <PDFExport 
+            paperSize="A4" 
+            forcePageBreak=".page-break"
+            margin="2cm"
+            ref={pdfRef}
+          >
             <div id="PDF" ref={ref}>
-              <p className="mb-4">
-                <b>
-                  <u>{_.get(activity, 'name.en')} Report</u>
-                </b>
-              </p>
+              {applet.image &&
+                <div style={{ float: 'right', marginBottom: 10 }}>
+                  <img
+                    src={applet.image + '?not-from-cache-please'}
+                    style={{ objectFit: 'contain' }}
+                    width="100"
+                    height="100"
+                    crossOrigin="anonymous"
+                    alt=''
+                  />
+                </div>
+              }
+             
               <div className="mb-4">
                 <Markdown useCORS={true} markdown={_.get(activity, 'scoreOverview', '').replace(MARKDOWN_REGEX, '$1$2')} />
               </div>
@@ -160,7 +177,7 @@ const Summary = styled(({ className, ...props }) => {
                         style={{
                           left: `max(75px, ${(item.scoreValue / item.maxScoreValue) * 100}%)`,
                         }}>
-                        <b>Your/Your Child’s Score</b>
+                        <b>Your Child’s Score</b>
                       </p>
                       <div
                         className={cn('score-bar score-below', {
@@ -183,17 +200,8 @@ const Summary = styled(({ className, ...props }) => {
                         <b>{item.maxScoreValue}</b>
                       </p>
                     </div>
-                    <p className="text-uppercase mb-1">
-                      <b>
-                        <i>
-                          If score
-                          <span className="ml-2">{item.jsExpression}</span>
-                        </i>
-                      </b>
-                    </p>
-
                     <div className="mb-4">
-                      Your/Your child's score on the {item.category.replace(/_/g, ' ')} subscale was{' '}
+                      Your child's score on the {item.category.replace(/_/g, ' ')} subscale was{' '}
                       <span className="text-danger">{item.scoreValue}</span>.
                       <Markdown
                         markdown={item.message.replace(MARKDOWN_REGEX, '$1$2')}

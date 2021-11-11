@@ -27,27 +27,16 @@ export const initialState = {
   appletResponseData: {},
   activityAccess: {},
   cumulativeActivities: {},
-  hiddenCumulativeActivities: [],
 };
 
 const appletSlice = createSlice({
   name: "applet",
   initialState,
   reducers: {
-    clearApplets: () => ({ ...initialState, cumulativeActivities, hiddenCumulativeActivities }),
+    clearApplets: () => ({ ...initialState, cumulativeActivities }),
     selectApplet: (state, action) => { state.applet = action.payload },
     selectActivity: (state, action) => { state.activityAccess = action.payload },
-    setCumulativeActivities: (state, action) => { state.cumulativeActivities = { ...state.cumulativeActivities, ...action.payload } },
-    setHiddenCumulativeActivities: (state, action) => {
-      const { id, isRemove } = action.payload || {};
-      let hiddenCumulativeActivities = [...state.hiddenCumulativeActivities];
-      if (isRemove) {
-        _.remove(hiddenCumulativeActivities, val => val === id);
-      } else
-        hiddenCumulativeActivities = [...hiddenCumulativeActivities, id];
-
-      state.hiddenCumulativeActivities = hiddenCumulativeActivities;
-    },
+    setCumulativeActivities: (state, action) => { state.cumulativeActivities = { ...action.payload } },
     prepareResponseKeys: (state, action) => {
       const { appletId, keys } = action.payload;
       const index = state.applets.findIndex(applet => applet.id == appletId);
@@ -101,5 +90,4 @@ export const {
   selectActivity,
   prepareResponseKeys,
   setCumulativeActivities,
-  setHiddenCumulativeActivities
 } = appletSlice.actions;

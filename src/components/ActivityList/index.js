@@ -20,7 +20,7 @@ import sortActivities from './sortActivities';
 import { delayedExec, clearExec } from '../../util/interval';
 import { inProgressSelector, currentScreenIndexSelector } from '../../state/responses/responses.selectors';
 import { finishedEventsSelector, startedTimesSelector } from '../../state/app/app.selectors';
-import { appletCumulativeActivities, appletsSelector, appletHiddenCumulativeActivities } from '../../state/applet/applet.selectors';
+import { appletCumulativeActivities, appletsSelector } from '../../state/applet/applet.selectors';
 import { setActivityStartTime, setCurrentActivity, } from '../../state/app/app.reducer';
 import { setCurrentEvent } from '../../state/responses/responses.reducer';
 import { createResponseInProgress, setAnswer } from '../../state/responses/responses.reducer';
@@ -35,7 +35,6 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
   const { appletId, publicId } = useParams();
   const applets = useSelector(appletsSelector);
   const cumulativeActivities = useSelector(appletCumulativeActivities);
-  const hiddenCumulativeActivities = useSelector(appletHiddenCumulativeActivities);
   const history = useHistory();
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -94,6 +93,67 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
     }
   }, [Object.keys(inProgress).length]) //responseSchedule
 
+  const findActivityFromName = (activities, name) => {
+    return activities.findIndex(activity => activity.name.en == name)
+  }
+
+  const getActivityAvailabilityFromDependency = (g, availableActivities, archievedActivities) => {
+    const marked = [], activities = [];
+    let markedCount = 0;
+
+    for (let i = 0; i < g.length; i++) {
+      marked.push(false)
+    }
+
+    for (let index of availableActivities) {
+      markedCount++;
+      marked[index] = true;
+      activities.push(index);
+    }
+
+    for (let index of archievedActivities) {
+      if (!marked[index]) {
+        marked[index] = true;
+        markedCount++;
+      }
+    }
+
+    for (let i = 0; i < g.length; i++) {
+      if (!g[i].length && !marked[i]) {
+        activities.push(i);
+        markedCount++;
+        marked[i] = true;
+      }
+    }
+
+    while ( markedCount < g.length ) {
+      let updated = false;
+
+      for (let i = 0; i < g.length; i++) {
+        if (!marked[i] && g[i].some(dependency => marked[dependency])) {
+          marked[i] = true;
+          markedCount++;
+          updated = true;
+        }
+      }
+
+      if (!updated) {
+        // in case of a circular dependency exists
+        for (let i = 0; i < g.length; i++) {
+          if (!marked[i]) {
+            marked[i] = true;
+            markedCount++;
+            activities.push(i);
+            break;
+          }
+        }
+      }
+    }
+
+    return activities;
+  }
+
+
   const updateActivites = () => {
     const appletData = parseAppletEvents(currentApplet);
     const prizeActs = appletData.activities.filter(act => act.isPrize);
@@ -102,48 +162,59 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
       setPrizeActivity(prizeActs[0]);
     }
 
-    const notShownActs = [];
-    for (let index = 0; index < appletData.activities.length; index++) {
-      const act = appletData.activities[index];
-      if (act.messages && (act.messages[0].nextActivity || act.messages[1].nextActivity)) notShownActs.push(act);
+    const dependency = []
+
+    for (let i = 0; i < appletData.activities.length; i++) {
+      dependency.push([])
     }
-    const appletActivities = [];
 
-    for (let index = 0; index < appletData.activities.length; index++) {
-      let isNextActivityShown = true;
-      const act = appletData.activities[index];
+    for (let i = 0; i < appletData.activities.length; i++) {
+      const activity = appletData.activities[i];
 
-      for (let j = 0; j < notShownActs.length; j++) {
-        const notShownAct = notShownActs[j];
-        const alreadyAct = cumulativeActivities && cumulativeActivities[`${notShownAct.id}/nextActivity`];
-
-        if (isNextActivityShown !== false)
-          isNextActivityShown = alreadyAct?.includes(act.name.en)
-            ? true
-            : checkActivityIsShown(act.name.en, notShownAct.messages)
-
-        if (alreadyAct?.includes(act.name.en)) {
-          isNextActivityShown = alreadyAct?.includes(act.name.en);
-          break;
-        };
+      if (activity.messages) {
+        for (const message of activity.messages) {
+          if (message.nextActivity) {
+            const index = findActivityFromName(appletData.activities, message.nextActivity)
+            if (index >= 0) {
+              dependency[index].push(i);
+            }
+          }
+        }
       }
-
-      const supportedItems = act.items.filter(item => {
-        return item.inputType === "radio"
-          || item.inputType === "checkox"
-          || item.inputType === "slider"
-          || item.inputType === "ageSelector"
-          || item.inputType === "text";
-      });
-
-      if (supportedItems.length && act.isPrize != true && isNextActivityShown &&
-        act.isReviewerActivity != true &&
-        act.isVis !== true &&
-        !hiddenCumulativeActivities?.includes(act.id)
-      )
-        appletActivities.push(act);
     }
-    appletActivities.length === 0 && appletActivities.push(currentApplet?.activities[0]);
+
+    const convertToIndexes = (activities) => activities
+      .map(id => {
+        const index = appletData.activities.findIndex(activity => activity.id.split('/').pop() == id)
+        return index;
+      })
+      .filter(index => index >= 0)
+
+    let appletActivities = getActivityAvailabilityFromDependency(
+      dependency,
+      convertToIndexes(cumulativeActivities[appletData.id].available),
+      convertToIndexes(cumulativeActivities[appletData.id].archieved)
+    )
+
+    appletActivities = appletActivities
+      .map(index => appletData.activities[index])
+      .filter(
+        activity =>
+          activity.isPrize != true &&
+          !activity.isVis && activity.isReviewerActivity != true
+      )
+      .filter(activity => {
+        const supportedItems = activity.items.filter(item => {
+          return item.inputType === "radio"
+            || item.inputType === "checkox"
+            || item.inputType === "slider"
+            || item.inputType === "ageSelector"
+            || item.inputType === "text";
+        });
+
+        return supportedItems.length > 0;
+      })
+
     setActivities(sortActivities(appletActivities, inProgress, finishedEvents, currentApplet.schedule?.data));
   }
 

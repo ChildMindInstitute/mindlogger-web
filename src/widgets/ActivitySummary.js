@@ -90,16 +90,10 @@ const Summary = styled(({ className, ...props }) => {
       <Row className="no-gutters">
         <Col md={12}>
           <Card.Body>
-            <div className="mb-4">
-              <Markdown markdown={_.get(activity, 'scoreOverview', '').replace(MARKDOWN_REGEX, '$1$2')} />
-            </div>
             {messages &&
               messages.map((item, i) => (
                 <div key={i}>
                   <h1>{item.category.replace(/_/g, ' ')}</h1>
-                  <div className="mb-4">
-                    <Markdown markdown={_.get(item, 'compute.description', '').replace(MARKDOWN_REGEX, '$1$2')} />
-                  </div>
                   <h3>{item.score}</h3>
                   <Markdown markdown={item.message.replace(MARKDOWN_REGEX, '$1$2')} />
                   {messages.length > 1 && <div className="hr" />}

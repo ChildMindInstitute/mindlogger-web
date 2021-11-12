@@ -115,6 +115,17 @@ const Summary = styled(({ className, ...props }) => {
             ref={pdfRef}
           >
             <div id="PDF" ref={ref}>
+              {url.match(/\.(jpeg|jpg|gif|png)$/) != null &&
+                <div>
+                  <img
+                    src={url + '?not-from-cache-please'}
+                    style={{ objectFit: 'contain' }}
+                    crossOrigin="anonymous"
+                    alt=''
+                  />
+                  <div className="page-break" />
+                </div>
+              }
               {applet.image &&
                 <div style={{ float: 'right', marginBottom: 10 }}>
                   <img
@@ -181,8 +192,9 @@ const Summary = styled(({ className, ...props }) => {
                       />
                     </div>
                   </div>
-                ))}
-              <p className="mb-5">{termsText}</p>
+                ))} 
+              <div style={{ border: '1px solid black' }} className="mb-4"></div>
+              <p className="mb-4">{termsText}</p>
               <p>{footerText}</p>
             </div>
           </PDFExport>
@@ -228,6 +240,9 @@ const Summary = styled(({ className, ...props }) => {
     }
     .score-above {
       flex: 1;
+    }
+    .divider-line {
+      border-top: 1px solid black;
     }
     .score-spliter {
       position: absolute;

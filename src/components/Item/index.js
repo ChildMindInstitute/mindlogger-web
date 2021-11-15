@@ -58,7 +58,6 @@ const Item = (props) => {
       enableReinitialize
       initialValues={type === 'splash' ? {} : data}
       onSubmit={(values, { setSubmitting }) => {
-        console.log('values=========', values)
         handleSubmit(values)
       }}
     >

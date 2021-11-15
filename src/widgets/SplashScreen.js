@@ -58,7 +58,7 @@ const SplashScreen = (props) => {
         isNextShown={isNextShown}
         isNextDisable={false}
         handleBack={handleBack}
-        isSubmitShown={isSubmitShown}
+        isSubmitShown={false}
       />
     </Card>
   );

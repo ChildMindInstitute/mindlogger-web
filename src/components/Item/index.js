@@ -8,6 +8,7 @@ import Checkbox from '../../widgets/Checkbox';
 import AgeSelector from '../../widgets/AgeSelector';
 import TextInput from '../../widgets/TextInput';
 import Slider from '../../widgets/Slider/index';
+import SplashScreen from '../../widgets/SplashScreen';
 
 import "./style.css";
 
@@ -37,6 +38,8 @@ const Item = (props) => {
         return <Slider {...props} isBackShown={isBackShown} handleChange={onChange} />;
       case "ageSelector":
         return <AgeSelector {...props} isBackShown={isBackShown} handleChange={onChange} />;
+      case "splash":
+        return <SplashScreen {...props} isBackShown={isBackShown} />;
       default:
         return <div />;
     }
@@ -53,8 +56,9 @@ const Item = (props) => {
   return (
     <Formik
       enableReinitialize
-      initialValues={data}
+      initialValues={type === 'splash' ? {} : data}
       onSubmit={(values, { setSubmitting }) => {
+        console.log('values=========', values)
         handleSubmit(values)
       }}
     >

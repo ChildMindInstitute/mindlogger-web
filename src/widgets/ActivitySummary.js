@@ -116,10 +116,10 @@ const Summary = styled(({ className, ...props }) => {
           >
             <div id="PDF" ref={ref}>
               {url.match(/\.(jpeg|jpg|gif|png)$/) != null &&
-                <div>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
                   <img
                     src={url + '?not-from-cache-please'}
-                    style={{ objectFit: 'contain' }}
+                    style={{ objectFit: 'contain', maxHeight: '700px' }}
                     crossOrigin="anonymous"
                     alt=''
                   />

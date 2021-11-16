@@ -26,6 +26,7 @@ const SplashScreen = (props) => {
   if (splashScreen.includes(".png")
     || splashScreen.includes(".bmp")
     || splashScreen.includes(".jpg")
+    || splashScreen.includes(".gif")
     || splashScreen.includes(".jpeg")) {
     isImageSplash = true;
   }
@@ -47,7 +48,11 @@ const SplashScreen = (props) => {
                   <img src={splashScreen} className="image-splash" />
                 </div>
               ): (
-                <div></div>
+                <div className="splash-container">
+                  <video width="320" height="240" controls autoPlay>
+                    <source src={splashScreen} />
+                  </video>
+                </div>
               )}
             </div>
           </Card.Body>

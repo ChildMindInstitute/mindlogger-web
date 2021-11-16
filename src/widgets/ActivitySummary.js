@@ -193,7 +193,7 @@ const Summary = styled(({ className, ...props }) => {
                     </div>
                   </div>
                 ))} 
-              <div style={{ border: '1px solid black' }} className="mb-4"></div>
+              <div style={{ border: '1px solid black', marginTop: 36, marginBottom: 36 }} />
               <p className="mb-4">{termsText}</p>
               <p>{footerText}</p>
             </div>

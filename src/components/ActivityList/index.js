@@ -97,7 +97,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
     return activities.findIndex(activity => activity.name.en == name)
   }
 
-  const getActivityAvailabilityFromDependency = (g, availableActivities, archievedActivities) => {
+  const getActivityAvailabilityFromDependency = (g, availableActivities = [], archievedActivities = []) => {
     const marked = [], activities = [];
     let markedCount = 0;
 
@@ -184,16 +184,16 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
     }
 
     const convertToIndexes = (activities) => activities
-      .map(id => {
+      ?.map(id => {
         const index = appletData.activities.findIndex(activity => activity.id.split('/').pop() == id)
         return index;
       })
-      .filter(index => index >= 0)
+      ?.filter(index => index >= 0)
 
     let appletActivities = getActivityAvailabilityFromDependency(
       dependency,
-      convertToIndexes(cumulativeActivities[appletData.id].available),
-      convertToIndexes(cumulativeActivities[appletData.id].archieved)
+      convertToIndexes(cumulativeActivities[appletData.id]?.available),
+      convertToIndexes(cumulativeActivities[appletData.id]?.archieved)
     )
 
     appletActivities = appletActivities

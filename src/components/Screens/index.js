@@ -195,7 +195,7 @@ const Screens = (props) => {
         handleChange={handleChange}
         handleBack={handleBack}
         isSubmitShown={next === -1}
-        isBackShown={isSplashScreen}
+        isBackShown={false}
         isNextShown={isSplashScreen}
       />
     );
@@ -256,7 +256,7 @@ const Screens = (props) => {
             </Card.Body>
           </Card>
 
-          {activityStatus.map(status => 
+          {activityStatus.map(status =>
             <div className="my-2 rounded border w-h p-2 text-center bg-white">
               <div className="mb-2">{status.label}</div>
               <ProgressBar className="mb-2" now={status.percentage} />

@@ -119,7 +119,7 @@ const Summary = styled(({ className, ...props }) => {
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                   <img
                     src={url + '?not-from-cache-please'}
-                    style={{ objectFit: 'contain', maxHeight: '700px' }}
+                    style={{ objectFit: 'contain', height: '20%', marginTop: '40%' }}
                     crossOrigin="anonymous"
                     alt=''
                   />

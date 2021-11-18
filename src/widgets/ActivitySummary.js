@@ -160,7 +160,7 @@ const Summary = styled(({ className, ...props }) => {
                         style={{
                           left: `max(75px, ${(item.scoreValue / item.maxScoreValue) * 100}%)`,
                         }}>
-                        <b>Your Child’s Score</b>
+                        <b>Your Child's Score</b>
                       </p>
                       <div
                         className={cn('score-bar score-below', {

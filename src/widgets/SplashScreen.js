@@ -49,7 +49,7 @@ const SplashScreen = (props) => {
                 </div>
               ): (
                 <div className="splash-container">
-                  <video width="320" height="240" controls autoPlay>
+                  <video width="320" height="240" controls autoPlay={isNextShown}>
                     <source src={splashScreen} />
                   </video>
                 </div>

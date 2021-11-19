@@ -195,7 +195,7 @@ const Summary = styled(({ className, ...props }) => {
                 ))} 
               <div style={{ border: '1px solid black', marginTop: 36, marginBottom: 36 }} />
               <p className="mb-4 terms-font">{termsText}</p>
-              <p className="terms-font">{footerText}</p>
+              <p className="terms-footer">{footerText}</p>
             </div>
           </PDFExport>
         </div>
@@ -225,6 +225,9 @@ const Summary = styled(({ className, ...props }) => {
   }
   .terms-font {
     font-size: 12px;
+  }
+  .terms-footer {
+    font-size: 10.85px;
   }
   .score-area {
     position: relative;

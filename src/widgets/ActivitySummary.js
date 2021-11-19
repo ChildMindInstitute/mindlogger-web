@@ -119,7 +119,7 @@ const Summary = styled(({ className, ...props }) => {
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                   <img
                     src={url + '?not-from-cache-please'}
-                    style={{ objectFit: 'contain', maxHeight: '700px' }}
+                    style={{ objectFit: 'contain', height: '20%', marginTop: '40%' }}
                     crossOrigin="anonymous"
                     alt=''
                   />
@@ -160,7 +160,7 @@ const Summary = styled(({ className, ...props }) => {
                         style={{
                           left: `max(75px, ${(item.scoreValue / item.maxScoreValue) * 100}%)`,
                         }}>
-                        <b>Your Child’s Score</b>
+                        <b>Your Child's Score</b>
                       </p>
                       <div
                         className={cn('score-bar score-below', {

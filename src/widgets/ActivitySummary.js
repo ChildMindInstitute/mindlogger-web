@@ -119,7 +119,7 @@ const Summary = styled(({ className, ...props }) => {
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                   <img
                     src={url + '?not-from-cache-please'}
-                    style={{ objectFit: 'contain', height: '20%', marginTop: '40%' }}
+                    style={{ objectFit: 'contain' }}
                     crossOrigin="anonymous"
                     alt=''
                   />
@@ -227,7 +227,7 @@ const Summary = styled(({ className, ...props }) => {
     font-size: 12px;
   }
   .terms-footer {
-    font-size: 10.85px;
+    font-size: 10.9px;
   }
   .score-area {
     position: relative;

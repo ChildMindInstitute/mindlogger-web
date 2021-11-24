@@ -74,17 +74,9 @@ const Summary = styled(({ className, ...props }) => {
   }
 
   const handlePDFSave = () => {
-    const isIOSSafari = !!window.navigator.userAgent.match(/Version\/[\d\.]+.*Safari/);
-    if (isIOSSafari) {
-      html2canvas(document.body.querySelector('#PDF')).then(canvas => {
-        document.body.appendChild(canvas);
-        const imgData = canvas.toDataURL('image/png');
-        const pdf = new jsPDF('p', 'pt', 'a4', false);
-        pdf.addImage(imgData, 'PNG', 30, 50, 500, 0, undefined, false);
-        pdf.save("export.pdf");
-      });
-    } else
+    if (pdfRef.current) {
       pdfRef.current && pdfRef.current.save();
+    }
   }
 
   if (activityAccess.disableSummary) return <div />;

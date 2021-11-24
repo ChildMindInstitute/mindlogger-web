@@ -2,10 +2,12 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import RESPONSE_CONSTANTS from './responses.constants';
 import { authTokenSelector, userInfoSelector, loggedInSelector } from "../user/user.selectors";
-import { prepareResponseKeys } from '../applet/applet.reducer';
+import { prepareResponseKeys, setCumulativeActivities } from '../applet/applet.reducer';
+import { appletCumulativeActivities } from '../applet/applet.selectors';
 import { setFinishedEvents } from '../app/app.reducer';
 import { currentAppletSelector, currentActivitySelector, currentEventSelector } from '../app/app.selectors';
 import { getPrivateKey } from '../../services/encryption';
+import { evaluateCumulatives } from '../../services/scoring';
 import {
   currentResponsesSelector,
   currentAppletResponsesSelector,
@@ -66,9 +68,6 @@ export const completeResponse = createAsyncThunk(RESPONSE_CONSTANTS.COMPLETE_RES
   const activity = currentActivitySelector(state);
   const event = currentEventSelector(state);
 
-  console.log('-------inProgressResponse---------');
-  console.log(inProgressResponse);
-
   if ((!applet.AESKey || !applet.userPublicKey || applet.publicId)) {
     if (applet.publicId) {
       const pass = activity.items.findIndex(item => item.correctAnswer?.en)
@@ -117,6 +116,35 @@ export const completeResponse = createAsyncThunk(RESPONSE_CONSTANTS.COMPLETE_RES
     }
 
   } else {
+    let { cumActivities } = evaluateCumulatives(inProgressResponse.responses, activity);
+    const cumulativeActivities = appletCumulativeActivities(state);
+
+    if (cumActivities.length) {
+      const archieved = [...cumulativeActivities[applet.id].archieved];
+      const activityId = activity.id.split('/').pop();
+
+      if (archieved.indexOf(activityId) < 0) {
+        archieved.push(activityId);
+      }
+
+      dispatch(
+        setCumulativeActivities({
+          ...cumulativeActivities,
+          [applet.id]: {
+            available: cumulativeActivities[applet.id].available
+              .concat(
+                cumActivities.map(name => {
+                  const activity = applet.activities.find(activity => activity.name.en == name)
+                  return activity && activity.id.split('/').pop()
+                }).filter(id => id)
+              )
+              .filter(id => id != activity.id.split('/').pop()),
+            archieved
+          }
+        })
+      );
+    }
+
     const preparedResponse = prepareResponseForUpload(inProgressResponse, applet, responseHistory, isTimeout, finishedTime);
 
     dispatch(addToUploadQueue(preparedResponse));

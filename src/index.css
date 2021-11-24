@@ -68,6 +68,17 @@ code {
   padding: 20px 10px;
 }
 
+.splash-container {
+  display: flex;
+  justify-content: center;
+}
+
+.image-splash {
+  width: 300px;
+  background-color: black;
+  height: intrinsic;
+}
+
 .question .markdown img {
   width: 250px;
 }

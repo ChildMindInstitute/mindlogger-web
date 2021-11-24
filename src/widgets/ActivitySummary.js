@@ -16,8 +16,6 @@ import Markdown from '../components/Markdown';
 
 // State
 import { inProgressSelector } from '../state/responses/responses.selectors';
-import { setCumulativeActivities, setHiddenCumulativeActivities } from '../state/applet/applet.reducer';
-import { appletCumulativeActivities, appletHiddenCumulativeActivities } from '../state/applet/applet.selectors';
 
 // services
 import { evaluateCumulatives } from '../services/scoring';
@@ -41,11 +39,14 @@ const Summary = styled(({ className, ...props }) => {
   const applet = useSelector(currentAppletSelector);
   const response = useSelector(inProgressSelector);
   const activityAccess = useSelector(currentActivitySelector);
-  const cumulativeActivities = useSelector(appletCumulativeActivities);
-  const hiddenCumulativeActivities = useSelector(appletHiddenCumulativeActivities);
+  let url = "";
 
   const pdfRef = useRef(null);
   const ref = React.createRef();
+
+  if (activity.splash && activity.splash.en) {
+    url = activity.splash.en;
+  }
 
   useEffect(() => {
     try {
@@ -61,25 +62,7 @@ const Summary = styled(({ className, ...props }) => {
     setActivity(activity);
 
     if (responses && responses.length > 0) {
-      let { cumActivities, reportMessages } = evaluateCumulatives(responses, activity);
-      const cumulativeActivity = findActivity(cumActivities && cumActivities[0], applet?.activities);
-
-      if (cumulativeActivities && cumulativeActivities[`${activity.id}/nextActivity`]) {
-        if (cumActivities.length > 0 && !hiddenCumulativeActivities?.includes(activity.id)) dispatch(setHiddenCumulativeActivities({ id: activity.id }));
-
-        cumActivities = _.difference(cumActivities, cumulativeActivities[`${activity.id}/nextActivity`]);
-        if (cumActivities.length > 0) {
-          cumActivities = [...cumulativeActivities[`${activity.id}/nextActivity`], ...cumActivities];
-          dispatch(setCumulativeActivities({ [`${activity.id}/nextActivity`]: cumActivities }));
-        }
-        if (hiddenCumulativeActivities?.includes(cumulativeActivity?.id)) dispatch(setHiddenCumulativeActivities({ id: cumulativeActivity?.id, isRemove: true }));
-      } else {
-        dispatch(setCumulativeActivities({ [`${activity.id}/nextActivity`]: cumActivities }));
-        if (cumActivities.length > 0 && !hiddenCumulativeActivities?.includes(activity.id))
-          dispatch(setHiddenCumulativeActivities({ id: activity.id }));
-
-        if (hiddenCumulativeActivities?.includes(cumulativeActivity?.id)) dispatch(setHiddenCumulativeActivities({ id: cumulativeActivity?.id, isRemove: true }));
-      }
+      const { reportMessages } = evaluateCumulatives(responses, activity);
 
       setMessages(reportMessages);
     }
@@ -111,16 +94,10 @@ const Summary = styled(({ className, ...props }) => {
       <Row className="no-gutters">
         <Col md={12}>
           <Card.Body>
-            <div className="mb-4">
-              <Markdown markdown={_.get(activity, 'scoreOverview', '').replace(MARKDOWN_REGEX, '$1$2')} />
-            </div>
             {messages &&
               messages.map((item, i) => (
                 <div key={i}>
                   <h1>{item.category.replace(/_/g, ' ')}</h1>
-                  <div className="mb-4">
-                    <Markdown markdown={_.get(item, 'compute.description', '').replace(MARKDOWN_REGEX, '$1$2')} />
-                  </div>
                   <h3>{item.score}</h3>
                   <Markdown markdown={item.message.replace(MARKDOWN_REGEX, '$1$2')} />
                   {messages.length > 1 && <div className="hr" />}
@@ -131,13 +108,37 @@ const Summary = styled(({ className, ...props }) => {
       </Row>
       <div>
         <div className="pdf-container">
-          <PDFExport paperSize="A4" margin="2cm" ref={pdfRef}>
+          <PDFExport 
+            paperSize="A4" 
+            forcePageBreak=".page-break"
+            margin="2cm"
+            ref={pdfRef}
+          >
             <div id="PDF" ref={ref}>
-              <p className="mb-4">
-                <b>
-                  <u>{_.get(activity, 'name.en')} Report</u>
-                </b>
-              </p>
+              {url.match(/\.(jpeg|jpg|gif|png)$/) != null &&
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  <img
+                    src={url + '?not-from-cache-please'}
+                    style={{ objectFit: 'contain' }}
+                    crossOrigin="anonymous"
+                    alt=''
+                  />
+                  <div className="page-break" />
+                </div>
+              }
+              {applet.image &&
+                <div style={{ float: 'right', marginBottom: 10 }}>
+                  <img
+                    src={applet.image + '?not-from-cache-please'}
+                    style={{ objectFit: 'contain' }}
+                    width="100"
+                    height="100"
+                    crossOrigin="anonymous"
+                    alt=''
+                  />
+                </div>
+              }
+             
               <div className="mb-4">
                 <Markdown useCORS={true} markdown={_.get(activity, 'scoreOverview', '').replace(MARKDOWN_REGEX, '$1$2')} />
               </div>
@@ -159,7 +160,7 @@ const Summary = styled(({ className, ...props }) => {
                         style={{
                           left: `max(75px, ${(item.scoreValue / item.maxScoreValue) * 100}%)`,
                         }}>
-                        <b>Your/Your Child’s Score</b>
+                        <b>Your Child's Score</b>
                       </p>
                       <div
                         className={cn('score-bar score-below', {
@@ -182,27 +183,19 @@ const Summary = styled(({ className, ...props }) => {
                         <b>{item.maxScoreValue}</b>
                       </p>
                     </div>
-                    <p className="text-uppercase mb-1">
-                      <b>
-                        <i>
-                          If score
-                        <span className="ml-2">{item.jsExpression}</span>
-                        </i>
-                      </b>
-                    </p>
-
                     <div className="mb-4">
-                      Your/Your child's score on the {item.category.replace(/_/g, ' ')} subscale was{' '}
+                      Your child's score on the {item.category.replace(/_/g, ' ')} subscale was{' '}
                       <span className="text-danger">{item.scoreValue}</span>.
-                    <Markdown
+                      <Markdown
                         markdown={item.message.replace(MARKDOWN_REGEX, '$1$2')}
                         useCORS={true}
                       />
                     </div>
                   </div>
-                ))}
-              <p className="mb-5">{termsText}</p>
-              <p>{footerText}</p>
+                ))} 
+              <div style={{ border: '1px solid black', marginTop: 36, marginBottom: 36 }} />
+              <p className="mb-4 terms-font">{termsText}</p>
+              <p className="terms-footer">{footerText}</p>
             </div>
           </PDFExport>
         </div>
@@ -230,6 +223,12 @@ const Summary = styled(({ className, ...props }) => {
     font-size: 10pt;
     font-family: Arial, Helvetica, sans-serif;
   }
+  .terms-font {
+    font-size: 12px;
+  }
+  .terms-footer {
+    font-size: 10.9px;
+  }
   .score-area {
     position: relative;
     display: flex;
@@ -247,6 +246,9 @@ const Summary = styled(({ className, ...props }) => {
     }
     .score-above {
       flex: 1;
+    }
+    .divider-line {
+      border-top: 1px solid black;
     }
     .score-spliter {
       position: absolute;

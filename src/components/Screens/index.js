@@ -40,6 +40,7 @@ const Screens = (props) => {
   const { t } = useTranslation()
   const [data, setData] = useState({});
   const [show, setShow] = useState(false);
+  const [isSplashScreen, setIsSplashScreen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isSummaryScreen, setIsSummaryScreen] = useState(false);
 
@@ -60,6 +61,12 @@ const Screens = (props) => {
   const screenIndex = getNextPos(currentScreenIndex - 1, visibility)
 
   useEffect(() => {
+    if (activityAccess.splash
+      && activityAccess.splash.en
+      && currentScreenIndex === 0
+    ) {
+      setIsSplashScreen(true);
+    }
     if (inProgress && Object.keys(inProgress).length > 0) {
       const { activity, responses } = inProgress;
       let obj = data;
@@ -78,7 +85,7 @@ const Screens = (props) => {
     const { activity } = inProgress;
     clearActivityStartTime(activity.event ? activity.id + activity.event.id : activity.id)
 
-    if (activityAccess.compute && !isSummaryScreen) {
+    if (activityAccess.compute?.length > 0 && !isSummaryScreen) {
       setIsSummaryScreen(true);
       setShow(false);
 
@@ -120,6 +127,11 @@ const Screens = (props) => {
 
   const handleNext = (e) => {
     let currentNext = next;
+
+    if (isSplashScreen) {
+      setIsSplashScreen(false);
+      return;
+    }
     if (e.value || e.value === 0) {
       let responses = [...inProgress?.responses];
       responses[screenIndex] = e.value;
@@ -172,6 +184,23 @@ const Screens = (props) => {
     screenIndex / activityAccess.items.length * 100
     : 0;
 
+  if (activityAccess.splash && activityAccess.splash.en) {
+    availableItems += 1;
+    items.push(
+      <Item
+        type={`splash`}
+        watermark={applet.watermark}
+        splashScreen={activityAccess.splash.en}
+        handleSubmit={handleNext}
+        handleChange={handleChange}
+        handleBack={handleBack}
+        isSubmitShown={next === -1}
+        isBackShown={false}
+        isNextShown={isSplashScreen}
+      />
+    );
+  }
+
   activityAccess.items.forEach((item, i) => {
     const isVisible = item.isVis ? false : testVisibility(
       item.visibility,
@@ -179,9 +208,8 @@ const Screens = (props) => {
       inProgress?.responses
     );
 
-
     if (isVisible) {
-      if (screenIndex >= i) {
+      if (screenIndex >= i && !isSplashScreen) {
         availableItems += 1;
       }
       items.push(
@@ -228,7 +256,7 @@ const Screens = (props) => {
             </Card.Body>
           </Card>
 
-          {activityStatus.map(status => 
+          {activityStatus.map(status =>
             <div className="my-2 rounded border w-h p-2 text-center bg-white">
               <div className="mb-2">{status.label}</div>
               <ProgressBar className="mb-2" now={status.percentage} />

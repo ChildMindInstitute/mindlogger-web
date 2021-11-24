@@ -44,7 +44,7 @@ const Summary = styled(({ className, ...props }) => {
   const pdfRef = useRef(null);
   const ref = React.createRef();
 
-  if (activity.splash && activity.splash.en) {
+  if (activity?.splash?.en) {
     url = activity.splash.en;
   }
 
@@ -108,37 +108,13 @@ const Summary = styled(({ className, ...props }) => {
       </Row>
       <div>
         <div className="pdf-container">
-          <PDFExport 
-            paperSize="A4" 
-            forcePageBreak=".page-break"
-            margin="2cm"
-            ref={pdfRef}
-          >
+          <PDFExport paperSize="A4" margin="2cm" forcePageBreak=".page-break" ref={pdfRef}>
             <div id="PDF" ref={ref}>
-              {url.match(/\.(jpeg|jpg|gif|png)$/) != null &&
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  <img
-                    src={url + '?not-from-cache-please'}
-                    style={{ objectFit: 'contain' }}
-                    crossOrigin="anonymous"
-                    alt=''
-                  />
-                  <div className="page-break" />
-                </div>
-              }
-              {applet.image &&
-                <div style={{ float: 'right', marginBottom: 10 }}>
-                  <img
-                    src={applet.image + '?not-from-cache-please'}
-                    style={{ objectFit: 'contain' }}
-                    width="100"
-                    height="100"
-                    crossOrigin="anonymous"
-                    alt=''
-                  />
-                </div>
-              }
-             
+              <p className="mb-4">
+                <b>
+                  <u>{_.get(activity, 'name.en')} Report</u>
+                </b>
+              </p>
               <div className="mb-4">
                 <Markdown useCORS={true} markdown={_.get(activity, 'scoreOverview', '').replace(MARKDOWN_REGEX, '$1$2')} />
               </div>
@@ -183,16 +159,25 @@ const Summary = styled(({ className, ...props }) => {
                         <b>{item.maxScoreValue}</b>
                       </p>
                     </div>
+                    <p className="text-uppercase mb-1">
+                      <b>
+                        <i>
+                          If score
+                        <span className="ml-2">{item.jsExpression}</span>
+                        </i>
+                      </b>
+                    </p>
+
                     <div className="mb-4">
-                      Your child's score on the {item.category.replace(/_/g, ' ')} subscale was{' '}
+                      Your/Your child's score on the {item.category.replace(/_/g, ' ')} subscale was{' '}
                       <span className="text-danger">{item.scoreValue}</span>.
-                      <Markdown
+                    <Markdown
                         markdown={item.message.replace(MARKDOWN_REGEX, '$1$2')}
                         useCORS={true}
                       />
                     </div>
                   </div>
-                ))} 
+                ))}
               <div style={{ border: '1px solid black', marginTop: 36, marginBottom: 36 }} />
               <p className="mb-4 terms-font">{termsText}</p>
               <p className="terms-footer">{footerText}</p>

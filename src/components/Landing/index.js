@@ -13,7 +13,7 @@ export default function Landing () {
   const { t } = useTranslation()
   const isLoggedIn = useSelector(loggedInSelector)
   return (
-    <div className="position-absolute d-flex landing-container">
+    <div className="d-flex landing-container">
       <a
         target="_blank"
         href="https://apps.apple.com/us/app/mindlogger-pilot/id1301092229"

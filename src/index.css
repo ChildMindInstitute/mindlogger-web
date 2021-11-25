@@ -74,12 +74,21 @@ code {
 .splash-container {
   display: flex;
   justify-content: center;
+  align-items: center;
+
+  width: 90%;
+  height: calc(80vh - 144px);
+  margin: auto;
 }
 
 .image-splash {
-  width: 300px;
   background-color: black;
-  height: intrinsic;
+}
+
+@media only screen and (max-height: 767px) {
+  .splash-container {
+    height: calc(80vh);
+  }
 }
 
 .question .markdown img {

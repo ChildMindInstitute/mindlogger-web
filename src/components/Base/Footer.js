@@ -6,7 +6,7 @@ export const Footer = () => {
       <p className="mt-3 text-center">
         <img
           className="logo mr-1"
-          src="https://27c2s3mdcxk2qzutg1z8oa91-wpengine.netdna-ssl.com/wp-content/themes/childmind/assets/img/cmi-logo-vert-ko.svg"
+          src="https://cmi-logos.s3.amazonaws.com/ChildMindInstitute_Logo_Horizontal_RGB.png"
         />
         ©{' '}
         <a

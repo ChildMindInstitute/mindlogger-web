@@ -39,7 +39,7 @@ export default function ForgotPassword() {
 
   return (
     <div className="demo mb-3">
-      <div id="login" className="text-center mb-0">
+      <div id="login" className="text-center my-2">
         <h1>{t('ForgotPassword.title')}</h1>
         <div className="container fluid" id="signupForm">
           <form onSubmit={handleSubmit(onSubmit)}>

@@ -83,7 +83,7 @@ export default () => {
 
   return (
     <div className="demo mb-3">
-      <div id="login" className="text-center mb-0">
+      <div id="login" className="text-center my-2">
         {isRouted && <h1>{t('SignUp.title')}</h1>}
         <div className="container fluid" id="signupForm">
           <Form onSubmit={onSubmit}>

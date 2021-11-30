@@ -16,7 +16,7 @@ export default function Landing () {
     <div className="d-flex landing-container">
       <a
         target="_blank"
-        href="https://apps.apple.com/us/app/mindlogger-pilot/id1301092229"
+        href="https://apps.apple.com/us/app/mindlogger-pilot/id1301092229#?platform=iphone"
       >
         <img
           style={{ maxWidth: '70px', width: '100%' }}
@@ -64,7 +64,7 @@ export default function Landing () {
       </div>
       <a
         target="_blank"
-        href="https://play.google.com/store/apps/details?id=lab.childmindinstitute.data&hl=en_US&gl=US"
+        href="https://play.google.com/store/apps/details?id=com.childmindinstitute.exposuretherapy&hl=en_US&gl=US"
       >
         <img
           style={{ maxWidth: '60px', width: '100%' }}

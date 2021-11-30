@@ -21,7 +21,7 @@ const SplashScreen = (props) => {
     splashScreen
   } = props;
 
-  const splashImage = useRef();
+  const splashContainer = useRef();
 
   let isImageSplash = false;
 
@@ -33,27 +33,41 @@ const SplashScreen = (props) => {
     isImageSplash = true;
   }
 
-  function freeze_gif(i) {
-    var c = document.createElement('canvas');
-    var w = c.width = i.offsetWidth;
-    var h = c.height = i.offsetHeight;
-    c.getContext('2d').drawImage(i, 0, 0, w, h);
+  function updateSplashImage(el, containerWidth, containerHeight) {
+    const w = isImageSplash ? el.naturalWidth : el.videoWidth, h = isImageSplash ? el.naturalHeight : el.videoHeight;
+    const scale = Math.min(1.2, Math.min(containerWidth / w, containerHeight / h));
 
-    for (var j = 0, a; a = i.attributes[j]; j++) {
+    if (!splashScreen.includes('.gif') || isNextShown) {
+      el.setAttribute('width', scale * w);
+      el.setAttribute('height', scale * h)
+
+      return ;
+    }
+
+    var c = document.createElement('canvas');
+
+    c.width = w * scale;
+    c.height = h * scale;
+    c.getContext('2d').drawImage(el, 0, 0, c.width, c.height);
+
+    for (var j = 0, a; a = el.attributes[j]; j++) {
       c.setAttribute(a.name, a.value);
     }
-    i.parentNode.replaceChild(c, i);
+    el.parentNode.replaceChild(c, el);
   }
 
   useEffect(() => {
-    if (splashScreen.includes('.gif') && !isNextShown) {
-      const gif = splashImage.current.querySelector('img');
-      if (gif) {
-        if (gif.complete) {
-          freeze_gif(gif);
-        } else {
-          gif.addEventListener('load', () => freeze_gif(gif))
-        }
+    const item = splashContainer.current.querySelector('img, video');
+    const width = splashContainer.current.offsetWidth;
+    const height = splashContainer.current.offsetHeight;
+
+    if (item) {
+      if (item.complete) {
+        updateSplashImage(item, width, height);
+      } else {
+        item.addEventListener(isImageSplash ? 'load' : 'loadedmetadata', () => {
+          updateSplashImage(item, width, height);
+        })
       }
     }
   }, [isNextShown, splashScreen])
@@ -70,20 +84,20 @@ const SplashScreen = (props) => {
               }
             </Card.Title>
             <div className="no-gutters">
-              {isImageSplash ? (
-                <div ref={splashImage} className="splash-container">
-                  <img
-                    src={splashScreen}
-                    className="image-splash"
-                  />
-                </div>
-              ): (
-                <div className="splash-container">
-                  <video width="320" height="240" controls autoPlay={isNextShown}>
-                    <source src={splashScreen} />
-                  </video>
-                </div>
-              )}
+              <div ref={splashContainer} className="splash-container">
+                {
+                  isImageSplash ? (
+                    <img
+                      src={splashScreen}
+                      className="image-splash"
+                    />
+                  ): (
+                    <video controls autoPlay={isNextShown}>
+                      <source src={splashScreen} />
+                    </video>
+                  )
+                }
+              </div>
             </div>
           </Card.Body>
         </Col>

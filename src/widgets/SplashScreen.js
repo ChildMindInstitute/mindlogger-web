@@ -59,7 +59,11 @@ const SplashScreen = (props) => {
   useEffect(() => {
     const item = splashContainer.current.querySelector('img, video');
     const width = splashContainer.current.offsetWidth;
-    const height = splashContainer.current.offsetHeight;
+    let height = window.innerHeight * 0.8;
+
+    if (window.innerHeight > 767) {
+      height -= 144;
+    }
 
     if (item) {
       if (item.complete) {

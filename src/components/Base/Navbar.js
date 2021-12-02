@@ -29,6 +29,7 @@ export default ({ user }) => {
   const ref = useRef();
 
   useEffect(() => {
+    console.log('--------env-------: ', process.env.NODE_ENV);
     setVersion(process.env.NODE_ENV !== 'production' && version);
   }, [])
 

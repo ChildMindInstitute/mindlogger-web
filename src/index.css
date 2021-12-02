@@ -45,15 +45,31 @@ code {
   width : 80px;
   margin-right: 15px;
 }
-.app-container{
+
+.app-container {
   display: flex;
   justify-content: center;
-  height: calc(100vh - 144px);
+  width: 100%;
+  max-height: 100%;
+}
+
+.main-container {
+  background-image: url('https://images.unsplash.com/photo-1517483000871-1dbf64a6e1c6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80');
+  background-size: cover;
+  flex-grow: 1;
   overflow: auto;
+  display: flex;
+  align-items: center;
+}
+
+#root {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 @media only screen and (max-height: 767px) {
-  .app-container {
+  #root {
     height: unset;
   }
 }

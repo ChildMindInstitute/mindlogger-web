@@ -102,6 +102,8 @@ code {
 
 .question .markdown img {
   width: 250px;
+  display: block;
+  margin: auto;
 }
 
 .form-check input {
@@ -139,7 +141,7 @@ code {
 
 .option-image {
   height: 25px;
-  min-width: 25px;
+  width: 25px;
   margin-right: 10px;
 }
 

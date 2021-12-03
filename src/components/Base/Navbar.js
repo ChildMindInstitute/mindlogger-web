@@ -29,8 +29,7 @@ export default ({ user }) => {
   const ref = useRef();
 
   useEffect(() => {
-    console.log('--------env-------: ', process.env.NODE_ENV);
-    setVersion(process.env.NODE_ENV !== 'production' && version);
+    setVersion(process.env.REACT_APP_NODE_ENV !== 'production' && version);
   }, [])
 
   const onLogoClick = () => {

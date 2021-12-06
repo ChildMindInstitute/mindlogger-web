@@ -21,6 +21,10 @@ code {
     monospace;
 }
 
+.footer {
+  flex-shrink: 0;
+}
+
 .footer-logo {
   background: #005fa3;
   border-style: solid;
@@ -47,19 +51,21 @@ code {
 }
 
 .app-container {
+  position: absolute;
   display: flex;
   justify-content: center;
   width: 100%;
+  top: 0px;
+  height: 100%;
   max-height: 100%;
+  overflow: auto;
 }
 
 .main-container {
   background-image: url('https://images.unsplash.com/photo-1517483000871-1dbf64a6e1c6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80');
   background-size: cover;
   flex-grow: 1;
-  overflow: auto;
-  display: flex;
-  align-items: center;
+  position: relative;
 }
 
 #root {
@@ -68,9 +74,14 @@ code {
   flex-direction: column;
 }
 
-@media only screen and (max-height: 767px) {
+@media only screen and (max-height: 500px) {
   #root {
     height: unset;
+  }
+
+  .app-container {
+    max-height: unset;
+    position: relative;
   }
 }
 

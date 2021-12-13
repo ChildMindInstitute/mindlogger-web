@@ -26,7 +26,9 @@ const TextInput = ({
   handleBack,
   watermark,
   isSubmitShown,
-  answer
+  answer,
+  invalid,
+  ...props
 }) => {
   const { t } = useTranslation();
 
@@ -41,7 +43,7 @@ const TextInput = ({
   }, [values[item.variableName]])
 
   return (
-    <Card className="mb-3 px-3" style={{ maxWidth: "auto" }}>
+    <Card className={`${invalid ? 'invalid' : ''} mb-3 px-3`} style={{ maxWidth: "auto" }}>
       <Row className="no-gutters">
         <Col md={12}>
           <Card.Title className="question">
@@ -94,6 +96,8 @@ const TextInput = ({
           setShow(true);
           return false;
         }}
+        skippable={item.skippable}
+        {...props}
       />
     </Card>
   )

@@ -14,28 +14,39 @@ export default Navigator = (props) => {
     isNextDisable,
     handleBack,
     isSubmitShown,
-    canSubmit
+    canSubmit,
+    isOnePageAssessment,
+    skippable,
   } = props;
 
   return (
     <div className="row no-gutters d-flex flex-row justify-content-around">
       {
-        isBackShown &&
+        isOnePageAssessment && skippable &&
+        <MyButton
+          label={t("Consent.skip")}
+          classes="mb-2"
+          disabled={!isNextDisable}
+        /> || <div />
+      }
+
+      {
+        !isOnePageAssessment && isBackShown &&
         <MyButton
           label={t("Consent.back")}
           handleClick={handleBack}
           classes="mb-2"
         />
-        || <div />
+        || <></>
       }
 
       {
-        isNextShown
+        isNextShown && !isOnePageAssessment || isSubmitShown && isOnePageAssessment
         &&
         <MyButton
           type="submit"
           label={isSubmitShown ? t("submit") : t("Consent.next")}
-          disabled={isNextDisable}
+          disabled={!isOnePageAssessment && isNextDisable}
           classes="mb-2"
           handleClick={(e) => {
             if (typeof canSubmit === 'function' && !canSubmit(e)) {

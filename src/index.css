@@ -189,3 +189,7 @@ code {
 .text-center {
   text-align: center;
 }
+
+.invalid {
+  border: 2px solid red;
+}

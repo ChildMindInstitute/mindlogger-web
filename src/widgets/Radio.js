@@ -30,6 +30,7 @@ const Radio = (props) => {
     handleChange,
     handleBack,
     isSubmitShown,
+    invalid,
   } = props;
 
   const [checked, setChecked] = useState();
@@ -100,7 +101,7 @@ const Radio = (props) => {
 
   const itemCount = item.valueConstraints.itemList.length;
   return (
-    <Card className="mb-3" style={{ maxWidth: "auto" }}>
+    <Card className={`${invalid ? 'invalid' : ''} mb-3`} style={{ maxWidth: "auto" }}>
       <Row className="no-gutters">
         <Col md={12}>
           <Card.Body>
@@ -140,6 +141,8 @@ const Radio = (props) => {
         handleBack={handleBack}
         answer={answer}
         isSubmitShown={isSubmitShown}
+        skippable={item.skippable}
+        {...props}
       />
     </Card>
   );

@@ -20,7 +20,7 @@ import { activityLastResponseTimeSelector } from '../state/responses/responses.s
 import questionMark from '../assets/question-mark.svg';
 
 const Checkbox = ({
-  item, isBackShown, isNextShown, handleChange, handleBack, isSubmitShown, values, ...props
+  item, isBackShown, isNextShown, handleChange, handleBack, isSubmitShown, values, invalid, ...props
 }) => {
   const valueType = item.valueConstraints.valueType;
   const token = valueType && valueType.includes('token');
@@ -100,7 +100,7 @@ const Checkbox = ({
 
   const itemCount = item.valueConstraints.itemList.length;
   return (
-    <Card className="mb-3" style={{ maxWidth: "auto" }}>
+    <Card className={`${invalid ? 'invalid' : ''} mb-3`} style={{ maxWidth: "auto" }}>
       <Row className="no-gutters">
         <Col md={12}>
           <Card.Body>
@@ -140,6 +140,7 @@ const Checkbox = ({
         isNextDisable={isNextDisable()}
         handleBack={handleBack}
         isSubmitShown={isSubmitShown}
+        skippable={item.skippable}
         {...props}
       />
     </Card>

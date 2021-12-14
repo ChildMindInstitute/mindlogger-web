@@ -22,10 +22,6 @@ import { evaluateCumulatives } from '../services/scoring';
 import { currentActivitySelector, currentAppletSelector } from '../state/app/app.selectors';
 
 const MARKDOWN_REGEX = /(!\[.*\]\s*\(.*?) =\d*x\d*(\))/g;
-const termsText =
-  'I understand that the information provided by this questionnaire is not intended to replace the advice, diagnosis, or treatment offered by a medical or mental health professional, and that my anonymous responses may be used and shared for general research on children’s mental health.';
-const footerText =
-  'CHILD MIND INSTITUTE, INC. AND CHILD MIND MEDICAL PRACTICE, PLLC (TOGETHER, “CMI”) DOES NOT DIRECTLY OR INDIRECTLY PRACTICE MEDICINE OR DISPENSE MEDICAL ADVICE AS PART OF THIS QUESTIONNAIRE. CMI ASSUMES NO LIABILITY FOR ANY DIAGNOSIS, TREATMENT, DECISION MADE, OR ACTION TAKEN IN RELIANCE UPON INFORMATION PROVIDED BY THIS QUESTIONNAIRE, AND ASSUMES NO RESPONSIBILITY FOR YOUR USE OF THIS QUESTIONNAIRE.';
 
 const Summary = styled(({ className, ...props }) => {
   const { appletId, activityId } = useParams();
@@ -43,6 +39,9 @@ const Summary = styled(({ className, ...props }) => {
 
   const pdfRef = useRef(null);
   const ref = React.createRef();
+
+  const termsText = t("additional.terms_text")
+  const footerText = t("additional.footer_text");
 
   if (activity.splash && activity.splash.en) {
     url = activity.splash.en;
@@ -100,8 +99,8 @@ const Summary = styled(({ className, ...props }) => {
       </Row>
       <div>
         <div className="pdf-container">
-          <PDFExport 
-            paperSize="A4" 
+          <PDFExport
+            paperSize="A4"
             forcePageBreak=".page-break"
             margin="2cm"
             ref={pdfRef}
@@ -130,7 +129,7 @@ const Summary = styled(({ className, ...props }) => {
                   />
                 </div>
               }
-             
+
               <div className="mb-4">
                 <Markdown useCORS={true} markdown={_.get(activity, 'scoreOverview', '').replace(MARKDOWN_REGEX, '$1$2')} />
               </div>
@@ -152,7 +151,7 @@ const Summary = styled(({ className, ...props }) => {
                         style={{
                           left: `max(75px, ${(item.scoreValue / item.maxScoreValue) * 100}%)`,
                         }}>
-                        <b>Your Child's Score</b>
+                        <b>{t("additional.child_score")}</b>
                       </p>
                       <div
                         className={cn('score-bar score-below', {
@@ -176,7 +175,8 @@ const Summary = styled(({ className, ...props }) => {
                       </p>
                     </div>
                     <div className="mb-4">
-                      Your child's score on the {item.category.replace(/_/g, ' ')} subscale was{' '}
+                      {t("additional.child_score_on_subscale", { name: item.category.replace(/_/g, ' ') })}
+
                       <span className="text-danger">{item.scoreValue}</span>.
                       <Markdown
                         markdown={item.message.replace(MARKDOWN_REGEX, '$1$2')}
@@ -184,7 +184,7 @@ const Summary = styled(({ className, ...props }) => {
                       />
                     </div>
                   </div>
-                ))} 
+                ))}
               <div style={{ border: '1px solid black', marginTop: 36, marginBottom: 36 }} />
               <p className="mb-4 terms-font">{termsText}</p>
               <p className="terms-footer">{footerText}</p>

@@ -23,6 +23,7 @@
 .ds-activity-button {
   background: white !important;
   border: none;
+  margin: 10px 0px;
 }
 
 .ds-activity-button .activity-name-date {

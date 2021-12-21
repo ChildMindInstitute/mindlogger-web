@@ -12,6 +12,7 @@ import { push } from 'connected-react-router'
 import { loggedInSelector } from '../../state/user/user.selectors'
 import { doLogout } from '../../state/user/user.actions'
 import { Languages } from '../../constants/index'
+import { version } from "../../../package.json";
 
 /**
  * Component for Rendering the NavBar
@@ -23,8 +24,13 @@ export default ({ user }) => {
   const history = useHistory()
   const location = useLocation()
   const [expanded, setExpanded] = useState(false)
+  const [appVersion, setVersion] = useState()
   const isLoggedIn = useSelector(loggedInSelector)
   const ref = useRef();
+
+  useEffect(() => {
+    setVersion(process.env.REACT_APP_NODE_ENV !== 'production' && version);
+  }, [])
 
   const onLogoClick = () => {
     if (!isLoggedIn) {
@@ -49,6 +55,7 @@ export default ({ user }) => {
         {t('Navbar.mindLogger')}
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      {appVersion && <Navbar.Text>v{appVersion}</Navbar.Text>}
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav onClick={() => setExpanded(false)} className="mr-auto">
           {/* <Nav.Link onClick={() => history.push('/applet')}>

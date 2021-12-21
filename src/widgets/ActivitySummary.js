@@ -100,8 +100,8 @@ const Summary = styled(({ className, ...props }) => {
       </Row>
       <div>
         <div className="pdf-container">
-          <PDFExport 
-            paperSize="A4" 
+          <PDFExport
+            paperSize="A4"
             forcePageBreak=".page-break"
             margin="2cm"
             ref={pdfRef}
@@ -124,13 +124,12 @@ const Summary = styled(({ className, ...props }) => {
                     src={applet.image + '?not-from-cache-please'}
                     style={{ objectFit: 'contain' }}
                     width="100"
-                    height="100"
                     crossOrigin="anonymous"
                     alt=''
                   />
                 </div>
               }
-             
+
               <div className="mb-4">
                 <Markdown useCORS={true} markdown={_.get(activity, 'scoreOverview', '').replace(MARKDOWN_REGEX, '$1$2')} />
               </div>
@@ -184,7 +183,7 @@ const Summary = styled(({ className, ...props }) => {
                       />
                     </div>
                   </div>
-                ))} 
+                ))}
               <div style={{ border: '1px solid black', marginTop: 36, marginBottom: 36 }} />
               <p className="mb-4 terms-font">{termsText}</p>
               <p className="terms-footer">{footerText}</p>

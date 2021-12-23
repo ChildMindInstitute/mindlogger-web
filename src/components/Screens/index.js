@@ -84,7 +84,7 @@ const Screens = (props) => {
       const response = responses && responses[i];
       if (response) {
         if (item.inputType == 'text') {
-          if (item.correctAnswer && !item.correctAnswer.en && item.correctAnswer.en !== response) {
+          if (item.correctAnswer && item.correctAnswer.en && item.correctAnswer.en !== response) {
             errors[i] = true;
             continue;
           }
@@ -236,7 +236,7 @@ const Screens = (props) => {
     }
   }
 
-  let availableItems = 0, isOnePageAssessment = !activityAccess.isOnePageAssessment;
+  let availableItems = 0, isOnePageAssessment = activityAccess.isOnePageAssessment;
   const activityStatus = getPercentages(applet.activities.filter(({ id }) => id !== activityAccess.id), progress);
   const percentage = screenIndex ?
     screenIndex / activityAccess.items.length * 100

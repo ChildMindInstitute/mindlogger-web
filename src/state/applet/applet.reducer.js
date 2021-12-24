@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import _ from "lodash";
 
 import APPLET_CONSTANTS from './applet.constants';
 
@@ -32,10 +33,10 @@ const appletSlice = createSlice({
   name: "applet",
   initialState,
   reducers: {
-    clearApplets: () => initialState,
+    clearApplets: () => ({ ...initialState, cumulativeActivities }),
     selectApplet: (state, action) => { state.applet = action.payload },
     selectActivity: (state, action) => { state.activityAccess = action.payload },
-    setCumulativeActivities: (state, action) => { state.cumulativeActivities = action.payload },
+    setCumulativeActivities: (state, action) => { state.cumulativeActivities = { ...action.payload } },
     prepareResponseKeys: (state, action) => {
       const { appletId, keys } = action.payload;
       const index = state.applets.findIndex(applet => applet.id == appletId);
@@ -83,4 +84,10 @@ const appletSlice = createSlice({
 
 export default appletSlice.reducer;
 
-export const { clearApplets, selectApplet, selectActivity, prepareResponseKeys, setCumulativeActivities } = appletSlice.actions;
+export const {
+  clearApplets,
+  selectApplet,
+  selectActivity,
+  prepareResponseKeys,
+  setCumulativeActivities,
+} = appletSlice.actions;

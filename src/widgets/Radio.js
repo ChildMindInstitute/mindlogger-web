@@ -50,13 +50,13 @@ const Radio = (props) => {
     let g = parseInt(hexcolor.substr(2, 2), 16);
     let b = parseInt(hexcolor.substr(4, 2), 16);
     let yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
-    return (yiq >= 128) ? '#333333' : 'white';
+    return (yiq >= 128) ? '#333333' : 'black';
   }
 
   const renderItem = (obj, index) => (
     <div className="response-option" style={{ background: obj.color ? obj.color : 'none' }}>
       {
-         !obj.image && <div className="option-image"></div>
+        !obj.image && <div className="option-image"></div>
       }
       {
         obj.description &&
@@ -84,7 +84,7 @@ const Radio = (props) => {
         name={item.variableName}
         style={{ color: obj.color ? invertColor(obj.color) : "#333333" }}
         type="radio"
-        checked={ answer && answer.value == (token ? obj.name.en : obj.value) }
+        checked={(answer || answer === 0) && answer.value == (token ? obj.name.en : obj.value)}
         onChange={
           () => {
             handleChange({ value: token ? obj.name.en : obj.value });
@@ -93,7 +93,6 @@ const Radio = (props) => {
         }
         value={obj.value}
         disabled={!isNextShown}
-        checked={checked == obj.value}
         id={`${item.variableName}${index}`}
       />
     </div>

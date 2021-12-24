@@ -13,18 +13,28 @@ export default function Landing () {
   const { t } = useTranslation()
   const isLoggedIn = useSelector(loggedInSelector)
   return (
-    <div className="my-3 h-100">
-      <div className="mb-3 pt-3 d-flex flex-column align-items-center">
-        <h1>{t('Landing.title')}</h1>
-        <p className="lead">{t('Landing.reserchStudies')}</p>
+    <div className="d-flex landing-container">
+      <a
+        target="_blank"
+        href="https://apps.apple.com/us/app/mindlogger-pilot/id1301092229#?platform=iphone"
+      >
         <img
-          style={{ maxWidth: '500px', width: '100%' }}
-          src="/undraw_data_xmfy.svg"
+          style={{ maxWidth: '70px', width: '100%' }}
+          className="mb-2 ml-2"
+          src="/apple.png"
+        />
+      </a>
+
+      <div className="mb-3 pt-3 d-flex flex-column align-items-center">
+        <img
+          style={{ maxWidth: '120px', width: '100%' }}
+          className="mb-2"
+          src="/favicon.png"
         />
         <div>
           {isLoggedIn
             ? (
-            <div className="mt-3">
+            <div className="mt-4">
               <Link to="/applet">
                 <Button type="button" className="btn btn-danger btn-lg">
                   {t('Landing.getStart')}
@@ -34,22 +44,34 @@ export default function Landing () {
               )
             : (
             <div>
-              <p className="mt-3 text-center">{t('Landing.toGet')}</p>
-              <Link to="/login">
-                <Button type="button" variant="primary" className="btn btn-primary btn-lg mr-1">
-                  {t('Landing.login')}
-                </Button>
-              </Link>
-              {t('Landing.or')}
-              <Link to="/signup">
-                <Button type="button" variant="success" className="btn btn-primary btn-lg ml-1">
+              <p className="mt-4 text-center">{t('Landing.toGet')}</p>
+
+              <div className="buttons">
+                <Link className="d-flex justify-content-center mx-2 mb-2" to="/login">
+                  <Button type="button" variant="primary" className="btn btn-primary btn-lg">
+                    {t('Landing.login')}
+                  </Button>
+                </Link>
+                <Link className="d-flex justify-content-center mx-2 mb-2" to="/signup">
+                <Button type="button" variant="success" className="btn btn-primary btn-lg">
                   {t('Landing.signUp')}
                 </Button>
               </Link>
+              </div>
             </div>
               )}
         </div>
       </div>
+      <a
+        target="_blank"
+        href="https://play.google.com/store/apps/details?id=com.childmindinstitute.exposuretherapy&hl=en_US&gl=US"
+      >
+        <img
+          style={{ maxWidth: '60px', width: '100%' }}
+          className="mb-2 mr-4"
+          src="/android.png"
+        />
+      </a>
     </div>
   )
 }

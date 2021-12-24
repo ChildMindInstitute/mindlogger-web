@@ -56,6 +56,7 @@ import {
   VALUE,
   COLOR,
   PRICE,
+  SPLASH,
   SCORE,
   ALERT,
   CORRECT_ANSWER,
@@ -96,7 +97,8 @@ import {
   IS_RESPONSE_IDENTIFIER,
   IS_REVIEWER_ACTIVITY,
   DISABLE_SUMMARY,
-  NEXT_ACTIVITY
+  NEXT_ACTIVITY,
+  REMOVE_BACK_OPTION
 } from '../constants';
 
 export const languageListToObject = (list) => {
@@ -322,6 +324,13 @@ export const flattenValueConstraints = (vcObj) =>
       }
     }
 
+    if (key === REMOVE_BACK_OPTION) {
+      return {
+        ...accumulator,
+        removeBackOption: R.path([key, 0, "@value"], vcObj)
+      }
+    }
+
     if (key === REQUIRED_VALUE) {
       return { ...accumulator, required: R.path([key, 0, "@value"], vcObj) };
     }
@@ -477,7 +486,7 @@ const transformPureActivity = (activityJson) => {
       description: _.get(item, [DESCRIPTION, 0, "@value"]),
       direction: _.get(item, [DIRECTION, 0, "@value"], true),
     }
-  }, activityJson[COMPUTE]);
+  }, activityJson[COMPUTE]) || [];
   const subScales = activityJson[SUBSCALES] && R.map((subScale) => {
     const jsExpression = R.path([JS_EXPRESSION, 0, "@value"], subScale);
 
@@ -503,7 +512,7 @@ const transformPureActivity = (activityJson) => {
       outputType: R.path([OUTPUT_TYPE, 0, "@value"], item),
       nextActivity: R.path([NEXT_ACTIVITY, 0, "@value"], item),
     }
-  }, activityJson[MESSAGES]);
+  }, activityJson[MESSAGES]) || [];
 
   return {
     id: activityJson._id,
@@ -511,6 +520,7 @@ const transformPureActivity = (activityJson) => {
     description: languageListToObject(activityJson[DESCRIPTION]),
     schemaVersion: languageListToObject(activityJson[SCHEMA_VERSION]),
     version: languageListToObject(activityJson[VERSION]),
+    splash: languageListToObject(activityJson[SPLASH]),
     altLabel: languageListToObject(activityJson[ALT_LABEL]),
     shuffle: R.path([SHUFFLE, 0, "@value"], activityJson),
     image: languageListToObject(activityJson[IMAGE]),

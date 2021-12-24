@@ -31,7 +31,7 @@ const Profile = () => {
   const isMobile = (width <= 768);
 
   return (
-    <div className="my-3 h-100">
+    <div className="m-3 h-100">
       <div className="heading">
       <Avatar />
         <h1>

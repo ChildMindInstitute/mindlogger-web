@@ -2,10 +2,12 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import RESPONSE_CONSTANTS from './responses.constants';
 import { authTokenSelector, userInfoSelector, loggedInSelector } from "../user/user.selectors";
-import { prepareResponseKeys } from '../applet/applet.reducer';
+import { prepareResponseKeys, setCumulativeActivities } from '../applet/applet.reducer';
+import { appletCumulativeActivities } from '../applet/applet.selectors';
 import { setFinishedEvents } from '../app/app.reducer';
 import { currentAppletSelector, currentActivitySelector, currentEventSelector } from '../app/app.selectors';
 import { getPrivateKey } from '../../services/encryption';
+import { evaluateCumulatives } from '../../services/scoring';
 import {
   currentResponsesSelector,
   currentAppletResponsesSelector,
@@ -18,7 +20,7 @@ import {
   setResponsesDownloadProgress,
   replaceResponses,
   replaceAppletResponse,
-  setSchedule,
+  setLastResponseTime,
   shiftUploadQueue,
   removeResponseInProgress,
 } from './responses.reducer';
@@ -87,6 +89,8 @@ export const completeResponse = createAsyncThunk(RESPONSE_CONSTANTS.COMPLETE_RES
   }
 
   const responseHistory = currentAppletResponsesSelector(state);
+  const finishedTime = new Date();
+
   if (activity.isPrize === true) {
     const selectedPrizeIndex = inProgressResponse["responses"][0];
     const version = inProgressResponse["activity"].schemaVersion['en'];
@@ -112,13 +116,46 @@ export const completeResponse = createAsyncThunk(RESPONSE_CONSTANTS.COMPLETE_RES
     }
 
   } else {
-    const preparedResponse = prepareResponseForUpload(inProgressResponse, applet, responseHistory, isTimeout);
+    let { cumActivities } = evaluateCumulatives(inProgressResponse.responses, activity);
+    const cumulativeActivities = appletCumulativeActivities(state);
+
+    if (cumActivities.length) {
+      const archieved = [...cumulativeActivities[applet.id].archieved];
+      const activityId = activity.id.split('/').pop();
+
+      if (archieved.indexOf(activityId) < 0) {
+        archieved.push(activityId);
+      }
+
+      dispatch(
+        setCumulativeActivities({
+          ...cumulativeActivities,
+          [applet.id]: {
+            available: cumulativeActivities[applet.id].available
+              .concat(
+                cumActivities.map(name => {
+                  const activity = applet.activities.find(activity => activity.name.en == name)
+                  return activity && activity.id.split('/').pop()
+                }).filter(id => id)
+              )
+              .filter(id => id != activity.id.split('/').pop()),
+            archieved
+          }
+        })
+      );
+    }
+
+    const preparedResponse = prepareResponseForUpload(inProgressResponse, applet, responseHistory, isTimeout, finishedTime);
 
     dispatch(addToUploadQueue(preparedResponse));
     await dispatch(startUploadQueue());
   }
 
-  if (event) dispatch(setFinishedEvents(event));
+  if (event) {
+    dispatch(setFinishedEvents({
+      [event]: finishedTime.getTime()
+    }));
+  }
 
   setTimeout(() => {
     const { activity } = inProgressResponse;
@@ -152,7 +189,7 @@ export const downloadResponses = createAsyncThunk(RESPONSE_CONSTANTS.DOWNLOAD_RE
 
   const timezone = -new Date().getTimezoneOffset() / 60;
   const schedule = await getSchedule(authToken, timezone);
-  dispatch(setSchedule(schedule));
+  dispatch(setLastResponseTime(schedule));
 })
 
 export const downloadResponse = createAsyncThunk(RESPONSE_CONSTANTS.DOWNLOAD_RESPONSE, async (args, { dispatch, getState }) => {
@@ -180,7 +217,7 @@ export const downloadResponse = createAsyncThunk(RESPONSE_CONSTANTS.DOWNLOAD_RES
 
   const timezone = -new Date().getTimezoneOffset() / 60;
   const schedule = await getSchedule(authToken, timezone);
-  dispatch(setSchedule(schedule));
+  dispatch(setLastResponseTime(schedule));
 })
 
 export const startUploadQueue = createAsyncThunk(RESPONSE_CONSTANTS.START_UPLOAD_QUEUE, async (args, { dispatch, getState }) => {

@@ -1,7 +1,7 @@
 import { Parser } from 'expr-eval';
 
 // Returns true if item is visible
-export const testVisibility = (testExpression = true, items = [], responses = []) => {
+export const testVisibility = (testExpression = true, items = [], responses = [], responseTimes = {}) => {
   // Short circuit for common testExpression
   if (testExpression === true || testExpression === 'true') {
     return true;
@@ -13,14 +13,22 @@ export const testVisibility = (testExpression = true, items = [], responses = []
     comparison: true,
   });
 
-  let testExpressionFixed = testExpression.replace(/&&/g, ' and ');
-  testExpressionFixed = testExpressionFixed.replace(/\|\|/g, ' or ');
-  testExpressionFixed = testExpressionFixed.replace('===', '==');
-  testExpressionFixed = testExpressionFixed.replace('!==', '!=');
-  testExpressionFixed = testExpressionFixed.replace(/(\w+\.)/g, 'arrayIncludes($&');
-  testExpressionFixed = testExpressionFixed.replace(/.includes\(/g, ', ');
+  let testExpressionFixed = testExpression
+    .replace(/&&/g, ' and ')
+    .replace(/\|\|/g, ' or ')
+    .replace('===', '==')
+    .replace('!==', '!=')
+    .replace(/(\w+\.)/g, 'arrayIncludes($&')
+    .replace(/.includes\(/g, ', ')
+    .replace(/\!(?!=)/g, 'not ');
+
 
   // Custom function to test if element is present in array
+
+  const isActivityShownFirstTime = (activity) => {
+    return !responseTimes[activity];
+  }
+
   const arrayIncludes = (array, element) => {
     if (array === undefined || array === null) {
       return false;
@@ -34,6 +42,7 @@ export const testVisibility = (testExpression = true, items = [], responses = []
   };
 
   parser.functions.arrayIncludes = arrayIncludes;
+  parser.functions.isActivityShownFirstTime = isActivityShownFirstTime;
 
   try {
     const expr = parser.parse(testExpressionFixed);

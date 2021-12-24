@@ -3,23 +3,23 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import { Card, Row, Col } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { Parser } from 'expr-eval';
 import { PDFExport } from '@progress/kendo-react-pdf';
 import styled from 'styled-components';
 import cn from 'classnames';
 import _ from 'lodash';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 // Component
 import MyButton from '../components/Button';
 import Markdown from '../components/Markdown';
 
 // State
-import { setCumulativeActivities } from '../state/applet/applet.reducer';
 import { inProgressSelector } from '../state/responses/responses.selectors';
-import { appletCumulativeActivities } from '../state/applet/applet.selectors';
 
 // services
-import { getScoreFromResponse, evaluateScore, getMaxScore } from '../services/scoring';
+import { evaluateCumulatives } from '../services/scoring';
+import { currentActivitySelector, currentAppletSelector } from '../state/app/app.selectors';
 
 const MARKDOWN_REGEX = /(!\[.*\]\s*\(.*?) =\d*x\d*(\))/g;
 const termsText =
@@ -36,133 +36,63 @@ const Summary = styled(({ className, ...props }) => {
 
   const dispatch = useDispatch();
 
+  const applet = useSelector(currentAppletSelector);
   const response = useSelector(inProgressSelector);
-  const cumulativeActivities = useSelector(appletCumulativeActivities);
+  const activityAccess = useSelector(currentActivitySelector);
+  let url = "";
 
   const pdfRef = useRef(null);
+  const ref = React.createRef();
+
+  if (activity.splash && activity.splash.en) {
+    url = activity.splash.en;
+  }
 
   useEffect(() => {
-    if (response[`activity/${activityId}`]) {
-      const { responses, activity } = response[`activity/${activityId}`];
-      setActivity(activity);
-
-      if (responses && responses.length > 0) {
-        const parser = new Parser({
-          logical: true,
-          comparison: true,
-        });
-
-        let scores = [],
-          maxScores = [];
-        for (let i = 0; i < activity.items.length; i++) {
-          const { variableName } = activity.items[i];
-          let score = getScoreFromResponse(
-            activity.items[i],
-            responses[i][variableName] ? responses[i][variableName] : responses[i],
-          );
-          scores.push(score);
-          maxScores.push(getMaxScore(activity.items[i]));
-        }
-
-        const cumulativeScores = activity.compute.reduce((accumulator, itemCompute) => {
-          return {
-            ...accumulator,
-            [itemCompute.variableName.trim().replace(/\s/g, '__')]: evaluateScore(
-              itemCompute.jsExpression,
-              activity.items,
-              scores,
-            ),
-          };
-        }, {});
-
-        const cumulativeMaxScores = activity.compute.reduce((accumulator, itemCompute) => {
-          return {
-            ...accumulator,
-            [itemCompute.variableName.trim().replace(/\s/g, '__')]: evaluateScore(
-              itemCompute.jsExpression,
-              activity.items,
-              maxScores,
-            ),
-          };
-        }, {});
-
-        const reportMessages = [];
-        let cumActivities = [];
-        activity.messages.forEach((msg) => {
-          const { jsExpression, message, outputType, nextActivity } = msg;
-
-          const exprArr = jsExpression.split(/[><]/g);
-          const variableName = exprArr[0];
-          const exprValue = parseFloat(exprArr[1].split(' ')[1]);
-          const category = variableName.trim().replace(/\s/g, '__');
-          const expr = parser.parse(category + jsExpression.substr(variableName.length));
-
-          const variableScores = {
-            [category]:
-              outputType == 'percentage'
-                ? Math.round(
-                    cumulativeMaxScores[category]
-                      ? (cumulativeScores[category] * 100) / cumulativeMaxScores[category]
-                      : 0,
-                  )
-                : cumulativeScores[category],
-          };
-
-          if (expr.evaluate(variableScores)) {
-            if (nextActivity) cumActivities.push(nextActivity);
-
-            const compute = activity.compute.find(
-              (itemCompute) => itemCompute.variableName.trim() == variableName.trim(),
-            );
-
-            reportMessages.push({
-              category,
-              message,
-              score: variableScores[category] + (outputType == 'percentage' ? '%' : ''),
-              compute,
-              jsExpression: jsExpression.substr(variableName.length),
-              scoreValue: cumulativeScores[category],
-              maxScoreValue: cumulativeMaxScores[category],
-              exprValue: outputType == 'percentage' ? (exprValue * cumulativeMaxScores[category]) / 100 : exprValue,
-            });
-          }
-        });
-
-        if (cumulativeActivities && cumulativeActivities[`${activity.id}/nextActivity`]) {
-          cumActivities = _.difference(cumActivities, cumulativeActivities[`${activity.id}/nextActivity`]);
-          if (cumActivities.length > 0) {
-            cumActivities = [...cumulativeActivities[`${activity.id}/nextActivity`], ...cumActivities];
-            dispatch(setCumulativeActivities({ [`${activity.id}/nextActivity`]: cumActivities }));
-          }
-        } else {
-          dispatch(setCumulativeActivities({ [`${activity.id}/nextActivity`]: cumActivities }));
-        }
-
-        setMessages(reportMessages);
-      }
+    try {
+      if (response[`activity/${activityId}`]) updateActivity(response[`activity/${activityId}`]);
+    } catch (error) {
+      console.log(error);
     }
+    if (activityAccess?.disableSummary) history.push(`/applet/${appletId}/activity_thanks`);
   }, [response && Object.keys(response).length > 1]);
+
+  const updateActivity = (response = {}) => {
+    const { responses, activity } = response;
+    setActivity(activity);
+
+    if (responses && responses.length > 0) {
+      const { reportMessages } = evaluateCumulatives(responses, activity);
+
+      setMessages(reportMessages);
+    }
+  }
+
+  const findActivity = (name, activities = []) => {
+    if (!name) return undefined;
+    return _.find(activities, { name: { en: name } });
+  }
+
+  const handlePDFSave = () => {
+    if (pdfRef.current) {
+      pdfRef.current && pdfRef.current.save();
+    }
+  }
+
+  if (activityAccess.disableSummary) return <div />;
 
   return (
     <Card className={cn('mb-3', className)}>
       <Row className="no-gutters">
         <Col md={12}>
           <Card.Body>
-            <div className="mb-4">
-              <Markdown markdown={_.get(activity, 'scoreOverview', '').replace(MARKDOWN_REGEX, '$1$2')} />
-            </div>
             {messages &&
               messages.map((item, i) => (
                 <div key={i}>
                   <h1>{item.category.replace(/_/g, ' ')}</h1>
-                  <h3>
-                    <b>{item.score}</b>
-                  </h3>
-                  <div className="mb-4">
-                    <Markdown markdown={_.get(item, 'compute.description', '').replace(MARKDOWN_REGEX, '$1$2')} />
-                  </div>
+                  <h3>{item.score}</h3>
                   <Markdown markdown={item.message.replace(MARKDOWN_REGEX, '$1$2')} />
-                  {messages.length > 1 && <div key={`${i}-hr`} className="hr" />}
+                  {messages.length > 1 && <div className="hr" />}
                 </div>
               ))}
           </Card.Body>
@@ -170,69 +100,95 @@ const Summary = styled(({ className, ...props }) => {
       </Row>
       <div>
         <div className="pdf-container">
-          <PDFExport paperSize="A4" margin="2cm" ref={pdfRef}>
-            <p className="mb-4" style={{ fontWeight: 900 }}>
-              <u>
-                <b>{_.get(activity, 'name.en')} Report</b>
-              </u>
-            </p>
-            <div className="mb-4">
-              <Markdown markdown={_.get(activity, 'scoreOverview', '').replace(MARKDOWN_REGEX, '$1$2')} />
-            </div>
-            {messages &&
-              messages.map((item, i) => (
-                <div key={i}>
-                  <p className="text-primary mb-1">
-                    <b>{item.category.replace(/_/g, ' ')}</b>
-                  </p>
-                  <div className="mb-4">
-                    <Markdown markdown={_.get(item, 'compute.description', '').replace(MARKDOWN_REGEX, '$1$2')} />
-                  </div>
-                  <div className="score-area">
-                    <p
-                      className="score-title text-nowrap"
-                      style={{ left: `${(item.scoreValue / item.maxScoreValue) * 100}%` }}>
-                      <b>Your/Your Child’s Score</b>
-                    </p>
-                    <div
-                      className={cn('score-bar score-below', {
-                        'score-positive': item.compute.direction,
-                        'score-negative': !item.compute.direction,
-                      })}
-                      style={{ width: `${(item.exprValue / item.maxScoreValue) * 100}%` }}
-                    />
-                    <div
-                      className={cn('score-bar score-above', {
-                        'score-positive': !item.compute.direction,
-                        'score-negative': item.compute.direction,
-                      })}
-                    />
-                    <div
-                      className="score-spliter"
-                      style={{ left: `${(item.scoreValue / item.maxScoreValue) * 100}%` }}
-                    />
-                    <p className="score-max-value">
-                      <b>{item.maxScoreValue}</b>
-                    </p>
-                  </div>
-                  <p className="text-uppercase mb-1">
-                    <b>
-                      <i>
-                        If score
-                        <span className="ml-2">{item.jsExpression}</span>
-                      </i>
-                    </b>
-                  </p>
-
-                  <div className="mb-4">
-                    Your/Your child's score on the {item.category.replace(/_/g, ' ')} subscale was{' '}
-                    <span className="text-danger">{item.scoreValue}</span>.
-                    <Markdown markdown={item.message.replace(MARKDOWN_REGEX, '$1$2')} />
-                  </div>
+          <PDFExport 
+            paperSize="A4" 
+            forcePageBreak=".page-break"
+            margin="2cm"
+            ref={pdfRef}
+          >
+            <div id="PDF" ref={ref}>
+              {url.match(/\.(jpeg|jpg|gif|png)$/) != null &&
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  <img
+                    src={url + '?not-from-cache-please'}
+                    style={{ objectFit: 'contain' }}
+                    crossOrigin="anonymous"
+                    alt=''
+                  />
+                  <div className="page-break" />
                 </div>
-              ))}
-            <p className="mb-5">{termsText}</p>
-            <p>{footerText}</p>
+              }
+              {applet.image &&
+                <div style={{ float: 'right', marginBottom: 10 }}>
+                  <img
+                    src={applet.image + '?not-from-cache-please'}
+                    style={{ objectFit: 'contain' }}
+                    width="100"
+                    height="100"
+                    crossOrigin="anonymous"
+                    alt=''
+                  />
+                </div>
+              }
+             
+              <div className="mb-4">
+                <Markdown useCORS={true} markdown={_.get(activity, 'scoreOverview', '').replace(MARKDOWN_REGEX, '$1$2')} />
+              </div>
+              {messages &&
+                messages.map((item, i) => (
+                  <div key={i}>
+                    <p className="text-primary mb-1">
+                      <b>{item.category.replace(/_/g, ' ')}</b>
+                    </p>
+                    <div className="mb-4">
+                      <Markdown
+                        markdown={_.get(item, 'compute.description', '').replace(MARKDOWN_REGEX, '$1$2')}
+                        useCORS={true}
+                      />
+                    </div>
+                    <div className="score-area">
+                      <p
+                        className="score-title text-nowrap"
+                        style={{
+                          left: `max(75px, ${(item.scoreValue / item.maxScoreValue) * 100}%)`,
+                        }}>
+                        <b>Your Child's Score</b>
+                      </p>
+                      <div
+                        className={cn('score-bar score-below', {
+                          'score-positive': item.compute.direction,
+                          'score-negative': !item.compute.direction,
+                        })}
+                        style={{ width: `${(item.exprValue / item.maxScoreValue) * 100}%` }}
+                      />
+                      <div
+                        className={cn('score-bar score-above', {
+                          'score-positive': !item.compute.direction,
+                          'score-negative': item.compute.direction,
+                        })}
+                      />
+                      <div
+                        className="score-spliter"
+                        style={{ left: `${(item.scoreValue / item.maxScoreValue) * 100}%` }}
+                      />
+                      <p className="score-max-value">
+                        <b>{item.maxScoreValue}</b>
+                      </p>
+                    </div>
+                    <div className="mb-4">
+                      Your child's score on the {item.category.replace(/_/g, ' ')} subscale was{' '}
+                      <span className="text-danger">{item.scoreValue}</span>.
+                      <Markdown
+                        markdown={item.message.replace(MARKDOWN_REGEX, '$1$2')}
+                        useCORS={true}
+                      />
+                    </div>
+                  </div>
+                ))} 
+              <div style={{ border: '1px solid black', marginTop: 36, marginBottom: 36 }} />
+              <p className="mb-4 terms-font">{termsText}</p>
+              <p className="terms-footer">{footerText}</p>
+            </div>
           </PDFExport>
         </div>
         <MyButton
@@ -245,7 +201,7 @@ const Summary = styled(({ className, ...props }) => {
           type="button"
           label={t('additional.share_report')}
           classes="mr-5 mb-2 float-right"
-          handleClick={(e) => pdfRef.current && pdfRef.current.save()}
+          handleClick={(e) => handlePDFSave()}
         />
       </div>
     </Card>
@@ -258,6 +214,12 @@ const Summary = styled(({ className, ...props }) => {
     top: 0;
     font-size: 10pt;
     font-family: Arial, Helvetica, sans-serif;
+  }
+  .terms-font {
+    font-size: 12px;
+  }
+  .terms-footer {
+    font-size: 10.9px;
   }
   .score-area {
     position: relative;
@@ -277,6 +239,9 @@ const Summary = styled(({ className, ...props }) => {
     .score-above {
       flex: 1;
     }
+    .divider-line {
+      border-top: 1px solid black;
+    }
     .score-spliter {
       position: absolute;
       top: 30px;
@@ -295,6 +260,9 @@ const Summary = styled(({ className, ...props }) => {
       right: 0;
       bottom: 0;
     }
+  }
+  img {
+    max-width: 100%;
   }
 `;
 

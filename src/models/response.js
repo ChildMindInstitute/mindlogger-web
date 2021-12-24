@@ -2,7 +2,7 @@ import * as R from 'ramda';
 import packageJson from '../../package.json';
 import config from '../util/config';
 import { encryptData, decryptData } from '../services/encryption';
-import { getSubScaleResult, getValuesFromResponse, getFinalSubScale } from '../services/scoring';
+import { getSubScaleResult, getValuesFromResponse, getFinalSubScale, evaluateCumulatives } from '../services/scoring';
 import { getAlertsFromResponse } from '../services/alert';
 
 import {
@@ -23,15 +23,17 @@ export const prepareResponseForUpload = (
   inProgressResponse,
   appletMetaData,
   responseHistory,
-  isTimeout
+  isTimeout,
+  finishedTime
 ) => {
   const languageKey = "en";
   const { activity, responses, subjectId } = inProgressResponse;
+  const { cumActivities } = evaluateCumulatives(responses, activity);
   const appletVersion = appletMetaData.schemaVersion[languageKey];
   const scheduledTime = activity.event && activity.event.scheduledTime;
   let cumulative = responseHistory.tokens?.cumulativeToken || 0;
 
-  const alerts = [];
+  const alerts = [], nextsAt = {};
 
   for (let i = 0; i < responses.length; i += 1) {
     const item = activity.items[i];
@@ -78,13 +80,21 @@ export const prepareResponseForUpload = (
     responseStarted: inProgressResponse.timeStarted,
     responseCompleted: Date.now(),
     timeout: isTimeout ? 1 : 0,
-    scheduledTime: new Date(scheduledTime).getTime(),
+    event: activity.event ? {
+      id: activity.event.id,
+      scheduledTime: new Date(scheduledTime).getTime(),
+      finishedTime: finishedTime.getTime()
+    } : null,
     client: {
       appId: 'mindlogger-web',
       appVersion: packageJson.version
     },
     languageCode: languageKey,
     alerts,
+    nextActivities: cumActivities.map(name => {
+      const activity = appletMetaData.activities.find(activity => activity.name.en == name)
+      return activity && activity.id.split('/').pop()
+    }).filter(id => id)
   };
 
   if (appletMetaData.publicId) {
@@ -164,8 +174,14 @@ export const prepareResponseForUpload = (
     responseData['tokenCumulation'] = {
       value: cumulative
     };
-
   }
+
+  let i = 0;
+  for (const key in responseData.responses) {
+    nextsAt[key] = inProgressResponse.nextsAt && inProgressResponse.nextsAt[i] || Date.now();
+    i++;
+  }
+  responseData['nextsAt'] = nextsAt; 
 
   return responseData;
 };

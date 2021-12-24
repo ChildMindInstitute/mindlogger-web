@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import { useSelector } from 'react-redux';
+
 import _ from "lodash";
 import {
   Form,
@@ -12,7 +14,9 @@ import {
 
 import Navigator from './Navigator';
 import Markdown from '../components/Markdown';
-import { isArray } from 'util';
+import { parseMarkdown } from '../services/helper';
+import { activityLastResponseTimeSelector } from '../state/responses/responses.selectors';
+
 import questionMark from '../assets/question-mark.svg';
 
 const Checkbox = ({
@@ -21,11 +25,14 @@ const Checkbox = ({
   const valueType = item.valueConstraints.valueType;
   const token = valueType && valueType.includes('token');
 
+  const lastResponseTime = useSelector(activityLastResponseTimeSelector);
+  const markdown = useRef(parseMarkdown(item.question.en, lastResponseTime)).current;
+
   const onChangeValue = (value) => {
     const { answer } = props;
     let values = [];
 
-    if (!answer || !answer.value || !isArray(answer.value)) {
+    if (!answer || !answer.value || !_.isArray(answer.value)) {
       values.push(value);
     } else if (answer.value.includes(value)) {
       values = answer.value.filter(option => option !== value);
@@ -104,20 +111,20 @@ const Checkbox = ({
               }
               <div className="markdown">
                 <Markdown
-                  markdown={item.question.en.replace(/(!\[.*\]\s*\(.*?) =\d*x\d*(\))/g, '$1$2')}
+                  markdown={markdown}
                 />
               </div>
             </Card.Title>
             <div className="no-gutters">
               <Form.Group as={Row}>
                 <Col md={6}>
-                  {_.map(item.valueConstraints.itemList, (obj, i) => (
+                  {item.valueConstraints.itemList.filter(obj => !obj.isVis).map((obj, i) => (
                     i < Math.ceil(itemCount / 2) ? renderItem(obj, i) : <></>
                   ))}
                 </Col>
 
                 <Col md={6}>
-                  {_.map(item.valueConstraints.itemList, (obj, i) => (
+                  {item.valueConstraints.itemList.filter(obj => !obj.isVis).map((obj, i) => (
                     i >= Math.ceil(itemCount / 2) ? renderItem(obj, i) : <></>
                   ))}
                 </Col>

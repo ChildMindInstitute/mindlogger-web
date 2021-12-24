@@ -17,6 +17,7 @@ import './styles.css'
 export default function Login() {
   const [user, setUser] = useState({ email: '', password: '' })
   const [errorMessage, setErrorMsg] = useState("");
+  const [show, setShow] = useState(false);
   const [isStarted, setIsStarted] = useState(false);
   const { t } = useTranslation()
   const dispatch = useDispatch()
@@ -33,11 +34,21 @@ export default function Login() {
       } else if (location.state) {
         dispatch(push(location.state));
       } else {
-        dispatch(push('/dashboard'));
+        dispatch(push('/applet'));
         dispatch(setRedirectUrl(null));
       }
     }
   }, [!loading && info])
+
+  useEffect(() => {
+    if (location.state && location.state.reset) {
+      setShow(true);
+
+      setTimeout(() => {
+        setShow(false);
+      }, 5000)
+    }
+  }, [location])
 
   if (isStarted && error) {
     let errorMsg = "";
@@ -69,7 +80,7 @@ export default function Login() {
 
   return (
     <div className="demo mp-3 align-self-center w-100">
-      <div id="login" className="text-center mb-0">
+      <div id="login" className="text-center my-2 px-3">
         <h1>{t('Login.title')}</h1>
         <div className="container fluid" id="signupForm">
           <Form onSubmit={onSubmit}>
@@ -111,6 +122,9 @@ export default function Login() {
             <Link to="/forgotpassword">{t('Login.reset')}</Link>
           </p>
         </div>
+        {show && <Alert className="mt-5 mx-auto w-50" variant="success" onClose={() => setShow(false)} dismissible>
+          <p>Password reset link is sent to your email.</p>
+        </Alert>}
       </div>
     </div>
   )

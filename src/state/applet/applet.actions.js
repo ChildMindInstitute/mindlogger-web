@@ -5,11 +5,13 @@ import { getLocalInfo, modifyApplet } from '../../util/applet';
 import { responsesSelector } from '../app/app.selectors';
 import { appletsSelector } from './applet.selectors';
 import { updateKeys } from '../responses/responses.actions';
-import { replaceResponses } from '../responses/responses.reducer';
+import { replaceResponses, setLastResponseTime } from '../responses/responses.reducer';
+import { setCumulativeActivities } from './applet.reducer';
 
 import { transformApplet, parseAppletEvents } from '../../services/json-ld';
 import { getAppletsAPI, getPublicAppletAPI } from '../../services/applet.service';
 import { decryptAppletResponses } from '../../models/response';
+import { setFinishedEvents } from '../app/app.reducer';
 
 import APPLET_CONSTANTS from './applet.constants';
 
@@ -27,8 +29,15 @@ export const getApplets = createAsyncThunk(APPLET_CONSTANTS.GET_APPLETS, async (
   const applets = await getAppletsAPI({ token, localInfo });
 
   const transformedApplets = [];
+  let finishedEvents = {};
+  let lastResponseTime = {};
+  let cumulativeActivities = {};
+
   for (let index = 0; index < applets.data.length; index++) {
     const appletInfo = applets.data[index];
+    const nextActivities = appletInfo.cumulativeActivities;
+    Object.assign(finishedEvents, appletInfo.finishedEvents);
+    lastResponseTime[`applet/${appletInfo.id}`] = appletInfo.lastResponses;
 
     if (!appletInfo.applet) {
       const applet = modifyApplet(appletInfo, currentApplets);
@@ -53,6 +62,7 @@ export const getApplets = createAsyncThunk(APPLET_CONSTANTS.GET_APPLETS, async (
         });
 
         transformedApplets.push(applet)
+        cumulativeActivities[applet.id] = nextActivities;
       }
     } else {
       const applet = transformApplet(appletInfo, currentApplets);
@@ -80,10 +90,15 @@ export const getApplets = createAsyncThunk(APPLET_CONSTANTS.GET_APPLETS, async (
           appletId: 'applet/' + appletInfo.id
         });
         transformedApplets.push(applet);
+
+        cumulativeActivities[applet.id] = nextActivities;
       }
     }
   };
 
+  dispatch(setLastResponseTime(lastResponseTime));
+  dispatch(setFinishedEvents(finishedEvents));
+  dispatch(setCumulativeActivities(cumulativeActivities));
   dispatch(replaceResponses(responses));
 
   return transformedApplets;

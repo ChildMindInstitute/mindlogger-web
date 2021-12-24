@@ -19,6 +19,7 @@ $dark-green: darken($green, 25);
 
 .site-header {
   background: $dark-blue;
+  flex-shrink: 0;
   // background: linear-gradient(90deg, $dark-blue 0%, $green 100%);
 }
 

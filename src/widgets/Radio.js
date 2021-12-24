@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
+
 import _ from "lodash";
 import {
   Form,
@@ -12,6 +14,9 @@ import {
 
 import Navigator from './Navigator';
 import Markdown from '../components/Markdown';
+import { parseMarkdown } from '../services/helper';
+import { activityLastResponseTimeSelector } from '../state/responses/responses.selectors';
+
 import questionMark from '../assets/question-mark.svg';
 
 const Radio = (props) => {
@@ -32,6 +37,9 @@ const Radio = (props) => {
   const valueType = item.valueConstraints.valueType;
   const token = valueType && valueType.includes('token');
 
+  const lastResponseTime = useSelector(activityLastResponseTimeSelector);
+  const markdown = useRef(parseMarkdown(item.question.en, lastResponseTime)).current;
+
   useEffect(() => {
     setChecked(values[item.variableName])
   }, [values[item.variableName]]);
@@ -42,13 +50,13 @@ const Radio = (props) => {
     let g = parseInt(hexcolor.substr(2, 2), 16);
     let b = parseInt(hexcolor.substr(4, 2), 16);
     let yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
-    return (yiq >= 128) ? '#333333' : 'white';
+    return (yiq >= 128) ? '#333333' : 'black';
   }
 
   const renderItem = (obj, index) => (
     <div className="response-option" style={{ background: obj.color ? obj.color : 'none' }}>
       {
-         !obj.image && <div className="option-image"></div>
+        !obj.image && <div className="option-image"></div>
       }
       {
         obj.description &&
@@ -76,7 +84,7 @@ const Radio = (props) => {
         name={item.variableName}
         style={{ color: obj.color ? invertColor(obj.color) : "#333333" }}
         type="radio"
-        checked={ answer && answer.value == (token ? obj.name.en : obj.value) }
+        checked={(answer || answer === 0) && answer.value == (token ? obj.name.en : obj.value)}
         onChange={
           () => {
             handleChange({ value: token ? obj.name.en : obj.value });
@@ -85,7 +93,6 @@ const Radio = (props) => {
         }
         value={obj.value}
         disabled={!isNextShown}
-        checked={checked == obj.value}
         id={`${item.variableName}${index}`}
       />
     </div>
@@ -104,20 +111,20 @@ const Radio = (props) => {
               }
               <div className="markdown">
                 <Markdown
-                  markdown={item.question.en.replace(/(!\[.*\]\s*\(.*?) =\d*x\d*(\))/g, '$1$2')}
+                  markdown={markdown}
                 />
               </div>
             </Card.Title>
             <div className="no-gutters">
               <Form.Group as={Row}>
                 <Col md={6}>
-                  {_.map(item.valueConstraints.itemList, (obj, i) => (
+                  {item.valueConstraints.itemList.filter(obj => !obj.isVis).map((obj, i) => (
                     i < Math.ceil(itemCount / 2) ? renderItem(obj, i) : <></>
                   ))}
                 </Col>
 
                 <Col md={6}>
-                  {_.map(item.valueConstraints.itemList, (obj, i) => (
+                  {item.valueConstraints.itemList.filter(obj => !obj.isVis).map((obj, i) => (
                     i >= Math.ceil(itemCount / 2) ? renderItem(obj, i) : <></>
                   ))}
                 </Col>

@@ -1,9 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import { useSelector } from 'react-redux';
+
 import _ from "lodash";
 import { Form, Row, Card, Col, Image } from 'react-bootstrap';
 
 import Navigator from './Navigator';
 import Markdown from '../components/Markdown';
+import { parseMarkdown } from '../services/helper';
+import { activityLastResponseTimeSelector } from '../state/responses/responses.selectors';
+
 import { isArray } from 'util';
 
 const AgeSelector = ({
@@ -11,6 +16,9 @@ const AgeSelector = ({
 }) => {
   const { answer } = props;
   let itemList = [];
+
+  const lastResponseTime = useSelector(activityLastResponseTimeSelector);
+  const markdown = useRef(parseMarkdown(item.question.en, lastResponseTime)).current;
 
   for (let i = item.valueConstraints.minAge; i <= item.valueConstraints.maxAge; i += 1) {
     itemList.push(i);
@@ -29,7 +37,7 @@ const AgeSelector = ({
           <Card.Body>
             <Card.Title className="question">
               <Markdown
-                markdown={item.question.en.replace(/(!\[.*\]\s*\(.*?) =\d*x\d*(\))/g, '$1$2')}
+                markdown={markdown}
               />
             </Card.Title>
             <Row className="no-gutters pl-5">

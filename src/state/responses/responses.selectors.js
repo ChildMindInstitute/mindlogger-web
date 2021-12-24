@@ -21,7 +21,18 @@ export const inProgressSelector = R.path(["responses", "inProgress"]);
 
 export const activityOpenedSelector = R.path(["responses", "activityOpened"]);
 
-export const responseScheduleSelector = R.path(["responses", "schedule"]);
+export const lastResponseTimeSelector = R.path(["responses", "lastResponseTime"]);
+
+export const activityLastResponseTimeSelector = createSelector(
+  lastResponseTimeSelector,
+  R.path(["app", "currentActivity"]),
+  R.path(["app", "currentApplet"]),
+  (lastResponseTime, currentActivity, currentApplet) => {
+    const appletResponseTimes = (lastResponseTime || {})[currentApplet];
+
+    return (appletResponseTimes || {})[currentActivity];
+  }
+)
 
 export const currentAppletResponsesSelector = createSelector(
   responsesSelector,

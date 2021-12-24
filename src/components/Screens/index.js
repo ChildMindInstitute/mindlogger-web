@@ -28,6 +28,7 @@ import {
   currentResponsesSelector,
   currentScreenIndexSelector,
   inProgressSelector,
+  lastResponseTimeSelector
 } from '../../state/responses/responses.selectors';
 
 import "./style.css";
@@ -48,14 +49,22 @@ const Screens = (props) => {
   const answer = useSelector(currentScreenResponseSelector);
   const progress = useSelector(inProgressSelector);
   const user = useSelector(userInfoSelector);
+  const lastResponseTimes = useSelector(lastResponseTimeSelector);
   const currentScreenIndex = useSelector(currentScreenIndexSelector);
   const activityAccess = useSelector(currentActivitySelector);
   const inProgress = useSelector(currentResponsesSelector);
+  const responseTimes = {};
+
+  for (const activity of applet.activities) {
+    responseTimes[activity.name.en.replace(/\s/g, '_')] = (lastResponseTimes[applet.id] || {})[activity.id];
+  }
+
   const visibility = activityAccess.items.map((item) =>
     item.isVis ? false : testVisibility(
       item.visibility,
       activityAccess.items,
-      inProgress?.responses
+      inProgress?.responses,
+      responseTimes
     )
   );
   const screenIndex = getNextPos(currentScreenIndex - 1, visibility)
@@ -102,7 +111,8 @@ const Screens = (props) => {
       item.isVis ? false : testVisibility(
         item.visibility,
         activityAccess.items,
-        responses
+        responses,
+        responseTimes
       )
     );
 
@@ -205,7 +215,8 @@ const Screens = (props) => {
     const isVisible = item.isVis ? false : testVisibility(
       item.visibility,
       activityAccess.items,
-      inProgress?.responses
+      inProgress?.responses,
+      responseTimes
     );
 
     if (isVisible) {

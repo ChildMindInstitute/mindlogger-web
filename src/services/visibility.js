@@ -1,7 +1,7 @@
 import { Parser } from 'expr-eval';
 
 // Returns true if item is visible
-export const testVisibility = (testExpression = true, items = [], responses = []) => {
+export const testVisibility = (testExpression = true, items = [], responses = [], responseTimes = {}) => {
   // Short circuit for common testExpression
   if (testExpression === true || testExpression === 'true') {
     return true;
@@ -24,6 +24,11 @@ export const testVisibility = (testExpression = true, items = [], responses = []
 
 
   // Custom function to test if element is present in array
+
+  const isActivityShownFirstTime = (activity) => {
+    return !responseTimes[activity];
+  }
+
   const arrayIncludes = (array, element) => {
     if (array === undefined || array === null) {
       return false;
@@ -37,6 +42,7 @@ export const testVisibility = (testExpression = true, items = [], responses = []
   };
 
   parser.functions.arrayIncludes = arrayIncludes;
+  parser.functions.isActivityShownFirstTime = isActivityShownFirstTime;
 
   try {
     const expr = parser.parse(testExpressionFixed);

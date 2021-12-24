@@ -20,7 +20,7 @@ import {
   setResponsesDownloadProgress,
   replaceResponses,
   replaceAppletResponse,
-  setSchedule,
+  setLastResponseTime,
   shiftUploadQueue,
   removeResponseInProgress,
 } from './responses.reducer';
@@ -189,7 +189,7 @@ export const downloadResponses = createAsyncThunk(RESPONSE_CONSTANTS.DOWNLOAD_RE
 
   const timezone = -new Date().getTimezoneOffset() / 60;
   const schedule = await getSchedule(authToken, timezone);
-  dispatch(setSchedule(schedule));
+  dispatch(setLastResponseTime(schedule));
 })
 
 export const downloadResponse = createAsyncThunk(RESPONSE_CONSTANTS.DOWNLOAD_RESPONSE, async (args, { dispatch, getState }) => {
@@ -217,7 +217,7 @@ export const downloadResponse = createAsyncThunk(RESPONSE_CONSTANTS.DOWNLOAD_RES
 
   const timezone = -new Date().getTimezoneOffset() / 60;
   const schedule = await getSchedule(authToken, timezone);
-  dispatch(setSchedule(schedule));
+  dispatch(setLastResponseTime(schedule));
 })
 
 export const startUploadQueue = createAsyncThunk(RESPONSE_CONSTANTS.START_UPLOAD_QUEUE, async (args, { dispatch, getState }) => {

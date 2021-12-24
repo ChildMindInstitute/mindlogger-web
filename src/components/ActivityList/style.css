@@ -23,6 +23,19 @@
 .ds-activity-button {
   background: white !important;
   border: none;
+  display: flex !important;
+}
+
+.ds-activity-button .activity-image {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+.ds-activity-button .activity-data {
+  flex-grow: 1;
   margin: 10px 0px;
 }
 

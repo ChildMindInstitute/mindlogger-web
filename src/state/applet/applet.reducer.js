@@ -27,6 +27,7 @@ export const initialState = {
   appletResponseData: {},
   activityAccess: {},
   cumulativeActivities: {},
+  profiles: {}
 };
 
 const appletSlice = createSlice({
@@ -37,6 +38,9 @@ const appletSlice = createSlice({
     selectApplet: (state, action) => { state.applet = action.payload },
     selectActivity: (state, action) => { state.activityAccess = action.payload },
     setCumulativeActivities: (state, action) => { state.cumulativeActivities = { ...action.payload } },
+    setProfiles: (state, action) => {
+      state.profiles = { ...action.payload };
+    },
     prepareResponseKeys: (state, action) => {
       const { appletId, keys } = action.payload;
       const index = state.applets.findIndex(applet => applet.id == appletId);
@@ -90,4 +94,5 @@ export const {
   selectActivity,
   prepareResponseKeys,
   setCumulativeActivities,
+  setProfiles,
 } = appletSlice.actions;

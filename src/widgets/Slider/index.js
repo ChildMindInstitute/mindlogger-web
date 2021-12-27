@@ -12,6 +12,7 @@ import "bootstrap-slider/dist/css/bootstrap-slider.css"
 
 import { parseMarkdown } from '../../services/helper';
 import { activityLastResponseTimeSelector } from '../../state/responses/responses.selectors';
+import { profileSelector } from '../../state/applet/applet.selectors';
 
 const SliderWidget = ({
   item,
@@ -28,7 +29,8 @@ const SliderWidget = ({
     [item.variableName]: answer && answer.value || null
   });
   const lastResponseTime = useSelector(activityLastResponseTimeSelector);
-  const markdown = useRef(parseMarkdown(item.question.en, lastResponseTime)).current;
+  const profile = useSelector(profileSelector);
+  const markdown = useRef(parseMarkdown(item.question.en, lastResponseTime, profile)).current;
 
   const {
     continuousSlider,

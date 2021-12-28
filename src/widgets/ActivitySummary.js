@@ -123,7 +123,6 @@ const Summary = styled(({ className, ...props }) => {
                     src={applet.image + '?not-from-cache-please'}
                     style={{ objectFit: 'contain' }}
                     width="100"
-                    height="100"
                     crossOrigin="anonymous"
                     alt=''
                   />

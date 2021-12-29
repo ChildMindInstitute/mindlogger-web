@@ -73,7 +73,9 @@ const Summary = styled(({ className, ...props }) => {
   }
 
   const handlePDFSave = () => {
-    if (pdfRef.current) {
+    if (/android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent.toLowerCase())) {
+      window.open(doc.output('bloburl', { filename: 'export.pdf' }))
+    } else if (pdfRef.current) {
       pdfRef.current && pdfRef.current.save();
     }
   }

@@ -279,7 +279,7 @@ export const evaluateCumulatives = (responses, activity) => {
     const cumulativeScores = activity.compute.reduce((accumulator, itemCompute) => {
       return {
         ...accumulator,
-        [itemCompute.variableName.trim().replace(/\s/g, '__')]: evaluateScore(
+        [itemCompute.variableName.trim().replace(/[\s\/]/g, '__')]: evaluateScore(
           itemCompute.jsExpression,
           activity.items,
           scores,
@@ -290,7 +290,7 @@ export const evaluateCumulatives = (responses, activity) => {
     const cumulativeMaxScores = activity.compute.reduce((accumulator, itemCompute) => {
       return {
         ...accumulator,
-        [itemCompute.variableName.trim().replace(/\s/g, '__')]: evaluateScore(
+        [itemCompute.variableName.trim().replace(/[\s\/]/g, '__')]: evaluateScore(
           itemCompute.jsExpression,
           activity.items,
           maxScores,
@@ -304,7 +304,7 @@ export const evaluateCumulatives = (responses, activity) => {
       const exprArr = jsExpression.split(/[><]/g);
       const variableName = exprArr[0];
       const exprValue = parseFloat(exprArr[1].split(' ')[1]);
-      let category = variableName.trim().replace(/\s/g, '__');
+      let category = variableName.trim().replace(/[\s\/]/g, '__');
 
       let expr, key;
       try {

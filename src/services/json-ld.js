@@ -98,7 +98,8 @@ import {
   IS_REVIEWER_ACTIVITY,
   DISABLE_SUMMARY,
   NEXT_ACTIVITY,
-  REMOVE_BACK_OPTION
+  REMOVE_BACK_OPTION,
+  IS_ONE_PAGE_ASSESSMENT
 } from '../constants';
 
 export const languageListToObject = (list) => {
@@ -530,6 +531,7 @@ const transformPureActivity = (activityJson) => {
     fullScreen: allowList.includes(FULL_SCREEN),
     autoAdvance: allowList.includes(AUTO_ADVANCE),
     isPrize: R.path([ISPRIZE, 0, "@value"], activityJson) || false,
+    isOnePageAssessment: R.path([IS_ONE_PAGE_ASSESSMENT, 0, "@value"], activityJson) || false,
     isReviewerActivity: R.path([IS_REVIEWER_ACTIVITY, 0, '@value'], activityJson) || false,
     hasResponseIdentifier: R.path([HAS_RESPONSE_IDENTIFIER, 0, "@value"], activityJson) || false,
     isVis,

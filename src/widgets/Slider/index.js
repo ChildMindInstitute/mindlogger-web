@@ -22,7 +22,9 @@ const SliderWidget = ({
   handleBack,
   isSubmitShown,
   watermark,
-  answer
+  answer,
+  invalid,
+  ...props
 }) => {
   const [data, setData] = useState({
     [item.variableName]: answer && answer.value || null
@@ -67,7 +69,7 @@ const SliderWidget = ({
   }
 
   return (
-    <Card className="mb-3" style={{ maxWidth: "auto" }}>
+    <Card className={`${invalid ? 'invalid' : ''} mb-3`} style={{ maxWidth: "auto" }}>
       <Row className="no-gutters">
         <Col md={12}>
           <Card.Body>
@@ -148,6 +150,8 @@ const SliderWidget = ({
         isNextDisable={isNextDisable()}
         handleBack={handleBack}
         isSubmitShown={isSubmitShown}
+        skippable={item.skippable}
+        {...props}
       />
     </Card>
   );

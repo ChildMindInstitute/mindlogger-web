@@ -12,7 +12,7 @@ import { activityLastResponseTimeSelector } from '../state/responses/responses.s
 import { isArray } from 'util';
 
 const AgeSelector = ({
-  item, isBackShown, isNextShown, handleChange, handleBack, isSubmitShown, ...props
+  item, isBackShown, isNextShown, handleChange, handleBack, isSubmitShown, invalid, ...props
 }) => {
   const { answer } = props;
   let itemList = [];
@@ -31,7 +31,7 @@ const AgeSelector = ({
   }
 
   return (
-    <Card className="mb-3" style={{ maxWidth: "auto" }}>
+    <Card className={`${invalid ? 'invalid' : ''} mb-3`} style={{ maxWidth: "auto" }}>
       <Row className="no-gutters">
         <Col md={12}>
           <Card.Body>
@@ -64,6 +64,7 @@ const AgeSelector = ({
         isNextDisable={isNextDisable()}
         handleBack={handleBack}
         isSubmitShown={isSubmitShown}
+        skippable={item.skippable}
         {...props}
       />
     </Card>

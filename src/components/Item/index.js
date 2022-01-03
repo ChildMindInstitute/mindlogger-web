@@ -13,14 +13,14 @@ import SplashScreen from '../../widgets/SplashScreen';
 import "./style.css";
 
 const Item = (props) => {
-  const { data, type, handleSubmit, handleChange, item } = props;
+  const { data, type, handleSubmit, handleChange, item, isOnePageAssessment } = props;
 
   const widget = (handleChange, values) => {
     let { isBackShown } = props;
-    const onChange = (answer) => {
-      handleChange(answer);
+    const onChange = (answer, valid) => {
+      handleChange(answer, valid);
 
-      if (item.autoAdvance) {
+      if (item.autoAdvance && !isOnePageAssessment) {
         handleSubmit(answer);
       }
     }
@@ -48,7 +48,7 @@ const Item = (props) => {
   const ref = useRef();
 
   useEffect(() => {
-    if (props.isNextShown) {
+    if (props.isNextShown && !isOnePageAssessment) {
       ref.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, [props.isNextShown])

@@ -20,7 +20,6 @@ import {
   setAnswer,
   setEndTime,
   setCurrentScreen,
-  createResponseInProgress,
 } from '../../state/responses/responses.reducer';
 import {
   // responsesSelector,
@@ -41,6 +40,8 @@ const Screens = (props) => {
   const { t } = useTranslation()
   const [data, setData] = useState({});
   const [show, setShow] = useState(false);
+  const [alert, setAlert] = useState(false);
+  const [showErrors, setShowErrors] = useState(false);
   const [isSplashScreen, setIsSplashScreen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isSummaryScreen, setIsSummaryScreen] = useState(false);
@@ -68,6 +69,45 @@ const Screens = (props) => {
     )
   );
   const screenIndex = getNextPos(currentScreenIndex - 1, visibility)
+
+  const [errors, setErrors] = useState([]);
+
+  const validateResponses = (responses) => {
+    if (!errors.length) {
+      for (let i = 0; i < activityAccess.items.length; i++) {
+        errors.push(false);
+      }
+    }
+
+    for (let i = 0; i < activityAccess.items.length; i++) {
+      const item = activityAccess.items[i];
+      const response = responses && responses[i];
+      if (response) {
+        if (item.inputType == 'text') {
+          if (item.correctAnswer && item.correctAnswer.en && item.correctAnswer.en !== response) {
+            errors[i] = true;
+            continue;
+          }
+        } else if (item.inputType == 'checkbox') {
+          if (!response.value.length && !item.skippable) {
+            errors[i] = true;
+            continue;
+          }
+        } else if (item.inputType == 'ageSelector') {
+          if (!response.value.length) {
+            errors[i] = true;
+            continue;
+          }
+        }
+      }
+
+      errors[i] = !item.skippable && !response;
+    }
+
+    setErrors(errors);
+  }
+
+  useEffect(() => validateResponses(inProgress?.responses), []);
 
   useEffect(() => {
     if (activityAccess.splash
@@ -151,9 +191,15 @@ const Screens = (props) => {
 
     dispatch(setEndTime({ activityId: activityAccess.id, screenIndex: screenIndex }));
 
-    if (currentNext === -1) {
-      setShow(true);
-    } else {
+    if (currentNext === -1 || isOnePageAssessment) {
+      if (errors.includes(true)) {
+        setShowErrors(true);
+        setAlert(true);
+      } else {
+        setShowErrors(false);
+        setShow(true);
+      }
+    } else if (!isOnePageAssessment) {
       // Go to next item:
       dispatch(
         setCurrentScreen({
@@ -164,17 +210,19 @@ const Screens = (props) => {
     }
   }
 
-  const handleChange = (answer) => {
+  const handleChange = (answer, index) => {
     let responses = [...inProgress?.responses];
-    responses[screenIndex] = answer;
+    responses[index] = answer;
 
     dispatch(
       setAnswer({
         activityId: activityAccess.id,
-        screenIndex: screenIndex,
+        screenIndex: index,
         answer
       })
     )
+
+    validateResponses(responses);
   }
 
   const handleBack = () => {
@@ -188,7 +236,7 @@ const Screens = (props) => {
     }
   }
 
-  let availableItems = 0;
+  let availableItems = 0, isOnePageAssessment = activityAccess.isOnePageAssessment;
   const activityStatus = getPercentages(applet.activities.filter(({ id }) => id !== activityAccess.id), progress);
   const percentage = screenIndex ?
     screenIndex / activityAccess.items.length * 100
@@ -207,6 +255,8 @@ const Screens = (props) => {
         isSubmitShown={next === -1}
         isBackShown={false}
         isNextShown={isSplashScreen}
+        isOnePageAssessment={isOnePageAssessment}
+        invalid={false}
       />
     );
   }
@@ -231,12 +281,16 @@ const Screens = (props) => {
           key={item.id}
           item={item}
           handleSubmit={handleNext}
-          handleChange={handleChange}
+          handleChange={(answer, valid) => {
+            handleChange(answer, i);
+          }}
           handleBack={handleBack}
-          isSubmitShown={next === -1}
+          isSubmitShown={isOnePageAssessment && activityAccess.items.length == i+1 || next === -1}
           answer={inProgress?.responses[i]}
           isBackShown={screenIndex === i && i && prev >= 0}
-          isNextShown={screenIndex === i}
+          isNextShown={isOnePageAssessment || screenIndex === i}
+          isOnePageAssessment={isOnePageAssessment}
+          invalid={showErrors && errors.length && errors[i]}
         />
       );
     }
@@ -244,14 +298,18 @@ const Screens = (props) => {
 
   return (
     <Container>
-      <Row className="mt-5">
-        <Col xl={3} />
-        <Col xl={9} >
-          <Card className="bg-white p-2" >
-            <ProgressBar striped className="mb-2" now={percentage} />
-          </Card>
-        </Col>
-      </Row>
+      {
+        !isOnePageAssessment && (
+          <Row className="mt-5">
+            <Col xl={3} />
+            <Col xl={9} >
+              <Card className="bg-white p-2" >
+                <ProgressBar striped className="mb-2" now={percentage} />
+              </Card>
+            </Col>
+          </Row>
+        ) || <></>
+      }
       <Row className="mt-2 activity">
         <Col xl={3}>
           <Card className="ds-card hover text-center mb-4">
@@ -278,7 +336,7 @@ const Screens = (props) => {
           {isSummaryScreen ?
             <ActivitySummary {...props} />
             :
-            _.map(items.slice(0, availableItems).reverse())
+            isOnePageAssessment ? items : _.map(items.slice(0, availableItems).reverse())
           }
         </Col>
       </Row>
@@ -294,6 +352,23 @@ const Screens = (props) => {
         <Modal.Footer>
           <Button variant="secondary" disabled={isLoading} onClick={() => setShow(false)}>{t('additional.no')}</Button>
           <Button variant="primary" disabled={isLoading} onClick={() => finishResponse()}>{t('additional.yes')}</Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal show={alert} onHide={() => setAlert(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>{t('additional.response_submit')}</Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          {t('additional.fill_out_fields')}
+        </Modal.Body>
+
+        <Modal.Footer>
+          <Button
+            variant="secondary"
+            onClick={() => setAlert(false)}
+          >{t('additional.okay')}</Button>
         </Modal.Footer>
       </Modal>
     </Container>

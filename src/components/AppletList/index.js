@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useSelector, useDispatch } from 'react-redux'
 import { Card, Container, Row, Spinner } from 'react-bootstrap'
 import Avatar from 'react-avatar';
@@ -15,6 +16,7 @@ import './style.css'
  * @constructor
  */
 export default function AppletList() {
+  const { t } = useTranslation()
   const history = useHistory()
   const dispatch = useDispatch()
   const [isLoading, setIsLoading] = useState(false);
@@ -55,7 +57,7 @@ export default function AppletList() {
                 <Card.Text> {applet.description.en} </Card.Text>
               </Card.Body>
             </Card>
-          )) || <h3 className="mt-4 px-2 text-center">You currently do not have any applets.</h3> :
+          )) || <h3 className="mt-4 px-2 text-center">{t('no_applets')}</h3> :
 
           <Spinner animation="border mt-4"></Spinner>}
       </Row>

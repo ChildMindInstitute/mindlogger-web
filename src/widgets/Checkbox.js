@@ -16,6 +16,7 @@ import Navigator from './Navigator';
 import Markdown from '../components/Markdown';
 import { parseMarkdown } from '../services/helper';
 import { activityLastResponseTimeSelector } from '../state/responses/responses.selectors';
+import { profileSelector } from '../state/applet/applet.selectors';
 
 import questionMark from '../assets/question-mark.svg';
 
@@ -26,7 +27,8 @@ const Checkbox = ({
   const token = valueType && valueType.includes('token');
 
   const lastResponseTime = useSelector(activityLastResponseTimeSelector);
-  const markdown = useRef(parseMarkdown(item.question.en, lastResponseTime)).current;
+  const profile = useSelector(profileSelector);
+  const markdown = useRef(parseMarkdown(item.question.en, lastResponseTime, profile)).current;
 
   const onChangeValue = (value) => {
     const { answer } = props;

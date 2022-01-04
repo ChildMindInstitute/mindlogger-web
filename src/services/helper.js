@@ -36,7 +36,7 @@ export const atob = (input = '') => {
   return output;
 };
 
-export const parseMarkdown = (markdown, lastResponseTime=0) => {
+export const parseMarkdown = (markdown, lastResponseTime=0, profile={}) => {
   if (!lastResponseTime) {
     return markdown.replace(/(!\[.*\]\s*\(.*?) =\d*x\d*(\))/g, '$1$2');
   }
@@ -82,5 +82,6 @@ export const parseMarkdown = (markdown, lastResponseTime=0) => {
           .replace(/(!\[.*\]\s*\(.*?) =\d*x\d*(\))/g, '$1$2')
           .replace(/\[Now\]/i, moment(now).format('hh:mm A') + ' today')
           .replace(/\[Time_Elapsed_Activity_Last_Completed\]/i, formatElapsedTime(now.getTime() - responseTime.getTime()))
-          .replace(/\[Time_Activity_Last_Completed\]/i, formatLastResponseTime(moment(responseTime), moment(now)));
+          .replace(/\[Time_Activity_Last_Completed\]/i, formatLastResponseTime(moment(responseTime), moment(now)))
+          .replace(/\[Nickname\]/i, profile.nickName || profile.firstName);
 }

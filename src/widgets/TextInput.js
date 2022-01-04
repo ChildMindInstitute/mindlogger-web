@@ -14,6 +14,7 @@ import {
 import Navigator from './Navigator';
 import { parseMarkdown } from '../services/helper';
 import { activityLastResponseTimeSelector } from '../state/responses/responses.selectors';
+import { profileSelector } from '../state/applet/applet.selectors';
 
 import Markdown from '../components/Markdown';
 
@@ -33,7 +34,8 @@ const TextInput = ({
   const { t } = useTranslation();
 
   const lastResponseTime = useSelector(activityLastResponseTimeSelector);
-  const markdown = useRef(parseMarkdown(item.question.en, lastResponseTime)).current;
+  const profile = useSelector(profileSelector);
+  const markdown = useRef(parseMarkdown(item.question.en, lastResponseTime, profile)).current;
 
   const [show, setShow] = useState(false);
   const [value, setValue] = useState(answer && typeof answer === "object" ? answer.value : (answer || ''));

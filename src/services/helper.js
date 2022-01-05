@@ -38,7 +38,9 @@ export const atob = (input = '') => {
 
 export const parseMarkdown = (markdown, lastResponseTime=0, profile={}) => {
   if (!lastResponseTime) {
-    return markdown.replace(/(!\[.*\]\s*\(.*?) =\d*x\d*(\))/g, '$1$2');
+    return markdown
+            .replace(/(!\[.*\]\s*\(.*?) =\d*x\d*(\))/g, '$1$2')
+            .replace(/\[Nickname\]/i, profile.nickName || profile.firstName);
   }
 
   const now = new Date();

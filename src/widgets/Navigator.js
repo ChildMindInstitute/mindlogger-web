@@ -41,7 +41,7 @@ export default Navigator = (props) => {
       }
 
       {
-        isNextShown && !isOnePageAssessment || isSubmitShown && isOnePageAssessment
+        (isNextShown && !isOnePageAssessment || isSubmitShown && isOnePageAssessment)
         &&
         <MyButton
           type="submit"

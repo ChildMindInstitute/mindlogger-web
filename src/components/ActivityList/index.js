@@ -344,6 +344,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
           </Card>
           <AboutModal
             aboutPage={aboutPage}
+            aboutType={currentApplet.aboutType}
             markdown={markdown}
             closeAboutPage={closeAboutPage}
           />

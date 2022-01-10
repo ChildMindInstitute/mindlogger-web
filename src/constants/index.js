@@ -1,6 +1,7 @@
 export const ALLOW = "reprolib:terms/allow";
 export const ABOUT = "reprolib:terms/landingPage";
 export const ABOUT_CONTENT = "reprolib:terms/landingPageContent";
+export const ABOUT_TYPE = "reprolib:terms/landingPageType";
 export const ALT_LABEL = "http://www.w3.org/2004/02/skos/core#altLabel";
 export const AUDIO_OBJECT = "schema:AudioObject";
 export const AUTO_ADVANCE = "reprolib:terms/auto_advance";

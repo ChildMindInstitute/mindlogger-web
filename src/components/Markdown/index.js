@@ -57,6 +57,11 @@ const Markdown = (props) => {
     )
   }
 
+  htmlInput = htmlInput.replace(
+    /<img src="(.*?)" (.*?)>/g,
+    `<div class="markdown-image"><img src="$1" $2></div>`
+  );
+
   return (
     <div className='markdown-body'>
       {parser.parse(htmlInput)}

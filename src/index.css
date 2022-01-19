@@ -36,7 +36,8 @@ code {
 }
 .logo {
   padding: 5px;
-  height: 40px;
+  height: 50px;
+  width: 120px;
 }
 .avatar{
   display: inline-block;
@@ -188,4 +189,8 @@ code {
 
 .text-center {
   text-align: center;
+}
+
+.invalid {
+  border: 2px solid red;
 }

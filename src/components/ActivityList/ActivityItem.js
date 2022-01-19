@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import moment from 'moment';
-import { Button } from 'react-bootstrap';
+import { Button, Image } from 'react-bootstrap';
 
 import TimedActivity from './TimedActivity';
 
@@ -43,12 +43,20 @@ const ActivityItem = (props) => {
       disabled={disabled}
       block
     >
-      <div className="activity-name-date">{activity.name.en} {dueDateStr ? ' - ' + dueDateStr : ''} </div>
+      <div
+        className="activity-image"
+        style={{
+          backgroundImage: `url(${activity.image})`
+        }}
+      />
+      <div class="activity-data">
+        <div className="activity-name-date">{activity.name.en} {dueDateStr ? ' - ' + dueDateStr : ''} </div>
 
-      {
-        activity.description && <div className="activity-description">{activity.description.en}</div>
-      }
-      <TimedActivity activity={activity} />
+        {
+          activity.description && <div className="activity-description">{activity.description.en}</div>
+        }
+        <TimedActivity activity={activity} />
+      </div>
     </Button>
   )
 }

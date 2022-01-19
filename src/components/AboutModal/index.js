@@ -5,7 +5,7 @@ import Markdown from '../Markdown';
 import './style.css'
 
 const AboutModal = (props) => {
-  const { aboutPage, markdown, closeAboutPage } = props;
+  const { aboutPage, aboutType, markdown, closeAboutPage } = props;
   const { t } = useTranslation()
 
   return (
@@ -14,7 +14,9 @@ const AboutModal = (props) => {
         <Modal.Title>{ t('About.about') }</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Markdown markdown={markdown} />
+        <Markdown
+          markdown={aboutType == 'image' ? `![](${markdown})` : markdown}
+        />
       </Modal.Body>
     </Modal>
   );

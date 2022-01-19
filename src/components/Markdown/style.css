@@ -3,6 +3,11 @@
 }
 .markdown-body img {
   max-width: 90%;
+  max-height: 500px;
+}
+
+.markdown-image {
+  text-align: center;
 }
 
 .markdown-body video {

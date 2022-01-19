@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import { useSelector } from 'react-redux';
+
 import _ from "lodash";
 import {
   Form,
@@ -12,13 +14,21 @@ import {
 
 import Navigator from './Navigator';
 import Markdown from '../components/Markdown';
+import { parseMarkdown } from '../services/helper';
+import { activityLastResponseTimeSelector } from '../state/responses/responses.selectors';
+import { profileSelector } from '../state/applet/applet.selectors';
+
 import questionMark from '../assets/question-mark.svg';
 
 const Checkbox = ({
-  item, isBackShown, isNextShown, handleChange, handleBack, isSubmitShown, values, ...props
+  item, isBackShown, isNextShown, handleChange, handleBack, isSubmitShown, values, invalid, ...props
 }) => {
   const valueType = item.valueConstraints.valueType;
   const token = valueType && valueType.includes('token');
+
+  const lastResponseTime = useSelector(activityLastResponseTimeSelector);
+  const profile = useSelector(profileSelector);
+  const markdown = useRef(parseMarkdown(item.question.en, lastResponseTime, profile)).current;
 
   const onChangeValue = (value) => {
     const { answer } = props;
@@ -92,7 +102,7 @@ const Checkbox = ({
 
   const itemCount = item.valueConstraints.itemList.length;
   return (
-    <Card className="mb-3" style={{ maxWidth: "auto" }}>
+    <Card className={`${invalid ? 'invalid' : ''} mb-3`} style={{ maxWidth: "auto" }}>
       <Row className="no-gutters">
         <Col md={12}>
           <Card.Body>
@@ -103,7 +113,7 @@ const Checkbox = ({
               }
               <div className="markdown">
                 <Markdown
-                  markdown={item.question.en.replace(/(!\[.*\]\s*\(.*?) =\d*x\d*(\))/g, '$1$2')}
+                  markdown={markdown}
                 />
               </div>
             </Card.Title>
@@ -132,6 +142,7 @@ const Checkbox = ({
         isNextDisable={isNextDisable()}
         handleBack={handleBack}
         isSubmitShown={isSubmitShown}
+        skippable={item.skippable}
         {...props}
       />
     </Card>

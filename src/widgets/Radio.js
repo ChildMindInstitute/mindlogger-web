@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
+
 import _ from "lodash";
 import {
   Form,
@@ -12,6 +14,10 @@ import {
 
 import Navigator from './Navigator';
 import Markdown from '../components/Markdown';
+import { parseMarkdown } from '../services/helper';
+import { activityLastResponseTimeSelector } from '../state/responses/responses.selectors';
+import { profileSelector } from '../state/applet/applet.selectors';
+
 import questionMark from '../assets/question-mark.svg';
 
 const Radio = (props) => {
@@ -25,12 +31,17 @@ const Radio = (props) => {
     handleChange,
     handleBack,
     isSubmitShown,
+    invalid,
   } = props;
 
   const [checked, setChecked] = useState();
   const isNextDisable = !answer && answer !== 0;
   const valueType = item.valueConstraints.valueType;
   const token = valueType && valueType.includes('token');
+
+  const lastResponseTime = useSelector(activityLastResponseTimeSelector);
+  const profile = useSelector(profileSelector);
+  const markdown = useRef(parseMarkdown(item.question.en, lastResponseTime, profile)).current;
 
   useEffect(() => {
     setChecked(values[item.variableName])
@@ -92,7 +103,7 @@ const Radio = (props) => {
 
   const itemCount = item.valueConstraints.itemList.length;
   return (
-    <Card className="mb-3" style={{ maxWidth: "auto" }}>
+    <Card className={`${invalid ? 'invalid' : ''} mb-3`} style={{ maxWidth: "auto" }}>
       <Row className="no-gutters">
         <Col md={12}>
           <Card.Body>
@@ -103,7 +114,7 @@ const Radio = (props) => {
               }
               <div className="markdown">
                 <Markdown
-                  markdown={item.question.en.replace(/(!\[.*\]\s*\(.*?) =\d*x\d*(\))/g, '$1$2')}
+                  markdown={markdown}
                 />
               </div>
             </Card.Title>
@@ -132,6 +143,8 @@ const Radio = (props) => {
         handleBack={handleBack}
         answer={answer}
         isSubmitShown={isSubmitShown}
+        skippable={item.skippable}
+        {...props}
       />
     </Card>
   );

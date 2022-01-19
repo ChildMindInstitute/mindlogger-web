@@ -8,6 +8,7 @@ import {
   ALLOW,
   ABOUT,
   ABOUT_CONTENT,
+  ABOUT_TYPE,
   ALT_LABEL,
   AUDIO_OBJECT,
   AUTO_ADVANCE,
@@ -98,7 +99,8 @@ import {
   IS_REVIEWER_ACTIVITY,
   DISABLE_SUMMARY,
   NEXT_ACTIVITY,
-  REMOVE_BACK_OPTION
+  REMOVE_BACK_OPTION,
+  IS_ONE_PAGE_ASSESSMENT
 } from '../constants';
 
 export const languageListToObject = (list) => {
@@ -523,13 +525,14 @@ const transformPureActivity = (activityJson) => {
     splash: languageListToObject(activityJson[SPLASH]),
     altLabel: languageListToObject(activityJson[ALT_LABEL]),
     shuffle: R.path([SHUFFLE, 0, "@value"], activityJson),
-    image: languageListToObject(activityJson[IMAGE]),
+    image: activityJson[IMAGE],
     skippable: isSkippable(allowList),
     backDisabled: allowList.includes(BACK_DISABLED),
     disableSummary: allowList.includes(DISABLE_SUMMARY),
     fullScreen: allowList.includes(FULL_SCREEN),
     autoAdvance: allowList.includes(AUTO_ADVANCE),
     isPrize: R.path([ISPRIZE, 0, "@value"], activityJson) || false,
+    isOnePageAssessment: R.path([IS_ONE_PAGE_ASSESSMENT, 0, "@value"], activityJson) || false,
     isReviewerActivity: R.path([IS_REVIEWER_ACTIVITY, 0, '@value'], activityJson) || false,
     hasResponseIdentifier: R.path([HAS_RESPONSE_IDENTIFIER, 0, "@value"], activityJson) || false,
     isVis,
@@ -602,6 +605,7 @@ export const appletTransformJson = (appletJson) => {
     description: languageListToObject(applet[DESCRIPTION]),
     about: languageListToObject(applet[ABOUT]),
     aboutContent: languageListToObject(applet[ABOUT_CONTENT]),
+    aboutType: R.path([0, "@value"], applet[ABOUT_TYPE]) || 'markdown',
     schemaVersion: languageListToObject(applet[SCHEMA_VERSION]),
     version: languageListToObject(applet[VERSION]),
     altLabel: languageListToObject(applet[ALT_LABEL]),

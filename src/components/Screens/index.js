@@ -257,6 +257,8 @@ const Screens = (props) => {
         isNextShown={isSplashScreen}
         isOnePageAssessment={isOnePageAssessment}
         invalid={false}
+        activity={activityAccess}
+        answers={inProgress?.responses}
       />
     );
   }
@@ -287,6 +289,8 @@ const Screens = (props) => {
           handleBack={handleBack}
           isSubmitShown={isOnePageAssessment && activityAccess.items.length == i+1 || next === -1}
           answer={inProgress?.responses[i]}
+          activity={activityAccess}
+          answers={inProgress?.responses}
           isBackShown={screenIndex === i && i && prev >= 0}
           isNextShown={isOnePageAssessment || screenIndex === i}
           isOnePageAssessment={isOnePageAssessment}

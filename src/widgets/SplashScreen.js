@@ -18,7 +18,7 @@ const SplashScreen = (props) => {
     isNextShown,
     handleBack,
     isSubmitShown,
-    splashScreen
+    splashScreen,
   } = props;
 
   const splashContainer = useRef();

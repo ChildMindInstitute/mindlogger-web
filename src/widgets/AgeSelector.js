@@ -13,14 +13,14 @@ import { profileSelector } from '../state/applet/applet.selectors';
 import { isArray } from 'util';
 
 const AgeSelector = ({
-  item, isBackShown, isNextShown, handleChange, handleBack, isSubmitShown, invalid, ...props
+  item, isBackShown, isNextShown, handleChange, handleBack, isSubmitShown, invalid, activity, answers, ...props
 }) => {
   const { answer } = props;
   let itemList = [];
 
   const lastResponseTime = useSelector(activityLastResponseTimeSelector);
   const profile = useSelector(profileSelector);
-  const markdown = useRef(parseMarkdown(item.question.en, lastResponseTime, profile)).current;
+  const markdown = useRef(parseMarkdown(item.question.en, lastResponseTime, profile, activity, answers)).current;
 
   for (let i = item.valueConstraints.minAge; i <= item.valueConstraints.maxAge; i += 1) {
     itemList.push(i);

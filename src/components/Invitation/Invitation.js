@@ -15,6 +15,7 @@ const Invitation = () => {
   const { invitationId } = useParams();
   const [status, setStatus] = useState(Statuses.LOADING);
   const [invitationText, setInvitationText] = useState('');
+  const [invitationText2, setInvitationText2] = useState('');
 
   const isLoggedIn = useSelector(loggedInSelector);
   const dispatch = useDispatch();
@@ -36,9 +37,10 @@ const Invitation = () => {
     setStatus(Statuses.LOADING);
     try {
       const res = await dispatch(getInvitation(invitationId));
-      const { body, acceptable } = unwrapResult(res);
+      const { body, body2, acceptable } = unwrapResult(res);
 
       setInvitationText(body);
+      setInvitationText2(body2);
       setStatus(acceptable ? Statuses.READY : Statuses.ALREADY_ACCEPTED);
 
       if (!acceptable) {
@@ -91,6 +93,7 @@ const Invitation = () => {
         <InvitationText
           status={status}
           invitationText={invitationText}
+          invitationText2={invitationText2}
           onAcceptInvite={handleAcceptInvitation}
           onDeclineInvite={handleRemoveInvitation}
         />

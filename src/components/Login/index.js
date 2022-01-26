@@ -121,10 +121,6 @@ export default function Login() {
             {t('Login.forgotPassword')}{' '}
             <Link to="/forgotpassword">{t('Login.reset')}</Link>
           </p>
-
-          <p className="mt-3">
-            <a href="https://mindlogger.org/terms" target='_blank'>Terms of Service</a>
-          </p>
         </div>
         {show && <Alert className="mt-5 mx-auto w-50" variant="success" onClose={() => setShow(false)} dismissible>
           <p>Password reset link is sent to your email.</p>

@@ -19,6 +19,8 @@ export const Footer = () => {
           Child Mind Institute{' '}
         </a>{' '}
         MATTER Lab 2022
+
+        <a className="mx-4" href="https://mindlogger.org/terms" target='_blank'>Terms of Service</a>
       </p>
     </footer>
   )

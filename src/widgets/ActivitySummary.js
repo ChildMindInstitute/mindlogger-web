@@ -25,7 +25,8 @@ const MARKDOWN_REGEX = /(!\[.*\]\s*\(.*?) =\d*x\d*(\))/g;
 const Summary = styled(({ className, ...props }) => {
   const { appletId, activityId } = useParams();
   const history = useHistory();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language;
   const [messages, setMessages] = useState([]);
   const [activity, setActivity] = useState({});
 
@@ -50,13 +51,10 @@ const Summary = styled(({ className, ...props }) => {
     const pdfFooter = document.getElementById('pdf-footer');
     domtoimage.toJpeg(pdfFooter, { quality: 1 })
       .then((dataUrl) => {
-        const img = new Image();
-        img.src = dataUrl;
-
-        const pdfElement = document.getElementById('PDF')
-        pdfElement.appendChild(img);
+        const footerImage = document.getElementById('footer-image');
+        footerImage.src = dataUrl;
       })
-  }, [])
+  }, [lang])
 
   useEffect(() => {
     try {
@@ -198,6 +196,7 @@ const Summary = styled(({ className, ...props }) => {
                   </div>
                 ))}
               <div style={{ border: '1px solid black', marginTop: 36, marginBottom: 36 }} />
+              <img id="footer-image"></img>
             </div>
           </PDFExport>
 

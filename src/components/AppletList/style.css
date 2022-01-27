@@ -29,6 +29,8 @@
   object-fit: cover;
   min-height: 100%;
   min-width: 100%;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .applet-card-title {

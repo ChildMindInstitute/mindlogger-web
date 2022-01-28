@@ -313,12 +313,14 @@ const Screens = (props) => {
       <Row className="mt-2 activity">
         <Col xl={3}>
           <Card className="ds-card hover text-center mb-4">
-            <div>
-              {applet.image ?
-                <Card.Img variant="top" src={applet.image} className="rounded border w-h" />
-                :
-                <Avatar name={applet.name.en} maxInitials={2} color="#777" size="238" round="3px" />
-              }
+            <div className="applet-header">
+              <div className="applet-image">
+                {applet.image ?
+                  <Card.Img variant="top" src={applet.image} className="rounded border w-h" />
+                  :
+                  <Avatar name={applet.name.en} maxInitials={2} color="#777" size="238" round="3px" />
+                }
+              </div>
             </div>
             <Card.Body>
               <Card.Text>{applet.name.en}</Card.Text>

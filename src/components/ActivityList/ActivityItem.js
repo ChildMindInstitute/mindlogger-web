@@ -43,12 +43,14 @@ const ActivityItem = (props) => {
       disabled={disabled}
       block
     >
-      <div
-        className="activity-image"
-        style={{
-          backgroundImage: `url(${activity.image})`
-        }}
-      />
+      {activity.image && 
+        <div
+          className="activity-image"
+          style={{
+            backgroundImage: `url(${activity.image})`
+          }}
+        />
+      }
       <div class="activity-data">
         <div className="activity-name-date">{activity.name.en} {dueDateStr ? ' - ' + dueDateStr : ''} </div>
 

@@ -7,8 +7,7 @@ import { PDFExport } from '@progress/kendo-react-pdf';
 import styled from 'styled-components';
 import cn from 'classnames';
 import _ from 'lodash';
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
+import domtoimage from 'dom-to-image';
 
 // Component
 import MyButton from '../components/Button';
@@ -26,7 +25,8 @@ const MARKDOWN_REGEX = /(!\[.*\]\s*\(.*?) =\d*x\d*(\))/g;
 const Summary = styled(({ className, ...props }) => {
   const { appletId, activityId } = useParams();
   const history = useHistory();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language;
   const [messages, setMessages] = useState([]);
   const [activity, setActivity] = useState({});
 
@@ -46,6 +46,15 @@ const Summary = styled(({ className, ...props }) => {
   if (activity.splash && activity.splash.en) {
     url = activity.splash.en;
   }
+
+  useEffect(() => {
+    const pdfFooter = document.getElementById('pdf-footer');
+    domtoimage.toJpeg(pdfFooter, { quality: 1 })
+      .then((dataUrl) => {
+        const footerImage = document.getElementById('footer-image');
+        footerImage.src = dataUrl;
+      })
+  }, [lang])
 
   useEffect(() => {
     try {
@@ -187,10 +196,14 @@ const Summary = styled(({ className, ...props }) => {
                   </div>
                 ))}
               <div style={{ border: '1px solid black', marginTop: 36, marginBottom: 36 }} />
-              <p className="mb-4 terms-font">{termsText}</p>
-              <p className="terms-footer">{footerText}</p>
+              <img id="footer-image"></img>
             </div>
           </PDFExport>
+
+          <div id="pdf-footer">
+            <p className="mb-4 terms-font">{termsText}</p>
+            <p className="terms-footer">{footerText}</p>
+          </div>
         </div>
         <MyButton
           type="submit"
@@ -208,6 +221,9 @@ const Summary = styled(({ className, ...props }) => {
     </Card>
   );
 })`
+  #pdf-footer {
+    background-color: white;
+  }
   .pdf-container {
     max-width: 1000px;
     position: absolute;
@@ -217,10 +233,10 @@ const Summary = styled(({ className, ...props }) => {
     font-family: Arial, Helvetica, sans-serif;
   }
   .terms-font {
-    font-size: 12px;
+    font-size: 24px;
   }
   .terms-footer {
-    font-size: 10.9px;
+    font-size: 22px;
   }
   .score-area {
     position: relative;

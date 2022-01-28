@@ -27,7 +27,7 @@ export default Navigator = (props) => {
           label={t("Consent.skip")}
           classes="mb-2"
           disabled={!isNextDisable}
-        /> || <div />
+        />
       }
 
       {
@@ -37,7 +37,7 @@ export default Navigator = (props) => {
           handleClick={handleBack}
           classes="mb-2"
         />
-        || <></>
+        || <div />
       }
 
       {
@@ -53,7 +53,7 @@ export default Navigator = (props) => {
               e.preventDefault();
             }
           }}
-        />
+        /> || <div />
       }
     </div>
   )

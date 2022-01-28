@@ -313,22 +313,26 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
         <Col lg={1} />
         <Col lg={3}>
           <Card className="ds-card">
-            {currentApplet.image &&
-              <Card.Img
-                className="ds-shadow"
-                variant="top"
-                src={currentApplet.image}
-              />
-            }
-            {!currentApplet.image &&
-              <Avatar
-                name={currentApplet.name.en}
-                maxInitials={2}
-                color="#777"
-                size="238"
-                round="3px"
-              />
-            }
+            <div className="applet-header">
+              {currentApplet.image &&
+                <Card.Img
+                  className="ds-shadow applet-image"
+                  variant="top"
+                  src={currentApplet.image}
+                />
+              }
+              {!currentApplet.image &&
+                <Avatar
+                  className="applet-image"
+                  name={currentApplet.name.en}
+                  maxInitials={2}
+                  color="#777"
+                  size="240"
+                  round="3px"
+                />
+              }
+            </div>
+
             <Card.Body className="ds-card-title">
               <Card.Title className="text-center">
                 {currentApplet.name.en}

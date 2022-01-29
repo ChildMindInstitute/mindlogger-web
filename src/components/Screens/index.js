@@ -192,7 +192,7 @@ const Screens = (props) => {
     dispatch(setEndTime({ activityId: activityAccess.id, screenIndex: screenIndex }));
 
     if (currentNext === -1 || isOnePageAssessment) {
-      if (errors.includes(true)) {
+      if (errors.includes(true) && isOnePageAssessment) {
         setShowErrors(true);
         setAlert(true);
       } else {

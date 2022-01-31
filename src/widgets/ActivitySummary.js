@@ -29,6 +29,7 @@ const Summary = styled(({ className, ...props }) => {
   const lang = i18n.language;
   const [messages, setMessages] = useState([]);
   const [activity, setActivity] = useState({});
+  const [titleWidth, setTitleWidth] = useState(0);
 
   const dispatch = useDispatch();
 
@@ -48,13 +49,28 @@ const Summary = styled(({ className, ...props }) => {
   }
 
   useEffect(() => {
-    const pdfFooter = document.getElementById('pdf-footer');
-    domtoimage.toJpeg(pdfFooter, { quality: 1 })
-      .then((dataUrl) => {
-        const footerImage = document.getElementById('footer-image');
-        footerImage.src = dataUrl;
-      })
+    const el = document.getElementById('score-title');
+    setTitleWidth(el.offsetWidth);
   }, [lang])
+
+  useEffect(() => {
+    const items = ['footer-text'];
+    if (messages) {
+      for (let i = 0; i < messages.length; i++) {
+        items.push(`message-${i}`);
+      }
+    }
+
+    items.map(id => {
+      const pdfContent = document.getElementById(id);
+
+      domtoimage.toJpeg(pdfContent, { quality: 1 })
+        .then((dataUrl) => {
+          const pdfImage = document.getElementById(`pdf-${id}`);
+          pdfImage.src = dataUrl;
+        })
+    })
+  }, [titleWidth])
 
   useEffect(() => {
     try {
@@ -143,66 +159,82 @@ const Summary = styled(({ className, ...props }) => {
               <div className="mb-4">
                 <Markdown useCORS={true} markdown={_.get(activity, 'scoreOverview', '').replace(MARKDOWN_REGEX, '$1$2')} />
               </div>
-              {messages &&
-                messages.map((item, i) => (
-                  <div key={i}>
-                    <p className="text-primary mb-1">
-                      <b>{item.category.replace(/_/g, ' ')}</b>
-                    </p>
-                    <div className="mb-4">
-                      <Markdown
-                        markdown={_.get(item, 'compute.description', '').replace(MARKDOWN_REGEX, '$1$2')}
-                        useCORS={true}
-                      />
-                    </div>
-                    <div className="score-area">
-                      <p
-                        className="score-title text-nowrap"
-                        style={{
-                          left: `max(75px, ${(item.scoreValue / item.maxScoreValue) * 100}%)`,
-                        }}>
-                        <b>{t("additional.child_score")}</b>
-                      </p>
-                      <div
-                        className={cn('score-bar score-below', {
-                          'score-positive': item.compute.direction,
-                          'score-negative': !item.compute.direction,
-                        })}
-                        style={{ width: `${(item.exprValue / item.maxScoreValue) * 100}%` }}
-                      />
-                      <div
-                        className={cn('score-bar score-above', {
-                          'score-positive': !item.compute.direction,
-                          'score-negative': item.compute.direction,
-                        })}
-                      />
-                      <div
-                        className="score-spliter"
-                        style={{ left: `${(item.scoreValue / item.maxScoreValue) * 100}%` }}
-                      />
-                      <p className="score-max-value">
-                        <b>{item.maxScoreValue}</b>
-                      </p>
-                    </div>
-                    <div className="mb-4">
-                      {t("additional.child_score_on_subscale", { name: item.category.replace(/_/g, ' ') })}
+              {
+                messages && messages.map((item, i) => (<img id={`pdf-message-${i}`} className="pdf-message" />))
+              }
 
-                      <span className="text-danger">{item.scoreValue}</span>.
-                      <Markdown
-                        markdown={item.message.replace(MARKDOWN_REGEX, '$1$2')}
-                        useCORS={true}
-                      />
-                    </div>
-                  </div>
-                ))}
               <div style={{ border: '1px solid black', marginTop: 36, marginBottom: 36 }} />
-              <img id="footer-image"></img>
+              <img id="pdf-footer-text"></img>
             </div>
           </PDFExport>
 
-          <div id="pdf-footer">
-            <p className="mb-4 terms-font">{termsText}</p>
-            <p className="terms-footer">{footerText}</p>
+          <span id="score-title">
+            <span
+              className="score-title text-nowrap"
+            >
+              <b>{t("additional.child_score")}</b>
+            </span>
+          </span>
+
+          <div>
+            {messages &&
+              messages.map((item, i) => (
+                <div id={`message-${i}`} key={i} className="report-message">
+                  <p className="text-primary mb-1">
+                    <b>{item.category.replace(/_/g, ' ')}</b>
+                  </p>
+                  <div className="mb-4">
+                    <Markdown
+                      markdown={_.get(item, 'compute.description', '').replace(MARKDOWN_REGEX, '$1$2')}
+                      useCORS={true}
+                    />
+                  </div>
+
+                  <div className="score-area">
+                    <p
+                      className="score-title text-nowrap"
+                      style={{
+                        left: `max(${titleWidth/2}px, ${(item.scoreValue / item.maxScoreValue) * 100}%)`,
+                      }}>
+                      <b>{t("additional.child_score")}</b>
+                    </p>
+                    <div
+                      className={cn('score-bar score-below', {
+                        'score-positive': item.compute.direction,
+                        'score-negative': !item.compute.direction,
+                      })}
+                      style={{ width: `${(item.exprValue / item.maxScoreValue) * 100}%` }}
+                    />
+                    <div
+                      className={cn('score-bar score-above', {
+                        'score-positive': !item.compute.direction,
+                        'score-negative': item.compute.direction,
+                      })}
+                    />
+                    <div
+                      className="score-spliter"
+                      style={{ left: `${(item.scoreValue / item.maxScoreValue) * 100}%` }}
+                    />
+                    <p className="score-max-value">
+                      <b>{item.maxScoreValue}</b>
+                    </p>
+                  </div>
+                  <div className="mb-4">
+                    {t("additional.child_score_on_subscale", { name: item.category.replace(/_/g, ' ') })}
+                    {' '}
+                    <span className="text-danger">{item.scoreValue}</span>.
+                    <Markdown
+                      markdown={item.message.replace(MARKDOWN_REGEX, '$1$2')}
+                      useCORS={true}
+                    />
+                  </div>
+                </div>
+              ))}
+
+            <div id="footer-text">
+              <p className="mb-4 terms-font">{termsText}</p>
+              <p className="terms-footer">{footerText}</p>
+            </div>
           </div>
         </div>
         <MyButton
@@ -221,15 +253,20 @@ const Summary = styled(({ className, ...props }) => {
     </Card>
   );
 })`
-  #pdf-footer {
+  #footer-text, .report-message {
     background-color: white;
   }
+
+  .pdf-message {
+    margin: 10px 0px;
+  }
+
   .pdf-container {
     max-width: 1000px;
     position: absolute;
     left: -2000px;
     top: 0;
-    font-size: 10pt;
+    font-size: 20pt;
     font-family: Arial, Helvetica, sans-serif;
   }
   .terms-font {
@@ -241,11 +278,11 @@ const Summary = styled(({ className, ...props }) => {
   .score-area {
     position: relative;
     display: flex;
-    width: 300px;
-    padding: 50px 0 30px;
+    width: 500px;
+    padding: 60px 0 60px;
 
     .score-bar {
-      height: 40px;
+      height: 70px;
     }
     .score-positive {
       background-color: #a1cd63;
@@ -261,9 +298,9 @@ const Summary = styled(({ className, ...props }) => {
     }
     .score-spliter {
       position: absolute;
-      top: 30px;
+      top: 40px;
       width: 3px;
-      height: 80px;
+      height: 110px;
       background-color: #000;
     }
     .score-title {

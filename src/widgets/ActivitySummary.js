@@ -160,7 +160,7 @@ const Summary = styled(({ className, ...props }) => {
                 <Markdown useCORS={true} markdown={_.get(activity, 'scoreOverview', '').replace(MARKDOWN_REGEX, '$1$2')} />
               </div>
               {
-                messages && messages.map((item, i) => (<img id={`pdf-message-${i}`} />))
+                messages && messages.map((item, i) => (<img id={`pdf-message-${i}`} className="pdf-message" />))
               }
 
               <div style={{ border: '1px solid black', marginTop: 36, marginBottom: 36 }} />
@@ -255,6 +255,10 @@ const Summary = styled(({ className, ...props }) => {
 })`
   #footer-text, .report-message {
     background-color: white;
+  }
+
+  .pdf-message {
+    margin: 10px 0px;
   }
 
   .pdf-container {

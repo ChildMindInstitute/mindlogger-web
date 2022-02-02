@@ -29,6 +29,7 @@ export const InvitationText = (props) => {
           <div className={'invitationBody'} dangerouslySetInnerHTML={{ __html: invitationText }} />
           <InvitationButtons onAcceptInvite={onAcceptInvite} onDeclineInvite={onDeclineInvite} />
           <div className={'invitationBody'} dangerouslySetInnerHTML={{ __html: invitationText2 }} />
+          <div style={{paddingBottom: "30px"}}/>
         </React.Fragment>
       );
 

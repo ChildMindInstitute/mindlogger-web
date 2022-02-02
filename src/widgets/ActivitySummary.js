@@ -156,7 +156,7 @@ const Summary = styled(({ className, ...props }) => {
                 </div>
               }
 
-              <div className="mb-4">
+              <div className="overview-font mb-4">
                 <Markdown useCORS={true} markdown={_.get(activity, 'scoreOverview', '').replace(MARKDOWN_REGEX, '$1$2')} />
               </div>
               {
@@ -259,6 +259,10 @@ const Summary = styled(({ className, ...props }) => {
 
   .pdf-message {
     margin: 10px 0px;
+  }
+
+  .overview-font {
+    font-size: 13px;
   }
 
   .pdf-container {

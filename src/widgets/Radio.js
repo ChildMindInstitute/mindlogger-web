@@ -85,6 +85,7 @@ const Radio = (props) => {
       <Form.Check
         label={obj.name.en}
         name={item.variableName}
+        className="form-check-width"
         style={{ color: obj.color ? invertColor(obj.color) : "#333333" }}
         type="radio"
         checked={(answer || answer === 0) && answer.value == (token ? obj.name.en : obj.value)}

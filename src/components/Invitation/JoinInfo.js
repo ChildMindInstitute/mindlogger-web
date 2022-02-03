@@ -1,9 +1,10 @@
 import React from 'react';
-
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 export const JoinInfo = ({ inviteLink }) => {
   const { t } = useTranslation();
+  const { info } = useSelector(state => state.user);
 
   const { inviter, displayName } = inviteLink;
 
@@ -13,7 +14,7 @@ export const JoinInfo = ({ inviteLink }) => {
     ${t('InviteLink.title', { coordinatorName, coordinatorEmail, displayName })} <br/><br/> 
     ${t('InviteLink.description', { coordinatorName, coordinatorEmail, displayName })}
     ${t('InviteLink.step1', { displayName })}
-    ${t('InviteLink.step2', { displayName })}
+    ${info ? '' : t('InviteLink.step2', { displayName })}
     ${t('InviteLink.step3', { displayName })}
     ${t('InviteLink.footer')}`;
 

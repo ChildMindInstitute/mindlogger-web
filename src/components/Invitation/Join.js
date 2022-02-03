@@ -6,7 +6,6 @@ import {useTranslation} from "react-i18next";
 
 import { Statuses } from '../../constants';
 import { InviteLink } from './InviteLink';
-import { JoinInfo } from './JoinInfo';
 import { SignIn } from '../Signin/SignIn';
 import { loggedInSelector } from '../../state/user/user.selectors';
 import { acceptInviteLink, getInviteLinkInfo } from '../../state/app/app.actions';
@@ -73,11 +72,6 @@ export const Join = () => {
   return (
     <div className="mt-3 pt-3 container">
       {renderInviteLink()}
-
-      {renderAcceptDeclineInvite()}
-
-      {renderSignIn()}
-
       {renderNotFound()}
     </div>
   );
@@ -87,7 +81,33 @@ export const Join = () => {
       return undefined;
     }
 
-    return <JoinInfo inviteLink={inviteLink}></JoinInfo>;
+    const { inviter, displayName } = inviteLink;
+    const { displayName: coordinatorName, email: coordinatorEmail } = inviter;
+    const title = `${t('InviteLink.welcome', { displayName })} <br/><br/> 
+      ${t('InviteLink.title', { coordinatorName, coordinatorEmail, displayName })} <br/>
+    `;
+    const description = ` <br/>
+      ${t('InviteLink.description', { coordinatorName, coordinatorEmail, displayName })}
+      ${t('InviteLink.step1', { displayName })}
+      ${t('InviteLink.step2', { displayName })}
+      ${t('InviteLink.step3', { displayName })}
+      ${t('InviteLink.footer')}
+    `;
+
+    return (
+      <div className="invitationBody">
+        <p
+          dangerouslySetInnerHTML={{
+            __html: title,
+          }}></p>
+        {renderAcceptDeclineInvite()}
+        {renderSignIn()}
+        <p
+          dangerouslySetInnerHTML={{
+            __html: description,
+          }}></p>
+      </div>
+    );
   }
 
   function renderAcceptDeclineInvite() {

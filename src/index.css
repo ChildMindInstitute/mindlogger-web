@@ -142,6 +142,11 @@ code {
   height: 20px;
 }
 
+.form-check-width {
+  max-width: calc(100% - 60px);
+}
+
+
 .option-tooltip {
   width: 20px;
 }
@@ -169,7 +174,7 @@ code {
   align-items: flex-start;
   margin: 10px 0px;
   border-radius: 5px;
-  padding: 2px 5px;
+  padding: 7px 5px;
 }
 
 .response-option:first-child {

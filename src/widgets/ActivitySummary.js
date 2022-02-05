@@ -50,7 +50,7 @@ const Summary = styled(({ className, ...props }) => {
 
   useEffect(() => {
     const el = document.getElementById('score-title');
-    setTitleWidth(el.offsetWidth);
+    setTitleWidth(el && el.offsetWidth);
   }, [lang])
 
   useEffect(() => {

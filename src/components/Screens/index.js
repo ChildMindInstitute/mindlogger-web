@@ -50,7 +50,7 @@ const Screens = (props) => {
   const answer = useSelector(currentScreenResponseSelector);
   const progress = useSelector(inProgressSelector);
   const user = useSelector(userInfoSelector);
-  const lastResponseTimes = useSelector(lastResponseTimeSelector);
+  const lastResponseTimes = useSelector(lastResponseTimeSelector) || {};
   const currentScreenIndex = useSelector(currentScreenIndexSelector);
   const activityAccess = useSelector(currentActivitySelector);
   const inProgress = useSelector(currentResponsesSelector);

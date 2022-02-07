@@ -22,6 +22,7 @@ export const Join = () => {
   const [inviteLink, setInviteLink] = useState('');
 
   const isLoggedIn = useSelector(loggedInSelector);
+  const { info } = useSelector(state => state.user);
 
   const dispatch = useDispatch();
   const location = useLocation();
@@ -89,7 +90,7 @@ export const Join = () => {
     const description = ` <br/>
       ${t('InviteLink.description', { coordinatorName, coordinatorEmail, displayName })}
       ${t('InviteLink.step1', { displayName })}
-      ${t('InviteLink.step2', { displayName })}
+      ${info ? '' : t('InviteLink.step2', { displayName })}
       ${t('InviteLink.step3', { displayName })}
       ${t('InviteLink.footer')}
     `;

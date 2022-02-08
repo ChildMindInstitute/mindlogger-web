@@ -123,7 +123,6 @@ export default function SetPassword() {
                       name="Confirm Password"
                       value={passwordData.confirmPassword}
                       placeholder={t('ChangePassword.confirmPassword')}
-                      className="mb-2"
                       onChange={(e) =>
                         setPasswordData({
                           ...passwordData,

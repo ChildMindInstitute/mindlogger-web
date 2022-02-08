@@ -16,7 +16,7 @@ export const InviteLink = ({ status, onAcceptInvite, onDeclineInvite }) => {
     case Statuses.LOADING:
       return (
         <div className="heading">
-          <h1>{t('InvitationLink.loading')}</h1>
+          <h1>{t('InviteLink.loading')}</h1>
           <Spinner animation="border" variant="primary" />
         </div>
       );

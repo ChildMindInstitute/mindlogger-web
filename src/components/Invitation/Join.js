@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useLocation, useHistory } from 'react-router-dom';
 
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 
 import { Statuses } from '../../constants';
 import { InviteLink } from './InviteLink';
@@ -59,7 +59,6 @@ export const Join = () => {
     setStatus(Statuses.LOADING);
     try {
       await dispatch(acceptInviteLink(inviteLinkId));
-
       setStatus(Statuses.ACCEPTED);
     } catch (error) {
       setStatus(Statuses.ERROR);
@@ -78,8 +77,15 @@ export const Join = () => {
   );
 
   function renderInviteLink() {
-    if (!inviteLink || [Statuses.ACCEPTED, Statuses.ERROR].includes(status)) {
+    if (!inviteLink) {
       return undefined;
+    } else if ([Statuses.LOADING, Statuses.ACCEPTED, Statuses.ERROR].includes(status)) {
+      return (
+        <div className="invitationBody">
+          {renderAcceptDeclineInvite()}
+          {renderSignIn()}
+        </div>
+      )
     }
 
     const { inviter, displayName } = inviteLink;
@@ -112,7 +118,7 @@ export const Join = () => {
   }
 
   function renderAcceptDeclineInvite() {
-    if (!inviteLink  || !isLoggedIn && status !== Statuses.LOADING) {
+    if (!inviteLink || !isLoggedIn && status !== Statuses.LOADING) {
       return undefined;
     }
 

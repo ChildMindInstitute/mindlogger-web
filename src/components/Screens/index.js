@@ -88,7 +88,7 @@ const Screens = (props) => {
             errors[i] = true;
             continue;
           }
-        } else if (item.inputType == 'checkbox') {
+        } else if (item.inputType == 'radio' && item.valueConstraints?.multipleChoice) {
           if (!response.value.length && !item.skippable && !activityAccess.skippable) {
             errors[i] = true;
             continue;

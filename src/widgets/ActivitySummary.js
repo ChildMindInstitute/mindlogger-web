@@ -4,6 +4,8 @@ import { useParams, useHistory } from 'react-router-dom';
 import { Card, Row, Col } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { PDFExport } from '@progress/kendo-react-pdf';
+import { drawDOM, exportPDF } from "@progress/kendo-drawing";
+
 import styled from 'styled-components';
 import cn from 'classnames';
 import _ from 'lodash';
@@ -39,7 +41,7 @@ const Summary = styled(({ className, ...props }) => {
   let url = "";
 
   const pdfRef = useRef(null);
-  const ref = React.createRef();
+  const ref = useRef(null);
 
   const termsText = t("additional.terms_text")
   const footerText = t("additional.footer_text");
@@ -50,7 +52,7 @@ const Summary = styled(({ className, ...props }) => {
 
   useEffect(() => {
     const el = document.getElementById('score-title');
-    
+
     if (el) {
       setTitleWidth(el.offsetWidth);
     }
@@ -96,16 +98,30 @@ const Summary = styled(({ className, ...props }) => {
     }
   }
 
-  const findActivity = (name, activities = []) => {
-    if (!name) return undefined;
-    return _.find(activities, { name: { en: name } });
-  }
-
   const handlePDFSave = () => {
-    if (/android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent.toLowerCase())) {
-      window.open(doc.output('bloburl', { filename: 'export.pdf' }))
-    } else if (pdfRef.current) {
-      pdfRef.current && pdfRef.current.save();
+    if (ref.current) {
+      drawDOM(ref.current, {
+        paperSize: 'A4',
+        margin: '2cm'
+      }).then(group => exportPDF(group)).then(dataUri => {
+        var byteString = atob(dataUri.split(',')[1]);
+        var ab = new ArrayBuffer(byteString.length);
+        var ia = new Uint8Array(ab);
+
+        for (var i = 0; i < byteString.length; i++) {
+          ia[i] = byteString.charCodeAt(i);
+        }
+
+        var file = new Blob([ab], { type: 'application/pdf' });
+        var fileURL = URL.createObjectURL(file);
+
+        const anchor = document.createElement('a');
+        anchor.href = fileURL;
+        anchor.download = 'export.pdf';
+        document.body.appendChild(anchor);
+        anchor.click();
+        document.body.removeChild(anchor);
+      })
     }
   }
 

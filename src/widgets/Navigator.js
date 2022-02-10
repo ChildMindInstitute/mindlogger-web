@@ -19,19 +19,40 @@ export default Navigator = (props) => {
     skippable,
   } = props;
 
+  if (isOnePageAssessment) {
+    return (
+      <div className="row no-gutters d-flex flex-row justify-content-around">
+        {
+          isSubmitShown
+            &&
+            <MyButton
+              type="submit"
+              label={isSubmitShown ? t("submit") : t("Consent.next")}
+              disabled={false}
+              classes="mb-2"
+              handleClick={(e) => {
+                if (typeof canSubmit === 'function' && !canSubmit(e)) {
+                  e.preventDefault();
+                }
+              }}
+            /> || <div />
+        }
+        {
+          skippable &&
+            <MyButton
+              label={t("Consent.skip")}
+              classes="mb-2"
+              disabled={!isNextDisable}
+            />
+        }
+      </div>
+    );
+  }
+
   return (
     <div className="row no-gutters d-flex flex-row justify-content-around">
       {
-        isOnePageAssessment && skippable &&
-        <MyButton
-          label={t("Consent.skip")}
-          classes="mb-2"
-          disabled={!isNextDisable}
-        />
-      }
-
-      {
-        !isOnePageAssessment && isBackShown &&
+        isBackShown &&
         <MyButton
           label={t("Consent.back")}
           handleClick={handleBack}
@@ -41,12 +62,11 @@ export default Navigator = (props) => {
       }
 
       {
-        (isNextShown && !isOnePageAssessment || isSubmitShown && isOnePageAssessment)
-        &&
+        isNextShown &&
         <MyButton
           type="submit"
-          label={isSubmitShown ? t("submit") : t("Consent.next")}
-          disabled={!isOnePageAssessment && isNextDisable}
+          label={isSubmitShown ? t("submit") : isNextDisable && skippable ? t("Consent.skip") : t("Consent.next")}
+          disabled={!skippable && isNextDisable}
           classes="mb-2"
           handleClick={(e) => {
             if (typeof canSubmit === 'function' && !canSubmit(e)) {

@@ -66,13 +66,21 @@ export const Join = () => {
   };
 
   const handleDeclineInvitation = () => {
-    history.push('/');
+    setStatus(Statuses.REMOVED);
   };
 
   return (
     <div className="mt-3 pt-3 container">
-      {renderInviteLink()}
-      {renderNotFound()}
+      {
+        status == Statuses.REMOVED &&
+          <div className={'heading'}>
+            <h1 className={'invitationMessage'}>{t('InvitationText.invitationRemoved')}</h1>
+          </div>
+        || <>
+          {renderInviteLink()}
+          {renderNotFound()}
+        </>
+      }
     </div>
   );
 
@@ -90,7 +98,7 @@ export const Join = () => {
 
     const { inviter, displayName } = inviteLink;
     const { displayName: coordinatorName, email: coordinatorEmail } = inviter;
-    const title = `${t('InviteLink.welcome', { displayName })} <br/><br/> 
+    const title = `${t('InviteLink.welcome', { displayName })} <br/><br/>
       ${t('InviteLink.title', { coordinatorName, coordinatorEmail, displayName })} <br/>
     `;
     const description = ` <br/>

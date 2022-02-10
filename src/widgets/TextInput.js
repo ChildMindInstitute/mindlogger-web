@@ -67,7 +67,7 @@ const TextInput = ({
                 value={value}
                 onChange={e => {
                   setValue(e.target.value);
-                  handleChange({ value: e.target.value });
+                  handleChange(e.target.value);
                 }}
                 disabled={!isNextShown}
               />

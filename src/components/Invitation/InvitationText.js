@@ -11,7 +11,7 @@ import { InvitationButtons } from './InvitationButtons';
 import './style.css';
 
 export const InvitationText = (props) => {
-  const { status, invitationText, onAcceptInvite, onDeclineInvite } = props;
+  const { status, invitationText, invitationText2, onAcceptInvite, onDeclineInvite } = props;
   const { t } = useTranslation();
 
   switch (status) {
@@ -28,6 +28,8 @@ export const InvitationText = (props) => {
         <React.Fragment>
           <div className={'invitationBody'} dangerouslySetInnerHTML={{ __html: invitationText }} />
           <InvitationButtons onAcceptInvite={onAcceptInvite} onDeclineInvite={onDeclineInvite} />
+          <div className={'invitationBody'} dangerouslySetInnerHTML={{ __html: invitationText2 }} />
+          <div style={{paddingBottom: "30px"}}/>
         </React.Fragment>
       );
 

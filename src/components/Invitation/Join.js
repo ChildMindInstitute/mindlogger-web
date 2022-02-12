@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useLocation, useHistory } from 'react-router-dom';
 
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 
 import { Statuses } from '../../constants';
 import { InviteLink } from './InviteLink';
-import { JoinInfo } from './JoinInfo';
 import { SignIn } from '../Signin/SignIn';
 import { loggedInSelector } from '../../state/user/user.selectors';
 import { acceptInviteLink, getInviteLinkInfo } from '../../state/app/app.actions';
@@ -23,6 +22,7 @@ export const Join = () => {
   const [inviteLink, setInviteLink] = useState('');
 
   const isLoggedIn = useSelector(loggedInSelector);
+  const { info } = useSelector(state => state.user);
 
   const dispatch = useDispatch();
   const location = useLocation();
@@ -59,7 +59,6 @@ export const Join = () => {
     setStatus(Statuses.LOADING);
     try {
       await dispatch(acceptInviteLink(inviteLinkId));
-
       setStatus(Statuses.ACCEPTED);
     } catch (error) {
       setStatus(Statuses.ERROR);
@@ -67,31 +66,67 @@ export const Join = () => {
   };
 
   const handleDeclineInvitation = () => {
-    history.push('/');
+    setStatus(Statuses.REMOVED);
   };
 
   return (
     <div className="mt-3 pt-3 container">
-      {renderInviteLink()}
-
-      {renderAcceptDeclineInvite()}
-
-      {renderSignIn()}
-
-      {renderNotFound()}
+      {
+        status == Statuses.REMOVED &&
+          <div className={'heading'}>
+            <h1 className={'invitationMessage'}>{t('InvitationText.invitationRemoved')}</h1>
+          </div>
+        || <>
+          {renderInviteLink()}
+          {renderNotFound()}
+        </>
+      }
     </div>
   );
 
   function renderInviteLink() {
-    if (!inviteLink || [Statuses.ACCEPTED, Statuses.ERROR].includes(status)) {
+    if (!inviteLink) {
       return undefined;
+    } else if ([Statuses.LOADING, Statuses.ACCEPTED, Statuses.ERROR].includes(status)) {
+      return (
+        <div className="invitationBody">
+          {renderAcceptDeclineInvite()}
+          {renderSignIn()}
+        </div>
+      )
     }
 
-    return <JoinInfo inviteLink={inviteLink}></JoinInfo>;
+    const { inviter, displayName } = inviteLink;
+    const { displayName: coordinatorName, email: coordinatorEmail } = inviter;
+    const title = `${t('InviteLink.welcome', { displayName })} <br/><br/>
+      ${t('InviteLink.title', { coordinatorName, coordinatorEmail, displayName })} <br/>
+    `;
+    const description = ` <br/>
+      ${t('InviteLink.description', { coordinatorName, coordinatorEmail, displayName })}
+      ${t('InviteLink.step1', { displayName })}
+      <li>${t('InviteLink.step2', { displayName })}${info ? '' : t('InviteLink.step2_1', { displayName })}</li>
+      ${t('InviteLink.step3', { displayName })}
+      ${t('InviteLink.footer')}
+    `;
+
+    return (
+      <div className="invitationBody">
+        <p
+          dangerouslySetInnerHTML={{
+            __html: title,
+          }}></p>
+        {renderAcceptDeclineInvite()}
+        {renderSignIn()}
+        <p
+          dangerouslySetInnerHTML={{
+            __html: description,
+          }}></p>
+      </div>
+    );
   }
 
   function renderAcceptDeclineInvite() {
-    if (!inviteLink  || !isLoggedIn && status !== Statuses.LOADING) {
+    if (!inviteLink || !isLoggedIn && status !== Statuses.LOADING) {
       return undefined;
     }
 

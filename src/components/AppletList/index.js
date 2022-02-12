@@ -41,13 +41,15 @@ export default function AppletList() {
         {!isLoading ?
           applets.length && applets.map(applet => (
             <Card className="applet-card" onClick={() => onSelectApplet(applet.id)} key={applet.id}>
-              <Card.Header className="applet-header">
-                {applet.image ?
-                  <Card.Img variant="top" src={applet.image} />
-                  :
-                  <Avatar color="#777" name={applet.name.en} maxInitials={2} size="280" round="3px" />
-                }
-              </Card.Header>
+              <div className="applet-header">
+                <div className="applet-image">
+                  {applet.image ?
+                    <Card.Img variant="top" src={applet.image} />
+                    :
+                    <Avatar color="#777" name={applet.name.en} maxInitials={2} size="240" round="3px" />
+                  }
+                </div>
+              </div>
               <Card.Body>
                 <Card.Title className="applet-card-title"> {applet.name.en} </Card.Title>
                 <Card.Text> {applet.description.en} </Card.Text>

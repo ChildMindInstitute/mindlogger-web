@@ -18,7 +18,7 @@ export const Footer = () => {
           {' '}
           Child Mind Institute{' '}
         </a>{' '}
-        MATTER Lab 2021
+        MATTER Lab 2022
       </p>
     </footer>
   )

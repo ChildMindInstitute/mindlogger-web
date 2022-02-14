@@ -18,18 +18,6 @@
   cursor: pointer;
 }
 
-.applet-header {
-  padding: 0px !important;
-  height: 280px;
-  overflow: hidden;
-}
-
-.applet-header img {
-  position: relative;
-  transform: translateY(-50%);
-  top: 50%;
-}
-
 .applet-card-title {
   text-transform: capitalize;
 }

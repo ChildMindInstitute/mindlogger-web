@@ -90,6 +90,7 @@ const Checkbox = ({
         type="checkbox"
         name={item.variableName}
         id={`${item.variableName}${index}`}
+        className="form-check-width"
         style={{ color: obj.color ? invertColor(obj.color) : "#333333" }}
         value={obj.value}
         label={handleReplaceBehaviourResponse(obj.name.en, props.activity, props.answers)}

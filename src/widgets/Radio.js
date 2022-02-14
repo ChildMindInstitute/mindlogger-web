@@ -54,7 +54,7 @@ const Radio = (props) => {
     let g = parseInt(hexcolor.substr(2, 2), 16);
     let b = parseInt(hexcolor.substr(4, 2), 16);
     let yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
-    return (yiq >= 128) ? '#333333' : 'black';
+    return (yiq >= 128) ? '#333333' : 'white';
   }
 
   const renderItem = (obj, index) => (
@@ -86,6 +86,7 @@ const Radio = (props) => {
       <Form.Check
         label={handleReplaceBehaviourResponse(obj.name.en, activity, answers)}
         name={item.variableName}
+        className="form-check-width"
         style={{ color: obj.color ? invertColor(obj.color) : "#333333" }}
         type="radio"
         checked={(answer || answer === 0) && answer.value == (token ? obj.name.en : obj.value)}

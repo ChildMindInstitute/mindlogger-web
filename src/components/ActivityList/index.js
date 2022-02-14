@@ -25,6 +25,7 @@ import { setActivityStartTime, setCurrentActivity, } from '../../state/app/app.r
 import { setCurrentEvent } from '../../state/responses/responses.reducer';
 import { createResponseInProgress, setAnswer } from '../../state/responses/responses.reducer';
 import { parseAppletEvents } from '../../services/json-ld';
+import { getActivityAvailabilityFromDependency, getDependency } from '../../services/helper';
 
 import AboutModal from '../AboutModal';
 import ActivityItem from './ActivityItem';
@@ -93,94 +94,12 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
     }
   }, [Object.keys(inProgress).length]) //responseSchedule
 
-  const findActivityFromName = (activities, name) => {
-    return activities.findIndex(activity => activity.name.en == name)
-  }
-
-  const getActivityAvailabilityFromDependency = (g, availableActivities = [], archievedActivities = []) => {
-    const marked = [], activities = [];
-    let markedCount = 0;
-
-    for (let i = 0; i < g.length; i++) {
-      marked.push(false)
-    }
-
-    for (let index of availableActivities) {
-      markedCount++;
-      marked[index] = true;
-      activities.push(index);
-    }
-
-    for (let index of archievedActivities) {
-      if (!marked[index]) {
-        marked[index] = true;
-        markedCount++;
-      }
-    }
-
-    for (let i = 0; i < g.length; i++) {
-      if (!g[i].length && !marked[i]) {
-        activities.push(i);
-        markedCount++;
-        marked[i] = true;
-      }
-    }
-
-    while ( markedCount < g.length ) {
-      let updated = false;
-
-      for (let i = 0; i < g.length; i++) {
-        if (!marked[i] && g[i].some(dependency => marked[dependency])) {
-          marked[i] = true;
-          markedCount++;
-          updated = true;
-        }
-      }
-
-      if (!updated) {
-        // in case of a circular dependency exists
-        for (let i = 0; i < g.length; i++) {
-          if (!marked[i]) {
-            marked[i] = true;
-            markedCount++;
-            activities.push(i);
-            break;
-          }
-        }
-      }
-    }
-
-    return activities;
-  }
-
-
   const updateActivites = () => {
     const appletData = parseAppletEvents(currentApplet);
     const prizeActs = appletData.activities.filter(act => act.isPrize);
 
     if (prizeActs.length === 1) {
       setPrizeActivity(prizeActs[0]);
-    }
-
-    const dependency = []
-
-    for (let i = 0; i < appletData.activities.length; i++) {
-      dependency.push([])
-    }
-
-    for (let i = 0; i < appletData.activities.length; i++) {
-      const activity = appletData.activities[i];
-
-      if (activity.messages) {
-        for (const message of activity.messages) {
-          if (message.nextActivity) {
-            const index = findActivityFromName(appletData.activities, message.nextActivity)
-            if (index >= 0) {
-              dependency[index].push(i);
-            }
-          }
-        }
-      }
     }
 
     const convertToIndexes = (activities) => activities
@@ -191,7 +110,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
       ?.filter(index => index >= 0)
 
     let appletActivities = getActivityAvailabilityFromDependency(
-      dependency,
+      getDependency(appletData.activities),
       convertToIndexes(cumulativeActivities[appletData.id]?.available),
       convertToIndexes(cumulativeActivities[appletData.id]?.archieved)
     )

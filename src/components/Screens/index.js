@@ -68,6 +68,7 @@ const Screens = (props) => {
       responseTimes
     )
   );
+
   const screenIndex = getNextPos(currentScreenIndex - 1, visibility)
 
   const [errors, setErrors] = useState([]);

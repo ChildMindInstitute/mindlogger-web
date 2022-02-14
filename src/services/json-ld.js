@@ -703,7 +703,7 @@ export const transformApplet = (payload, currentApplets = null) => {
               updated = true;
               applet.activities[index] = {
                 ...activity,
-                items: [...act.items],
+                items: act.items.map(item => itemAttachExtras(item, item.schema, activity.addProperties)),
               };
             }
           });

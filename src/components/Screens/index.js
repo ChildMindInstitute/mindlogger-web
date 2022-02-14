@@ -89,7 +89,7 @@ const Screens = (props) => {
             continue;
           }
         } else if (item.inputType == 'checkbox') {
-          if (!response.value.length && !item.skippable) {
+          if (!response.value.length && !item.skippable && !activityAccess.skippable) {
             errors[i] = true;
             continue;
           }
@@ -101,7 +101,7 @@ const Screens = (props) => {
         }
       }
 
-      errors[i] = !item.skippable && !response;
+      errors[i] = !item.skippable && !activityAccess.skippable && !response;
     }
 
     setErrors(errors);
@@ -279,7 +279,10 @@ const Screens = (props) => {
           type={item.valueConstraints.multipleChoice ? "checkbox" : item.inputType}
           watermark={screenIndex === i ? applet.watermark : ''}
           key={item.id}
-          item={item}
+          item={{
+            ...item,
+            skippable: item.skippable || activityAccess.skippable
+          }}
           handleSubmit={handleNext}
           handleChange={(answer, valid) => {
             handleChange(answer, i);

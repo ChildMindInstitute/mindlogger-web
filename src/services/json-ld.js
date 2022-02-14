@@ -650,6 +650,21 @@ export const activityTransformJson = (activityJson, itemsJson) => {
   };
 };
 
+const orderBySchema = (order) => (a, b) => {
+  const indexA = order.indexOf(a.schema);
+  const indexB = order.indexOf(b.schema);
+
+  if (indexA < indexB) {
+    return -1;
+  }
+
+  if (indexA > indexB) {
+    return 1;
+  }
+
+  return 0;
+}
+
 export const transformApplet = (payload, currentApplets = null) => {
   const applet = appletTransformJson(payload);
 
@@ -703,7 +718,7 @@ export const transformApplet = (payload, currentApplets = null) => {
               updated = true;
               applet.activities[index] = {
                 ...activity,
-                items: [...act.items],
+                items: act.items.map(item => itemAttachExtras(item, item.schema, activity.addProperties))
               };
             }
           });
@@ -810,6 +825,18 @@ export const transformApplet = (payload, currentApplets = null) => {
     applet.activities = activities;
     applet.schedule = payload.schedule;
   }
+
+  for (let i = 0; i < applet.activities.length; i++) {
+    const activity = applet.activities[i];
+    const items = [...activity.items].sort(orderBySchema(activity.order));
+
+    applet.activities[i] = {
+      ...activity,
+      items
+    }
+  }
+
+  applet.activities = [...applet.activities].sort(orderBySchema(applet.order));
 
   applet.groupId = payload.groups;
   return applet;

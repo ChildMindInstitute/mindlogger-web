@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
-
 import _ from "lodash";
 import {
   Form,
@@ -14,7 +13,7 @@ import {
 
 import Navigator from './Navigator';
 import Markdown from '../components/Markdown';
-import { parseMarkdown } from '../services/helper';
+import { handleReplaceBehaviourResponse, parseMarkdown } from '../services/helper';
 import { activityLastResponseTimeSelector } from '../state/responses/responses.selectors';
 import { profileSelector } from '../state/applet/applet.selectors';
 
@@ -32,6 +31,8 @@ const Radio = (props) => {
     handleBack,
     isSubmitShown,
     invalid,
+    activity,
+    answers,
   } = props;
 
   const [checked, setChecked] = useState();
@@ -41,7 +42,7 @@ const Radio = (props) => {
 
   const lastResponseTime = useSelector(activityLastResponseTimeSelector);
   const profile = useSelector(profileSelector);
-  const markdown = useRef(parseMarkdown(item.question.en, lastResponseTime, profile)).current;
+  const markdown = useRef(parseMarkdown(item.question.en, lastResponseTime, profile, activity, answers)).current;
 
   useEffect(() => {
     setChecked(values[item.variableName])
@@ -83,7 +84,7 @@ const Radio = (props) => {
         obj.image && <Image className="option-image" src={obj.image} roundedCircle />
       }
       <Form.Check
-        label={obj.name.en}
+        label={handleReplaceBehaviourResponse(obj.name.en, activity, answers)}
         name={item.variableName}
         className="form-check-width"
         style={{ color: obj.color ? invertColor(obj.color) : "#333333" }}

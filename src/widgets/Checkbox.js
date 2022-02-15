@@ -14,7 +14,7 @@ import {
 
 import Navigator from './Navigator';
 import Markdown from '../components/Markdown';
-import { parseMarkdown } from '../services/helper';
+import { handleReplaceBehaviourResponse, parseMarkdown } from '../services/helper';
 import { activityLastResponseTimeSelector } from '../state/responses/responses.selectors';
 import { profileSelector } from '../state/applet/applet.selectors';
 
@@ -28,7 +28,7 @@ const Checkbox = ({
 
   const lastResponseTime = useSelector(activityLastResponseTimeSelector);
   const profile = useSelector(profileSelector);
-  const markdown = useRef(parseMarkdown(item.question.en, lastResponseTime, profile)).current;
+  const markdown = useRef(parseMarkdown(item.question.en, lastResponseTime, profile, props.activity, props.answers)).current;
 
   const onChangeValue = (value) => {
     const { answer } = props;
@@ -93,7 +93,7 @@ const Checkbox = ({
         className="form-check-width"
         style={{ color: obj.color ? invertColor(obj.color) : "#333333" }}
         value={obj.value}
-        label={obj.name.en}
+        label={handleReplaceBehaviourResponse(obj.name.en, props.activity, props.answers)}
         disabled={!isNextShown}
         defaultChecked={props.answer && Array.isArray(props.answer.value) && props.answer.value.includes(obj.value)}
         onChange={(v) => onChangeValue(token ? obj.name.en : obj.value)}

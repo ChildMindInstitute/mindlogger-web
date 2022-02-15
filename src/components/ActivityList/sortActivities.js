@@ -2,18 +2,6 @@ import * as R from 'ramda';
 import moment from 'moment';
 import i18n from 'i18next';
 
-const compareByNameAlpha = (a, b) => {
-  const nameA = a.name.en.toUpperCase(); // ignore upper and lowercase
-  const nameB = b.name.en.toUpperCase(); // ignore upper and lowercase
-  if (nameA < nameB) {
-    return -1;
-  }
-  if (nameA > nameB) {
-    return 1;
-  }
-  return 0;
-};
-
 const compareByTimestamp = propName => (a, b) => {
   return moment(a[propName]) - moment(b[propName]);
 }
@@ -186,7 +174,7 @@ export default (activityList, inProgress, finishedEvents, scheduleData) => {
   const scheduled = getScheduled(notInProgress, finishedEvents).sort(compareByTimestamp('nextScheduledTimestamp'));
 
   // Activities with no schedule.
-  const unscheduled = getUnscheduled(notInProgress, pastdue, scheduled, finishedEvents, scheduleData).sort(compareByNameAlpha);
+  const unscheduled = getUnscheduled(notInProgress, pastdue, scheduled, finishedEvents, scheduleData);
 
   return [
     ...addSectionHeader(addProp('status', 'pastdue', pastdue), i18n.t('additional:available')),

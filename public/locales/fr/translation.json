@@ -185,6 +185,7 @@
     "child_score": "Le score de votre enfant",
     "child_score_on_subscale": "Le score de votre enfant pour la sous-échelle {{name}} est de",
     "share_report": "Partager le rapport",
+    "share_all_reports": "Partager tous les rapports",
     "fill_out_fields": "Veuillez remplir les champs obligatoires"
   },
   "no_markdown": "Les auteurs de cette applet n'ont fourni aucune information !"

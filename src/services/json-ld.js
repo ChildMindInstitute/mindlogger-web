@@ -100,7 +100,8 @@ import {
   DISABLE_SUMMARY,
   NEXT_ACTIVITY,
   REMOVE_BACK_OPTION,
-  IS_ONE_PAGE_ASSESSMENT
+  IS_ONE_PAGE_ASSESSMENT,
+  COMBINE_REPORTS
 } from '../constants';
 
 export const languageListToObject = (list) => {
@@ -617,6 +618,7 @@ export const appletTransformJson = (appletJson) => {
     contentUpdateTime: updated,
     responseDates: applet.responseDates,
     shuffle: R.path([SHUFFLE, 0, "@value"], applet),
+    combineReports: R.path([COMBINE_REPORTS, 0, "@value"], applet) || false,
   };
   if (applet.encryption && Object.keys(applet.encryption).length) {
     res.encryption = applet.encryption;

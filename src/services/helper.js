@@ -140,3 +140,165 @@ export const replaceItemVariableWithName = (markdown, activity, answers) => {
 export const handleReplaceBehaviourResponse = (text, activity, answers) => {
   return replaceItemVariableWithName(text, activity, answers).replace(/[\[\]']+/g, '');
 }
+
+const findActivityFromName = (activities, name) => {
+  return activities.findIndex(activity => activity.name.en == name)
+}
+
+export const getActivityAvailabilityFromDependency = (g, availableActivities = [], archievedActivities = []) => {
+  const marked = [], activities = [];
+  let markedCount = 0;
+
+  for (let i = 0; i < g.length; i++) {
+    marked.push(false)
+  }
+
+  for (let index of availableActivities) {
+    markedCount++;
+    marked[index] = true;
+    activities.push(index);
+  }
+
+  for (let index of archievedActivities) {
+    if (!marked[index]) {
+      marked[index] = true;
+      markedCount++;
+    }
+  }
+
+  for (let i = 0; i < g.length; i++) {
+    if (!g[i].length && !marked[i]) {
+      activities.push(i);
+      markedCount++;
+      marked[i] = true;
+    }
+  }
+
+  while ( markedCount < g.length ) {
+    let updated = false;
+
+    for (let i = 0; i < g.length; i++) {
+      if (!marked[i] && g[i].some(dependency => marked[dependency])) {
+        marked[i] = true;
+        markedCount++;
+        updated = true;
+      }
+    }
+
+    if (!updated) {
+      // in case of a circular dependency exists
+      for (let i = 0; i < g.length; i++) {
+        if (!marked[i]) {
+          marked[i] = true;
+          markedCount++;
+          activities.push(i);
+          break;
+        }
+      }
+    }
+  }
+
+  return activities;
+}
+
+export const getDependency = (activities) => {
+  const dependency = []
+
+  for (let i = 0; i < activities.length; i++) {
+    dependency.push([])
+  }
+
+  for (let i = 0; i < activities.length; i++) {
+    const activity = activities[i];
+
+    if (activity.messages) {
+      for (const message of activity.messages) {
+        if (message.nextActivity) {
+          const index = findActivityFromName(activities, message.nextActivity)
+          if (index >= 0) {
+            dependency[index].push(i);
+          }
+        }
+      }
+    }
+  }
+
+  return dependency;
+}
+
+export const getChainedActivities = (activities, currentActivity) => {
+  const g = getDependency(activities);
+  const index = findActivityFromName(activities, currentActivity.name.en);
+  let markedCount = 0, marked = [];
+
+  for (let i = 0; i < g.length; i++) {
+    marked.push(false);
+  }
+
+  for (let i = 0; i < g.length; i++) {
+    if (!g[i].length && !marked[i]) {
+      markedCount++;
+      marked[i] = true;
+    }
+  }
+
+  while (!marked[index] && markedCount < g.length) {
+    let updated = false;
+
+    for (let i = 0; i < g.length; i++) {
+      if (!marked[i] && g[i].some(dependency => marked[dependency])) {
+        marked[i] = true;
+        markedCount++;
+        updated = true;
+        break;
+      }
+    }
+
+    if (!updated) {
+      for (let i = 0; i < g.length; i++) {
+        if (!marked[i]) {
+          marked[i] = true;
+          markedCount++;
+          break;
+        }
+      }
+    }
+  }
+
+  for (let i = 0; i < g.length; i++) {
+    if (!marked[i] && g[i].some(dependency => dependency == index)) {
+      return [currentActivity];
+    }
+  }
+
+  for (let i = 0; i < g.length; i++) {
+    marked[i] = false;
+  }
+
+  const queue = [index], chainedActivities = [];
+
+  marked[index] = true;
+
+  while (queue.length > 0) {
+    const head = queue[0];
+    queue.shift();
+
+    for (let i = 0; i < g[head].length; i++) {
+      const prev = g[head][i];
+
+      if (!marked[prev]) {
+        marked[prev] = true;
+        queue.push(prev);
+      }
+    }
+  }
+
+  for (let i = 0; i < marked.length; i++) {
+    if (marked[i]) {
+      chainedActivities.push(activities[i])
+    }
+  }
+
+  return chainedActivities;
+}
+

@@ -94,6 +94,7 @@ export const DISABLE_SUMMARY = "reprolib:terms/disable_summary";
 export const NEXT_ACTIVITY = "reprolib:terms/nextActivity";
 export const REMOVE_BACK_OPTION = "reprolib:terms/removeBackOption";
 export const IS_ONE_PAGE_ASSESSMENT = "reprolib:terms/isOnePageAssessment";
+export const COMBINE_REPORTS = "reprolib:terms/combineReports";
 
 export const Statuses = {
   LOADING: 'loading',

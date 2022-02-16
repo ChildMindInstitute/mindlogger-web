@@ -16,10 +16,11 @@ import MyButton from '../components/Button';
 import Markdown from '../components/Markdown';
 
 // State
-import { inProgressSelector } from '../state/responses/responses.selectors';
+import { inProgressSelector, currentAppletResponsesSelector } from '../state/responses/responses.selectors';
 
 // services
 import { evaluateCumulatives } from '../services/scoring';
+import { getChainedActivities } from '../services/helper';
 import { currentActivitySelector, currentAppletSelector } from '../state/app/app.selectors';
 
 const MARKDOWN_REGEX = /(!\[.*\]\s*\(.*?) =\d*x\d*(\))/g;
@@ -29,26 +30,24 @@ const Summary = styled(({ className, ...props }) => {
   const history = useHistory();
   const { t, i18n } = useTranslation();
   const lang = i18n.language;
-  const [messages, setMessages] = useState([]);
-  const [activity, setActivity] = useState({});
+  const [reports, setReports] = useState([]);
   const [titleWidth, setTitleWidth] = useState(0);
+  const [shareAllReports, setShareAllReports] = useState(false);
+  const [, setRefresh] = useState(0);
+  const { messages } = reports.find(report => report.activity.id.split('/').pop() == activityId) || { messages: [] };
 
   const dispatch = useDispatch();
 
+  const responseHistory = useSelector(currentAppletResponsesSelector);
   const applet = useSelector(currentAppletSelector);
   const response = useSelector(inProgressSelector);
   const activityAccess = useSelector(currentActivitySelector);
-  let url = "";
 
-  const pdfRef = useRef(null);
   const ref = useRef(null);
+  const images = useRef({});
 
   const termsText = t("additional.terms_text")
   const footerText = t("additional.footer_text");
-
-  if (activity.splash && activity.splash.en) {
-    url = activity.splash.en;
-  }
 
   useEffect(() => {
     const el = document.getElementById('score-title');
@@ -60,23 +59,26 @@ const Summary = styled(({ className, ...props }) => {
   }, [lang])
 
   useEffect(() => {
-    const items = ['footer-text'];
-    if (messages) {
-      for (let i = 0; i < messages.length; i++) {
-        items.push(`message-${i}`);
+    if (titleWidth && reports.length) {
+      const items = ['footer-text'];
+      for (const report of reports) {
+        const {messages, activity} = report;
+
+        for (let i = 0; i < messages.length; i++) {
+          items.push(`message-${activity.id}-${i}`);
+        }
       }
+
+      Promise.all(items.map(id => {
+        const pdfContent = document.getElementById(id);
+
+        return domtoimage.toJpeg(pdfContent, { quality: 1 })
+          .then((dataUrl) => {
+            images.current[id] = dataUrl;
+          })
+      })).then(() => setRefresh(Date.now()));
     }
-
-    items.map(id => {
-      const pdfContent = document.getElementById(id);
-
-      domtoimage.toJpeg(pdfContent, { quality: 1 })
-        .then((dataUrl) => {
-          const pdfImage = document.getElementById(`pdf-${id}`);
-          pdfImage.src = dataUrl;
-        })
-    })
-  }, [titleWidth])
+  }, [titleWidth, reports])
 
   useEffect(() => {
     try {
@@ -89,13 +91,33 @@ const Summary = styled(({ className, ...props }) => {
 
   const updateActivity = (response = {}) => {
     const { responses, activity } = response;
-    setActivity(activity);
+    let chained = applet.combineReports ? getChainedActivities(applet.activities, activity) : [activity];
+    let reports = [];
 
-    if (responses && responses.length > 0) {
-      const { reportMessages } = evaluateCumulatives(responses, activity);
+    for (let chainedActivity of chained) {
+      let lastResponse = [];
 
-      setMessages(reportMessages);
+      if (activity.id == chainedActivity.id) {
+        lastResponse = responses;
+      } else {
+        for (let item of chainedActivity.items) {
+          const itemResponses = responseHistory.responses[item.schema];
+
+          if (itemResponses && itemResponses.length) {
+            lastResponse.push(itemResponses[itemResponses.length-1]);
+          }
+        }
+      }
+
+      let { reportMessages } = evaluateCumulatives(lastResponse, chainedActivity);
+
+      reports.push({
+        activity: chainedActivity,
+        messages: reportMessages
+      });
     }
+
+    setReports(reports);
   }
 
   const handlePDFSave = () => {
@@ -146,47 +168,54 @@ const Summary = styled(({ className, ...props }) => {
       </Row>
       <div>
         <div className="pdf-container">
-          <PDFExport
-            paperSize="A4"
-            forcePageBreak=".page-break"
-            margin="2cm"
-            ref={pdfRef}
-          >
-            <div id="PDF" ref={ref}>
-              {url.match(/\.(jpeg|jpg|gif|png)$/) != null &&
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  <img
-                    src={url + '?not-from-cache-please'}
-                    style={{ objectFit: 'contain' }}
-                    crossOrigin="anonymous"
-                    alt=''
-                  />
-                  <div className="page-break" />
-                </div>
-              }
-              {applet.image &&
-                <div style={{ float: 'right', marginBottom: 10 }}>
-                  <img
-                    src={applet.image + '?not-from-cache-please'}
-                    style={{ objectFit: 'contain' }}
-                    width="100"
-                    crossOrigin="anonymous"
-                    alt=''
-                  />
-                </div>
-              }
+          <div id="PDF" ref={ref}>
+            {
+              reports.map(({ activity, messages }) => {
+                if (!shareAllReports && activity.id.split('/').pop() != activityId) {
+                  return <></>;
+                }
 
-              <div className="overview-font mb-4">
-                <Markdown useCORS={true} markdown={_.get(activity, 'scoreOverview', '').replace(MARKDOWN_REGEX, '$1$2')} />
-              </div>
-              {
-                messages && messages.map((item, i) => (<img id={`pdf-message-${i}`} className="pdf-message" />))
-              }
+                let url = "";
+                if (activity.splash && activity.splash.en) {
+                  url = activity.splash.en;
+                }
 
-              <div style={{ border: '1px solid black', marginTop: 36, marginBottom: 36 }} />
-              <img id="pdf-footer-text"></img>
-            </div>
-          </PDFExport>
+                return <>
+                  {url.match(/\.(jpeg|jpg|gif|png)$/) != null &&
+                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                      <img
+                        src={url + '?not-from-cache-please'}
+                        style={{ objectFit: 'contain' }}
+                        crossOrigin="anonymous"
+                        alt=''
+                      />
+                      <div className="page-break" />
+                    </div>
+                  }
+                  {applet.image &&
+                    <div style={{ float: 'right', marginBottom: 10 }}>
+                      <img
+                        src={applet.image + '?not-from-cache-please'}
+                        style={{ objectFit: 'contain' }}
+                        width="100"
+                        crossOrigin="anonymous"
+                        alt=''
+                      />
+                    </div>
+                  }
+
+                  <div className="overview-font mb-4">
+                    <Markdown useCORS={true} markdown={_.get(activity, 'scoreOverview', '').replace(MARKDOWN_REGEX, '$1$2')} />
+                  </div>
+                  {
+                    messages && messages.map((item, i) => (<img key={i} src={images.current[`message-${activity.id}-${i}`] || null} className="pdf-message" />))
+                  }
+                </>
+              })
+            }
+            <div style={{ border: '1px solid black', marginTop: 36, marginBottom: 36 }} />
+            <img src={images.current['footer-text'] || null}></img>
+          </div>
 
           <span id="score-title">
             <span
@@ -197,59 +226,62 @@ const Summary = styled(({ className, ...props }) => {
           </span>
 
           <div>
-            {messages &&
-              messages.map((item, i) => (
-                <div id={`message-${i}`} key={i} className="report-message">
-                  <p className="text-primary mb-1">
-                    <b>{item.category.replace(/_/g, ' ')}</b>
-                  </p>
-                  <div className="mb-4">
-                    <Markdown
-                      markdown={_.get(item, 'compute.description', '').replace(MARKDOWN_REGEX, '$1$2')}
-                      useCORS={true}
-                    />
-                  </div>
+            {
+              reports.map(({ activity, messages }) => (
+                (messages || []).map((item, i) => (
+                  <div id={`message-${activity.id}-${i}`} key={i} className="report-message">
+                    <p className="text-primary mb-1">
+                      <b>{item.category.replace(/_/g, ' ')}</b>
+                    </p>
+                    <div className="mb-4">
+                      <Markdown
+                        markdown={_.get(item, 'compute.description', '').replace(MARKDOWN_REGEX, '$1$2')}
+                        useCORS={true}
+                      />
+                    </div>
 
-                  <div className="score-area">
-                    <p
-                      className="score-title text-nowrap"
-                      style={{
-                        left: `max(${titleWidth/2}px, ${(item.scoreValue / item.maxScoreValue) * 100}%)`,
-                      }}>
-                      <b>{t("additional.child_score")}</b>
-                    </p>
-                    <div
-                      className={cn('score-bar score-below', {
-                        'score-positive': item.compute.direction,
-                        'score-negative': !item.compute.direction,
-                      })}
-                      style={{ width: `${(item.exprValue / item.maxScoreValue) * 100}%` }}
-                    />
-                    <div
-                      className={cn('score-bar score-above', {
-                        'score-positive': !item.compute.direction,
-                        'score-negative': item.compute.direction,
-                      })}
-                    />
-                    <div
-                      className="score-spliter"
-                      style={{ left: `${(item.scoreValue / item.maxScoreValue) * 100}%` }}
-                    />
-                    <p className="score-max-value">
-                      <b>{item.maxScoreValue}</b>
-                    </p>
+                    <div className="score-area">
+                      <p
+                        className="score-title text-nowrap"
+                        style={{
+                          left: `max(${titleWidth/2}px, ${(item.scoreValue / item.maxScoreValue) * 100}%)`,
+                        }}>
+                        <b>{t("additional.child_score")}</b>
+                      </p>
+                      <div
+                        className={cn('score-bar score-below', {
+                          'score-positive': item.compute.direction,
+                          'score-negative': !item.compute.direction,
+                        })}
+                        style={{ width: `${(item.exprValue / item.maxScoreValue) * 100}%` }}
+                      />
+                      <div
+                        className={cn('score-bar score-above', {
+                          'score-positive': !item.compute.direction,
+                          'score-negative': item.compute.direction,
+                        })}
+                      />
+                      <div
+                        className="score-spliter"
+                        style={{ left: `${(item.scoreValue / item.maxScoreValue) * 100}%` }}
+                      />
+                      <p className="score-max-value">
+                        <b>{item.maxScoreValue}</b>
+                      </p>
+                    </div>
+                    <div className="mb-4">
+                      {t("additional.child_score_on_subscale", { name: item.category.replace(/_/g, ' ') })}
+                      {' '}
+                      <span className="text-danger">{item.scoreValue}</span>.
+                      <Markdown
+                        markdown={item.message.replace(MARKDOWN_REGEX, '$1$2')}
+                        useCORS={true}
+                      />
+                    </div>
                   </div>
-                  <div className="mb-4">
-                    {t("additional.child_score_on_subscale", { name: item.category.replace(/_/g, ' ') })}
-                    {' '}
-                    <span className="text-danger">{item.scoreValue}</span>.
-                    <Markdown
-                      markdown={item.message.replace(MARKDOWN_REGEX, '$1$2')}
-                      useCORS={true}
-                    />
-                  </div>
-                </div>
-              ))}
+                ))
+              ))
+            }
 
             <div id="footer-text">
               <p className="mb-4 terms-font">{termsText}</p>
@@ -263,11 +295,33 @@ const Summary = styled(({ className, ...props }) => {
           classes="mr-5 mb-2 float-right"
           handleClick={(e) => history.push(`/applet/${appletId}/activity_thanks`)}
         />
+
+        {
+          reports.length > 1 ? ( <MyButton
+            type="button"
+            label={t('additional.share_all_reports')}
+            classes="mr-5 mb-2 float-right"
+            handleClick={(e) => {
+              setShareAllReports(true);
+
+              setTimeout(() => {
+                handlePDFSave()
+              })
+            }}
+          /> ) : <></>
+        }
+
         <MyButton
           type="button"
           label={t('additional.share_report')}
           classes="mr-5 mb-2 float-right"
-          handleClick={(e) => handlePDFSave()}
+          handleClick={(e) => {
+            setShareAllReports(false);
+
+            setTimeout(() => {
+              handlePDFSave()
+            })
+          }}
         />
       </div>
     </Card>

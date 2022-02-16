@@ -113,6 +113,7 @@ const Screens = (props) => {
     if (activityAccess.splash
       && activityAccess.splash.en
       && currentScreenIndex === 0
+      && !activityAccess.isOnePageAssessment
     ) {
       setIsSplashScreen(true);
     }

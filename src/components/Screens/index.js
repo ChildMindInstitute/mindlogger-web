@@ -41,6 +41,7 @@ const Screens = (props) => {
   const [data, setData] = useState({});
   const [show, setShow] = useState(false);
   const [alert, setAlert] = useState(false);
+  const [headers, setHeaders] = useState([]);
   const [showErrors, setShowErrors] = useState(false);
   const [isSplashScreen, setIsSplashScreen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -119,11 +120,28 @@ const Screens = (props) => {
     }
     if (inProgress && Object.keys(inProgress).length > 0) {
       const { activity, responses } = inProgress;
+      const newHeaders = [];
       let obj = data;
+
+      activity.items.forEach((item, index) => {
+        if (item.header) {
+          newHeaders.push({
+            id: index,
+            headerName: item.header
+          })
+        } else if (item.section) {
+          newHeaders.push({
+            id: index,
+            sectionName: item.section
+          });
+        }
+      })
+
       responses.forEach((val, i) => {
         const { variableName } = activity.items[i];
         obj = { ...obj, [variableName]: val && val.value };
       })
+      setHeaders(newHeaders);
       setData(obj);
     }
   }, [])
@@ -209,6 +227,15 @@ const Screens = (props) => {
         })
       )
     }
+  }
+
+  const selectHeader = (itemId) => {
+    dispatch(
+      setCurrentScreen({
+        activityId: activityAccess.id,
+        screenIndex: itemId
+      })
+    );
   }
 
   const handleChange = (answer, index) => {
@@ -343,6 +370,21 @@ const Screens = (props) => {
               <Card.Text>{applet.name.en}</Card.Text>
             </Card.Body>
           </Card>
+
+          {headers.map(itemHeader =>
+            <div className="mx-4">
+              {itemHeader.headerName &&
+                <div onClick={() => selectHeader(itemHeader.id)} className="mt-1 header-text">
+                  {itemHeader.headerName}
+                </div>
+              }
+              {itemHeader.sectionName &&
+                <div onClick={() => selectHeader(itemHeader.id)} className="ml-4 section-text">
+                  {` - ${itemHeader.sectionName}`}
+                </div>
+              }
+            </div>
+          )}
 
           {activityStatus.map(status =>
             <div className="my-2 rounded border w-h p-2 text-center bg-white">

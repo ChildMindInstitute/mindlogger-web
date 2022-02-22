@@ -5,3 +5,22 @@
 .w-h {
   width: inherit;
 }
+
+.header-text {
+  font-size: 19px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.header-text:hover {
+    text-decoration: underline;
+}
+
+.section-text {
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.section-text:hover {
+    text-decoration: underline;
+}

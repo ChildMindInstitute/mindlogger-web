@@ -94,6 +94,8 @@ import {
   MIN_ALERT_VALUE,
   MAX_ALERT_VALUE,
   ORDER,
+  SECTION,
+  HEADER,
   HAS_RESPONSE_IDENTIFIER,
   IS_RESPONSE_IDENTIFIER,
   IS_REVIEWER_ACTIVITY,
@@ -559,7 +561,8 @@ export const itemTransformJson = (itemJson) => {
   const valueConstraintsObj = R.pathOr({}, [RESPONSE_OPTIONS, 0], itemJson);
   const valueConstraints = flattenValueConstraints(valueConstraintsObj);
   const isVis = itemJson[IS_VIS] ? R.path([IS_VIS, 0, "@value"], itemJson) : undefined;
-
+  const header = itemJson[HEADER] ? R.path([HEADER, 0, "@value"], itemJson) : "";
+  const section = itemJson[SECTION] ? R.path([SECTION, 0, "@value"], itemJson) : "";
   const inputs = R.pathOr([], [INPUTS], itemJson);
   const inputsObj = transformInputs(inputs);
 
@@ -580,6 +583,8 @@ export const itemTransformJson = (itemJson) => {
     timer: R.path([TIMER, 0, "@value"], itemJson),
     delay: R.path([DELAY, 0, "@value"], itemJson),
     isVis,
+    section,
+    header,
     valueConstraints,
     skippable,
     fullScreen: allowList.includes(FULL_SCREEN),
@@ -629,6 +634,7 @@ export const appletTransformJson = (appletJson) => {
 export const activityTransformJson = (activityJson, itemsJson) => {
   const activity = transformPureActivity(activityJson);
   let itemIndex = -1, itemData;
+  let isHeaderAdded = false;
 
   const mapItems = R.map((itemKey) => {
     itemIndex += 1;
@@ -641,13 +647,27 @@ export const activityTransformJson = (activityJson, itemsJson) => {
       return null;
     }
     const item = itemTransformJson(itemsJson[itemKey]);
+
+    if (item.header || item.section) isHeaderAdded = true;
     return itemAttachExtras(item, itemKey, activity.addProperties);
   });
   const nonEmptyItems = R.filter(item => item, mapItems(activity.order));
   const items = attachPreamble(activity.preamble, nonEmptyItems);
+  let { addProperties } = activity;
+
+  if (isHeaderAdded) {
+    addProperties = addProperties.map(property => {
+      const isVis = property[IS_VIS][0]["@value"] = true;
+      return {
+        ...property,
+        IS_VIS: isVis
+      };
+    })
+  }
 
   return {
     ...activity,
+    addProperties,
     items,
   };
 };

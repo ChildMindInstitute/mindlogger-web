@@ -170,7 +170,7 @@ const Summary = styled(({ className, ...props }) => {
         <div className="pdf-container">
           <div id="PDF" ref={ref}>
             {
-              reports.map(({ activity, messages }) => {
+              reports.map(({ activity, messages }, index) => {
                 if (!shareAllReports && activity.id.split('/').pop() != activityId) {
                   return <></>;
                 }
@@ -192,7 +192,7 @@ const Summary = styled(({ className, ...props }) => {
                       <div className="page-break" />
                     </div>
                   }
-                  {applet.image &&
+                  {applet.image && (!shareAllReports || !index) &&
                     <div style={{ float: 'right', marginBottom: 10 }}>
                       <img
                         src={applet.image + '?not-from-cache-please'}

@@ -42,8 +42,7 @@ export const parseMarkdown = (markdown, lastResponseTime = 0, profile = {}, acti
     markdown = replaceItemVariableWithName(markdown, activity, answers)
     return markdown
       .replace(/(!\[.*\]\s*\(.*?) =\d*x\d*(\))/g, '$1$2')
-      .replace(/\[Nickname\]/i, profile.nickName || profile.firstName)
-      .replace(/[\[\]']+/g, '');
+      .replace(/\[Nickname\]/i, profile.nickName || profile.firstName);
   }
 
   const now = new Date();
@@ -89,8 +88,7 @@ export const parseMarkdown = (markdown, lastResponseTime = 0, profile = {}, acti
     .replace(/\[Now\]/i, moment(now).format('hh:mm A') + ' today')
     .replace(/\[Time_Elapsed_Activity_Last_Completed\]/i, formatElapsedTime(now.getTime() - responseTime.getTime()))
     .replace(/\[Time_Activity_Last_Completed\]/i, formatLastResponseTime(moment(responseTime), moment(now)))
-    .replace(/\[Nickname\]/i, profile.nickName || profile.firstName)
-    .replace(/[\[\]']+/g, '');
+    .replace(/\[Nickname\]/i, profile.nickName || profile.firstName);
 }
 
 export const getTextBetweenBrackets = (str) => {
@@ -138,7 +136,7 @@ export const replaceItemVariableWithName = (markdown, activity, answers) => {
 }
 
 export const handleReplaceBehaviourResponse = (text, activity, answers) => {
-  return replaceItemVariableWithName(text, activity, answers).replace(/[\[\]']+/g, '');
+  return replaceItemVariableWithName(text, activity, answers);
 }
 
 const findActivityFromName = (activities, name) => {

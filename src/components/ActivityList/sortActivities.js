@@ -60,7 +60,8 @@ export const getScheduled = (activityList, finishedEvents) => {
   activityList.forEach(activity => {
     activity.events.forEach(event => {
       const today = new Date();
-      const scheduledTime = new Date(event.scheduledTime), data = event.data;
+      const scheduledTime = new Date(event.scheduledTime);
+      const data = event.data;
 
       if (!activity.availability
         && scheduledTime > today

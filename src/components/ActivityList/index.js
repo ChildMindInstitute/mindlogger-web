@@ -49,7 +49,6 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
     appletId && applet.id.includes(appletId) ||
     publicId && applet.publicId && applet.publicId.includes(publicId)
   ));
-  const screenIndex = useSelector(currentScreenIndexSelector);
   const startedTimes = useSelector(startedTimesSelector);
 
   const user = useSelector(state => R.path(['user', 'info'])(state));
@@ -137,17 +136,13 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
     setActivities(sortActivities(appletActivities, inProgress, finishedEvents, currentApplet.schedule?.data));
   }
 
-  const checkActivityIsShown = (name, messages) => {
-    if (!name || !messages) return true;
-    return _.findIndex(messages, { nextActivity: name }) === -1;
-  }
-
   const onPressActivity = (activity) => {
     if (activity.status === "in-progress") {
       setCurrentAct(activity);
       setStartActivity(true);
     } else {
       if (activity.event
+        && activity.event.data.timedActivity
         && activity.event.data.timedActivity.allow
         && startedTimes
         && !startedTimes[activity.id + activity.event.id]
@@ -179,6 +174,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
     dispatch(setCurrentEvent(activity.event ? activity.event.id : ''));
 
     if (activity.event
+      && activity.event.data.timedActivity
       && activity.event.data.timedActivity.allow
       && startedTimes
       && !startedTimes[activity.id + activity.event.id]

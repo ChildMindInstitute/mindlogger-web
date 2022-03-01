@@ -11,7 +11,7 @@ const TimedActivity = ({ activity }) => {
   const { event } = activity;
   const { t } = useTranslation();
 
-  if (activity.status === 'scheduled' && event && event.data.timedActivity.allow) {
+  if (activity.status === 'scheduled' && event && event.data.timedActivity && event.data.timedActivity.allow) {
     let { hour, minute, allow } = event.data.timedActivity;
 
     return (
@@ -20,7 +20,7 @@ const TimedActivity = ({ activity }) => {
       </small>
     );
   }
-  if (activity.status === 'pastdue' && event && event.data.timedActivity.allow) {
+  if (activity.status === 'pastdue' && event && event.data.timedActivity && event.data.timedActivity.allow) {
     let { hour, minute, allow } = event.data.timedActivity;
 
     return (
@@ -29,7 +29,7 @@ const TimedActivity = ({ activity }) => {
       </small>
     );
   }
-  if (activity.status === 'in-progress' && event && event.data.timedActivity.allow) {
+  if (activity.status === 'in-progress' && event && event.data.timedActivity && event.data.timedActivity.allow) {
     let { hour, minute, second, allow } = event.data.timedActivity;
     const startedTime = startedTimes ? startedTimes[activity.id + event.id] : null;
 

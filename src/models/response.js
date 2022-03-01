@@ -130,7 +130,7 @@ export const prepareResponseForUpload = (
 
     responseData['events'] = getEncryptedData(events.map(event => ({
       ...event,
-      screen: activity.items[event.screen].id.split('/').pop()
+      screen: activity.items[event.screen].schema
     })), appletMetaData.AESKey);
 
     if (activity.finalSubScale) {
@@ -162,7 +162,7 @@ export const prepareResponseForUpload = (
     responseData['responses'] = formattedResponses;
     responseData['events'] = events.map(event => ({
       ...event,
-      screen: activity.items[event.screen].id.split('/').pop()
+      screen: activity.items[event.screen].schema
     }));
 
     if (activity.subScales) {

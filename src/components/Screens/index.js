@@ -213,7 +213,7 @@ const Screens = (props) => {
     if (inProgress?.responseTime || autoAdvance) {
       dispatch(addUserActivityEvent({
         event: {
-          event_type: 'SET_ANSWER',
+          type: 'SET_ANSWER',
           time: inProgress?.responseTime || Date.now(),
           screen: screenIndex
         },
@@ -223,7 +223,7 @@ const Screens = (props) => {
 
     dispatch(addUserActivityEvent({
       event: {
-        event_type: 'NEXT',
+        type: 'NEXT',
         time: Date.now(),
         screen: screenIndex
       },
@@ -282,7 +282,7 @@ const Screens = (props) => {
       if (inProgress?.responseTime) {
         dispatch(addUserActivityEvent({
           event: {
-            event_type: 'SET_ANSWER',
+            type: 'SET_ANSWER',
             time: inProgress.responseTime,
             screen: screenIndex
           },
@@ -292,7 +292,7 @@ const Screens = (props) => {
 
       dispatch(addUserActivityEvent({
         event: {
-          event_type: 'PREV',
+          type: 'PREV',
           time: Date.now(),
           screen: screenIndex
         },

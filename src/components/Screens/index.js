@@ -18,8 +18,8 @@ import { completeResponse } from '../../state/responses/responses.actions';
 import { clearActivityStartTime } from '../../state/app/app.reducer';
 import {
   setAnswer,
-  setEndTime,
   setCurrentScreen,
+  addUserActivityEvent,
 } from '../../state/responses/responses.reducer';
 import {
   // responsesSelector,
@@ -196,7 +196,7 @@ const Screens = (props) => {
 
   const [next, prev] = getVisibility(inProgress?.responses);
 
-  const handleNext = (e) => {
+  const handleNext = (e, autoAdvance=false) => {
     let currentNext = next;
 
     if (isSplashScreen) {
@@ -210,7 +210,25 @@ const Screens = (props) => {
       [currentNext] = getVisibility(responses);
     }
 
-    dispatch(setEndTime({ activityId: activityAccess.id, screenIndex: screenIndex }));
+    if (inProgress?.responseTime || autoAdvance) {
+      dispatch(addUserActivityEvent({
+        event: {
+          event_type: 'SET_ANSWER',
+          time: inProgress?.responseTime || Date.now(),
+          screen: screenIndex
+        },
+        activityId: activityAccess.id
+      }));
+    }
+
+    dispatch(addUserActivityEvent({
+      event: {
+        event_type: 'NEXT',
+        time: Date.now(),
+        screen: screenIndex
+      },
+      activityId: activityAccess.id
+    }));
 
     if (currentNext === -1 || isOnePageAssessment) {
       if (errors.includes(true) && isOnePageAssessment) {
@@ -261,6 +279,26 @@ const Screens = (props) => {
 
   const handleBack = () => {
     if (screenIndex >= 0 && prev >= 0) {
+      if (inProgress?.responseTime) {
+        dispatch(addUserActivityEvent({
+          event: {
+            event_type: 'SET_ANSWER',
+            time: inProgress.responseTime,
+            screen: screenIndex
+          },
+          activityId: activityAccess.id
+        }));
+      }
+
+      dispatch(addUserActivityEvent({
+        event: {
+          event_type: 'PREV',
+          time: Date.now(),
+          screen: screenIndex
+        },
+        activityId: activityAccess.id
+      }));
+
       dispatch(
         setCurrentScreen({
           activityId: activityAccess.id,

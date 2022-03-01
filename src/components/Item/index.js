@@ -23,7 +23,7 @@ const Item = (props) => {
       handleChange(answer, valid);
 
       if (item.autoAdvance && !isOnePageAssessment) {
-        handleSubmit(answer);
+        handleSubmit(answer, true);
       }
     }
 

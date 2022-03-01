@@ -24,6 +24,7 @@
   background: white !important;
   border: none;
   display: flex !important;
+  margin: 0.5rem 0em;
 }
 
 .ds-activity-button .activity-image {

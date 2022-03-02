@@ -4,7 +4,7 @@ import { apiHost } from './network'
 import { objectToQueryParams } from '../util/utils'
 
 export const getInvitationAPI = async ({ token, invitationId }) => {
-  const url = `${apiHost()}/invitation/${invitationId}?includeLink=false`
+  const url = `${apiHost()}/invitation/${invitationId}?includeLink=false&isMobile=${window.innerWidth < 768}`;
   const headers = {
     'Girder-Token': token
   }

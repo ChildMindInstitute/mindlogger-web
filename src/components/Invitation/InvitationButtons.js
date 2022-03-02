@@ -9,10 +9,10 @@ export const InvitationButtons = ({ onAcceptInvite, onDeclineInvite }) => {
 
   return (
     <div className={'d-flex justify-content-center align-items-center'}>
-      <Button onClick={onAcceptInvite} variant="success" className={'mx-2'} size="lg">
+      <Button onClick={onAcceptInvite} variant="success" className={'mx-2 invitation-button'}>
         {t('InvitationButtons.acceptInvitation')}
       </Button>
-      <Button onClick={onDeclineInvite} variant="danger" className={'mx-2'} size="lg">
+      <Button onClick={onDeclineInvite} variant="danger" className={'mx-2 invitation-button'}>
         {t('InvitationButtons.declineInvitation')}
       </Button>
     </div>

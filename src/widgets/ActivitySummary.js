@@ -182,10 +182,10 @@ const Summary = styled(({ className, ...props }) => {
 
                 return <>
                   {url.match(/\.(jpeg|jpg|gif|png)$/) != null &&
-                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                       <img
                         src={url + '?not-from-cache-please'}
-                        style={{ objectFit: 'contain' }}
+                        className="splash-image"
                         crossOrigin="anonymous"
                         alt=''
                       />
@@ -347,6 +347,13 @@ const Summary = styled(({ className, ...props }) => {
     font-size: 20pt;
     font-family: Arial, Helvetica, sans-serif;
   }
+
+  .splash-image {
+    object-fit: cover;
+    max-width: calc(100vw - 4cm);
+    max-height: calc(100vh - 4cm);
+  }
+
   .terms-font {
     font-size: 24px;
   }

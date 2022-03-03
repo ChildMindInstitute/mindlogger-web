@@ -124,7 +124,8 @@ const Summary = styled(({ className, ...props }) => {
     if (ref.current) {
       drawDOM(ref.current, {
         paperSize: 'A4',
-        margin: '2cm'
+        margin: '2cm',
+        forcePageBreak: '.page-break'
       }).then(group => exportPDF(group)).then(dataUri => {
         var byteString = atob(dataUri.split(',')[1]);
         var ab = new ArrayBuffer(byteString.length);
@@ -350,8 +351,7 @@ const Summary = styled(({ className, ...props }) => {
 
   .splash-image {
     object-fit: cover;
-    max-width: calc(100vw - 4cm);
-    max-height: calc(100vh - 4cm);
+    max-height: 25cm;
   }
 
   .terms-font {

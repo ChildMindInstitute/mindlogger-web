@@ -122,7 +122,7 @@
     "step2": "Open the MindLogger app on your mobile device, and log in",
     "step2_1": " (if you have a MindLogger account) or sign up (if you are new to MindLogger). To sign up, tap “New User” on the login screen, and enter the email address where you received this email invitation.",
     "step3": "<li>Tap <strong>{{displayName}}</strong> on the MindLogger home screen and you are ready to go! If <strong>{{displayName}}</strong> does not appear, refresh the screen by sliding your finger downwards from the top, and a spinning wheel should appear while loading <strong>{{displayName}}</strong>.</li></ol>",
-    "footer": "<div style='border-top: 2px solid rgb(216,216,216); padding-top: 25px;'><img src='https://cmi-logos.s3.amazonaws.com/ChildMindInstitute_Logo_Horizontal_RGB.png' style='width: 200px; margin-left: 10px;'/></div><br/><small>The Child Mind Institute is the creator of MindLogger, a platform for creating applets, but is not responsible for applet content created by outside parties.</small>",
+    "footer": "The Child Mind Institute is the creator of MindLogger, a platform for creating applets, but is not responsible for applet content created by outside parties.",
     "loading": "Loading invite link",
     "reviewers": "Users who can see your data for this applet:",
     "managers": "Users who can change this applet's settings, including who can access your data:",

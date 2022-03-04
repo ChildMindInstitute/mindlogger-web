@@ -106,7 +106,10 @@ export const Join = () => {
       ${t('InviteLink.step1', { displayName })}
       <li>${t('InviteLink.step2', { displayName })}${info ? '' : t('InviteLink.step2_1', { displayName })}</li>
       ${t('InviteLink.step3', { displayName })}
-      ${t('InviteLink.footer')}
+      <div style='border-top: 2px solid rgb(216,216,216); padding-top: 35px;'>
+        <img src='https://cmi-logos.s3.amazonaws.com/ChildMindInstitute_Logo_Horizontal_${window.innerWidth < 768 ? 'KO' : 'RGB'}.png' style='width: 200px; margin-left: 10px;'/>
+      </div><br/>
+      <small style='padding-bottom: 20px'>${t('InviteLink.footer')}</small>
     `;
 
     return (

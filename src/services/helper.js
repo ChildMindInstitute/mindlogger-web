@@ -107,24 +107,22 @@ export const replaceItemVariableWithName = (markdown, activity, answers) => {
     if (variableNames?.length) {
       variableNames.forEach(variableName => {
         const index = _.findIndex(activity.items, { variableName });
+        const reg = new RegExp(`\\[\\[${variableName}\\]\\]`, "gi");
+
         if (Array.isArray(answers[index]?.value)) {
           let names = [];
           answers[index]?.value.forEach(ans => {
             const item = index > -1 && _.find(activity.items[index]?.valueConstraints?.itemList, { value: ans });
             if (item) names.push(item.name.en);
           })
-          const reg = new RegExp(`${variableName}`, "gi");
           markdown = markdown.replace(reg, names.join(', '));
 
         } else if (typeof answers[index] === "object") {
           const item = index > -1 && _.find(activity.items[index]?.valueConstraints?.itemList, answers[index]);
           if (item || answers[index]) {
-            const reg = new RegExp(`${variableName}`, "gi");
             markdown = markdown.replace(reg, item?.name?.en || answers[index]?.value);
           }
-
         } else if (answers[index]) {
-          const reg = new RegExp(`${variableName}`, "gi");
           markdown = markdown.replace(reg, answers[index]);
         }
       });

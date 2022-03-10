@@ -874,10 +874,12 @@ export const parseAppletEvents = (applet) => {
           true,
         );
 
-        event.scheduledTime = getStartOfInterval(futureSchedule.array()[0]).getTime();
+        if (futureSchedule.array().length) {
+          event.scheduledTime = getStartOfInterval(futureSchedule.array()[0]).getTime();
 
-        if (event.data.activity_id === act.id.substring(9) && !act.hasResponseIdentifier) {
-          events.push(event);
+          if (event.data.activity_id === act.id.substring(9) && !act.hasResponseIdentifier) {
+            events.push(event);
+          }
         }
       }
     }

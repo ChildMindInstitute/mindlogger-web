@@ -59,7 +59,7 @@
     "logIn": "Connexion"
   },
   "ChangePassword": {
-    "settings": "Paramètres du test",
+    "settings": "Paramètres du {{name}}",
     "cautionMessage": "Assurez-vous de définir un mot de passe complexe et ne le partagez avec personne.",
     "oldPassword": "ancien mot de passe",
     "newPassword": "nouveau mot de passe",

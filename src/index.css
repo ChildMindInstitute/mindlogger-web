@@ -78,6 +78,7 @@ code {
 @media only screen and (max-height: 500px) {
   #root {
     height: unset;
+    min-height: 100vh;
   }
 
   .app-container {

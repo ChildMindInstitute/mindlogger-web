@@ -55,7 +55,7 @@ export default function AppletList() {
                 <Card.Text> {applet.description.en} </Card.Text>
               </Card.Body>
             </Card>
-          )) || <h3 className="mt-4">You currently do not have any applets.</h3> :
+          )) || <h3 className="mt-4 px-2 text-center">You currently do not have any applets.</h3> :
 
           <Spinner animation="border mt-4"></Spinner>}
       </Row>

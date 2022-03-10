@@ -148,7 +148,7 @@ export default () => {
             </Button>
           </Form>
           {isRouted && (
-            <p>
+            <p className="my-3">
               {' '}
               {t('SignUp.account')}{' '}
               <Link to="/login"> {t('SignUp.logIn')}</Link>

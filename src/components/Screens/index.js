@@ -89,7 +89,7 @@ const Screens = (props) => {
             continue;
           }
         } else if (item.inputType == 'checkbox') {
-          if (!response.value.length && !item.skippable) {
+          if (!response.value.length && !item.skippable && !activityAccess.skippable) {
             errors[i] = true;
             continue;
           }
@@ -101,7 +101,7 @@ const Screens = (props) => {
         }
       }
 
-      errors[i] = !item.skippable && !response;
+      errors[i] = !item.skippable && !activityAccess.skippable && !response;
     }
 
     setErrors(errors);
@@ -113,6 +113,7 @@ const Screens = (props) => {
     if (activityAccess.splash
       && activityAccess.splash.en
       && currentScreenIndex === 0
+      && !activityAccess.isOnePageAssessment
     ) {
       setIsSplashScreen(true);
     }
@@ -257,6 +258,8 @@ const Screens = (props) => {
         isNextShown={isSplashScreen}
         isOnePageAssessment={isOnePageAssessment}
         invalid={false}
+        activity={activityAccess}
+        answers={inProgress?.responses}
       />
     );
   }
@@ -279,7 +282,10 @@ const Screens = (props) => {
           type={item.valueConstraints.multipleChoice ? "checkbox" : item.inputType}
           watermark={screenIndex === i ? applet.watermark : ''}
           key={item.id}
-          item={item}
+          item={{
+            ...item,
+            skippable: item.skippable || activityAccess.skippable
+          }}
           handleSubmit={handleNext}
           handleChange={(answer, valid) => {
             handleChange(answer, i);
@@ -287,6 +293,8 @@ const Screens = (props) => {
           handleBack={handleBack}
           isSubmitShown={isOnePageAssessment && activityAccess.items.length == i+1 || next === -1}
           answer={inProgress?.responses[i]}
+          activity={activityAccess}
+          answers={inProgress?.responses}
           isBackShown={screenIndex === i && i && prev >= 0}
           isNextShown={isOnePageAssessment || screenIndex === i}
           isOnePageAssessment={isOnePageAssessment}

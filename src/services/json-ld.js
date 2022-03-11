@@ -100,7 +100,8 @@ import {
   DISABLE_SUMMARY,
   NEXT_ACTIVITY,
   REMOVE_BACK_OPTION,
-  IS_ONE_PAGE_ASSESSMENT
+  IS_ONE_PAGE_ASSESSMENT,
+  COMBINE_REPORTS
 } from '../constants';
 
 export const languageListToObject = (list) => {
@@ -617,6 +618,7 @@ export const appletTransformJson = (appletJson) => {
     contentUpdateTime: updated,
     responseDates: applet.responseDates,
     shuffle: R.path([SHUFFLE, 0, "@value"], applet),
+    combineReports: R.path([COMBINE_REPORTS, 0, "@value"], applet) || false,
   };
   if (applet.encryption && Object.keys(applet.encryption).length) {
     res.encryption = applet.encryption;
@@ -649,6 +651,21 @@ export const activityTransformJson = (activityJson, itemsJson) => {
     items,
   };
 };
+
+const orderBySchema = (order, getSchema = null) => (a, b) => {
+  const indexA = order.indexOf(getSchema ? getSchema(a) : a.schema);
+  const indexB = order.indexOf(getSchema ? getSchema(b) : b.schema);
+
+  if (indexA < indexB) {
+    return -1;
+  }
+
+  if (indexA > indexB) {
+    return 1;
+  }
+
+  return 0;
+}
 
 export const transformApplet = (payload, currentApplets = null) => {
   const applet = appletTransformJson(payload);
@@ -703,7 +720,7 @@ export const transformApplet = (payload, currentApplets = null) => {
               updated = true;
               applet.activities[index] = {
                 ...activity,
-                items: [...act.items],
+                items: act.items.map(item => itemAttachExtras(item, item.schema, activity.addProperties))
               };
             }
           });
@@ -811,6 +828,18 @@ export const transformApplet = (payload, currentApplets = null) => {
     applet.schedule = payload.schedule;
   }
 
+  for (let i = 0; i < applet.activities.length; i++) {
+    const activity = applet.activities[i];
+    const items = [...activity.items].sort(orderBySchema(activity.order));
+
+    applet.activities[i] = {
+      ...activity,
+      items
+    }
+  }
+
+  applet.activities = [...applet.activities].sort(orderBySchema(applet.order, (activity) => activity.id.split('/').pop()));
+
   applet.groupId = payload.groups;
   return applet;
 };
@@ -845,10 +874,12 @@ export const parseAppletEvents = (applet) => {
           true,
         );
 
-        event.scheduledTime = getStartOfInterval(futureSchedule.array()[0]).getTime();
+        if (futureSchedule.array().length) {
+          event.scheduledTime = getStartOfInterval(futureSchedule.array()[0]).getTime();
 
-        if (event.data.activity_id === act.id.substring(9) && !act.hasResponseIdentifier) {
-          events.push(event);
+          if (event.data.activity_id === act.id.substring(9) && !act.hasResponseIdentifier) {
+            events.push(event);
+          }
         }
       }
     }

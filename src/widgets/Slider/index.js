@@ -25,6 +25,8 @@ const SliderWidget = ({
   watermark,
   answer,
   invalid,
+  activity,
+  answers,
   ...props
 }) => {
   const [data, setData] = useState({
@@ -32,7 +34,7 @@ const SliderWidget = ({
   });
   const lastResponseTime = useSelector(activityLastResponseTimeSelector);
   const profile = useSelector(profileSelector);
-  const markdown = useRef(parseMarkdown(item.question.en, lastResponseTime, profile)).current;
+  const markdown = useRef(parseMarkdown(item.question.en, lastResponseTime, profile, activity, answers)).current;
 
   const {
     continuousSlider,

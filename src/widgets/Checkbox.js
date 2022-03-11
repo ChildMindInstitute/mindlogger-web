@@ -14,7 +14,7 @@ import {
 
 import Navigator from './Navigator';
 import Markdown from '../components/Markdown';
-import { parseMarkdown } from '../services/helper';
+import { handleReplaceBehaviourResponse, parseMarkdown } from '../services/helper';
 import { activityLastResponseTimeSelector } from '../state/responses/responses.selectors';
 import { profileSelector } from '../state/applet/applet.selectors';
 
@@ -28,7 +28,7 @@ const Checkbox = ({
 
   const lastResponseTime = useSelector(activityLastResponseTimeSelector);
   const profile = useSelector(profileSelector);
-  const markdown = useRef(parseMarkdown(item.question.en, lastResponseTime, profile)).current;
+  const markdown = useRef(parseMarkdown(item.question.en, lastResponseTime, profile, props.activity, props.answers)).current;
 
   const onChangeValue = (value) => {
     const { answer } = props;
@@ -60,46 +60,50 @@ const Checkbox = ({
     return !answer || !answer.value || !answer.value.length;
   }
 
-  const renderItem = (obj, index) => (
-    <div key={index} className="response-option" style={{ background: obj.color ? obj.color : 'none' }}>
-      {
-         !obj.image && <div className="option-image"></div>
-      }
-      {
-        obj.description &&
-        <OverlayTrigger
-          placement="bottom"
-          delay={{ show: 250, hide: 200 }}
-          overlay={
-            <Tooltip id="button-tooltip">
-              <Markdown
-                markdown={obj.description || ''}
-              />
-            </Tooltip>
-          }
-        >
-          <Image src={questionMark} className="tooltip-icon" />
-        </OverlayTrigger> ||
-        <div className="option-tooltip"></div>
-      }
+  const renderItem = (obj, index) => {
+    const tooltip = parseMarkdown(obj.description, lastResponseTime, profile, props.activity, props.answers);
+    
+    return (
+      <div key={index} className="response-option" style={{ background: obj.color ? obj.color : 'none' }}>
+        {
+          !obj.image && <div className="option-image"></div>
+        }
+        {
+          obj.description &&
+          <OverlayTrigger
+            placement="bottom"
+            delay={{ show: 250, hide: 200 }}
+            overlay={
+              <Tooltip id="button-tooltip">
+                <Markdown
+                  markdown={tooltip || ''}
+                />
+              </Tooltip>
+            }
+          >
+            <Image src={questionMark} className="tooltip-icon" />
+          </OverlayTrigger> ||
+          <div className="option-tooltip"></div>
+        }
 
-      {
-        obj.image && <Image className="option-image" src={obj.image} roundedCircle />
-      }
-      <Form.Check
-        type="checkbox"
-        name={item.variableName}
-        id={`${item.variableName}${index}`}
-        className="form-check-width"
-        style={{ color: obj.color ? invertColor(obj.color) : "#333333" }}
-        value={obj.value}
-        label={obj.name.en}
-        disabled={!isNextShown}
-        defaultChecked={props.answer && Array.isArray(props.answer.value) && props.answer.value.includes(obj.value)}
-        onChange={(v) => onChangeValue(token ? obj.name.en : obj.value)}
-      />
-    </div>
-  );
+        {
+          obj.image && <Image className="option-image" src={obj.image} roundedCircle />
+        }
+        <Form.Check
+          type="checkbox"
+          name={item.variableName}
+          id={`${item.variableName}${index}`}
+          className="form-check-width"
+          style={{ color: obj.color ? invertColor(obj.color) : "#333333" }}
+          value={obj.value}
+          label={handleReplaceBehaviourResponse(obj.name.en, props.activity, props.answers)}
+          disabled={!isNextShown}
+          defaultChecked={props.answer && Array.isArray(props.answer.value) && props.answer.value.includes(obj.value)}
+          onChange={(v) => onChangeValue(token ? obj.name.en : obj.value)}
+        />
+      </div>
+    )
+  };
 
   const itemCount = item.valueConstraints.itemList.length;
   return (

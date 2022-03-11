@@ -29,13 +29,15 @@ const TextInput = ({
   isSubmitShown,
   answer,
   invalid,
+  activity,
+  answers,
   ...props
 }) => {
   const { t } = useTranslation();
 
   const lastResponseTime = useSelector(activityLastResponseTimeSelector);
   const profile = useSelector(profileSelector);
-  const markdown = useRef(parseMarkdown(item.question.en, lastResponseTime, profile)).current;
+  const markdown = useRef(parseMarkdown(item.question.en, lastResponseTime, profile, activity, answers)).current;
 
   const [show, setShow] = useState(false);
   const [value, setValue] = useState(answer && typeof answer === "object" ? answer.value : (answer || ''));
@@ -67,7 +69,7 @@ const TextInput = ({
                 value={value}
                 onChange={e => {
                   setValue(e.target.value);
-                  handleChange({ value: e.target.value });
+                  handleChange(e.target.value);
                 }}
                 disabled={!isNextShown}
               />

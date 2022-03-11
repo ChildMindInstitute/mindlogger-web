@@ -33,3 +33,25 @@
   text-align: center;
   margin-top: 20px;
 }
+
+.invitation-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+
+@media only screen and (min-width: 768px) {
+  .invitation-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+  }
+
+  .invitation-button {
+    padding: 0.5rem 1rem !important;
+    font-size: 1.25rem !important;
+  }
+}

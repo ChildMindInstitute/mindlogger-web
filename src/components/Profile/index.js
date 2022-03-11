@@ -46,7 +46,7 @@ const Profile = () => {
       {isMobile &&
         <div className="my-4">
           <a
-            href="https://play.google.com/store/apps/details?id=lab.childmindinstitute.data&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1"
+          href="https://play.google.com/store/apps/details?id=com.childmindinstitute.exposuretherapy&hl=en_US&gl=US"
           >
             <img
               className="linkAndroid"
@@ -55,7 +55,7 @@ const Profile = () => {
             />
           </a>
 
-          <a href="https://testflight.apple.com/join/XbOijcEc">
+          <a href="https://apps.apple.com/us/app/mindlogger-pilot/id1301092229#?platform=iphone">
             <img
               className="linkApple"
               alt="Get it on Apple Test Flight"

@@ -6,9 +6,6 @@
   display: flex;
   align-items: center;
 }
-.change-pass > div label{
-  width: 320px;
-}
 .demo{
   display: flex;
   align-items: flex-start;

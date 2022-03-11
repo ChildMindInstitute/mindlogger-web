@@ -37,7 +37,15 @@ export default () => {
    */
   const onSubmit = async (event) => {
     event.preventDefault()
+
     try {
+      if (passwordData.newPassword === passwordData.oldPassword) {
+        setErrorSuccess({
+          type: 'error',
+          message: t('SetPassword.passwordSame')
+        })
+        return;
+      }
       let result = await dispatch(updatePassword({ token: authToken && authToken.token, passwordData }));
       result = unwrapResult(result);
 

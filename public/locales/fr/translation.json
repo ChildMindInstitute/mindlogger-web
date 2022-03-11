@@ -140,7 +140,10 @@
     "please": "S'il te plaît",
     "login": "Connexion",
     "toSeeThePage": "voir la page",
-    "expiredLink": "Le lien renvoyé par mot de passe a expiré"
+    "expiredLink": "Le lien renvoyé par mot de passe a expiré",
+    "passwordRequired": "Mot de passe requis",
+    "passwordShort": "Le mot de passe doit être au moins de 6 caractères",
+    "passwordSame": "Le mot de passe ne peut pas être le même que l'ancien mot de passe"
   },
   "Consent": {
     "aboutStudy": "À propos de l'étude",

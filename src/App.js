@@ -45,7 +45,7 @@ const App = () => {
             <Route path="/applet/public/:appletId/activity/:activityId" exact component={Screens} />
 
             <Route path="/applet/:appletId/activity_thanks" exact component={ActivityThanks}/>
-            {user ? ( <>
+            {user ? ( <Switch>
                 <Route path="/" exact component={Landing} />
                 <Route path="/login" exact component={Login} />
                 <Route path="/signup" exact component={SignUp} />
@@ -62,10 +62,10 @@ const App = () => {
                 <Route path="/applet/:appletId/activity/:activityId" exact component={Screens} />
                 <Route path="/applet/:appletId/dashboard" exact component={ActivityList} />
                 <Route path="/join/:inviteLinkId" exact component={Join} />
-                <Route path="/" render={() => <Redirect to="/" />} />
-              </>
+                <Route path="*" render={() => <Redirect to="/" />} />
+              </Switch>
             ) : (
-              <>
+              <Switch>
                 <Route path="/login" exact component={Login} />
                 <Route path="/signup" exact component={SignUp} />
                 <Route path="/forgotpassword" exact component={ForgotPassword} />
@@ -76,8 +76,8 @@ const App = () => {
                 <Route path="/dashboard" exact component={Landing} />
                 <Route path="/" exact component={Landing} />
                 <Route path="/join/:inviteLinkId" exact component={Join} />
-                <Route path="/" render={() => <Redirect to="/" />} />
-              </>
+                <Route path="*" render={() => <Redirect to="/" />} />
+              </Switch>
             )}
           </Switch>
         </div>

@@ -5,7 +5,7 @@ import { Container, Card, Row, Col, Modal, Button, ProgressBar } from 'react-boo
 import { useParams, useHistory } from 'react-router-dom';
 import Avatar from 'react-avatar';
 import { useTranslation } from 'react-i18next';
-
+import { BsArrowLeft } from "react-icons/bs";
 import Item from '../Item';
 import ActivitySummary from '../../widgets/ActivitySummary';
 
@@ -226,6 +226,10 @@ const Screens = (props) => {
     validateResponses(responses);
   }
 
+  const handleBackScreen = () => {
+    history.push(`/applet/${appletId}/dashboard`);
+  }
+
   const handleBack = () => {
     if (screenIndex >= 0 && prev >= 0) {
       dispatch(
@@ -309,7 +313,12 @@ const Screens = (props) => {
       {
         !isOnePageAssessment && (
           <Row className="mt-5">
-            <Col xl={3} />
+            <Col className="" xl={3} >
+              <Button variant="primary" className="ml-2" onClick={() => handleBackScreen()}>
+                <BsArrowLeft className="mr-1" />
+                {t('Consent.back')}
+              </Button>
+            </Col>
             <Col xl={9} >
               <Card className="bg-white p-2" >
                 <ProgressBar striped className="mb-2" now={percentage} />

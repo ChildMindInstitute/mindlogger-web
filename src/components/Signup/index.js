@@ -26,6 +26,7 @@ export default () => {
   const { redirectUrl } = useSelector(state => state.app);
   const isRouted = location.pathname.includes('signup');
   let { loading, info, error } = useSelector(state => state.user);
+  const [terms, setTerms] = useState(false);
 
   useEffect(() => {
     if (!loading && info) {
@@ -136,11 +137,20 @@ export default () => {
                   setUser({ ...user, confirmPassword: e.target.value })
                 }
               />
+
+              <div className="d-flex">
+                <Form.Check
+                  type="checkbox"
+                  value={terms}
+                  onChange={() => setTerms(!terms)}
+                />
+                <Form.Label>I agree to the <a href="https://mindlogger.org/terms" target='_blank'>Terms of Service</a></Form.Label>
+              </div>
             </div>
             <Button
               type="submit"
               className="btn btn-primary"
-              disabled={loading}
+              disabled={loading || !terms}
             >
               {loading
                 ? t('SignUp.signingIn')

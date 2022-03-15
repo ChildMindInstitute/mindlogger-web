@@ -95,18 +95,6 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
 
   const updateActivites = () => {
     const appletData = parseAppletEvents(currentApplet);
-    const appletActivities = appletData.activities.filter(act => {
-      const supportedItems = act.items.filter(item => {
-        return item.inputType === "radio"
-          || item.inputType === "checkox"
-          || item.inputType === "slider"
-          || item.inputType === "ageSelector"
-          || item.inputType === "text"
-          || item.inputType === "dropdownList";
-      });
-
-      return supportedItems.length && !act.isPrize;
-    });
     const prizeActs = appletData.activities.filter(act => act.isPrize);
 
     if (prizeActs.length === 1) {
@@ -139,7 +127,8 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
             || item.inputType === "checkox"
             || item.inputType === "slider"
             || item.inputType === "ageSelector"
-            || item.inputType === "text";
+            || item.inputType === "text"
+            || item.inputType === "dropdownList";
         });
 
         return supportedItems.length > 0;

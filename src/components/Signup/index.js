@@ -19,7 +19,9 @@ export default () => {
     confirmPassword: ''
   })
   const [isStarted, setIsStarted] = useState(false);
-  const [errorMessage, setErrorMsg] = useState("");
+  const [errorMessage, setErrorMsg] = useState({
+    password: '',
+  });
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const location = useLocation()
@@ -42,7 +44,6 @@ export default () => {
   }, [!loading && info])
 
   if (isStarted && error) {
-    let errorMsg = "";
     const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
     if (!user.email) {
@@ -60,8 +61,6 @@ export default () => {
     } else if (error.includes("already registered")) {
       errorMsg = t('SignUp.existingEmailError');
     }
-
-    setErrorMsg(errorMsg);
     setIsStarted(false);
   }
 
@@ -74,9 +73,30 @@ export default () => {
     event.preventDefault();
     const { confirmPassword, ...rest } = user
 
+    if (rest.password.length < 6) {
+      setErrorMsg({
+        ...errorMessage,
+        password: "Password should be at least 6 characters",
+      });
+      return;
+    } else if (rest.password.includes(" ")) {
+      setErrorMsg({
+        ...errorMessage,
+        password: "Password should not contain blank spaces",
+      });
+      return;
+    }
+
     if (isPasswordSame) {
       dispatch(signUp(rest));
+    } else {
+      setErrorMsg({
+        ...errorMessage,
+        password: "Confirm password doesn't match",
+      });
+      return;
     }
+    setErrorMsg({});
   }
 
   const isPasswordSame = user.password === user.confirmPassword
@@ -88,7 +108,7 @@ export default () => {
         <div className="container fluid" id="signupForm">
           <Form onSubmit={onSubmit}>
             <div className="form-group">
-              {errorMessage && <Alert variant={'danger'}>{errorMessage}</Alert>}
+              {errorMessage.password && <Alert variant={'danger'}>{errorMessage.password}</Alert>}
               <Form.Control
                 name="user"
                 type="text"
@@ -107,7 +127,6 @@ export default () => {
                   setUser({ ...user, firstName: e.target.value })
                 }
               />
-
               <Form.Control
                 type="text"
                 name="lastName "
@@ -125,7 +144,6 @@ export default () => {
                 value={user.password}
                 onChange={(e) => setUser({ ...user, password: e.target.value })}
               />
-
               <Form.Control
                 type="password"
                 name="confirmPassword"

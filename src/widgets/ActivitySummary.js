@@ -158,8 +158,8 @@ const Summary = styled(({ className, ...props }) => {
             {messages &&
               messages.map((item, i) => (
                 <div key={i}>
-                  <h1>{item.category.replace(/_/g, ' ')}</h1>
-                  <h3>{item.score}</h3>
+                  <div className="message-category">{item.category.replace(/_/g, ' ')}</div>
+                  <div className="message-score">{item.score}</div>
                   <Markdown markdown={item.message.replace(MARKDOWN_REGEX, '$1$2')} />
                   {messages.length > 1 && <div className="hr" />}
                 </div>
@@ -330,6 +330,16 @@ const Summary = styled(({ className, ...props }) => {
 })`
   #footer-text, .report-message {
     background-color: white;
+  }
+
+  .message-category {
+    font-size: 25px;
+    font-weight: 500;
+  }
+
+  .message-score {
+    font-size: 22px;
+    font-weight: 500;
   }
 
   .pdf-message {

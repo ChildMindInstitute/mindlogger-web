@@ -40,3 +40,8 @@
 .applet-list {
   justify-content: center;
 }
+
+.no-applets {
+  font-size: 25px;
+  text-align: center;
+}

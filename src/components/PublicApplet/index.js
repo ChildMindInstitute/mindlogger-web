@@ -42,6 +42,6 @@ export default function PublicApplet() {
 
   return (
       isLoading && <div className="text-center mt-4"><Spinner animation="border"></Spinner></div> ||
-      error ? <h3 className="text-center mt-4">{t('additional.invalid_public_url')}</h3> : <ActivityList />
+      error ? <div className="mt-4 invalid-url">{t('additional.invalid_public_url')}</div> : <ActivityList />
   )
 }

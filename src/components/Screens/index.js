@@ -314,7 +314,11 @@ const Screens = (props) => {
         !isOnePageAssessment && (
           <Row className="mt-5">
             <Col className="" xl={3} >
-              <Button variant="primary" className="ml-2" onClick={() => handleBackScreen()}>
+              <Button 
+                variant="primary" 
+                className="mb-2 d-flex align-items-center" 
+                onClick={() => handleBackScreen()}
+              >
                 <BsArrowLeft className="mr-1" />
                 {t('Consent.back')}
               </Button>
@@ -329,7 +333,7 @@ const Screens = (props) => {
       }
       <Row className="mt-2 activity">
         <Col xl={3}>
-          <Card className="ds-card hover text-center mb-4">
+          <Card className="hover text-center mb-4">
             <div className="applet-header">
               <div className="applet-image">
                 {applet.image ?

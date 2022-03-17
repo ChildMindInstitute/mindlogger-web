@@ -142,9 +142,10 @@ export default () => {
                 <Form.Check
                   type="checkbox"
                   value={terms}
+                  id="terms_id"
                   onChange={() => setTerms(!terms)}
                 />
-                <Form.Label>I agree to the <a href="https://mindlogger.org/terms" target='_blank'>Terms of Service</a></Form.Label>
+                <Form.Label for="terms_id">I agree to the <a href="https://mindlogger.org/terms" target='_blank'>Terms of Service</a></Form.Label>
               </div>
             </div>
             <Button

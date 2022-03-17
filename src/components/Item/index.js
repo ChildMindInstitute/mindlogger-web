@@ -9,6 +9,7 @@ import AgeSelector from '../../widgets/AgeSelector';
 import TextInput from '../../widgets/TextInput';
 import Slider from '../../widgets/Slider/index';
 import SplashScreen from '../../widgets/SplashScreen';
+import Dropdown from '../../widgets/Dropdown';
 
 import "./style.css";
 
@@ -40,6 +41,8 @@ const Item = (props) => {
         return <AgeSelector {...props} isBackShown={isBackShown} handleChange={onChange} />;
       case "splash":
         return <SplashScreen {...props} isBackShown={isBackShown} />;
+      case "dropdownList":
+        return <Dropdown {...props} handleChange={onChange} values={values} />;
       default:
         return <div />;
     }

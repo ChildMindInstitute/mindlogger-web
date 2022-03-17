@@ -16,7 +16,7 @@ import { setFinishedEvents } from '../app/app.reducer';
 import APPLET_CONSTANTS from './applet.constants';
 
 // NOTE: this is for now, when we implemented the rest widgets we should remove this code
-const INPUT_TYPES = ["radio", "checkox", "slider", "text", "ageSelector"]
+const INPUT_TYPES = ["radio", "checkox", "slider", "text", "ageSelector", "dropdownList"]
 
 export const getApplets = createAsyncThunk(APPLET_CONSTANTS.GET_APPLETS, async (args, { getState, dispatch }) => {
   const state = getState();

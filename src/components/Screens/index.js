@@ -337,8 +337,6 @@ const Screens = (props) => {
 
   return (
     <Container>
-      {
-        !isOnePageAssessment && (
           <Row className="mt-5">
             <Col className="" xl={3} >
               <Button variant="primary" className="ml-2" onClick={() => handleBackScreen()}>
@@ -346,14 +344,16 @@ const Screens = (props) => {
                 {t('Consent.back')}
               </Button>
             </Col>
-            <Col xl={9} >
-              <Card className="bg-white p-2" >
-                <ProgressBar striped className="mb-2" now={percentage} />
-              </Card>
-            </Col>
+            {
+              !isOnePageAssessment && (
+                <Col xl={9} >
+                  <Card className="bg-white p-2" >
+                    <ProgressBar striped className="mb-2" now={percentage} />
+                  </Card>
+                </Col>
+              ) || <></>
+            }
           </Row>
-        ) || <></>
-      }
       <Row className="mt-2 activity">
         <Col xl={3}>
           <Card className="ds-card hover text-center mb-4">

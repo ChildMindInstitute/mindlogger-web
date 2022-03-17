@@ -18,6 +18,7 @@
   font-size: 25px;
   text-align: center;
   margin-top: 20px;
+  color: #212529;
 }
 .invitationBody {
   text-align: left;
@@ -32,6 +33,15 @@
   font-size: 25px;
   text-align: center;
   margin-top: 20px;
+  color: #212529;
+}
+
+.loading {
+  font-size: 25px;
+  text-align: center;
+  margin-right: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .invitation-buttons {

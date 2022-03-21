@@ -310,21 +310,21 @@ const Summary = styled(({ className, ...props }) => {
                 handlePDFSave()
               })
             }}
-          /> ) : <></>
+          /> ) : (
+            <MyButton
+              type="button"
+              label={t('additional.share_report')}
+              classes="mr-5 mb-2 float-right"
+              handleClick={(e) => {
+                setShareAllReports(false);
+
+                setTimeout(() => {
+                  handlePDFSave()
+                })
+              }}
+            />
+          )
         }
-
-        <MyButton
-          type="button"
-          label={t('additional.share_report')}
-          classes="mr-5 mb-2 float-right"
-          handleClick={(e) => {
-            setShareAllReports(false);
-
-            setTimeout(() => {
-              handlePDFSave()
-            })
-          }}
-        />
       </div>
     </Card>
   );

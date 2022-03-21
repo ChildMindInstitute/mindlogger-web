@@ -2,7 +2,7 @@
   max-width: 400px;
   padding: 20px;
   margin-top: 20px;
-  box-shadow: 0 0 7px 0 #80808036;
+  background-color: white;
 }
 .demo{
   display: flex;
@@ -12,4 +12,5 @@
 
 .demo #login{
   width: 100%;
+  padding: 5px 0px;
 }

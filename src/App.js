@@ -1,8 +1,8 @@
-import React from 'react'
-import { Container } from 'react-bootstrap'
-import { ConnectedRouter } from 'connected-react-router'
-import { Switch, Route } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import React from 'react';
+import { Container } from 'react-bootstrap';
+import { ConnectedRouter } from 'connected-react-router';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import { history } from './store';
 import { userInfoSelector } from './state/user/user.selectors';
@@ -33,22 +33,19 @@ import './App.css';
  * Main Component of the Application - Routes to specific components based on the Path.
  */
 const App = () => {
-  const user = useSelector(userInfoSelector)
+  const user = useSelector(userInfoSelector);
 
   return (
     <ConnectedRouter history={history}>
       <NavBar user={user} />
-      <Container className={'main-container'} >
-        <Container
-          style={{ justifyContent: 'center', margin: 'unset' }}
-          className={'app-container'}
-        >
+      <div className={'main-container'}>
+        <div style={{ justifyContent: 'center', margin: 'unset' }} className={'app-container'}>
           <Switch>
             <Route path="/applet/public/:publicId" exact component={PublicApplet} />
             <Route path="/applet/public/:appletId/activity/:activityId" exact component={Screens} />
 
             <Route path="/applet/:appletId/activity_thanks" exact component={ActivityThanks}/>
-            {user ? <>
+            {user ? ( <Switch>
                 <Route path="/" exact component={Landing} />
                 <Route path="/login" exact component={Login} />
                 <Route path="/signup" exact component={SignUp} />
@@ -65,8 +62,10 @@ const App = () => {
                 <Route path="/applet/:appletId/activity/:activityId" exact component={Screens} />
                 <Route path="/applet/:appletId/dashboard" exact component={ActivityList} />
                 <Route path="/join/:inviteLinkId" exact component={Join} />
-              </>
-              : <>
+                <Route path="*" render={() => <Redirect to="/" />} />
+              </Switch>
+            ) : (
+              <Switch>
                 <Route path="/login" exact component={Login} />
                 <Route path="/signup" exact component={SignUp} />
                 <Route path="/forgotpassword" exact component={ForgotPassword} />
@@ -77,14 +76,15 @@ const App = () => {
                 <Route path="/dashboard" exact component={Landing} />
                 <Route path="/" exact component={Landing} />
                 <Route path="/join/:inviteLinkId" exact component={Join} />
-              </>
-            }
+                <Route path="*" render={() => <Redirect to="/" />} />
+              </Switch>
+            )}
           </Switch>
-        </Container>
-      </Container>
+        </div>
+      </div>
       <Footer />
     </ConnectedRouter>
-  )
-}
+  );
+};
 
 export default App;

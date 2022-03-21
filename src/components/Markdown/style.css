@@ -1,5 +1,13 @@
+.markdown-body {
+  line-height: 1.5;
+}
 .markdown-body img {
   max-width: 90%;
+  max-height: 500px;
+}
+
+.markdown-image {
+  text-align: center;
 }
 
 .markdown-body video {
@@ -67,4 +75,5 @@
 .markdown-body mark {
   background-color: #ff0;
   color: #000;
+  padding: 0;
 }

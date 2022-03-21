@@ -26,6 +26,7 @@ export default () => {
   })
 
   const { t } = useTranslation()
+
   const dispatch = useDispatch()
   const { loading, info: user, auth: authToken } = useSelector(state => state.user);
 
@@ -37,7 +38,15 @@ export default () => {
    */
   const onSubmit = async (event) => {
     event.preventDefault()
+
     try {
+      if (passwordData.newPassword === passwordData.oldPassword) {
+        setErrorSuccess({
+          type: 'error',
+          message: t('SetPassword.passwordSame')
+        })
+        return;
+      }
       let result = await dispatch(updatePassword({ token: authToken && authToken.token, passwordData }));
       result = unwrapResult(result);
 
@@ -60,7 +69,7 @@ export default () => {
       <div id="login" className="text-center mb-0">
         <div className="d-flex justify-content-center align-items-center">
           <Avatar />
-          <h1>{t('ChangePassword.settings')}</h1>
+          <h1>{t('ChangePassword.settings', { name: user.firstName })}</h1>
         </div>
         <hr></hr>
         <h3 className="my-3">{t('ChangePassword.title')}</h3>

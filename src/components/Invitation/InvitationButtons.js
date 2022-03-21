@@ -8,11 +8,11 @@ export const InvitationButtons = ({ onAcceptInvite, onDeclineInvite }) => {
   const { t } = useTranslation();
 
   return (
-    <div className={'d-flex justify-content-center align-items-center'}>
-      <Button onClick={onAcceptInvite} variant="success" className={'mx-2'} size="lg">
+    <div className={'invitation-buttons'}>
+      <Button onClick={onAcceptInvite} variant="success" className={'mx-2 invitation-button mb-2'}>
         {t('InvitationButtons.acceptInvitation')}
       </Button>
-      <Button onClick={onDeclineInvite} variant="danger" className={'mx-2'} size="lg">
+      <Button onClick={onDeclineInvite} variant="danger" className={'mx-2 invitation-button mb-2'}>
         {t('InvitationButtons.declineInvitation')}
       </Button>
     </div>

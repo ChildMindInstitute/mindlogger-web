@@ -4,9 +4,7 @@
 
 .change-pass > div{
   display: flex;
-}
-.change-pass > div label{
-  width: 320px;
+  align-items: center;
 }
 .demo{
   display: flex;

@@ -2,7 +2,7 @@
   "Login": {
     "title": "Login",
     "submit": "Submit",
-    "passwordErrorMessage": "Password must have at least 6 characters",
+    "passwordErrorMessage": "Password is required.",
     "passwordRequiredError": "You must specify a password",
     "password": "Password",
     "email": "Email",
@@ -11,8 +11,8 @@
     "create": " Create One ",
     "reset": " Reset it",
     "emailRequiredError": "Required",
-    "emailErrorMessage": "Invalid email address",
-    "errorMessage": "Invalid email address or password!",
+    "emailErrorMessage": "Email address is required.",
+    "errorMessage": "Incorrect password if that user exists.",
     "logging": "Loggin in..."
   },
   "About": {
@@ -26,10 +26,14 @@
     "confirmPassword": "Confirm Password",
     "password": "Password",
     "lastName": "Last Name",
-    "passwordErrorMessage": "Password must have at least 6 characters",
+    "firstNameRequiredError": "First name is required.",
+    "passwordErrorMessage": "Password is required.",
+    "passwordLengthError": "Password must be at least 6 characters.",
     "passwordRequiredError": "You must specify a password",
     "emailRequiredError": "Required",
-    "emailErrorMessage": "Invalid email address",
+    "existingEmailError": "That email is already registered in the system.",
+    "invalidEmailError": "Invalid email",
+    "emailErrorMessage": "Email address is required.",
     "signUpError": "Sign up failed. Email may already be in use.",
     "accountMessage": " Don't have an account? ",
     "forgotPassword": " Forgot Password?",
@@ -55,7 +59,7 @@
     "logIn": "Login"
   },
   "ChangePassword": {
-    "settings": "test's Settings",
+    "settings": "{{name}}'s Settings",
     "cautionMessage": "Make sure to set a complex password, and don't share it with anyone.",
     "oldPassword": "Old Password",
     "newPassword": "New Password",
@@ -106,11 +110,19 @@
     "loadingInvitation": "Loading Invitation",
     "invitationRemoved": "Invitation Removed",
     "networkError": "Network Error. Return ",
+    "invitationAlreadyRemoved": "Your invitation has already been removed.",
     "home": "Home",
     "acceptInvitation": "Invitation Accepted"
   },
   "InviteLink": {
-    "title": "You were invited by {{coordinatorName}} (<a href=\"mailto={{email}}\">{{coordinatorEmail}}</a>) to be a user of <strong>{{displayName}}</strong> on MindLogger.<br/>Below are users that have access to your data:",
+    "welcome": "Welcome to <strong>{{displayName}}</strong>!",
+    "title": "You have been invited to become a user of <strong>{{displayName}}</strong>.<br/>To accept this invitation, click below:",
+    "description": "After you have accepted the invitation, you will be able to access <strong>{{displayName}}</strong> in the free MindLogger app on your mobile device, if you follow three simple steps (see the <a target='_blank' href='https://mindlogger.org//guides/user-guide.html'>user guide</a> for greater detail):<br/>",
+    "step1": "<ol><li>Install the MindLogger app on your mobile device, if it isn’t already installed.</li>",
+    "step2": "Open the MindLogger app on your mobile device, and log in",
+    "step2_1": " (if you have a MindLogger account) or sign up (if you are new to MindLogger). To sign up, tap “New User” on the login screen, and enter the email address where you received this email invitation.",
+    "step3": "<li>Tap <strong>{{displayName}}</strong> on the MindLogger home screen and you are ready to go! If <strong>{{displayName}}</strong> does not appear, refresh the screen by sliding your finger downwards from the top, and a spinning wheel should appear while loading <strong>{{displayName}}</strong>.</li></ol>",
+    "footer": "The Child Mind Institute is the creator of MindLogger, a platform for creating applets, but is not responsible for applet content created by outside parties.",
     "loading": "Loading invite link",
     "reviewers": "Users who can see your data for this applet:",
     "managers": "Users who can change this applet's settings, including who can access your data:",
@@ -137,7 +149,8 @@
     "toSeeThePage": "to See The Page",
     "expiredLink": "Password Resent Link Has Expired",
     "passwordRequired": "Password is required",
-    "passwordShort": "Password must be at least 6 characters."
+    "passwordShort": "Password must be at least 6 characters",
+    "passwordSame": "Password cannot be the same as old password"
   },
   "Consent": {
     "aboutStudy": "About the Study",
@@ -147,6 +160,7 @@
     "consentForm": "Consent Form",
     "back": "Back",
     "next": "Next",
+    "skip": "Skip",
     "consent": "I Consent",
     "thanks": "Thanks!",
     "getStarted": "You're nearly there. To get started, you'll need to",
@@ -172,8 +186,22 @@
     "available": "Available",
     "yes": "Yes",
     "no": "No",
+    "okay": "OK",
     "response_submit": "Response Submit",
     "response_submit_text": "Would you like to submit response?",
-    "invalid_public_url": "This assessment is no longer accepting respondents"
+    "invalid_public_url": "This assessment is no longer accepting respondents",
+    "share_report": "Share Report",
+    "share_all_reports": "Share All Reports",
+    "terms_text": "I understand that the information provided by this questionnaire is not intended to replace the advice, diagnosis, or treatment offered by a medical or mental health professional, and that my anonymous responses may be used and shared for general research on children’s mental health.",
+    "footer_text": "CHILD MIND INSTITUTE, INC. AND CHILD MIND MEDICAL PRACTICE, PLLC (TOGETHER, “CMI”) DOES NOT DIRECTLY OR INDIRECTLY PRACTICE MEDICINE OR DISPENSE MEDICAL ADVICE AS PART OF THIS QUESTIONNAIRE. CMI ASSUMES NO LIABILITY FOR ANY DIAGNOSIS, TREATMENT, DECISION MADE, OR ACTION TAKEN IN RELIANCE UPON INFORMATION PROVIDED BY THIS QUESTIONNAIRE, AND ASSUMES NO RESPONSIBILITY FOR YOUR USE OF THIS QUESTIONNAIRE.",
+    "child_score": "Your Child's Score",
+    "child_score_on_subscale": "Your child’s score on the {{name}} subscale was",
+    "fill_out_fields": "Please fill out the required fields"
+  },
+  "no_markdown": "The authors of this applet have not provided any information!",
+  "no_applets": "You currently do not have any applets.",
+  "timed_activity":{
+    "time_to_complete": "Time to complete",
+    "hours" : "hours"
   }
 }

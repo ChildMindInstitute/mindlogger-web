@@ -48,7 +48,20 @@ const parser = new Parser();
 const Markdown = (props) => {
   const { markdown } = props;
 
-  const htmlInput = md.render(markdown)
+  let htmlInput = md.render(markdown);
+
+  if (props.useCORS) {
+    htmlInput = htmlInput.replace(
+      /<img src="(.*?)" (.*?)>/g,
+      `<img src="$1?time=${new Date().getTime()}" crossorigin="anonymous" $2>`
+    )
+  }
+
+  htmlInput = htmlInput.replace(
+    /<img src="(.*?)" (.*?)>/g,
+    `<div class="markdown-image"><img src="$1" $2></div>`
+  );
+
   return (
     <div className='markdown-body'>
       {parser.parse(htmlInput)}

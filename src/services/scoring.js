@@ -252,3 +252,98 @@ export const getFinalSubScale = (responses, items, isAverage, lookupTable) => {
     outputText: ''
   }
 }
+
+export const evaluateCumulatives = (responses, activity) => {
+  const parser = new Parser({
+    logical: true,
+    comparison: true,
+  });
+
+  let scores = [],
+    maxScores = [];
+  for (let i = 0; i < activity.items.length; i++) {
+    if (!activity.items[i] || !responses[i]) continue;
+    const { variableName } = activity.items[i];
+    let score = getScoreFromResponse(
+      activity.items[i],
+      responses[i][variableName] ? responses[i][variableName] : responses[i],
+    );
+    scores.push(score);
+    maxScores.push(getMaxScore(activity.items[i]));
+  }
+
+  const reportMessages = [];
+  let cumActivities = [];
+
+  if (activity.compute && activity.messages) {
+    const cumulativeScores = activity.compute.reduce((accumulator, itemCompute) => {
+      return {
+        ...accumulator,
+        [itemCompute.variableName.trim().replace(/[\s\/]/g, '__')]: evaluateScore(
+          itemCompute.jsExpression,
+          activity.items,
+          scores,
+        ),
+      };
+    }, {});
+
+    const cumulativeMaxScores = activity.compute.reduce((accumulator, itemCompute) => {
+      return {
+        ...accumulator,
+        [itemCompute.variableName.trim().replace(/[\s\/]/g, '__')]: evaluateScore(
+          itemCompute.jsExpression,
+          activity.items,
+          maxScores,
+        ),
+      };
+    }, {});
+
+    activity.messages.forEach((msg) => {
+      const { jsExpression, message, outputType, nextActivity } = msg;
+
+      const exprArr = jsExpression.split(/[><]/g);
+      const variableName = exprArr[0];
+      const exprValue = parseFloat(exprArr[1].split(' ')[1]);
+      let category = variableName.trim().replace(/[\s\/]/g, '__');
+
+      let expr, key;
+      try {
+        expr = parser.parse(category + jsExpression.substr(variableName.length));
+      } catch (error) {
+        if (category.match(/[&\/\\#,+()$~%.'":*?<>{}]/g)) {
+          key = category.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
+          expr = parser.parse(key + jsExpression.substr(variableName.length));
+        }
+      }
+
+      const variableScores = {
+        [key ? key : category]:
+          outputType == 'percentage'
+            ? Math.round(
+              cumulativeMaxScores[category]
+                ? (cumulativeScores[category] * 100) / cumulativeMaxScores[category]
+                : 0,
+            )
+            : cumulativeScores[category],
+      };
+
+      if (expr.evaluate(variableScores)) {
+        if (nextActivity) cumActivities.push(nextActivity);
+
+        const compute = activity?.compute?.find((itemCompute) => itemCompute.variableName.trim() == variableName.trim());
+
+        reportMessages.push({
+          category,
+          message,
+          score: variableScores[key ? key : category] + (outputType == 'percentage' ? '%' : ''),
+          compute,
+          jsExpression: jsExpression.substr(variableName.length),
+          scoreValue: cumulativeScores[category],
+          maxScoreValue: cumulativeMaxScores[category],
+          exprValue: outputType == 'percentage' ? (exprValue * cumulativeMaxScores[category]) / 100 : exprValue,
+        });
+      }
+    });
+  }
+  return { reportMessages, cumActivities }
+}

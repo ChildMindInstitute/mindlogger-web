@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useSelector, useDispatch } from 'react-redux'
 import { Card, Container, Row, Spinner } from 'react-bootstrap'
 import Avatar from 'react-avatar';
@@ -15,6 +16,7 @@ import './style.css'
  * @constructor
  */
 export default function AppletList() {
+  const { t } = useTranslation()
   const history = useHistory()
   const dispatch = useDispatch()
   const [isLoading, setIsLoading] = useState(false);
@@ -41,17 +43,21 @@ export default function AppletList() {
         {!isLoading ?
           applets.length && applets.map(applet => (
             <Card className="applet-card" onClick={() => onSelectApplet(applet.id)} key={applet.id}>
-              {applet.image ?
-                <Card.Img variant="top" src={applet.image} />
-                :
-                <Avatar color="#777" name={applet.name.en} maxInitials={2} size="280" round="3px" />
-              }
+              <div className="applet-header">
+                <div className="applet-image">
+                  {applet.image ?
+                    <Card.Img variant="top" src={applet.image} />
+                    :
+                    <Avatar color="#777" name={applet.name.en} maxInitials={2} size="240" round="3px" />
+                  }
+                </div>
+              </div>
               <Card.Body>
                 <Card.Title className="applet-card-title"> {applet.name.en} </Card.Title>
                 <Card.Text> {applet.description.en} </Card.Text>
               </Card.Body>
             </Card>
-          )) || <h3 className="mt-4">You currently do not have any applets.</h3> :
+          )) || <div className="mt-4 px-2 no-applets">{t('no_applets')}</div> :
 
           <Spinner animation="border mt-4"></Spinner>}
       </Row>

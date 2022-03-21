@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { clearUser } from './user.reducer';
+import { clearApplets } from '../applet/applet.reducer';
 import { getPrivateKey } from '../../services/encryption';
 import { authTokenSelector, userInfoSelector } from './user.selectors';
 import { forgotPasswordAPI, deleteUserAccount } from '../../services/network';
@@ -74,6 +75,7 @@ export const doLogout = createAsyncThunk(USER_CONSTANTS.LOGOUT, async (args, { g
       signOutAPI(authToken);
 
     dispatch(clearUser());
+    dispatch(clearApplets());
 
   } catch (error) {
     throw new Error(error);

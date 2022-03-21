@@ -2,28 +2,6 @@ import * as R from 'ramda';
 import moment from 'moment';
 import i18n from 'i18next';
 
-const compareByNameAlpha = (a, b) => {
-  const nameA = a.name.en.toUpperCase(); // ignore upper and lowercase
-  const nameB = b.name.en.toUpperCase(); // ignore upper and lowercase
-  if (nameA < nameB) {
-    return -1;
-  }
-  if (nameA > nameB) {
-    return 1;
-  }
-  return 0;
-};
-
-const addSectionHeader = (array, headerText) => {
-  return (
-    array.length > 0 ? [{ isHeader: true, text: headerText }, ...array] : []
-  );
-}
-
-const addProp = (key, val, arr) => {
-  return arr.map(obj => R.assoc(key, val, obj));
-}
-
 const compareByTimestamp = propName => (a, b) => {
   return moment(a[propName]) - moment(b[propName]);
 }
@@ -82,7 +60,8 @@ export const getScheduled = (activityList, finishedEvents) => {
   activityList.forEach(activity => {
     activity.events.forEach(event => {
       const today = new Date();
-      const { scheduledTime, data } = event;
+      const scheduledTime = new Date(event.scheduledTime);
+      const data = event.data;
 
       if (!activity.availability
         && scheduledTime > today
@@ -107,12 +86,22 @@ export const getPastdue = (activityList, finishedEvents) => {
   activityList.forEach(activity => {
     activity.events.forEach(event => {
       const today = new Date();
-      const { scheduledTime, data } = event;
+      const scheduledTime = new Date(event.scheduledTime), data = event.data;
       const activityTimeout = data.timeout.day * 864000000
         + data.timeout.hour * 3600000
         + data.timeout.minute * 60000;
 
-      if (!activity.availability
+      if (activity.availability) {
+        if (!data.completion
+          || !finishedEvents[event.id]
+          || scheduledTime.getTime() > finishedEvents[event.id]) {
+          const pastActivity = { ...activity };
+
+          delete pastActivity.events;
+          pastActivity.event = event;
+          pastActivities.push(pastActivity);
+        }
+      } else if (!activity.availability
         && scheduledTime <= today
         && (!Object.keys(finishedEvents).includes(event.id) || !moment().isSame(moment(new Date(finishedEvents[event.id])), 'day'))
         && moment().isSame(moment(scheduledTime), 'day')
@@ -129,9 +118,15 @@ export const getPastdue = (activityList, finishedEvents) => {
   return pastActivities;
 }
 
+const addSectionHeader = (array, headerText) => (array.length > 0 ? [{ isHeader: true, text: headerText }, ...array] : []);
+
+const addProp = (key, val, arr) => arr.map(obj => R.assoc(key, val, obj));
+
+// Sort the activities into categories and inject header labels, e.g. "In Progress",
+// before the activities that fit into that category.
 export default (activityList, inProgress, finishedEvents, scheduleData) => {
-  const notInProgress = [];
-  const inProgressActivities = [];
+  let notInProgress = [];
+  let inProgressActivities = [];
   const inProgressKeys = Object.keys(inProgress);
 
   if (inProgressKeys) {
@@ -170,14 +165,17 @@ export default (activityList, inProgress, finishedEvents, scheduleData) => {
     notInProgress = activityList;
   }
 
+  // Activities currently scheduled - or - previously scheduled and not yet completed.
 
+  // Activities scheduled some time in the future.
   const pastdue = getPastdue(notInProgress, finishedEvents)
     .sort(compareByTimestamp('lastScheduledTimestamp'))
     .reverse();
-  const scheduled = getScheduled(notInProgress, finishedEvents)
-    .sort(compareByTimestamp('nextScheduledTimestamp'));
-  const unscheduled = getUnscheduled(notInProgress, pastdue, scheduled, finishedEvents, scheduleData)
-    .sort(compareByNameAlpha);
+
+  const scheduled = getScheduled(notInProgress, finishedEvents).sort(compareByTimestamp('nextScheduledTimestamp'));
+
+  // Activities with no schedule.
+  const unscheduled = getUnscheduled(notInProgress, pastdue, scheduled, finishedEvents, scheduleData);
 
   return [
     ...addSectionHeader(addProp('status', 'pastdue', pastdue), i18n.t('additional:available')),
@@ -187,7 +185,7 @@ export default (activityList, inProgress, finishedEvents, scheduleData) => {
     ),
     ...addSectionHeader(
       addProp('status', 'unscheduled', unscheduled),
-      i18n.t('additional.unscheduled'),
+      (pastdue.length || scheduled.length) ? i18n.t('additional.unscheduled') : '',
     ),
     ...addSectionHeader(addProp('status', 'scheduled', scheduled), i18n.t('additional.scheduled')),
   ];

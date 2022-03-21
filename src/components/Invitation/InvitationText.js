@@ -11,14 +11,14 @@ import { InvitationButtons } from './InvitationButtons';
 import './style.css';
 
 export const InvitationText = (props) => {
-  const { status, invitationText, onAcceptInvite, onDeclineInvite } = props;
+  const { status, invitationText, invitationText2, onAcceptInvite, onDeclineInvite } = props;
   const { t } = useTranslation();
 
   switch (status) {
     case Statuses.LOADING:
       return (
         <div className="heading">
-          <h1>{t('InvitationText.loadingInvitation')}</h1>
+          <div className="loading">{t('InvitationText.loadingInvitation')}</div>
           <Spinner animation="border" variant="primary" />
         </div>
       );
@@ -28,6 +28,8 @@ export const InvitationText = (props) => {
         <React.Fragment>
           <div className={'invitationBody'} dangerouslySetInnerHTML={{ __html: invitationText }} />
           <InvitationButtons onAcceptInvite={onAcceptInvite} onDeclineInvite={onDeclineInvite} />
+          <div className={'invitationBody'} dangerouslySetInnerHTML={{ __html: invitationText2 }} />
+          <div style={{paddingBottom: "30px"}}/>
         </React.Fragment>
       );
 
@@ -37,27 +39,27 @@ export const InvitationText = (props) => {
     case Statuses.ERROR:
       return (
         <div className={'heading'}>
-          {t('InvitationText.networkError')} <Link to={'/profile'}>{t('InvitationText.home')}</Link>
+          <div className={'invitationMessage'}>{t('InvitationText.invitationAlreadyRemoved')}</div>
         </div>
       );
 
     case Statuses.ACCEPTED:
       return (
         <div className={'heading'}>
-          <h1 className={'invitationMessage'}>{invitationText || t('InvitationText.acceptInvitation')}</h1>
+          <div className={'invitationMessage'}>{invitationText || t('InvitationText.acceptInvitation')}</div>
         </div>
       );
 
     case Statuses.DECLINED:
       return (
         <div className={'heading'}>
-          <h1 className={'invitationMessage'}>{invitationText}</h1>
+          <div className={'invitationMessage'}>{invitationText}</div>
         </div>
       );
     case Statuses.REMOVED:
       return (
         <div className={'heading'}>
-          <h1 className={'invitationMessage'}>{t('InvitationText.invitationRemoved')}</h1>
+          <div className={'invitationMessage'}>{t('InvitationText.invitationRemoved')}</div>
         </div>
       );
 

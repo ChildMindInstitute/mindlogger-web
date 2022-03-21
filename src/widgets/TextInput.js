@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
+import { useSelector } from 'react-redux';
+
 import _ from "lodash";
 import { useTranslation } from 'react-i18next';
 import {
@@ -10,6 +12,10 @@ import {
 } from 'react-bootstrap';
 
 import Navigator from './Navigator';
+import { parseMarkdown } from '../services/helper';
+import { activityLastResponseTimeSelector } from '../state/responses/responses.selectors';
+import { profileSelector } from '../state/applet/applet.selectors';
+
 import Markdown from '../components/Markdown';
 
 const TextInput = ({
@@ -21,19 +27,27 @@ const TextInput = ({
   handleBack,
   watermark,
   isSubmitShown,
-  answer
+  answer,
+  invalid,
+  activity,
+  answers,
+  ...props
 }) => {
   const { t } = useTranslation();
 
+  const lastResponseTime = useSelector(activityLastResponseTimeSelector);
+  const profile = useSelector(profileSelector);
+  const markdown = useRef(parseMarkdown(item.question.en, lastResponseTime, profile, activity, answers)).current;
+
   const [show, setShow] = useState(false);
-  const [value, setValue] = useState((answer || ''));
+  const [value, setValue] = useState(answer && typeof answer === "object" ? answer.value : (answer || ''));
 
   useEffect(() => {
     setValue(values[item.variableName]);
   }, [values[item.variableName]])
 
   return (
-    <Card className="mb-3 px-3" style={{ maxWidth: "auto" }}>
+    <Card className={`${invalid ? 'invalid' : ''} mb-3 px-3`} style={{ maxWidth: "auto" }}>
       <Row className="no-gutters">
         <Col md={12}>
           <Card.Title className="question">
@@ -43,7 +57,7 @@ const TextInput = ({
             }
             <div className="markdown">
               <Markdown
-                markdown={item.question.en.replace(/(!\[.*\]\s*\(.*?) =\d*x\d*(\))/g, '$1$2')}
+                markdown={markdown}
               />
             </div>
           </Card.Title>
@@ -55,7 +69,7 @@ const TextInput = ({
                 value={value}
                 onChange={e => {
                   setValue(e.target.value);
-                  handleChange({ value: e.target.value });
+                  handleChange(e.target.value);
                 }}
                 disabled={!isNextShown}
               />
@@ -76,7 +90,7 @@ const TextInput = ({
       <Navigator
         isBackShown={isBackShown}
         isNextShown={isNextShown}
-        isNextDisable={!answer}
+        isNextDisable={!value || !value.length}
         handleBack={handleBack}
         isSubmitShown={isSubmitShown}
         canSubmit={(e) => {
@@ -86,6 +100,8 @@ const TextInput = ({
           setShow(true);
           return false;
         }}
+        skippable={item.skippable}
+        {...props}
       />
     </Card>
   )

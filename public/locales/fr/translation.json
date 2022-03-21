@@ -2,7 +2,7 @@
   "Login": {
     "title": "Connexion",
     "submit": "Nous faire parvenir",
-    "passwordErrorMessage": "Le mot de passe doit comporter au moins 6 caractères",
+    "passwordErrorMessage": "Mot de passe requis.",
     "passwordRequiredError": "Vous devez spécifier un mot de passe",
     "password": "Mot de passe",
     "email": "E-mail",
@@ -11,8 +11,8 @@
     "create": " Créer une ",
     "reset": " Réinitialisez-le",
     "emailRequiredError": "Obligatoire",
-    "emailErrorMessage": "Adresse e-mail invalide",
-    "errorMessage": "Adresse e-mail ou mot de passe invalide!",
+    "emailErrorMessage": "Adresse e-mail est nécessaire.",
+    "errorMessage": "Mot de passe incorrect si cet utilisateur existe.",
     "logging": "Se connecter..."
   },
   "About": {
@@ -26,15 +26,19 @@
     "confirmPassword": "Confirmez le mot de passe",
     "password": "Mot de passe",
     "lastName": "Nom de famille",
-    "passwordErrorMessage": "Le mot de passe doit comporter au moins 6 caractères",
+    "firstNameRequiredError": "Le prénom est requis.",
+    "passwordErrorMessage": "Mot de passe requis.",
+    "passwordLengthError": "Le mot de passe doit être au moins de 6 caractères.",
     "passwordRequiredError": "Vous devez spécifier un mot de passe",
     "accountMessage": " Vous n'avez pas de compte? ",
     "forgotPassword": " Mot de passe oublié?",
     "create": " Créer une ",
     "reset": " Réinitialisez-le",
+    "existingEmailError": "Cet e-mail est déjà enregistré dans le système.",
     "emailRequiredError": "Obligatoire",
-    "emailErrorMessage": "Adresse e-mail invalide",
-    "signUpError" :"L'inscription a échoué. L'e-mail est peut-être déjà utilisé.",
+    "invalidEmailError": "Email invalide",
+    "emailErrorMessage": "Adresse e-mail est nécessaire.",
+    "signUpError": "L'inscription a échoué. L'e-mail est peut-être déjà utilisé.",
     "signingIn": "Connectez-vous...",
     "passwordsUnmatched": "Les mots de passe ne correspondent pas",
     "account": "Vous avez déjà un compte?",
@@ -55,7 +59,7 @@
     "logIn": "Connexion"
   },
   "ChangePassword": {
-    "settings": "Paramètres du test",
+    "settings": "Paramètres du {{name}}",
     "cautionMessage": "Assurez-vous de définir un mot de passe complexe et ne le partagez avec personne.",
     "oldPassword": "ancien mot de passe",
     "newPassword": "nouveau mot de passe",
@@ -106,6 +110,7 @@
     "loadingInvitation" : "Chargement de l'invitation",
     "invitationRemoved": "Invitation supprimée",
     "networkError": "Erreur réseau. Revenir ",
+    "invitationAlreadyRemoved": "Votre invitation a déjà été supprimée.",
     "home": "Maisons",
     "acceptInvitation": "Invitation acceptée"
   },
@@ -135,7 +140,10 @@
     "please": "S'il te plaît",
     "login": "Connexion",
     "toSeeThePage": "voir la page",
-    "expiredLink": "Le lien renvoyé par mot de passe a expiré"
+    "expiredLink": "Le lien renvoyé par mot de passe a expiré",
+    "passwordRequired": "Mot de passe requis",
+    "passwordShort": "Le mot de passe doit être au moins de 6 caractères",
+    "passwordSame": "Le mot de passe ne peut pas être le même que l'ancien mot de passe"
   },
   "Consent": {
     "aboutStudy": "À propos de l'étude",
@@ -145,6 +153,7 @@
     "consentForm": "Formulaire de consentement",
     "back": "Retour",
     "next": "Suivante",
+    "skip": "Passer",
     "consent": "J'accepte",
     "thanks": "Merci!",
     "getStarted": "Vous y êtes presque. Pour commencer, vous devrez",
@@ -170,8 +179,18 @@
     "available": "disponible",
     "yes": "Oui",
     "no": "Non",
+    "okay": "D'accord",
     "response_submit": "Soumettre une réponse",
     "response_submit_text": "Souhaitez-vous soumettre une réponse?",
-    "invalid_public_url": "Cette évaluation n'accepte plus de répondants"
-  }
+    "invalid_public_url": "Cette évaluation n'accepte plus de répondants",
+    "terms_text": "Je comprends que les informations fournies par ce questionnaire ne sont pas destinées à remplacer les conseils, le diagnostic ou le traitement offerts par un professionnel de la santé médicale ou mentale, et que mes réponses anonymes peuvent être utilisées et partagées pour des recherches sur la santé mentale des enfants.",
+    "footer_text": "CHILD MIND INSTITUTE, INC. ET CHILD MIND MEDICAL PRACTICE, PLLC (ENSEMBLE, \"CMI\") NE PRATIQUENT PAS DIRECTEMENT OU INDIRECTEMENT LA MÉDECINE ET NE DISPENSENT PAS DE CONSEILS MÉDICAUX DANS LE CADRE DE CE QUESTIONNAIRE. CMI DÉCLINE TOUTE RESPONSABILITÉ EN CE QUI CONCERNE LE DIAGNOSTIC, LE TRAITEMENT, LES DÉCISIONS OU LES ACTIONS PRISES SUR LA BASE DES INFORMATIONS FOURNIES PAR LE PRÉSENT QUESTIONNAIRE ET DÉCLINE TOUTE RESPONSABILITÉ QUANT À L'UTILISATION DE CE QUESTIONNAIRE.",
+    "child_score": "Le score de votre enfant",
+    "child_score_on_subscale": "Le score de votre enfant pour la sous-échelle {{name}} est de",
+    "share_report": "Partager le rapport",
+    "share_all_reports": "Partager tous les rapports",
+    "fill_out_fields": "Veuillez remplir les champs obligatoires"
+  },
+  "no_markdown": "Les auteurs de cette applet n'ont fourni aucune information !",
+  "no_applets": "Vous n'avez actuellement pas d'applets."
 }

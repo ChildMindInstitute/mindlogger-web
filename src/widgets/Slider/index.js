@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import _ from "lodash";
 import { Row, Card, Col, Image } from 'react-bootstrap';
 
@@ -9,6 +10,10 @@ import "./style.css";
 import ReactBootstrapSlider from 'react-bootstrap-slider';
 import "bootstrap-slider/dist/css/bootstrap-slider.css"
 
+import { parseMarkdown } from '../../services/helper';
+import { activityLastResponseTimeSelector } from '../../state/responses/responses.selectors';
+import { profileSelector } from '../../state/applet/applet.selectors';
+
 const SliderWidget = ({
   item,
   values,
@@ -18,11 +23,18 @@ const SliderWidget = ({
   handleBack,
   isSubmitShown,
   watermark,
-  answer
+  answer,
+  invalid,
+  activity,
+  answers,
+  ...props
 }) => {
   const [data, setData] = useState({
     [item.variableName]: answer && answer.value || null
   });
+  const lastResponseTime = useSelector(activityLastResponseTimeSelector);
+  const profile = useSelector(profileSelector);
+  const markdown = useRef(parseMarkdown(item.question.en, lastResponseTime, profile, activity, answers)).current;
 
   const {
     continuousSlider,
@@ -61,7 +73,7 @@ const SliderWidget = ({
   }
 
   return (
-    <Card className="mb-3" style={{ maxWidth: "auto" }}>
+    <Card className={`${invalid ? 'invalid' : ''} mb-3`} style={{ maxWidth: "auto" }}>
       <Row className="no-gutters">
         <Col md={12}>
           <Card.Body>
@@ -72,7 +84,7 @@ const SliderWidget = ({
               }
               <div className="markdown">
                 <Markdown
-                  markdown={item.question.en.replace(/(!\[.*\]\s*\(.*?) =\d*x\d*(\))/g, '$1$2')}
+                  markdown={markdown}
                 />
               </div>
             </Card.Title>
@@ -105,7 +117,7 @@ const SliderWidget = ({
                 }
 
                 <div className="slider-description">
-                  <div className="first" style={{ width: `max(${minLabelWidth}%, 70px)` }}>
+                  <div className="first" style={{ width: `max(${minLabelWidth}%, 100px)` }}>
                     <img
                       src={itemList[0].image}
                       width="100%"
@@ -117,7 +129,7 @@ const SliderWidget = ({
                       {minLabel}
                     </div>
                   </div>
-                  <div className="last" style={{ width: `max(${minLabelWidth}%, 70px)` }}>
+                  <div className="last" style={{ width: `max(${minLabelWidth}%, 100px)` }}>
                     <img
                       src={itemList[itemList.length - 1].image}
                       width="100%"
@@ -142,6 +154,8 @@ const SliderWidget = ({
         isNextDisable={isNextDisable()}
         handleBack={handleBack}
         isSubmitShown={isSubmitShown}
+        skippable={item.skippable}
+        {...props}
       />
     </Card>
   );

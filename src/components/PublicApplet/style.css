@@ -29,3 +29,8 @@
 .text-center {
   text-align: center;
 }
+
+.invalid-url {
+  font-size: 25px;
+  text-align: center;
+}

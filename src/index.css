@@ -21,6 +21,10 @@ code {
     monospace;
 }
 
+.footer {
+  flex-shrink: 0;
+}
+
 .footer-logo {
   background: #005fa3;
   border-style: solid;
@@ -31,12 +35,9 @@ code {
   width: 40px;
 }
 .logo {
-  background: #005fa3;
-  border-style: solid;
-  border-radius: 25px;
-  border-width: 0px;
-  padding: 10px;
-  height: 40px;
+  padding: 5px;
+  height: 50px;
+  width: 120px;
 }
 .avatar{
   display: inline-block;
@@ -49,9 +50,43 @@ code {
   width : 80px;
   margin-right: 15px;
 }
-.app-container{
-  min-height: calc(100vh - 180px);
+
+.app-container {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  top: 0px;
+  height: 100%;
+  max-height: 100%;
+  overflow: auto;
 }
+
+.main-container {
+  background-image: url('https://images.unsplash.com/photo-1517483000871-1dbf64a6e1c6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80');
+  background-size: cover;
+  flex-grow: 1;
+  position: relative;
+}
+
+#root {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+@media only screen and (max-height: 500px) {
+  #root {
+    height: unset;
+    min-height: 100vh;
+  }
+
+  .app-container {
+    max-height: unset;
+    position: relative;
+  }
+}
+
 .dropdown-menu{
   right: 0px;
   left: unset;
@@ -65,8 +100,23 @@ code {
   padding: 20px 10px;
 }
 
+.splash-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 90%;
+  margin: auto;
+}
+
+.image-splash {
+  background-color: black;
+}
+
 .question .markdown img {
   width: 250px;
+  display: block;
+  margin: auto;
 }
 
 .form-check input {
@@ -86,11 +136,31 @@ code {
   }
 }
 
+.tooltip-icon {
+  color: gray;
+  padding: 2px;
+  width: 20px !important;
+  height: 20px;
+}
+
+.form-check-width {
+  max-width: calc(100% - 60px);
+}
+
+
+.option-tooltip {
+  width: 20px;
+}
+
+.option-tooltip, .tooltip-icon {
+  margin-right: 5px;
+  margin-top: 2px;
+}
+
 .option-image {
   height: 25px;
-  min-width: 25px;
+  width: 25px;
   margin-right: 10px;
-  margin-top: 5px;
 }
 
 .watermark {
@@ -105,7 +175,7 @@ code {
   align-items: flex-start;
   margin: 10px 0px;
   border-radius: 5px;
-  padding: 2px 5px;
+  padding: 7px 5px;
 }
 
 .response-option:first-child {
@@ -125,4 +195,32 @@ code {
 
 .text-center {
   text-align: center;
+}
+
+.invalid {
+  border: 2px solid red;
+}
+
+.applet-header {
+  padding-top: 100%;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.applet-header .applet-image {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.applet-header .applet-image * {
+  position: relative;
+  object-fit: cover;
+  min-height: 100%;
+  min-width: 100%;
+  top: 50%;
+  transform: translateY(-50%);
 }

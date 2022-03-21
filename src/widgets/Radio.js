@@ -1,9 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import _ from "lodash";
-import { Form, Row, Card, Col, Image } from 'react-bootstrap';
+import {
+  Form,
+  Row,
+  Card,
+  Col,
+  Image,
+  OverlayTrigger,
+  Tooltip
+} from 'react-bootstrap';
 
 import Navigator from './Navigator';
 import Markdown from '../components/Markdown';
+import { handleReplaceBehaviourResponse, parseMarkdown } from '../services/helper';
+import { activityLastResponseTimeSelector } from '../state/responses/responses.selectors';
+import { profileSelector } from '../state/applet/applet.selectors';
+
+import questionMark from '../assets/question-mark.svg';
 
 const Radio = (props) => {
   const {
@@ -16,12 +30,19 @@ const Radio = (props) => {
     handleChange,
     handleBack,
     isSubmitShown,
+    invalid,
+    activity,
+    answers,
   } = props;
 
   const [checked, setChecked] = useState();
   const isNextDisable = !answer && answer !== 0;
   const valueType = item.valueConstraints.valueType;
   const token = valueType && valueType.includes('token');
+
+  const lastResponseTime = useSelector(activityLastResponseTimeSelector);
+  const profile = useSelector(profileSelector);
+  const markdown = useRef(parseMarkdown(item.question.en, lastResponseTime, profile, activity, answers)).current;
 
   useEffect(() => {
     setChecked(values[item.variableName])
@@ -39,15 +60,36 @@ const Radio = (props) => {
   const renderItem = (obj, index) => (
     <div className="response-option" style={{ background: obj.color ? obj.color : 'none' }}>
       {
-        obj.image && <Image className="option-image" src={obj.image} roundedCircle /> ||
-        <div className="option-image"></div>
+        !obj.image && <div className="option-image"></div>
+      }
+      {
+        obj.description &&
+        <OverlayTrigger
+          placement="bottom"
+          delay={{ show: 250, hide: 200 }}
+          overlay={
+            <Tooltip id="button-tooltip">
+              <Markdown
+                markdown={obj.description || ''}
+              />
+            </Tooltip>
+          }
+        >
+          <Image src={questionMark} className="tooltip-icon" />
+        </OverlayTrigger> ||
+        <div className="option-tooltip"></div>
+      }
+
+      {
+        obj.image && <Image className="option-image" src={obj.image} roundedCircle />
       }
       <Form.Check
-        label={obj.name.en}
+        label={handleReplaceBehaviourResponse(obj.name.en, activity, answers)}
         name={item.variableName}
+        className="form-check-width"
         style={{ color: obj.color ? invertColor(obj.color) : "#333333" }}
         type="radio"
-        checked={ answer && answer.value == (token ? obj.name.en : obj.value) }
+        checked={(answer || answer === 0) && answer.value == (token ? obj.name.en : obj.value)}
         onChange={
           () => {
             handleChange({ value: token ? obj.name.en : obj.value });
@@ -56,7 +98,6 @@ const Radio = (props) => {
         }
         value={obj.value}
         disabled={!isNextShown}
-        checked={checked == obj.value}
         id={`${item.variableName}${index}`}
       />
     </div>
@@ -64,7 +105,7 @@ const Radio = (props) => {
 
   const itemCount = item.valueConstraints.itemList.length;
   return (
-    <Card className="mb-3" style={{ maxWidth: "auto" }}>
+    <Card className={`${invalid ? 'invalid' : ''} mb-3`} style={{ maxWidth: "auto" }}>
       <Row className="no-gutters">
         <Col md={12}>
           <Card.Body>
@@ -75,20 +116,20 @@ const Radio = (props) => {
               }
               <div className="markdown">
                 <Markdown
-                  markdown={item.question.en.replace(/(!\[.*\]\s*\(.*?) =\d*x\d*(\))/g, '$1$2')}
+                  markdown={markdown}
                 />
               </div>
             </Card.Title>
             <div className="no-gutters">
               <Form.Group as={Row}>
                 <Col md={6}>
-                  {_.map(item.valueConstraints.itemList, (obj, i) => (
+                  {item.valueConstraints.itemList.filter(obj => !obj.isVis).map((obj, i) => (
                     i < Math.ceil(itemCount / 2) ? renderItem(obj, i) : <></>
                   ))}
                 </Col>
 
                 <Col md={6}>
-                  {_.map(item.valueConstraints.itemList, (obj, i) => (
+                  {item.valueConstraints.itemList.filter(obj => !obj.isVis).map((obj, i) => (
                     i >= Math.ceil(itemCount / 2) ? renderItem(obj, i) : <></>
                   ))}
                 </Col>
@@ -104,6 +145,8 @@ const Radio = (props) => {
         handleBack={handleBack}
         answer={answer}
         isSubmitShown={isSubmitShown}
+        skippable={item.skippable}
+        {...props}
       />
     </Card>
   );

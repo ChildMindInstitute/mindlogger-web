@@ -149,7 +149,8 @@
     "toSeeThePage": "to See The Page",
     "expiredLink": "Password Resent Link Has Expired",
     "passwordRequired": "Password is required",
-    "passwordShort": "Password must be at least 6 characters."
+    "passwordShort": "Password must be at least 6 characters",
+    "passwordSame": "Password cannot be the same as old password"
   },
   "Consent": {
     "aboutStudy": "About the Study",

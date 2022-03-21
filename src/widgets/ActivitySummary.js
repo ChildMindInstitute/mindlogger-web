@@ -109,11 +109,12 @@ const Summary = styled(({ className, ...props }) => {
         }
       }
 
-      let { reportMessages } = evaluateCumulatives(lastResponse, chainedActivity);
+      let { reportMessages, scoreOverview } = evaluateCumulatives(lastResponse, chainedActivity);
 
       reports.push({
         activity: chainedActivity,
-        messages: reportMessages
+        messages: reportMessages,
+        scoreOverview
       });
     }
 
@@ -171,7 +172,7 @@ const Summary = styled(({ className, ...props }) => {
         <div className="pdf-container">
           <div id="PDF" ref={ref}>
             {
-              reports.map(({ activity, messages }, index) => {
+              reports.map(({ activity, messages, scoreOverview }, index) => {
                 if (!shareAllReports && activity.id.split('/').pop() != activityId) {
                   return <></>;
                 }
@@ -206,7 +207,7 @@ const Summary = styled(({ className, ...props }) => {
                   }
 
                   <div className="overview-font mb-4">
-                    <Markdown useCORS={true} markdown={_.get(activity, 'scoreOverview', '').replace(MARKDOWN_REGEX, '$1$2')} />
+                    <Markdown useCORS={true} markdown={scoreOverview.replace(MARKDOWN_REGEX, '$1$2')} />
                   </div>
                   {
                     messages && messages.map((item, i) => (<img key={i} src={images.current[`message-${activity.id}-${i}`] || null} className="pdf-message" />))
@@ -309,21 +310,21 @@ const Summary = styled(({ className, ...props }) => {
                 handlePDFSave()
               })
             }}
-          /> ) : <></>
+          /> ) : (
+            <MyButton
+              type="button"
+              label={t('additional.share_report')}
+              classes="mr-5 mb-2 float-right"
+              handleClick={(e) => {
+                setShareAllReports(false);
+
+                setTimeout(() => {
+                  handlePDFSave()
+                })
+              }}
+            />
+          )
         }
-
-        <MyButton
-          type="button"
-          label={t('additional.share_report')}
-          classes="mr-5 mb-2 float-right"
-          handleClick={(e) => {
-            setShareAllReports(false);
-
-            setTimeout(() => {
-              handlePDFSave()
-            })
-          }}
-        />
       </div>
     </Card>
   );

@@ -105,15 +105,15 @@ const SliderWidget = ({
                 />
 
                 {
-                  (showTickLabel || showTickMarks) &&
+                  (showTickLabel !== false || showTickMarks !== false) &&
                   <div className="ticks">
                     {
                       _.map(itemList, (obj, i) => (
                         <span
                           key={obj.name.en}
                           className="tick"
-                          style={{ background: showTickMarks ? 'black' : 'white' }}
-                        >{showTickLabel && obj.name.en || ''}</span>
+                          style={{ background: showTickMarks !== false ? 'black' : 'white' }}
+                        >{showTickLabel !== false && obj.name.en || ''}</span>
                       ))
                     }
                   </div>
@@ -127,7 +127,7 @@ const SliderWidget = ({
                     ></img>
 
                     {
-                      showTextAnchors &&
+                      showTextAnchors !== false &&
                         <div
                           className="min-label"
                         >
@@ -142,7 +142,7 @@ const SliderWidget = ({
                     ></img>
 
                     {
-                      showTextAnchors &&
+                      showTextAnchors !== false &&
                         <div
                           className="min-label"
                         >

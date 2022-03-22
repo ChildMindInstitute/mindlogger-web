@@ -8,6 +8,7 @@ import Checkbox from '../../widgets/Checkbox';
 import AgeSelector from '../../widgets/AgeSelector';
 import TextInput from '../../widgets/TextInput';
 import Slider from '../../widgets/Slider/index';
+import TimeDuration from '../../widgets/TimeDuration';
 import SplashScreen from '../../widgets/SplashScreen';
 import Dropdown from '../../widgets/Dropdown';
 
@@ -36,6 +37,9 @@ const Item = (props) => {
       case "text":
         return <TextInput {...props} isBackShown={isBackShown} handleChange={onChange} values={values} />;
       case "slider":
+        return <Slider {...props} handleChange={onChange} values={values} />;
+      case "duration":
+        return <TimeDuration {...props} handleChange={onChange} values={values} />;
         return <Slider {...props} isBackShown={isBackShown} handleChange={onChange} />;
       case "ageSelector":
         return <AgeSelector {...props} isBackShown={isBackShown} handleChange={onChange} />;

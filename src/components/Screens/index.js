@@ -24,6 +24,7 @@ import {
 import {
   // responsesSelector,
   currentScreenResponseSelector,
+  screenResponsesSelector,
   currentResponsesSelector,
   currentScreenIndexSelector,
   inProgressSelector,
@@ -49,6 +50,7 @@ const Screens = (props) => {
 
   const applet = useSelector(currentAppletSelector);
   const answer = useSelector(currentScreenResponseSelector);
+  const responses = useSelector(screenResponsesSelector);
   const progress = useSelector(inProgressSelector);
   const user = useSelector(userInfoSelector);
   const lastResponseTimes = useSelector(lastResponseTimeSelector) || {};

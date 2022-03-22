@@ -133,6 +133,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
             || item.inputType === "checkox"
             || item.inputType === "slider"
             || item.inputType === "ageSelector"
+            || item.inputType === "duration"
             || item.inputType === "text"
             || item.inputType === "dropdownList";
         });

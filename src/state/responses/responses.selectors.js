@@ -77,6 +77,13 @@ export const currentScreenResponseSelector = createSelector(
   }
 );
 
+export const screenResponsesSelector = createSelector(
+  currentResponsesSelector,
+  (progress) => {
+    return progress ? progress.responses : progress;
+  }
+);
+
 export const currentScreenIndexSelector = createSelector(
   currentResponsesSelector,
   (progress) => {

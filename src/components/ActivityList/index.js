@@ -115,7 +115,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
       ?.filter(index => index >= 0)
 
     let appletActivities = getActivityAvailabilityFromDependency(
-      getDependency(appletData.activities),
+      getDependency(appletData.activities, cumulativeActivities),
       convertToIndexes(cumulativeActivities[appletData.id]?.available),
       convertToIndexes(cumulativeActivities[appletData.id]?.archieved)
     )
@@ -139,10 +139,8 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
 
         return supportedItems.length > 0;
       })
-
     setActivities(sortActivities(appletActivities, inProgress, finishedEvents, currentApplet.schedule?.data));
   }
-
   const onPressActivity = (activity) => {
     if (activity.status === "in-progress") {
       setCurrentAct(activity);

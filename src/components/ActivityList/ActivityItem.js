@@ -51,7 +51,7 @@ const ActivityItem = (props) => {
           }}
         />
       }
-      <div class="activity-data">
+      <div className="activity-data">
         <div className="activity-name-date">{activity.name.en} {dueDateStr ? ' - ' + dueDateStr : ''} </div>
 
         {

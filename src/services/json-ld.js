@@ -105,7 +105,8 @@ import {
   NEXT_ACTIVITY,
   REMOVE_BACK_OPTION,
   IS_ONE_PAGE_ASSESSMENT,
-  COMBINE_REPORTS
+  COMBINE_REPORTS,
+  HIDE_ACTIVITY
 } from '../constants';
 
 export const languageListToObject = (list) => {
@@ -532,6 +533,7 @@ const transformPureActivity = (activityJson) => {
       jsExpression: R.path([JS_EXPRESSION, 0, "@value"], item),
       outputType: R.path([OUTPUT_TYPE, 0, "@value"], item),
       nextActivity: R.path([NEXT_ACTIVITY, 0, "@value"], item),
+      hideActivity: R.path([HIDE_ACTIVITY, 0, "@value"], item),
     }
   }, activityJson[MESSAGES]) || [];
 

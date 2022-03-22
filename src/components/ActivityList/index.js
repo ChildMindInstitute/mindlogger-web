@@ -68,18 +68,24 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
       }
     }
 
-    fetchMarkDown();
-    updateActivites();
+    if (currentApplet) {
+      fetchMarkDown();
+      updateActivites();
+    }
   }, []);
 
   useEffect(() => {
-    updateActivites();
+    if (currentApplet) {
+      updateActivites();
+    }
 
     let updateId;
     const leftTime = (60 - new Date().getSeconds()) * 1000;
     const leftOutId = delayedExec(
       () => {
-        updateActivites();
+        if (currentApplet) {
+          updateActivites();
+        }
         updateId = delayedExec(updateActivites, { every: updateStatusDelay });
       },
       { after: leftTime },
@@ -109,7 +115,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
       ?.filter(index => index >= 0)
 
     let appletActivities = getActivityAvailabilityFromDependency(
-      getDependency(appletData.activities),
+      getDependency(appletData.activities, cumulativeActivities),
       convertToIndexes(cumulativeActivities[appletData.id]?.available),
       convertToIndexes(cumulativeActivities[appletData.id]?.archieved)
     )
@@ -134,10 +140,8 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
 
         return supportedItems.length > 0;
       })
-
     setActivities(sortActivities(appletActivities, inProgress, finishedEvents, currentApplet.schedule?.data));
   }
-
   const onPressActivity = (activity) => {
     if (activity.status === "in-progress") {
       setCurrentAct(activity);
@@ -226,63 +230,69 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
 
   return (
     <Container fluid>
-      <Row className="ds-applet-layout">
-        <Col lg={1} />
-        <Col lg={3}>
-          <Card className="ds-card">
-            <div className="applet-header">
-              <div className="applet-image">
-                {currentApplet.image &&
-                  <Card.Img
-                    className="ds-shadow"
-                    variant="top"
-                    src={currentApplet.image}
-                  />
-                }
-                {!currentApplet.image &&
-                  <Avatar
-                    name={currentApplet.name.en}
-                    maxInitials={2}
-                    color="#777"
-                    size="240"
-                    round="3px"
-                  />
-                }
-              </div>
-            </div>
+      {
+        currentApplet && (
+          <Row className="ds-applet-layout">
+            <Col lg={1} />
+            <Col lg={3}>
+              <Card className="ds-card">
+                <div className="applet-header">
+                  <div className="applet-image">
+                    {currentApplet.image &&
+                      <Card.Img
+                        className="ds-shadow"
+                        variant="top"
+                        src={currentApplet.image}
+                      />
+                    }
+                    {!currentApplet.image &&
+                      <Avatar
+                        name={currentApplet.name.en}
+                        maxInitials={2}
+                        color="#777"
+                        size="240"
+                        round="3px"
+                      />
+                    }
+                  </div>
+                </div>
 
-            <Card.Body className="ds-card-title">
-              <Card.Title className="text-center">
-                {currentApplet.name.en}
-              </Card.Title>
-              <Button
-                className="ds-shadow ds-about-button"
-                onClick={openAboutPage}
-                variant="link"
-              >
-                {t('About.about')}
-              </Button>
-            </Card.Body>
-          </Card>
-          <AboutModal
-            aboutPage={aboutPage}
-            aboutType={currentApplet.aboutType}
-            markdown={markdown}
-            closeAboutPage={closeAboutPage}
-          />
-        </Col>
-        <Col lg={7}>
-          {activities.filter(activity => !activity.isReviewerActivity).map(activity => (
-            <ActivityItem
-              activity={activity}
-              onPress={() => onPressActivity(activity)}
-              disabled={activity.status === 'scheduled' && !activity.event.data.timeout.access}
-              key={activity.id ? activity.id : activity.text}
-            />
-          ))}
+                <Card.Body className="ds-card-title">
+                  <Card.Title className="text-center">
+                    {currentApplet.name.en}
+                  </Card.Title>
+                  <Button
+                    className="ds-shadow ds-about-button"
+                    onClick={openAboutPage}
+                    variant="link"
+                  >
+                    {t('About.about')}
+                  </Button>
+                </Card.Body>
+              </Card>
+              <AboutModal
+                aboutPage={aboutPage}
+                aboutType={currentApplet.aboutType}
+                markdown={markdown}
+                closeAboutPage={closeAboutPage}
+              />
+            </Col>
+            <Col lg={7}>
+              {activities.filter(activity => !activity.isReviewerActivity).map(activity => (
+                <ActivityItem
+                  activity={activity}
+                  onPress={() => onPressActivity(activity)}
+                  disabled={activity.status === 'scheduled' && !activity.event.data.timeout.access}
+                  key={activity.id ? activity.id : activity.text}
+                />
+              ))}
 
-        </Col>
-      </Row>
+            </Col>
+          </Row>
+        ) || (
+          <div className="applet-error">You have reached this URL in error. Please reach out to the organizer of this applet for further assistance.</div>
+        )
+      }
       <Modal show={startActivity} onHide={handleClose} animation={true}>
         <Modal.Header closeButton>
           <Modal.Title>{t('additional.resume_activity')}</Modal.Title>

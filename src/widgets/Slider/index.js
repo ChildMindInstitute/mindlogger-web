@@ -39,6 +39,8 @@ const SliderWidget = ({
   const {
     continuousSlider,
     showTickMarks,
+    showTickLabel,
+    showTextAnchors,
     itemList,
     ['minValue']: minLabel,
     ['maxValue']: maxLabel
@@ -103,14 +105,15 @@ const SliderWidget = ({
                 />
 
                 {
-                  !showTickMarks &&
+                  (showTickLabel !== false || showTickMarks !== false) &&
                   <div className="ticks">
                     {
                       _.map(itemList, (obj, i) => (
                         <span
                           key={obj.name.en}
                           className="tick"
-                        >{obj.name.en}</span>
+                          style={{ background: showTickMarks !== false ? 'black' : 'white' }}
+                        >{showTickLabel !== false && obj.name.en || ''}</span>
                       ))
                     }
                   </div>
@@ -123,11 +126,14 @@ const SliderWidget = ({
                       width="100%"
                     ></img>
 
-                    <div
-                      className="min-label"
-                    >
-                      {minLabel}
-                    </div>
+                    {
+                      showTextAnchors !== false &&
+                        <div
+                          className="min-label"
+                        >
+                          {minLabel}
+                        </div>
+                    }
                   </div>
                   <div className="last" style={{ width: `max(${minLabelWidth}%, 100px)` }}>
                     <img
@@ -135,11 +141,14 @@ const SliderWidget = ({
                       width="100%"
                     ></img>
 
-                    <div
-                      className="min-label"
-                    >
-                      {maxLabel}
-                    </div>
+                    {
+                      showTextAnchors !== false &&
+                        <div
+                          className="min-label"
+                        >
+                          {maxLabel}
+                        </div>
+                    }
                   </div>
                 </div>
               </div>

@@ -1,5 +1,6 @@
 import { Parser } from 'expr-eval';
 import _ from "lodash";
+import { replaceItemVariableWithName } from './helper';
 
 export const getScoreFromResponse = (item, value) => {
   if (value === null || item.inputType !== 'radio' && item.inputType !== 'slider') {
@@ -299,7 +300,7 @@ export const evaluateCumulatives = (responses, activity) => {
     }, {});
 
     activity.messages.forEach((msg) => {
-      const { jsExpression, message, outputType, nextActivity } = msg;
+      const { jsExpression, message, outputType, nextActivity, hideActivity } = msg;
 
       const exprArr = jsExpression.split(/[><]/g);
       const variableName = exprArr[0];
@@ -328,15 +329,18 @@ export const evaluateCumulatives = (responses, activity) => {
       };
 
       if (expr.evaluate(variableScores)) {
-        if (nextActivity) cumActivities.push(nextActivity);
+        if (nextActivity && (hideActivity || hideActivity === undefined)) cumActivities.push(nextActivity);
 
         const compute = activity?.compute?.find((itemCompute) => itemCompute.variableName.trim() == variableName.trim());
 
         reportMessages.push({
           category,
-          message,
+          message: replaceItemVariableWithName(message, activity, responses),
           score: variableScores[key ? key : category] + (outputType == 'percentage' ? '%' : ''),
-          compute,
+          compute: {
+            ...compute,
+            description: replaceItemVariableWithName(compute.description, activity, responses)
+          },
           jsExpression: jsExpression.substr(variableName.length),
           scoreValue: cumulativeScores[category],
           maxScoreValue: cumulativeMaxScores[category],
@@ -345,5 +349,9 @@ export const evaluateCumulatives = (responses, activity) => {
       }
     });
   }
-  return { reportMessages, cumActivities }
+  return {
+    reportMessages,
+    cumActivities,
+    scoreOverview: replaceItemVariableWithName(activity.scoreOverview || '', activity, responses)
+  }
 }

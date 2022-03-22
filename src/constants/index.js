@@ -84,6 +84,8 @@ export const RANDOMIZE_OPTIONS = "reprolib:terms/randomizeOptions";
 export const CONTINOUS_SLIDER = "reprolib:terms/continousSlider";
 export const TIME_DURATION = "schema:timeDuration";
 export const SHOW_TICK_MARKS = "reprolib:terms/showTickMarks";
+export const SHOW_TICK_LABEL = "reprolib:terms/tickLabel";
+export const SHOW_TEXT_ANCHORS = "reprolib:terms/textAnchors";
 export const IS_OPTIONAL_TEXT = "reprolib:terms/isOptionalText";
 export const IS_OPTIONAL_TEXT_REQUIRED = "reprolib:terms/isOptionalTextRequired";
 export const RESPONSE_ALERT_MESSAGE = "schema:responseAlertMessage";
@@ -98,6 +100,7 @@ export const NEXT_ACTIVITY = "reprolib:terms/nextActivity";
 export const REMOVE_BACK_OPTION = "reprolib:terms/removeBackOption";
 export const IS_ONE_PAGE_ASSESSMENT = "reprolib:terms/isOnePageAssessment";
 export const COMBINE_REPORTS = "reprolib:terms/combineReports";
+export const HIDE_ACTIVITY = "reprolib:terms/hideActivity";
 
 export const Statuses = {
   LOADING: 'loading',

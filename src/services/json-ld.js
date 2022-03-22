@@ -89,6 +89,8 @@ import {
   CONTINOUS_SLIDER,
   TIME_DURATION,
   SHOW_TICK_MARKS,
+  SHOW_TICK_LABEL,
+  SHOW_TEXT_ANCHORS,
   IS_OPTIONAL_TEXT,
   IS_OPTIONAL_TEXT_REQUIRED,
   RESPONSE_ALERT_MESSAGE,
@@ -104,7 +106,8 @@ import {
   NEXT_ACTIVITY,
   REMOVE_BACK_OPTION,
   IS_ONE_PAGE_ASSESSMENT,
-  COMBINE_REPORTS
+  COMBINE_REPORTS,
+  HIDE_ACTIVITY
 } from '../constants';
 
 export const languageListToObject = (list) => {
@@ -215,6 +218,20 @@ export const flattenValueConstraints = (vcObj) =>
         showTickMarks: R.path([key, 0, "@value"], vcObj),
       }
 
+    }
+
+    if (key == SHOW_TICK_LABEL) {
+      return {
+        ...accumulator,
+        showTickLabel: R.path([key, 0, "@value"], vcObj),
+      }
+    }
+
+    if (key == SHOW_TEXT_ANCHORS) {
+      return {
+        ...accumulator,
+        showTextAnchors: R.path([key, 0, "@value"], vcObj),
+      }
     }
 
     /*  if (key === IS_OPTIONAL_TEXT) {
@@ -520,6 +537,7 @@ const transformPureActivity = (activityJson) => {
       jsExpression: R.path([JS_EXPRESSION, 0, "@value"], item),
       outputType: R.path([OUTPUT_TYPE, 0, "@value"], item),
       nextActivity: R.path([NEXT_ACTIVITY, 0, "@value"], item),
+      hideActivity: R.path([HIDE_ACTIVITY, 0, "@value"], item),
     }
   }, activityJson[MESSAGES]) || [];
 

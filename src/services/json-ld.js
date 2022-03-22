@@ -88,6 +88,8 @@ import {
   RANDOMIZE_OPTIONS,
   CONTINOUS_SLIDER,
   SHOW_TICK_MARKS,
+  SHOW_TICK_LABEL,
+  SHOW_TEXT_ANCHORS,
   IS_OPTIONAL_TEXT,
   IS_OPTIONAL_TEXT_REQUIRED,
   RESPONSE_ALERT_MESSAGE,
@@ -211,6 +213,20 @@ export const flattenValueConstraints = (vcObj) =>
         showTickMarks: R.path([key, 0, "@value"], vcObj),
       }
 
+    }
+
+    if (key == SHOW_TICK_LABEL) {
+      return {
+        ...accumulator,
+        showTickLabel: R.path([key, 0, "@value"], vcObj),
+      }
+    }
+
+    if (key == SHOW_TEXT_ANCHORS) {
+      return {
+        ...accumulator,
+        showTextAnchors: R.path([key, 0, "@value"], vcObj),
+      }
     }
 
     /*  if (key === IS_OPTIONAL_TEXT) {

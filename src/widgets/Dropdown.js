@@ -75,6 +75,7 @@ const Dropdown = (props) => {
         isNextShown={isNextShown}
         isNextDisable={isNextDisable}
         handleBack={handleBack}
+        skippable={item.skippable}
         answer={answer}
         isSubmitShown={isSubmitShown}
       />

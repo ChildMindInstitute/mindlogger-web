@@ -119,12 +119,34 @@ export const replaceItemVariableWithName = (markdown, activity, answers) => {
             const item = index > -1 && _.find(activity.items[index]?.valueConstraints?.itemList, { value: ans });
             if (item) names.push(item.name.en);
           })
+
           markdown = markdown.replace(reg, names.join(', '));
 
         } else if (typeof answers[index] === "object") {
-          const item = index > -1 && _.find(activity.items[index]?.valueConstraints?.itemList, answers[index]);
-          if (item || answers[index]) {
-            markdown = markdown.replace(reg, item?.name?.en || answers[index]?.value);
+          let item;
+
+          switch (activity.items[index].inputType) {
+            case 'radio':
+              item = index > -1 && _.find(activity.items[index]?.valueConstraints?.itemList, { value: answers[index].value });
+              if (item) {
+                markdown = markdown.replace(reg, item.name.en);
+              }
+              break;
+            case 'slider':
+              markdown = markdown.replace(reg, answers[index].value);
+              break;
+            case 'timeRange':
+              markdown = markdown.replace(reg, getTimeString(answers[index].value?.from) + ' - ' + getTimeString(answers[index].value?.to));
+              break;
+            case 'date':
+              markdown = markdown.replace(reg, getDateString(answers[index].value));
+              break;
+            case 'ageSelector':
+              markdown = markdown.replace(reg, answers[index].value);
+              break;
+            case 'text':
+              markdown = markdown.replace(reg, answers[index].value || answers[index]);
+              break;
           }
         } else if (answers[index]) {
           markdown = markdown.replace(reg, answers[index]);

@@ -21,7 +21,7 @@ export const getLocalInfo = (currentApplets, currentResponses) => {
         localItems: response ? Object.keys(response.items) : [],
         localActivities: response ? Object.keys(response.activities) : [],
         localEvents,
-        startDate: response ? response['schema:startDate'] : null,
+        startDate: response ? response['schema:endDate'] : null,
       }
     })
   } else {

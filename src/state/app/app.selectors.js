@@ -4,7 +4,6 @@ import { appletsSelector } from '../applet/applet.selectors';
 
 export const apiHostSelector = R.path(['app', 'apiHost']);
 export const appStatusSelector = R.path(['app', 'appStatus']);
-export const responsesSelector = R.path(['app', 'responses']);
 export const currentEventSelector = R.path(['responses', 'currentEvent']);
 export const startedTimesSelector = R.path(['app', 'startedTimes']);
 

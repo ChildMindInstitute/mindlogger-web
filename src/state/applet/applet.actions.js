@@ -10,7 +10,7 @@ import { setCumulativeActivities, setProfiles } from './applet.reducer';
 
 import { transformApplet, parseAppletEvents } from '../../services/json-ld';
 import { getAppletsAPI, getPublicAppletAPI } from '../../services/applet.service';
-import { decryptAppletResponses } from '../../models/response';
+import { decryptAppletResponses, mergeResponses } from '../../models/response';
 import { setFinishedEvents } from '../app/app.reducer';
 
 import APPLET_CONSTANTS from './applet.constants';
@@ -23,8 +23,8 @@ export const getApplets = createAsyncThunk(APPLET_CONSTANTS.GET_APPLETS, async (
   const token = authTokenSelector(state);
   const userInfo = userInfoSelector(state);
   const currentApplets = appletsSelector(state);
-  const currentResponses = responsesSelector(state) || [];
-  const localInfo = getLocalInfo(currentApplets, currentResponses);
+  const oldResponses = responsesSelector(state) || [];
+  const localInfo = getLocalInfo(currentApplets, oldResponses);
   const responses = [];
   const applets = await getAppletsAPI({ token, localInfo });
 
@@ -98,6 +98,14 @@ export const getApplets = createAsyncThunk(APPLET_CONSTANTS.GET_APPLETS, async (
       }
     }
   };
+
+  for (let i = 0; i < responses.length; i++) {
+    const old = oldResponses.find(old => old && old.appletId == responses[i].appletId);
+
+    if (old) {
+      mergeResponses(old, responses[i]);
+    }
+  }
 
   dispatch(setProfiles(profiles));
   dispatch(setLastResponseTime(lastResponseTime));

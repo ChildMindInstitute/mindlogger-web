@@ -119,12 +119,34 @@ export const replaceItemVariableWithName = (markdown, activity, answers) => {
             const item = index > -1 && _.find(activity.items[index]?.valueConstraints?.itemList, { value: ans });
             if (item) names.push(item.name.en);
           })
+
           markdown = markdown.replace(reg, names.join(', '));
 
         } else if (typeof answers[index] === "object") {
-          const item = index > -1 && _.find(activity.items[index]?.valueConstraints?.itemList, answers[index]);
-          if (item || answers[index]) {
-            markdown = markdown.replace(reg, item?.name?.en || answers[index]?.value);
+          let item;
+
+          switch (activity.items[index].inputType) {
+            case 'radio':
+              item = index > -1 && _.find(activity.items[index]?.valueConstraints?.itemList, { value: answers[index].value });
+              if (item) {
+                markdown = markdown.replace(reg, item.name.en);
+              }
+              break;
+            case 'slider':
+              markdown = markdown.replace(reg, answers[index].value);
+              break;
+            case 'timeRange':
+              markdown = markdown.replace(reg, getTimeString(answers[index].value?.from) + ' - ' + getTimeString(answers[index].value?.to));
+              break;
+            case 'date':
+              markdown = markdown.replace(reg, getDateString(answers[index].value));
+              break;
+            case 'ageSelector':
+              markdown = markdown.replace(reg, answers[index].value);
+              break;
+            case 'text':
+              markdown = markdown.replace(reg, answers[index].value || answers[index]);
+              break;
           }
         } else if (answers[index]) {
           markdown = markdown.replace(reg, answers[index]);
@@ -203,32 +225,29 @@ export const getActivityAvailabilityFromDependency = (g, availableActivities = [
   return activities;
 }
 
-export const getDependency = (appletActivities, cumulativeActivities) => {
-  const activities = [];
-  const notShownActs = [];
-  for (let index = 0; index < appletActivities.length; index++) {
-    const act = appletActivities[index];
-    const { messages } = act;
-    if (messages?.length && (messages[0].nextActivity || messages[1].nextActivity)) notShownActs.push(act);
+export const getDependency = (activities) => {
+  const dependency = []
+
+  for (let i = 0; i < activities.length; i++) {
+    dependency.push([])
   }
 
-  for (let index = 0; index < appletActivities.length; index++) {
-    let isNextActivityShown = true;
-    const act = appletActivities[index];
+  for (let i = 0; i < activities.length; i++) {
+    const activity = activities[i];
 
-    for (let index = 0; index < notShownActs.length; index++) {
-      const notShownAct = notShownActs[index];
-      const alreadyAct = cumulativeActivities && cumulativeActivities[`${notShownAct.id}/nextActivity`];
-
-      isNextActivityShown = alreadyAct && alreadyAct.includes(act.name.en)
-        ? true
-        : checkActivityIsShown(act.name.en, notShownAct.messages)
+    if (activity.messages) {
+      for (const message of activity.messages) {
+        if (message.nextActivity) {
+          const index = findActivityFromName(activities, message.nextActivity)
+          if (index >= 0) {
+            dependency[index].push(i);
+          }
+        }
+      }
     }
+  }
 
-    if (isNextActivityShown)
-      activities.push(act);
-  } 
-  return activities;
+  return dependency;
 }
 
 export const getChainedActivities = (activities, currentActivity) => {

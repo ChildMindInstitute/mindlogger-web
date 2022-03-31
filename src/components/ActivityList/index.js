@@ -231,7 +231,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
   return (
     <Container fluid>
       {
-        currentApplet && (
+        currentApplet && !currentApplet.isIgnore && (
           <Row className="ds-applet-layout">
             <Col lg={1} />
             <Col lg={3}>

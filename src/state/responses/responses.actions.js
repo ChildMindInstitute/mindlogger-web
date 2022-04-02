@@ -1,4 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import _ from "lodash";
 
 import RESPONSE_CONSTANTS from './responses.constants';
 import { authTokenSelector, userInfoSelector, loggedInSelector } from "../user/user.selectors";
@@ -116,29 +117,39 @@ export const completeResponse = createAsyncThunk(RESPONSE_CONSTANTS.COMPLETE_RES
     }
 
   } else {
-    let { cumActivities } = evaluateCumulatives(inProgressResponse.responses, activity);
+    const { cumActivities, nonHiddenCumActivities } = evaluateCumulatives(inProgressResponse.responses, activity);
     const cumulativeActivities = appletCumulativeActivities(state);
 
-    if (cumActivities.length) {
-      const archieved = [...cumulativeActivities[applet.id].archieved];
+    if (cumActivities.length || nonHiddenCumActivities.length) {
+      let archieved = [...cumulativeActivities[applet.id].archieved];
+      let available = [...cumulativeActivities[applet.id].available];
       const activityId = activity.id.split('/').pop();
 
+      if (nonHiddenCumActivities.length) {
+        const ids = nonHiddenCumActivities.map(name => {
+          const activity = applet.activities.find(activity => activity.name.en == name)
+          return activity && activity.id.split('/').pop()
+        }).filter(id => id)
+
+        available = available.concat(_.intersection(archieved, ids));
+        archieved = _.difference(archieved, ids);
+      }
       if (archieved.indexOf(activityId) < 0) {
         archieved.push(activityId);
       }
+
+      available = available.concat(
+        cumActivities.map(name => {
+          const activity = applet.activities.find(activity => activity.name.en == name)
+          return activity && activity.id.split('/').pop()
+        }).filter(id => id)
+      ).filter(id => id != activity.id.split('/').pop())
 
       dispatch(
         setCumulativeActivities({
           ...cumulativeActivities,
           [applet.id]: {
-            available: cumulativeActivities[applet.id].available
-              .concat(
-                cumActivities.map(name => {
-                  const activity = applet.activities.find(activity => activity.name.en == name)
-                  return activity && activity.id.split('/').pop()
-                }).filter(id => id)
-              )
-              .filter(id => id != activity.id.split('/').pop()),
+            available,
             archieved
           }
         })

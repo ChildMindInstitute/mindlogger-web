@@ -37,6 +37,11 @@
   background-position: center center;
   background-size: cover;
 }
+.ds-activity-button .activity-recomended-image {
+  align-self: center;
+  min-width: 64px;
+  width: 92px;
+}
 .ds-activity-button .activity-data {
   flex-grow: 1;
   margin: 10px 0px;

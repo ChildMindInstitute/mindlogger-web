@@ -41,7 +41,7 @@ export default function AppletList() {
     <Container>
       <Row className="applet-list">
         {!isLoading ?
-          applets.length && applets.map(applet => (
+          applets.length && applets.filter(applet => !applet.isIgnore).map(applet => (
             <Card className="applet-card" onClick={() => onSelectApplet(applet.id)} key={applet.id}>
               <div className="applet-header">
                 <div className="applet-image">

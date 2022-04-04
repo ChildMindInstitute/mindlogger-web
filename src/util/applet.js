@@ -20,8 +20,9 @@ export const getLocalInfo = (currentApplets, currentResponses) => {
         contentUpdateTime,
         localItems: response ? Object.keys(response.items) : [],
         localActivities: response ? Object.keys(response.activities) : [],
+        localResponses: response ? Object.keys(response.dataSources) : [],
         localEvents,
-        startDate: response ? response['schema:startDate'] : null,
+        startDate: new Date().toISOString().slice(0, -5) // we don't need to display responses on web
       }
     })
   } else {

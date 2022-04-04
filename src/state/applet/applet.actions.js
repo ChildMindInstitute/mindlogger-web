@@ -2,15 +2,15 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import { authTokenSelector, userInfoSelector } from '../user/user.selectors';
 import { getLocalInfo, modifyApplet } from '../../util/applet';
-import { responsesSelector } from '../app/app.selectors';
 import { appletsSelector } from './applet.selectors';
 import { updateKeys } from '../responses/responses.actions';
+import { responsesSelector } from '../responses/responses.selectors';
 import { replaceResponses, setLastResponseTime } from '../responses/responses.reducer';
 import { setCumulativeActivities, setProfiles } from './applet.reducer';
 
 import { transformApplet, parseAppletEvents } from '../../services/json-ld';
 import { getAppletsAPI, getPublicAppletAPI } from '../../services/applet.service';
-import { decryptAppletResponses } from '../../models/response';
+import { decryptAppletResponses, mergeResponses } from '../../models/response';
 import { setFinishedEvents } from '../app/app.reducer';
 
 import APPLET_CONSTANTS from './applet.constants';
@@ -23,8 +23,8 @@ export const getApplets = createAsyncThunk(APPLET_CONSTANTS.GET_APPLETS, async (
   const token = authTokenSelector(state);
   const userInfo = userInfoSelector(state);
   const currentApplets = appletsSelector(state);
-  const currentResponses = responsesSelector(state) || [];
-  const localInfo = getLocalInfo(currentApplets, currentResponses);
+  const oldResponses = responsesSelector(state) || [];
+  const localInfo = getLocalInfo(currentApplets, oldResponses);
   const responses = [];
   const applets = await getAppletsAPI({ token, localInfo });
 
@@ -56,7 +56,8 @@ export const getApplets = createAsyncThunk(APPLET_CONSTANTS.GET_APPLETS, async (
         return !act.isPrize;
       });
 
-      if (appletActivities.length > 0 && !isIgnore) {
+      applet.isIgnore = !!isIgnore;
+      if (appletActivities.length > 0) {
         responses.push({
           ...decryptAppletResponses(applet, appletInfo.responses),
           appletId: 'applet/' + appletInfo.id
@@ -81,7 +82,8 @@ export const getApplets = createAsyncThunk(APPLET_CONSTANTS.GET_APPLETS, async (
         return !act.isPrize;
       });
 
-      if (appletActivities.length > 0 && !isIgnore) {
+      applet.isIgnore = !!isIgnore;
+      if (appletActivities.length > 0) {
         if (!applet.AESKey || !applet.userPublicKey) {
           dispatch(updateKeys(applet, userInfo));
         }
@@ -96,6 +98,14 @@ export const getApplets = createAsyncThunk(APPLET_CONSTANTS.GET_APPLETS, async (
       }
     }
   };
+
+  for (let i = 0; i < responses.length; i++) {
+    const old = oldResponses.find(old => old && old.appletId == responses[i].appletId);
+
+    if (old) {
+      mergeResponses(old, responses[i]);
+    }
+  }
 
   dispatch(setProfiles(profiles));
   dispatch(setLastResponseTime(lastResponseTime));

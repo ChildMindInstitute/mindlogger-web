@@ -359,7 +359,7 @@ const Summary = styled(({ className, ...props }) => {
 
 
   .score-overview {
-    font-size: 24px;
+    font-size: 26px;
     margin-bottom: 8px;
     background-color: white;
   }

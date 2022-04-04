@@ -67,6 +67,8 @@ const Summary = styled(({ className, ...props }) => {
         for (let i = 0; i < messages.length; i++) {
           items.push(`message-${activity.id}-${i}`);
         }
+
+        items.push(`overview-${activity.id}`);
       }
 
       Promise.all(items.map(id => {
@@ -172,7 +174,7 @@ const Summary = styled(({ className, ...props }) => {
         <div className="pdf-container">
           <div id="PDF" ref={ref}>
             {
-              reports.map(({ activity, messages, scoreOverview }, index) => {
+              reports.map(({ activity, messages }, index) => {
                 if (!shareAllReports && activity.id.split('/').pop() != activityId) {
                   return <></>;
                 }
@@ -205,10 +207,7 @@ const Summary = styled(({ className, ...props }) => {
                       />
                     </div>
                   }
-
-                  <div className="overview-font mb-4">
-                    <Markdown useCORS={true} markdown={scoreOverview.replace(MARKDOWN_REGEX, '$1$2')} />
-                  </div>
+                  <img src={images.current[`overview-${activity.id}`] || null} />
                   {
                     messages && messages.map((item, i) => (<img key={i} src={images.current[`message-${activity.id}-${i}`] || null} className="pdf-message" />))
                   }
@@ -285,6 +284,17 @@ const Summary = styled(({ className, ...props }) => {
               ))
             }
 
+            {
+              reports.map(({ activity, scoreOverview }) => (
+                <div
+                  id={`overview-${activity.id}`} key={activity.id}
+                  className="score-overview"
+                >
+                  <Markdown useCORS={true} markdown={scoreOverview.replace(MARKDOWN_REGEX, '$1$2')} />
+                </div>
+              ))
+            }
+
             <div id="footer-text">
               <p className="mb-4 terms-font">{termsText}</p>
               <p className="terms-footer">{footerText}</p>
@@ -347,8 +357,11 @@ const Summary = styled(({ className, ...props }) => {
     margin: 10px 0px;
   }
 
-  .overview-font {
-    font-size: 13px;
+
+  .score-overview {
+    font-size: 24px;
+    margin-bottom: 8px;
+    background-color: white;
   }
 
   .pdf-container {

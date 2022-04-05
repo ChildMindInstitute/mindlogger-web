@@ -228,6 +228,13 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
   const openAboutPage = () => showAboutPage(true);
   const handleClose = () => setStartActivity(false);
 
+  const getRecomendedActivity = (activityId) => {
+    const appletData = parseAppletEvents(currentApplet);
+    const availableCumulativeActivities = cumulativeActivities[appletData.id]?.available;
+    return availableCumulativeActivities?.length &&
+      availableCumulativeActivities[availableCumulativeActivities?.length - 1] === activityId?.split('/').pop()
+  }
+
   return (
     <Container fluid>
       {
@@ -282,6 +289,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
                 <ActivityItem
                   activity={activity}
                   onPress={() => onPressActivity(activity)}
+                  isRecommended={getRecomendedActivity(activity.id)}
                   disabled={activity.status === 'scheduled' && !activity.event.data.timeout.access}
                   key={activity.id ? activity.id : activity.text}
                 />

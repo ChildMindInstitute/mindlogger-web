@@ -341,9 +341,9 @@ const Screens = (props) => {
     <Container>
           <Row className="mt-5">
             <Col className="" xl={3} >
-              <Button 
-                variant="primary" 
-                className="mb-2 d-flex align-items-center" 
+              <Button
+                variant="primary"
+                className="mb-2 d-flex align-items-center"
                 onClick={() => handleBackScreen()}
               >
                 <BsArrowLeft className="mr-1" />
@@ -362,7 +362,7 @@ const Screens = (props) => {
           </Row>
       <Row className="mt-2 activity">
         <Col xl={3}>
-          <Card className="hover text-center mb-4">
+          <Card className="hover text-center mb-4 applet-card-screen">
             <div className="applet-header">
               <div className="applet-image">
                 {applet.image ?

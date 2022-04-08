@@ -107,7 +107,8 @@ import {
   REMOVE_BACK_OPTION,
   IS_ONE_PAGE_ASSESSMENT,
   COMBINE_REPORTS,
-  HIDE_ACTIVITY
+  HIDE_ACTIVITY,
+  MAX_LENGTH,
 } from '../constants';
 
 export const languageListToObject = (list) => {
@@ -212,6 +213,14 @@ export const flattenValueConstraints = (vcObj) =>
         scoring: R.path([key, 0, "@value"], vcObj),
       };
     }
+
+    if (key == MAX_LENGTH) {
+      return {
+        ...accumulator,
+        maxLength: R.path([key, 0, "@value"], vcObj),
+      }
+    }
+
     if (key === SHOW_TICK_MARKS) {
       return {
         ...accumulator,

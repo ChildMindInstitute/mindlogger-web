@@ -65,6 +65,7 @@ export const SCORE_OVERVIEW = "reprolib:terms/scoreOverview";
 export const DIRECTION = "reprolib:terms/direction";
 export const VERSION = "schema:version";
 export const IS_VIS = "reprolib:terms/isVis";
+export const MAX_LENGTH = "reprolib:terms/maxLength";
 export const ADD_PROPERTIES = "reprolib:terms/addProperties";
 export const COMPUTE = "reprolib:terms/compute";
 export const SUBSCALES = "reprolib:terms/subScales";

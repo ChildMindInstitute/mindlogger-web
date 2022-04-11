@@ -25,7 +25,7 @@
     text-decoration: underline;
 }
 
-@media screen and (max-width: 1023px) {
+@media screen and (max-width: 1200px) {
   .applet-card-screen {
     width: 15rem;
     border: 0!important;

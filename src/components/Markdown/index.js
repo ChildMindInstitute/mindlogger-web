@@ -48,7 +48,7 @@ const parser = new Parser();
 const Markdown = (props) => {
   const { markdown } = props;
 
-  let htmlInput = md.render(markdown);
+  let htmlInput = md.render(markdown || '');
 
   if (props.useCORS) {
     htmlInput = htmlInput.replace(

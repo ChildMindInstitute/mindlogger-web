@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import _ from "lodash";
-import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 import {
   Modal,
   DropdownButton,
@@ -10,9 +10,11 @@ import {
   Col,
   Image,
 } from 'react-bootstrap';
-
+import { parseMarkdown } from '../services/helper';
 import Navigator from './Navigator';
 import Markdown from '../components/Markdown';
+import { activityLastResponseTimeSelector } from '../state/responses/responses.selectors';
+import { profileSelector } from '../state/applet/applet.selectors';
 
 const TimeDuration = ({
   item,
@@ -23,11 +25,16 @@ const TimeDuration = ({
   handleBack,
   watermark,
   isSubmitShown,
-  answer
+  answer,
+  ...props
 }) => {
   const { timeDuration } = item.valueConstraints;
   const durations = timeDuration ? timeDuration.split(' ') : [];
   let finalAnswer = answer ? answer : {};
+  const lastResponseTime = useSelector(activityLastResponseTimeSelector);
+
+  const profile = useSelector(profileSelector);
+  const markdown = useRef(parseMarkdown(item.question.en, lastResponseTime, profile, props.activity, props.answers)).current;
 
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -72,7 +79,7 @@ const TimeDuration = ({
           onSelect={(v) => onChangeValue(type, v)}
           disabled={!isNextShown}
         >
-          {items.map(item => 
+          {items.map(item =>
             <Dropdown.Item eventKey={item.value}>{item.label}</Dropdown.Item>
           )}
         </DropdownButton>
@@ -85,14 +92,19 @@ const TimeDuration = ({
       <Row className="no-gutters">
         <Col md={12}>
           <Card.Title className="question">
-            {watermark &&
-              <Image className="watermark" src={watermark} alt="watermark" rounded />
+            {
+              props.watermark &&
+              <Image className="watermark" src={props.watermark} alt="watermark" rounded />
             }
-            <Markdown>{item.question.en}</Markdown>
+            <div className="markdown">
+              <Markdown
+                markdown={markdown}
+              />
+            </div>
           </Card.Title>
           <Card.Body>
             <Row>
-              {durations.map(duration => 
+              {durations.map(duration =>
                 <>
                   {duration && <Col>
                       {renderDuration(duration)}

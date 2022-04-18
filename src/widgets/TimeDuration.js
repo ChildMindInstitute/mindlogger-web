@@ -72,7 +72,7 @@ const TimeDuration = ({
           onSelect={(v) => onChangeValue(type, v)}
           disabled={!isNextShown}
         >
-          {items.map(item => 
+          {items.map(item =>
             <Dropdown.Item eventKey={item.value}>{item.label}</Dropdown.Item>
           )}
         </DropdownButton>
@@ -92,7 +92,7 @@ const TimeDuration = ({
           </Card.Title>
           <Card.Body>
             <Row>
-              {durations.map(duration => 
+              {durations.map(duration =>
                 <>
                   {duration && <Col>
                       {renderDuration(duration)}
@@ -112,6 +112,7 @@ const TimeDuration = ({
         handleBack={handleBack}
         isSubmitShown={isSubmitShown}
         answer={answer}
+        skippable={item.skippable}
       />
     </Card>
   )

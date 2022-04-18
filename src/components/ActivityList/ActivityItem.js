@@ -9,7 +9,7 @@ import { scheduledEndTime, convertDateString } from '../../util/time';
 import './style.css'
 
 const ActivityItem = (props) => {
-  const { activity, disabled, onPress } = props;
+  const { activity, disabled, onPress, isRecommended } = props;
 
   const activityDueDate = () => {
     if (activity.status === 'scheduled' && activity.event) {
@@ -53,6 +53,9 @@ const ActivityItem = (props) => {
             backgroundImage: `url(${activity.image})`
           }}
         />
+      }
+      {isRecommended ? 
+        <img className="activity-recomended-image" src={'/recomended_badge.png'} /> : null
       }
       <div className="activity-data">
         <div className="activity-name-date">{activity.name.en} {dueDateStr ? ' - ' + dueDateStr : ''} </div>

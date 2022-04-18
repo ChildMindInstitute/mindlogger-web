@@ -145,11 +145,11 @@ export const replaceItemVariableWithName = (markdown, activity, answers) => {
               markdown = markdown.replace(reg, answers[index].value);
               break;
             case 'text':
-              markdown = markdown.replace(reg, answers[index].value || answers[index]);
+              markdown = markdown.replace(reg, (answers[index].value || answers[index] || '').replace(/(?=[$&])/g, '\\'));
               break;
           }
         } else if (answers[index]) {
-          markdown = markdown.replace(reg, answers[index]);
+          markdown = markdown.replace(reg, answers[index].toString().replace(/(?=[$&])/g, '\\'));
         }
       });
     }
@@ -324,9 +324,4 @@ export const getChainedActivities = (activities, currentActivity) => {
   }
 
   return chainedActivities;
-}
-
-const checkActivityIsShown = (name, messages) => {
-  if (!name || !messages) return true;
-  return _.findIndex(messages, obj => obj.nextActivity === name && (obj.hideActivity || obj.hideActivity === undefined)) === -1;
 }

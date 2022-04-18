@@ -24,3 +24,11 @@
 .section-text:hover {
     text-decoration: underline;
 }
+
+@media screen and (max-width: 1200px) {
+  .applet-card-screen {
+    width: 15rem;
+    border: 0!important;
+    margin: auto;
+  }
+}

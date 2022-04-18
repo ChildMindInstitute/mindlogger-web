@@ -55,10 +55,23 @@ export default () => {
         message: t('ChangePassword.success')
       })
     } catch (error) {
-      setErrorSuccess({
-        type: 'error',
-        message: error.message
-      })
+      if (error.message === "Error: Password must be at least 6 characters.") {
+        setErrorSuccess({
+          type: 'error',
+          message: t('ChangePassword.passwordErrorMessage')
+        })
+      } else if (error.message === "Error: Old password is incorrect.") {
+        setErrorSuccess({
+          type: 'error',
+          message: t('ChangePassword.oldPasswordIncorrect')
+        })
+      } else {
+        setErrorSuccess({
+          type: 'error',
+          message: t('SetPassword.failed')
+        })
+      }
+
     }
   }
 

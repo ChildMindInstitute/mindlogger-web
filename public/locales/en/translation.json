@@ -68,8 +68,10 @@
     "title": "Change Password",
     "submit": "Submit",
     "passwordErrorMessage": "Password must have at least 6 characters",
+    "oldPasswordIncorrect": "Old password is incorrect",
     "passwordRequiredError": "You must specify a password",
     "password": "password",
+    "failed": "Failed",
     "passwordError": "The current password you entered was incorrect."
   },
   "Landing": {

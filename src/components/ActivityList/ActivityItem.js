@@ -29,6 +29,9 @@ const ActivityItem = (props) => {
   }
 
   if (activity.isHeader) {
+    if (activity.text === "Unscheduled") {
+      return <br />
+    }
     return (
       <p className="ds-activity-status">{activity.text}</p>
     )

@@ -133,8 +133,8 @@ export const completeResponse = createAsyncThunk(RESPONSE_CONSTANTS.COMPLETE_RES
 
         available = available.concat(_.intersection(archieved, ids));
         archieved = _.difference(archieved, ids);
-      }
-      if (archieved.indexOf(activityId) < 0) {
+        available = _.uniq(available.concat(ids));
+      } else if (archieved.indexOf(activityId) < 0) {
         archieved.push(activityId);
       }
 

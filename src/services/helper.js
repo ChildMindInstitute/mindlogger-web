@@ -169,7 +169,8 @@ const findActivityFromName = (activities, name) => {
   return activities.findIndex(activity => activity.name.en == name)
 }
 
-export const getActivityAvailabilityFromDependency = (g, availableActivities = [], archievedActivities = []) => {
+export const getActivityAvailabilityFromDependency = (appletActivities, availableActivities, archievedActivities) => {
+  const g = getDependency(appletActivities);
   const marked = [], activities = [];
   let markedCount = 0;
 
@@ -198,7 +199,7 @@ export const getActivityAvailabilityFromDependency = (g, availableActivities = [
     }
   }
 
-  while ( markedCount < g.length ) {
+  while (markedCount < g.length) {
     let updated = false;
 
     for (let i = 0; i < g.length; i++) {
@@ -222,7 +223,31 @@ export const getActivityAvailabilityFromDependency = (g, availableActivities = [
     }
   }
 
-  return activities;
+  const hidden = [];
+  for (let i = 0; i < g.length; i++) {
+    hidden.push(false);
+  }
+
+  for (const activity of appletActivities) {
+    if (activity.messages) {
+      for (const message of activity.messages) {
+        if (message.nextActivity && (message.hideActivity || message.hideActivity === undefined)) {
+          const index = findActivityFromName(appletActivities, message.nextActivity);
+          if (index >= 0) {
+            hidden[index] = true;
+          }
+        }
+      }
+    }
+  }
+
+  for (let i = 0; i < hidden.length; i++) {
+    if (!hidden[i] && !activities.includes(i) && !archievedActivities.includes(i)) {
+      activities.push(i);
+    }
+  }
+
+  return activities.sort();
 }
 
 export const getDependency = (activities) => {

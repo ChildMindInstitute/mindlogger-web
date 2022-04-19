@@ -1,0 +1,11 @@
+
+.duration-picker {
+  width: 80%;
+  margin: auto;
+}
+
+@media only screen and (max-width: 767px) {
+  .duration-picker {
+    width: 100%;
+  }
+}

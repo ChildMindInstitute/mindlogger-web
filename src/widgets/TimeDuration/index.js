@@ -10,11 +10,12 @@ import {
   Col,
   Image,
 } from 'react-bootstrap';
-import { parseMarkdown } from '../services/helper';
-import Navigator from './Navigator';
-import Markdown from '../components/Markdown';
-import { activityLastResponseTimeSelector } from '../state/responses/responses.selectors';
-import { profileSelector } from '../state/applet/applet.selectors';
+import { parseMarkdown } from '../../services/helper';
+import Navigator from '../Navigator';
+import Markdown from '../../components/Markdown';
+import { activityLastResponseTimeSelector } from '../../state/responses/responses.selectors';
+import { profileSelector } from '../../state/applet/applet.selectors';
+import './style.css';
 
 const TimeDuration = ({
   item,
@@ -102,11 +103,11 @@ const TimeDuration = ({
               />
             </div>
           </Card.Title>
-          <Card.Body>
+          <Card.Body className="duration-picker">
             <Row>
               {durations.map(duration =>
                 <>
-                  {duration && <Col>
+                  {duration && <Col className="mt-2">
                       {renderDuration(duration)}
                     </Col>
                   }

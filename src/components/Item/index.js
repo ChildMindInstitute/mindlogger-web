@@ -7,7 +7,7 @@ import Radio from '../../widgets/Radio';
 import Checkbox from '../../widgets/Checkbox';
 import AgeSelector from '../../widgets/AgeSelector';
 import TextInput from '../../widgets/TextInput';
-import Slider from '../../widgets/Slider/index';
+import Slider from '../../widgets/Slider';
 import TimeDuration from '../../widgets/TimeDuration';
 import SplashScreen from '../../widgets/SplashScreen';
 import Dropdown from '../../widgets/Dropdown';

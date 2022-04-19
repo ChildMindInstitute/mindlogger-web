@@ -18,21 +18,17 @@ export default () => {
     password: '',
     confirmPassword: ''
   })
-  const [isStarted, setIsStarted] = useState(false);
-  const [errorMessage, setErrorMsg] = useState({
-    password: '',
-  });
+  const [errorMessage, setErrorMsg] = useState("");
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const location = useLocation()
   const { redirectUrl } = useSelector(state => state.app);
   const isRouted = location.pathname.includes('signup');
-  let { loading, info, error } = useSelector(state => state.user);
+  let { loading, info } = useSelector(state => state.user);
   const [terms, setTerms] = useState(false);
 
   useEffect(() => {
     if (!loading && info) {
-      setIsStarted(true);
       if (redirectUrl) {
         dispatch(push(redirectUrl));
       } else if (location.state) {
@@ -44,60 +40,49 @@ export default () => {
     }
   }, [!loading && info])
 
-  if (isStarted && error) {
-    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-
-    if (!user.email) {
-      errorMsg = t('SignUp.emailErrorMessage');
-    } else if (!emailPattern.test(user.email)) {
-      errorMsg = t('SignUp.invalidEmailError');
-    } else if (!user.firstName) {
-      errorMsg = t('SignUp.firstNameRequiredError');
-    } else if (!user.password) {
-      errorMsg = t('SignUp.passwordErrorMessage');
-    } else if (user.password !== user.confirmPassword) {
-      errorMsg = t('SignUp.passwordsUnmatched');
-    } else if (user.password.length < 6) {
-      errorMsg = t('SignUp.passwordLengthError');
-    } else if (error.includes("already registered")) {
-      errorMsg = t('SignUp.existingEmailError');
-    }
-    setIsStarted(false);
-  }
-
   /**
    * Sends the New User details to the server for Creating User.
    * @param body
    */
   const onSubmit = async (event) => {
-    setIsStarted(true);
     event.preventDefault();
     const { confirmPassword, ...rest } = user
 
     if (rest.password.length < 6) {
-      setErrorMsg({
-        ...errorMessage,
-        password: "Password should be at least 6 characters",
-      });
+      setErrorMsg("Password should be at least 6 characters");
       return;
     } else if (rest.password.includes(" ")) {
-      setErrorMsg({
-        ...errorMessage,
-        password: "Password should not contain blank spaces",
-      });
+      setErrorMsg("Password should not contain blank spaces");
       return;
     }
 
     if (isPasswordSame) {
-      dispatch(signUp(rest));
+      const response = await dispatch(signUp(rest));
+      if (response.error) {
+        const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+        if (!user.email) {
+          setErrorMsg(t('SignUp.emailErrorMessage'));
+        } else if (!emailPattern.test(user.email)) {
+          setErrorMsg(t('SignUp.invalidEmailError'));
+        } else if (!user.firstName) {
+          setErrorMsg(t('SignUp.firstNameRequiredError'));
+        } else if (!user.password) {
+          setErrorMsg(t('SignUp.passwordErrorMessage'));
+        } else if (user.password !== user.confirmPassword) {
+          setErrorMsg(t('SignUp.passwordsUnmatched'));
+        } else if (user.password.length < 6) {
+          setErrorMsg(t('SignUp.passwordLengthError'));
+        } else if (response.error.message.includes("already registered")) {
+          setErrorMsg(t('SignUp.existingEmailError'));
+        }
+      } else {
+        setErrorMsg("");
+      }
     } else {
-      setErrorMsg({
-        ...errorMessage,
-        password: "Confirm password doesn't match",
-      });
+      setErrorMsg("Confirm password doesn't match");
       return;
     }
-    setErrorMsg({});
   }
 
   const isPasswordSame = user.password === user.confirmPassword
@@ -109,7 +94,7 @@ export default () => {
         <div className="container fluid" id="signupForm">
           <Form onSubmit={onSubmit}>
             <div className="form-group">
-              {errorMessage.password && <Alert variant={'danger'}>{errorMessage.password}</Alert>}
+              {errorMessage && <Alert variant={'danger'}>{errorMessage}</Alert>}
               <Form.Control
                 name="user"
                 type="text"

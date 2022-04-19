@@ -917,18 +917,18 @@ export const parseAppletEvents = (applet) => {
     if (applet.schedule) {
       for (let eventId in applet.schedule.events) {
         const event = { ...applet.schedule.events[eventId] };
-        const futureSchedule = Parse.schedule(event.schedule).forecast(
-          Day.fromDate(new Date()),
-          true,
-          1,
-          0,
-          true,
-        );
+        if (event.data.activity_id === act.id.substring(9) && !act.hasResponseIdentifier) {
+          const futureSchedule = Parse.schedule(event.schedule).forecast(
+            Day.fromDate(new Date()),
+            true,
+            1,
+            0,
+            true,
+          );
 
-        if (futureSchedule.array().length) {
-          event.scheduledTime = getStartOfInterval(futureSchedule.array()[0]).getTime();
+          if (futureSchedule.array().length) {
+            event.scheduledTime = getStartOfInterval(futureSchedule.array()[0]).getTime();
 
-          if (event.data.activity_id === act.id.substring(9) && !act.hasResponseIdentifier) {
             events.push(event);
           }
         }

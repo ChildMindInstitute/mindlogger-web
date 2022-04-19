@@ -53,6 +53,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
 
   const user = useSelector(state => R.path(['user', 'info'])(state));
   const updateStatusDelay = 60 * 1000;
+  const appletData = parseAppletEvents(currentApplet);
 
   useEffect(() => {
     const fetchMarkDown = async () => {
@@ -100,7 +101,6 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
   }, [Object.keys(inProgress).length]) //responseSchedule
 
   const updateActivites = () => {
-    const appletData = parseAppletEvents(currentApplet);
     const prizeActs = appletData.activities.filter(act => act.isPrize);
 
     if (prizeActs.length === 1) {
@@ -229,7 +229,6 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
   const handleClose = () => setStartActivity(false);
 
   const getRecomendedActivity = (activityId) => {
-    const appletData = parseAppletEvents(currentApplet);
     const availableCumulativeActivities = cumulativeActivities[appletData.id]?.available;
     return availableCumulativeActivities?.length &&
       availableCumulativeActivities[availableCumulativeActivities?.length - 1] === activityId?.split('/').pop()

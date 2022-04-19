@@ -225,3 +225,8 @@ code {
   top: 50%;
   transform: translateY(-50%);
 }
+
+.dropdown-menu {
+  max-height: 200px;
+  overflow: auto;
+}

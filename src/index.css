@@ -160,6 +160,7 @@ code {
 .option-image {
   height: 25px;
   width: 25px;
+  object-fit: cover;
   margin-right: 10px;
 }
 

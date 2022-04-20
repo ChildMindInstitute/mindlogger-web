@@ -152,6 +152,7 @@
     "expiredLink": "Password Resent Link Has Expired",
     "passwordRequired": "Password is required",
     "passwordShort": "Password must be at least 6 characters",
+    "passwordBlank": "Password should not contain blank spaces",
     "passwordSame": "Password cannot be the same as old password"
   },
   "Consent": {

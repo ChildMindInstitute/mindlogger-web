@@ -113,9 +113,9 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
         return index;
       })
       ?.filter(index => index >= 0)
-
+  
     let appletActivities = getActivityAvailabilityFromDependency(
-      getDependency(appletData.activities, cumulativeActivities),
+      appletData.activities,
       convertToIndexes(cumulativeActivities[appletData.id]?.available),
       convertToIndexes(cumulativeActivities[appletData.id]?.archieved)
     )
@@ -140,7 +140,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
 
         return supportedItems.length > 0;
       })
-    setActivities(sortActivities(appletActivities, inProgress, finishedEvents, currentApplet.schedule?.data));
+    setActivities(_.uniq(sortActivities(appletActivities, inProgress, finishedEvents, currentApplet.schedule?.data), "id"));
   }
   const onPressActivity = (activity) => {
     if (activity.status === "in-progress") {

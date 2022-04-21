@@ -242,7 +242,20 @@ export const getActivityAvailabilityFromDependency = (appletActivities, availabl
   }
 
   for (let i = 0; i < hidden.length; i++) {
-    if (!hidden[i] && !activities.includes(i) && !archievedActivities.includes(i)) {
+    if (!hidden[i] && !activities.includes(i) && archievedActivities.includes(i)) {
+      try {
+        const activity = appletActivities[i];
+        for (const message of activity?.messages) {
+          if (message.nextActivity && !message.hideActivity) {
+            activities.push(i);
+            break;
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+
+    } else if (!hidden[i] && !activities.includes(i) && !archievedActivities.includes(i)) {
       activities.push(i);
     }
   }

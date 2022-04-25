@@ -88,7 +88,7 @@ export default () => {
         <div className="container fluid" id="signupForm">
           <Form onSubmit={onSubmit}>
             <div className="form-group">
-              {errorMessage && <Alert className="alert-message" variant={'danger'}>{errorMessage}</Alert>}
+              {errorMessage && <Alert variant={'danger'}>{errorMessage}</Alert>}
               <Form.Control
                 name="user"
                 type="text"

@@ -1,13 +1,11 @@
-#signupForm {
-  padding: 20px;
-  margin-top: 20px;
-  box-shadow: 0 0 7px 0 #80808036;
-}
 .demo{
   margin-top: 30px;
   padding-top: 1rem;
 }
 
-.alert-message {
-  width: 100%;
+@media (max-width: 767px) {
+  .demo{
+    margin-top: 0px;
+    padding-top: 0px;
+  }
 }

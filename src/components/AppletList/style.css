@@ -45,3 +45,9 @@
   font-size: 25px;
   text-align: center;
 }
+
+@media (max-width: 768px) {
+  .xs-display-none {
+    display: none;
+  }
+}

@@ -11,7 +11,7 @@ export const Footer = () => {
         {'© '}
         <a
           href="https://childmind.org"
-          className="mx-1"
+          className="mx-1 xs-display-none"
           target={'_blank'}
           rel="noreferrer"
         >
@@ -20,7 +20,7 @@ export const Footer = () => {
         </a>{' '}
         MATTER Lab 2022
 
-        <a className="mx-4" href="https://mindlogger.org/terms" target='_blank'>Terms of Service</a>
+        <a className="mx-4 xs-display-none" href="https://mindlogger.org/terms" target='_blank'>Terms of Service</a>
       </p>
     </footer>
   )

@@ -48,32 +48,26 @@ export default () => {
     event.preventDefault();
     const { confirmPassword, ...rest } = user
 
-    if (rest.password.length < 6) {
-      setErrorMsg("Password should be at least 6 characters");
-      return;
-    } else if (rest.password.includes(" ")) {
-      setErrorMsg("Password should not contain blank spaces");
-      return;
-    }
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
-    if (isPasswordSame) {
+    if (!user.email) {
+      setErrorMsg(t('SignUp.emailErrorMessage'));
+    } else if (!emailPattern.test(user.email)) {
+      setErrorMsg(t('SignUp.invalidEmailError'));
+    } else if (!user.firstName) {
+      setErrorMsg(t('SignUp.firstNameRequiredError'));
+    } else if (!user.password) {
+      setErrorMsg(t('SignUp.passwordErrorMessage'));
+    } else if (user.password !== user.confirmPassword) {
+      setErrorMsg(t('SignUp.passwordsUnmatched'));
+    } else if (user.password.length < 6) {
+      setErrorMsg(t('SignUp.passwordLengthError'));
+    } else if (user.password.includes(" ")) {
+      setErrorMsg("Password should not contain blank spaces");
+    } else if (isPasswordSame) {
       const response = await dispatch(signUp(rest));
       if (response.error) {
-        const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-
-        if (!user.email) {
-          setErrorMsg(t('SignUp.emailErrorMessage'));
-        } else if (!emailPattern.test(user.email)) {
-          setErrorMsg(t('SignUp.invalidEmailError'));
-        } else if (!user.firstName) {
-          setErrorMsg(t('SignUp.firstNameRequiredError'));
-        } else if (!user.password) {
-          setErrorMsg(t('SignUp.passwordErrorMessage'));
-        } else if (user.password !== user.confirmPassword) {
-          setErrorMsg(t('SignUp.passwordsUnmatched'));
-        } else if (user.password.length < 6) {
-          setErrorMsg(t('SignUp.passwordLengthError'));
-        } else if (response.error.message.includes("already registered")) {
+        if (response.error.message.includes("already registered")) {
           setErrorMsg(t('SignUp.existingEmailError'));
         }
       } else {
@@ -94,7 +88,7 @@ export default () => {
         <div className="container fluid" id="signupForm">
           <Form onSubmit={onSubmit}>
             <div className="form-group">
-              {errorMessage && <Alert variant={'danger'}>{errorMessage}</Alert>}
+              {errorMessage && <Alert className="alert-message" variant={'danger'}>{errorMessage}</Alert>}
               <Form.Control
                 name="user"
                 type="text"

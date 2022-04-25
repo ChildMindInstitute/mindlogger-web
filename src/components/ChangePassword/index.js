@@ -40,6 +40,20 @@ export default () => {
     event.preventDefault()
 
     try {
+      if (passwordData.newPassword.length < 6) {
+        setErrorSuccess({
+          type: 'error',
+          message: t('SetPassword.passwordShort')
+        })
+        return;
+      }
+      if (passwordData.newPassword.includes(" ")) {
+        setErrorSuccess({
+          type: 'error',
+          message: t('SetPassword.passwordBlank')
+        })
+        return;
+      }
       if (passwordData.newPassword === passwordData.oldPassword) {
         setErrorSuccess({
           type: 'error',

@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import moment from 'moment';
+import i18n from 'i18next';
 import { Button, Image } from 'react-bootstrap';
 
 import TimedActivity from './TimedActivity';
@@ -29,7 +30,7 @@ const ActivityItem = (props) => {
   }
 
   if (activity.isHeader) {
-    if (activity.text === "Unscheduled") {
+    if (activity.text === '') {
       return <br />
     }
     return (

@@ -243,6 +243,20 @@ export const flattenValueConstraints = (vcObj) =>
       }
     }
 
+    if (key == MIN_VALUE_IMAGE) {
+      return {
+        ...accumulator,
+        minValueImg: R.path([key, 0, "@value"], vcObj)
+      }
+    }
+
+    if (key == MAX_VALUE_IMAGE) {
+      return {
+        ...accumulator,
+        maxValueImg: R.path([key, 0, "@value"], vcObj)
+      }
+    }
+
     /*  if (key === IS_OPTIONAL_TEXT) {
         return {
           ...accumulator,

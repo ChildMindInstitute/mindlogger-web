@@ -42,6 +42,8 @@ const SliderWidget = ({
     showTickLabel,
     showTextAnchors,
     itemList,
+    minValueImg,
+    maxValueImg,
     ['minValue']: minLabel,
     ['maxValue']: maxLabel
   } = item.valueConstraints;
@@ -122,7 +124,7 @@ const SliderWidget = ({
                 <div className="slider-description">
                   <div className="first" style={{ width: `max(${minLabelWidth}%, 100px)` }}>
                     <img
-                      src={itemList[0].image}
+                      src={minValueImg}
                       width="100%"
                     ></img>
 
@@ -137,7 +139,7 @@ const SliderWidget = ({
                   </div>
                   <div className="last" style={{ width: `max(${minLabelWidth}%, 100px)` }}>
                     <img
-                      src={itemList[itemList.length - 1].image}
+                      src={maxValueImg}
                       width="100%"
                     ></img>
 

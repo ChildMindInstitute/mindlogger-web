@@ -230,3 +230,17 @@ code {
   max-height: 200px;
   overflow: auto;
 }
+
+#signupForm {
+  width: 400px;
+  padding: 10px;
+  margin-top: 20px;
+  background-color: white;
+  box-shadow: 0 0 7px 0 #80808036;
+}
+
+@media (max-width: 767px) {
+  #signupForm {
+    width: 280px;
+  }
+}

@@ -137,12 +137,13 @@ export default () => {
 
               <div className="d-flex">
                 <Form.Check
+                  className="hover-p"
                   type="checkbox"
                   value={terms}
                   id="terms_id"
                   onChange={() => setTerms(!terms)}
                 />
-                <Form.Label for="terms_id">I agree to the <a href="https://mindlogger.org/terms" target='_blank'>Terms of Service</a></Form.Label>
+                <Form.Label for="terms_id" className="hover-pointer">I agree to the <a href="https://mindlogger.org/terms" target='_blank'>Terms of Service</a></Form.Label>
               </div>
             </div>
             <Button

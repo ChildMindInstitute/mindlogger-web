@@ -47,6 +47,14 @@ export default function SetPassword() {
     event.preventDefault()
     setStatus(Statuses.SUBMITTED)
 
+    if (passwordData.newPassword.length < 6) {
+      setStatus(t('SetPassword.passwordShort'));
+      return;
+    }
+    if (passwordData.newPassword.includes(" ")) {
+      setStatus(t('SetPassword.passwordBlank'));
+      return;
+    }
     if (!isPasswordSame) {
       setStatus(t('SignUp.passwordsUnmatched'));
       return;

@@ -185,7 +185,7 @@ export default (activityList, inProgress, finishedEvents, scheduleData) => {
     ),
     ...addSectionHeader(
       addProp('status', 'unscheduled', unscheduled),
-      unscheduled.length ? i18n.t('additional.unscheduled') : '',
+      inProgressActivities.length ? '' : i18n.t('additional.unscheduled'),
     ),
     ...addSectionHeader(addProp('status', 'scheduled', scheduled), i18n.t('additional.scheduled')),
   ];

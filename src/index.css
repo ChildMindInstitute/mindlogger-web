@@ -244,3 +244,7 @@ code {
     width: 280px;
   }
 }
+
+.form-group {
+  margin: 1rem 0.5rem;
+}

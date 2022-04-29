@@ -84,7 +84,6 @@ export default function Login() {
         <h1>{t('Login.title')}</h1>
         <div className="container fluid" id="signupForm">
           <Form onSubmit={onSubmit}>
-            <div className="form-group"></div>
             <div className="form-group">
               {errorMessage && <Alert variant={'danger'}>{errorMessage}</Alert>}
               <Form.Control

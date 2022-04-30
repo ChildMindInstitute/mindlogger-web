@@ -109,6 +109,7 @@ import {
   COMBINE_REPORTS,
   HIDE_ACTIVITY,
   MAX_LENGTH,
+  IS_RECOMMENDED,
 } from '../constants';
 
 export const languageListToObject = (list) => {
@@ -561,6 +562,7 @@ const transformPureActivity = (activityJson) => {
       outputType: R.path([OUTPUT_TYPE, 0, "@value"], item),
       nextActivity: R.path([NEXT_ACTIVITY, 0, "@value"], item),
       hideActivity: R.path([HIDE_ACTIVITY, 0, "@value"], item),
+      isRecommended: R.path([IS_RECOMMENDED, 0, "@value"], item),
     }
   }, activityJson[MESSAGES]) || [];
 

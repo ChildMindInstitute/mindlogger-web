@@ -169,6 +169,10 @@ const findActivityFromName = (activities, name) => {
   return activities.findIndex(activity => activity.name.en == name)
 }
 
+const findActivityIdByName = (activities, name) => {
+  return _.find(activities, activity => activity.name.en == name)?.id;
+}
+
 export const getActivityAvailabilityFromDependency = (appletActivities, availableActivities, archievedActivities) => {
   const g = getDependency(appletActivities);
   const marked = [], activities = [];
@@ -228,13 +232,18 @@ export const getActivityAvailabilityFromDependency = (appletActivities, availabl
     hidden.push(false);
   }
 
+  const recommendedActivities = [];
   for (const activity of appletActivities) {
     if (activity.messages) {
       for (const message of activity.messages) {
-        if (message.nextActivity && (message.hideActivity || message.hideActivity === undefined)) {
+        if (message.nextActivity) {
           const index = findActivityFromName(appletActivities, message.nextActivity);
-          if (index >= 0) {
+          if ((message.hideActivity || message.hideActivity === undefined) && index >= 0) {
             hidden[index] = true;
+          }
+          if (message.isRecommended) {
+            const id = findActivityIdByName(appletActivities, message.nextActivity);
+            recommendedActivities.push(id);
           }
         }
       }
@@ -260,7 +269,7 @@ export const getActivityAvailabilityFromDependency = (appletActivities, availabl
     }
   }
 
-  return activities.sort();
+  return { appletActivities: activities.sort(), recommendedActivities };
 }
 
 export const getDependency = (activities) => {

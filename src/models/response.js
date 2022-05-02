@@ -28,7 +28,7 @@ export const prepareResponseForUpload = (
 ) => {
   const languageKey = "en";
   const { activity, responses, subjectId } = inProgressResponse;
-  const { cumActivities } = evaluateCumulatives(responses, activity);
+  const { cumActivities, nonHiddenCumActivities } = evaluateCumulatives(responses, activity);
   const appletVersion = appletMetaData.schemaVersion[languageKey];
   const scheduledTime = activity.event && activity.event.scheduledTime;
   let cumulative = responseHistory.tokens?.cumulativeToken || 0;
@@ -91,7 +91,7 @@ export const prepareResponseForUpload = (
     },
     languageCode: languageKey,
     alerts,
-    nextActivities: cumActivities.map(name => {
+    nextActivities: cumActivities.concat(nonHiddenCumActivities).map(name => {
       const activity = appletMetaData.activities.find(activity => activity.name.en == name)
       return activity && activity.id.split('/').pop()
     }).filter(id => id)

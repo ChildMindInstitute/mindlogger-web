@@ -18,14 +18,14 @@ import Avatar from 'react-avatar';
 // Local
 import sortActivities from './sortActivities';
 import { delayedExec, clearExec } from '../../util/interval';
-import { inProgressSelector, currentScreenIndexSelector } from '../../state/responses/responses.selectors';
+import { inProgressSelector } from '../../state/responses/responses.selectors';
 import { finishedEventsSelector, startedTimesSelector } from '../../state/app/app.selectors';
 import { appletCumulativeActivities, appletsSelector } from '../../state/applet/applet.selectors';
 import { setActivityStartTime, setCurrentActivity, } from '../../state/app/app.reducer';
 import { setCurrentEvent } from '../../state/responses/responses.reducer';
-import { createResponseInProgress, setAnswer } from '../../state/responses/responses.reducer';
+import { createResponseInProgress } from '../../state/responses/responses.reducer';
 import { parseAppletEvents } from '../../services/json-ld';
-import { getActivityAvailabilityFromDependency, getDependency } from '../../services/helper';
+import { getActivityAvailabilityFromDependency } from '../../services/helper';
 
 import AboutModal from '../AboutModal';
 import ActivityItem from './ActivityItem';
@@ -42,8 +42,8 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
   const [aboutPage, showAboutPage] = useState(false);
   const [startActivity, setStartActivity] = useState(false);
   const [activities, setActivities] = useState([]);
+  const [recommendedActivities, setRecommendedActivities] = useState([]);
   const [currentAct, setCurrentAct] = useState({});
-  const [prizeActivity, setPrizeActivity] = useState(null);
   const [markdown, setMarkDown] = useState("");
   const [currentApplet] = useState(applets.find((applet) =>
     appletId && applet.id.includes(appletId) ||
@@ -101,12 +101,6 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
   }, [Object.keys(inProgress).length]) //responseSchedule
 
   const updateActivites = () => {
-    const prizeActs = appletData.activities.filter(act => act.isPrize);
-
-    if (prizeActs.length === 1) {
-      setPrizeActivity(prizeActs[0]);
-    }
-
     const convertToIndexes = (activities) => activities
       ?.map(id => {
         const index = appletData.activities.findIndex(activity => activity.id.split('/').pop() == id)
@@ -114,12 +108,11 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
       })
       ?.filter(index => index >= 0)
   
-    let appletActivities = getActivityAvailabilityFromDependency(
+    let { appletActivities, recommendedActivities } = getActivityAvailabilityFromDependency(
       appletData.activities,
       convertToIndexes(cumulativeActivities[appletData.id]?.available),
       convertToIndexes(cumulativeActivities[appletData.id]?.archieved)
     )
-
     appletActivities = appletActivities
       .map(index => appletData.activities[index])
       .filter(
@@ -140,6 +133,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
 
         return supportedItems.length > 0;
       })
+    setRecommendedActivities(recommendedActivities);
     setActivities(_.uniq(sortActivities(appletActivities, inProgress, finishedEvents, currentApplet.schedule?.data), "id"));
   }
   const onPressActivity = (activity) => {
@@ -288,7 +282,7 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
                 <ActivityItem
                   activity={activity}
                   onPress={() => onPressActivity(activity)}
-                  isRecommended={getRecomendedActivity(activity.id)}
+                  isRecommended={recommendedActivities?.includes(activity.id)}
                   disabled={activity.status === 'scheduled' && !activity.event.data.timeout.access}
                   key={activity.id ? activity.id : activity.text}
                 />

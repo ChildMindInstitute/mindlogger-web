@@ -102,6 +102,7 @@ export const REMOVE_BACK_OPTION = "reprolib:terms/removeBackOption";
 export const IS_ONE_PAGE_ASSESSMENT = "reprolib:terms/isOnePageAssessment";
 export const COMBINE_REPORTS = "reprolib:terms/combineReports";
 export const HIDE_ACTIVITY = "reprolib:terms/hideActivity";
+export const IS_RECOMMENDED = "reprolib:terms/isRecommended";
 
 export const Statuses = {
   LOADING: 'loading',

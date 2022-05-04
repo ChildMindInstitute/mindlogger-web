@@ -46,6 +46,9 @@ const Checkbox = ({
   }
 
   const invertColor = (hex) => {
+    if (!hex.includes('#')) {
+      return '#333333';
+    }
     let hexcolor = hex.replace("#", "");
     let r = parseInt(hexcolor.substr(0, 2), 16);
     let g = parseInt(hexcolor.substr(2, 2), 16);

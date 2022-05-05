@@ -62,7 +62,7 @@ const Summary = styled(({ className, ...props }) => {
     if (titleWidth && reports.length) {
       const items = ['footer-text'];
       for (const report of reports) {
-        const {messages, activity} = report;
+        const { messages, activity } = report;
 
         for (let i = 0; i < messages.length; i++) {
           items.push(`message-${activity.id}-${i}`);
@@ -106,7 +106,7 @@ const Summary = styled(({ className, ...props }) => {
           const itemResponses = responseHistory.responses[item.schema];
 
           if (itemResponses && itemResponses.length) {
-            lastResponse.push(itemResponses[itemResponses.length-1]);
+            lastResponse.push(itemResponses[itemResponses.length - 1]);
           }
         }
       }
@@ -174,7 +174,7 @@ const Summary = styled(({ className, ...props }) => {
         <div className="pdf-container">
           <div id="PDF" ref={ref}>
             {
-              reports.map(({ activity, messages }, index) => {
+              reports.map(({ activity, messages, scoreOverview }, index) => {
                 if (!shareAllReports && activity.id.split('/').pop() != activityId) {
                   return <></>;
                 }
@@ -207,7 +207,12 @@ const Summary = styled(({ className, ...props }) => {
                       />
                     </div>
                   }
-                  <img src={images.current[`overview-${activity.id}`] || null} />
+                  <div
+                    id={`overview-${activity.id}`} key={activity.id}
+                    className="score-overview"
+                  >
+                    <Markdown useCORS={true} markdown={scoreOverview.replace(MARKDOWN_REGEX, '$1$2')} />
+                  </div>
                   {
                     messages && messages.map((item, i) => (<img key={i} src={images.current[`message-${activity.id}-${i}`] || null} className="pdf-message" />))
                   }
@@ -245,7 +250,7 @@ const Summary = styled(({ className, ...props }) => {
                       <p
                         className="score-title text-nowrap"
                         style={{
-                          left: `max(${titleWidth/2}px, ${(item.scoreValue / item.maxScoreValue) * 100}%)`,
+                          left: `max(${titleWidth / 2}px, ${(item.scoreValue / item.maxScoreValue) * 100}%)`,
                         }}>
                         <b>{t("additional.child_score")}</b>
                       </p>
@@ -284,17 +289,6 @@ const Summary = styled(({ className, ...props }) => {
               ))
             }
 
-            {
-              reports.map(({ activity, scoreOverview }) => (
-                <div
-                  id={`overview-${activity.id}`} key={activity.id}
-                  className="score-overview"
-                >
-                  <Markdown useCORS={true} markdown={scoreOverview.replace(MARKDOWN_REGEX, '$1$2')} />
-                </div>
-              ))
-            }
-
             <div id="footer-text">
               <p className="mb-4 terms-font">{termsText}</p>
               <p className="terms-footer">{footerText}</p>
@@ -309,7 +303,7 @@ const Summary = styled(({ className, ...props }) => {
         />
 
         {
-          reports.length > 1 ? ( <MyButton
+          reports.length > 1 ? (<MyButton
             type="button"
             label={t('additional.share_all_reports')}
             classes="mr-5 mb-2 float-right"
@@ -320,7 +314,7 @@ const Summary = styled(({ className, ...props }) => {
                 handlePDFSave()
               })
             }}
-          /> ) : (
+          />) : (
             <MyButton
               type="button"
               label={t('additional.share_report')}
@@ -359,7 +353,7 @@ const Summary = styled(({ className, ...props }) => {
 
 
   .score-overview {
-    font-size: 26px;
+    font-size: 0.8rem;
     margin-bottom: 8px;
     background-color: white;
   }

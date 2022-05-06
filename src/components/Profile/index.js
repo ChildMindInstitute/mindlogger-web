@@ -44,22 +44,23 @@ const Profile = () => {
       </div>
 
       {isMobile &&
-        <div className="my-4">
+        <div className="d-flex justify-content-around align-items-center my-4">
           <a
-          href="https://play.google.com/store/apps/details?id=com.childmindinstitute.exposuretherapy&hl=en_US&gl=US"
-          >
+            href="https://play.google.com/store/apps/details?id=com.childmindinstitute.exposuretherapy&hl=en_US&gl=US"
+            target="_blank" 
+          > 
             <img
-              className="linkAndroid"
-              alt="Get it on Google Play"
-              src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
+              style={{ maxWidth: '60px', width: '100%' }}
+              className="mb-2 mr-4"
+              src="/androidbg1.png"
             />
           </a>
 
-          <a href="https://apps.apple.com/us/app/mindlogger-pilot/id1301092229#?platform=iphone">
+          <a href="https://apps.apple.com/us/app/mindlogger-pilot/id1301092229#?platform=iphone" target="_blank">
             <img
-              className="linkApple"
-              alt="Get it on Apple Test Flight"
-              src="https://miro.medium.com/max/512/0*Rb88ivTuqQAvWJEa.png"
+              style={{ maxWidth: '70px', width: '100%' }}
+              className="mb-2 ml-2"
+              src="/applebg3.png"
             />
           </a>
         </div>

@@ -39,7 +39,11 @@ const SliderWidget = ({
   const {
     continuousSlider,
     showTickMarks,
+    showTickLabel,
+    showTextAnchors,
     itemList,
+    minValueImg,
+    maxValueImg,
     ['minValue']: minLabel,
     ['maxValue']: maxLabel
   } = item.valueConstraints;
@@ -103,14 +107,15 @@ const SliderWidget = ({
                 />
 
                 {
-                  !showTickMarks &&
+                  (showTickLabel !== false || showTickMarks !== false) &&
                   <div className="ticks">
                     {
                       _.map(itemList, (obj, i) => (
                         <span
                           key={obj.name.en}
                           className="tick"
-                        >{obj.name.en}</span>
+                          style={{ background: showTickMarks !== false ? 'black' : 'white' }}
+                        >{showTickLabel !== false && obj.name.en || ''}</span>
                       ))
                     }
                   </div>
@@ -119,27 +124,33 @@ const SliderWidget = ({
                 <div className="slider-description">
                   <div className="first" style={{ width: `max(${minLabelWidth}%, 100px)` }}>
                     <img
-                      src={itemList[0].image}
+                      src={minValueImg}
                       width="100%"
                     ></img>
 
-                    <div
-                      className="min-label"
-                    >
-                      {minLabel}
-                    </div>
+                    {
+                      showTextAnchors !== false &&
+                        <div
+                          className="min-label"
+                        >
+                          {minLabel}
+                        </div>
+                    }
                   </div>
                   <div className="last" style={{ width: `max(${minLabelWidth}%, 100px)` }}>
                     <img
-                      src={itemList[itemList.length - 1].image}
+                      src={maxValueImg}
                       width="100%"
                     ></img>
 
-                    <div
-                      className="min-label"
-                    >
-                      {maxLabel}
-                    </div>
+                    {
+                      showTextAnchors !== false &&
+                        <div
+                          className="min-label"
+                        >
+                          {maxLabel}
+                        </div>
+                    }
                   </div>
                 </div>
               </div>

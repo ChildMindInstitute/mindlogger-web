@@ -78,6 +78,7 @@ code {
 @media only screen and (max-height: 500px) {
   #root {
     height: unset;
+    min-height: 100vh;
   }
 
   .app-container {
@@ -159,6 +160,7 @@ code {
 .option-image {
   height: 25px;
   width: 25px;
+  object-fit: cover;
   margin-right: 10px;
 }
 
@@ -222,4 +224,27 @@ code {
   min-width: 100%;
   top: 50%;
   transform: translateY(-50%);
+}
+
+.dropdown-menu {
+  max-height: 200px;
+  overflow: auto;
+}
+
+#signupForm {
+  width: 400px;
+  padding: 10px;
+  margin-top: 20px;
+  background-color: white;
+  box-shadow: 0 0 7px 0 #80808036;
+}
+
+@media (max-width: 767px) {
+  #signupForm {
+    width: 280px;
+  }
+}
+
+.form-group {
+  margin: 1rem 0.5rem;
 }

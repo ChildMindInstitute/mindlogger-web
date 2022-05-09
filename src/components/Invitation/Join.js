@@ -149,7 +149,7 @@ export const Join = () => {
   function renderNotFound() {
     if (!inviteLink) {
       return <div className="heading">
-        <p>{t('InviteLink.notFound')}</p>
+        <div className="invitationMessage">{t('InviteLink.notFound')}</div>
       </div>
     }
 

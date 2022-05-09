@@ -59,7 +59,7 @@
     "logIn": "Login"
   },
   "ChangePassword": {
-    "settings": "test's Settings",
+    "settings": "{{name}}'s Settings",
     "cautionMessage": "Make sure to set a complex password, and don't share it with anyone.",
     "oldPassword": "Old Password",
     "newPassword": "New Password",
@@ -68,8 +68,10 @@
     "title": "Change Password",
     "submit": "Submit",
     "passwordErrorMessage": "Password must have at least 6 characters",
+    "oldPasswordIncorrect": "Old password is incorrect",
     "passwordRequiredError": "You must specify a password",
     "password": "password",
+    "failed": "Failed",
     "passwordError": "The current password you entered was incorrect."
   },
   "Landing": {
@@ -149,7 +151,9 @@
     "toSeeThePage": "to See The Page",
     "expiredLink": "Password Resent Link Has Expired",
     "passwordRequired": "Password is required",
-    "passwordShort": "Password must be at least 6 characters."
+    "passwordShort": "Password must be at least 6 characters",
+    "passwordBlank": "Password should not contain blank spaces",
+    "passwordSame": "Password cannot be the same as old password"
   },
   "Consent": {
     "aboutStudy": "About the Study",
@@ -198,6 +202,7 @@
     "fill_out_fields": "Please fill out the required fields"
   },
   "no_markdown": "The authors of this applet have not provided any information!",
+  "no_applets": "You currently do not have any applets.",
   "timed_activity":{
     "time_to_complete": "Time to complete",
     "hours" : "hours"

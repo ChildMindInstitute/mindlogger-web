@@ -5,3 +5,30 @@
 .w-h {
   width: inherit;
 }
+
+.header-text {
+  font-size: 19px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.header-text:hover {
+    text-decoration: underline;
+}
+
+.section-text {
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.section-text:hover {
+    text-decoration: underline;
+}
+
+@media screen and (max-width: 1200px) {
+  .applet-card-screen {
+    width: 15rem;
+    border: 0!important;
+    margin: auto;
+  }
+}

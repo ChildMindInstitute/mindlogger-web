@@ -28,7 +28,7 @@ export const prepareResponseForUpload = (
 ) => {
   const languageKey = "en";
   const { activity, responses, subjectId } = inProgressResponse;
-  const { cumActivities } = evaluateCumulatives(responses, activity);
+  const { cumActivities, nonHiddenCumActivities } = evaluateCumulatives(responses, activity);
   const appletVersion = appletMetaData.schemaVersion[languageKey];
   const scheduledTime = activity.event && activity.event.scheduledTime;
   let cumulative = responseHistory.tokens?.cumulativeToken || 0;
@@ -91,7 +91,7 @@ export const prepareResponseForUpload = (
     },
     languageCode: languageKey,
     alerts,
-    nextActivities: cumActivities.map(name => {
+    nextActivities: cumActivities.concat(nonHiddenCumActivities).map(name => {
       const activity = appletMetaData.activities.find(activity => activity.name.en == name)
       return activity && activity.id.split('/').pop()
     }).filter(id => id)
@@ -181,7 +181,7 @@ export const prepareResponseForUpload = (
     nextsAt[key] = inProgressResponse.nextsAt && inProgressResponse.nextsAt[i] || Date.now();
     i++;
   }
-  responseData['nextsAt'] = nextsAt; 
+  responseData['nextsAt'] = nextsAt;
 
   return responseData;
 };
@@ -213,6 +213,24 @@ export const getTokenUpdateInfo = (
     cumulative: { value: cumulative }
   }
 };
+
+export const mergeResponses = (old, latest) => {
+  if (old.dataSources) {
+    Object.keys(old.dataSources).forEach(key => {
+      if (!latest.dataSources[key]) {
+        latest.dataSources[key] = old.dataSources[key];
+      }
+    })
+  }
+
+  if (old.responses) {
+    Object.keys(old.responses).forEach(item => {
+      if (!latest.responses[item]) {
+        latest.responses[item] = old.responses[item];
+      }
+    })
+  }
+}
 
 export const decryptAppletResponses = (applet, responses) => {
   if (responses.dataSources && applet.encryption) {
@@ -278,14 +296,14 @@ export const decryptAppletResponses = (applet, responses) => {
         ) {
           response.value =
             responses.dataSources[response.value.src][response.value.ptr];
-          if (response.value && response.value.value) {
+          if (response.value && response.value.value !== undefined) {
             response.value = response.value.value;
           }
         }
       }
 
       responses.responses[item] = responses.responses[item].filter(
-        (response) => response.value
+        (response) => response.value !== undefined && response.value !== null
       );
       if (responses.responses[item].length === 0) {
         delete responses.responses[item];

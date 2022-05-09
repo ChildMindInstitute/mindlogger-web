@@ -21,7 +21,7 @@ export default function Landing () {
         <img
           style={{ maxWidth: '70px', width: '100%' }}
           className="mb-2 ml-2"
-          src="/apple.png"
+          src="/applebg3.png"
         />
       </a>
 
@@ -69,7 +69,7 @@ export default function Landing () {
         <img
           style={{ maxWidth: '60px', width: '100%' }}
           className="mb-2 mr-4"
-          src="/android.png"
+          src="/androidbg1.png"
         />
       </a>
     </div>

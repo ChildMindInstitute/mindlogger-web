@@ -26,6 +26,7 @@ export default () => {
   })
 
   const { t } = useTranslation()
+
   const dispatch = useDispatch()
   const { loading, info: user, auth: authToken } = useSelector(state => state.user);
 
@@ -37,7 +38,29 @@ export default () => {
    */
   const onSubmit = async (event) => {
     event.preventDefault()
+
     try {
+      if (passwordData.newPassword.length < 6) {
+        setErrorSuccess({
+          type: 'error',
+          message: t('SetPassword.passwordShort')
+        })
+        return;
+      }
+      if (passwordData.newPassword.includes(" ")) {
+        setErrorSuccess({
+          type: 'error',
+          message: t('SetPassword.passwordBlank')
+        })
+        return;
+      }
+      if (passwordData.newPassword === passwordData.oldPassword) {
+        setErrorSuccess({
+          type: 'error',
+          message: t('SetPassword.passwordSame')
+        })
+        return;
+      }
       let result = await dispatch(updatePassword({ token: authToken && authToken.token, passwordData }));
       result = unwrapResult(result);
 
@@ -46,10 +69,23 @@ export default () => {
         message: t('ChangePassword.success')
       })
     } catch (error) {
-      setErrorSuccess({
-        type: 'error',
-        message: error.message
-      })
+      if (error.message === "Error: Password must be at least 6 characters.") {
+        setErrorSuccess({
+          type: 'error',
+          message: t('ChangePassword.passwordErrorMessage')
+        })
+      } else if (error.message === "Error: Old password is incorrect.") {
+        setErrorSuccess({
+          type: 'error',
+          message: t('ChangePassword.oldPasswordIncorrect')
+        })
+      } else {
+        setErrorSuccess({
+          type: 'error',
+          message: t('SetPassword.failed')
+        })
+      }
+
     }
   }
 
@@ -60,7 +96,7 @@ export default () => {
       <div id="login" className="text-center mb-0">
         <div className="d-flex justify-content-center align-items-center">
           <Avatar />
-          <h1>{t('ChangePassword.settings')}</h1>
+          <h1>{t('ChangePassword.settings', { name: user.firstName })}</h1>
         </div>
         <hr></hr>
         <h3 className="my-3">{t('ChangePassword.title')}</h3>

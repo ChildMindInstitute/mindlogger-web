@@ -30,19 +30,14 @@ export const signIn = createAsyncThunk(USER_CONSTANTS.SIGNIN, async (user) => {
 });
 
 export const signUp = createAsyncThunk(USER_CONSTANTS.SIGNUP, async (user) => {
-  try {
-    const response = await signUpAPI(user)
-    const privateKey = getPrivateKey({
-      userId: response._id,
-      email: user.email,
-      password: user.password
-    });
+  const response = await signUpAPI(user)
+  const privateKey = getPrivateKey({
+    userId: response._id,
+    email: user.email,
+    password: user.password
+  });
 
-    return { ...response, privateKey, email: user.email };
-
-  } catch (error) {
-    throw new Error(error);
-  }
+  return { ...response, privateKey, email: user.email };
 });
 
 export const forgotPassword = createAsyncThunk(USER_CONSTANTS.FORGOT_PASSWORD, async (email) => {

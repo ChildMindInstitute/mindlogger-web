@@ -3,6 +3,14 @@
   box-shadow: 0 0px 2px 0 rgba(0, 0, 0, 0.1), 0 6px 15px 0 rgba(0, 0, 0, 0.16);
 }
 
+.hover-pointer:hover {
+  cursor: pointer;
+}
+
+.hover-p .form-check-input:hover {
+  cursor: pointer;
+}
+
 .d-none {
   display: none;
 }

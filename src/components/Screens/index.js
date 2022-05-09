@@ -5,7 +5,7 @@ import { Container, Card, Row, Col, Modal, Button, ProgressBar } from 'react-boo
 import { useParams, useHistory } from 'react-router-dom';
 import Avatar from 'react-avatar';
 import { useTranslation } from 'react-i18next';
-
+import { BsArrowLeft } from "react-icons/bs";
 import Item from '../Item';
 import ActivitySummary from '../../widgets/ActivitySummary';
 
@@ -24,6 +24,7 @@ import {
 import {
   // responsesSelector,
   currentScreenResponseSelector,
+  screenResponsesSelector,
   currentResponsesSelector,
   currentScreenIndexSelector,
   inProgressSelector,
@@ -41,6 +42,7 @@ const Screens = (props) => {
   const [data, setData] = useState({});
   const [show, setShow] = useState(false);
   const [alert, setAlert] = useState(false);
+  const [headers, setHeaders] = useState([]);
   const [showErrors, setShowErrors] = useState(false);
   const [isSplashScreen, setIsSplashScreen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -48,6 +50,7 @@ const Screens = (props) => {
 
   const applet = useSelector(currentAppletSelector);
   const answer = useSelector(currentScreenResponseSelector);
+  const responses = useSelector(screenResponsesSelector);
   const progress = useSelector(inProgressSelector);
   const user = useSelector(userInfoSelector);
   const lastResponseTimes = useSelector(lastResponseTimeSelector) || {};
@@ -88,7 +91,7 @@ const Screens = (props) => {
             errors[i] = true;
             continue;
           }
-        } else if (item.inputType == 'checkbox') {
+        } else if (item.inputType == 'radio' && item.valueConstraints?.multipleChoice) {
           if (!response.value.length && !item.skippable && !activityAccess.skippable) {
             errors[i] = true;
             continue;
@@ -119,11 +122,28 @@ const Screens = (props) => {
     }
     if (inProgress && Object.keys(inProgress).length > 0) {
       const { activity, responses } = inProgress;
+      const newHeaders = [];
       let obj = data;
+
+      activity.items.forEach((item, index) => {
+        if (item.header) {
+          newHeaders.push({
+            id: index,
+            headerName: item.header
+          })
+        } else if (item.section) {
+          newHeaders.push({
+            id: index,
+            sectionName: item.section
+          });
+        }
+      })
+
       responses.forEach((val, i) => {
         const { variableName } = activity.items[i];
         obj = { ...obj, [variableName]: val && val.value };
       })
+      setHeaders(newHeaders);
       setData(obj);
     }
   }, [])
@@ -211,6 +231,15 @@ const Screens = (props) => {
     }
   }
 
+  const selectHeader = (itemId) => {
+    dispatch(
+      setCurrentScreen({
+        activityId: activityAccess.id,
+        screenIndex: itemId
+      })
+    );
+  }
+
   const handleChange = (answer, index) => {
     let responses = [...inProgress?.responses];
     responses[index] = answer;
@@ -224,6 +253,10 @@ const Screens = (props) => {
     )
 
     validateResponses(responses);
+  }
+
+  const handleBackScreen = () => {
+    history.push(`/applet/${appletId}/dashboard`);
   }
 
   const handleBack = () => {
@@ -279,7 +312,7 @@ const Screens = (props) => {
       items.push(
         <Item
           data={data}
-          type={item.valueConstraints.multipleChoice ? "checkbox" : item.inputType}
+          type={item.inputType === "radio" && item.valueConstraints.multipleChoice ? "checkbox" : item.inputType}
           watermark={screenIndex === i ? applet.watermark : ''}
           key={item.id}
           item={{
@@ -306,21 +339,30 @@ const Screens = (props) => {
 
   return (
     <Container>
-      {
-        !isOnePageAssessment && (
           <Row className="mt-5">
-            <Col xl={3} />
-            <Col xl={9} >
-              <Card className="bg-white p-2" >
-                <ProgressBar striped className="mb-2" now={percentage} />
-              </Card>
+            <Col className="" xl={3} >
+              <Button
+                variant="primary"
+                className="mb-2 d-flex align-items-center"
+                onClick={() => handleBackScreen()}
+              >
+                <BsArrowLeft className="mr-1" />
+                {t('Consent.back')}
+              </Button>
             </Col>
+            {
+              !isOnePageAssessment && (
+                <Col xl={9} >
+                  <Card className="bg-white p-2" >
+                    <ProgressBar striped className="mb-2" now={percentage} />
+                  </Card>
+                </Col>
+              ) || <></>
+            }
           </Row>
-        ) || <></>
-      }
       <Row className="mt-2 activity">
         <Col xl={3}>
-          <Card className="ds-card hover text-center mb-4">
+          <Card className="hover text-center mb-4 applet-card-screen">
             <div className="applet-header">
               <div className="applet-image">
                 {applet.image ?
@@ -334,6 +376,21 @@ const Screens = (props) => {
               <Card.Text>{applet.name.en}</Card.Text>
             </Card.Body>
           </Card>
+
+          {headers.map(itemHeader =>
+            <div className="mx-4">
+              {itemHeader.headerName &&
+                <div onClick={() => selectHeader(itemHeader.id)} className="mt-1 header-text">
+                  {itemHeader.headerName}
+                </div>
+              }
+              {itemHeader.sectionName &&
+                <div onClick={() => selectHeader(itemHeader.id)} className="ml-4 section-text">
+                  {` - ${itemHeader.sectionName}`}
+                </div>
+              }
+            </div>
+          )}
 
           {activityStatus.map(status =>
             <div className="my-2 rounded border w-h p-2 text-center bg-white">

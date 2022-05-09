@@ -119,15 +119,37 @@ export const replaceItemVariableWithName = (markdown, activity, answers) => {
             const item = index > -1 && _.find(activity.items[index]?.valueConstraints?.itemList, { value: ans });
             if (item) names.push(item.name.en);
           })
+
           markdown = markdown.replace(reg, names.join(', '));
 
         } else if (typeof answers[index] === "object") {
-          const item = index > -1 && _.find(activity.items[index]?.valueConstraints?.itemList, answers[index]);
-          if (item || answers[index]) {
-            markdown = markdown.replace(reg, item?.name?.en || answers[index]?.value);
+          let item;
+
+          switch (activity.items[index].inputType) {
+            case 'radio':
+              item = index > -1 && _.find(activity.items[index]?.valueConstraints?.itemList, { value: answers[index].value });
+              if (item) {
+                markdown = markdown.replace(reg, item.name.en);
+              }
+              break;
+            case 'slider':
+              markdown = markdown.replace(reg, answers[index].value);
+              break;
+            case 'timeRange':
+              markdown = markdown.replace(reg, getTimeString(answers[index].value?.from) + ' - ' + getTimeString(answers[index].value?.to));
+              break;
+            case 'date':
+              markdown = markdown.replace(reg, getDateString(answers[index].value));
+              break;
+            case 'ageSelector':
+              markdown = markdown.replace(reg, answers[index].value);
+              break;
+            case 'text':
+              markdown = markdown.replace(reg, (answers[index].value || answers[index] || '').replace(/(?=[$&])/g, '\\'));
+              break;
           }
         } else if (answers[index]) {
-          markdown = markdown.replace(reg, answers[index]);
+          markdown = markdown.replace(reg, answers[index].toString().replace(/(?=[$&])/g, '\\'));
         }
       });
     }
@@ -147,7 +169,12 @@ const findActivityFromName = (activities, name) => {
   return activities.findIndex(activity => activity.name.en == name)
 }
 
-export const getActivityAvailabilityFromDependency = (g, availableActivities = [], archievedActivities = []) => {
+const findActivityIdByName = (activities, name) => {
+  return _.find(activities, activity => activity.name.en == name)?.id;
+}
+
+export const getActivityAvailabilityFromDependency = (appletActivities, availableActivities, archievedActivities) => {
+  const g = getDependency(appletActivities);
   const marked = [], activities = [];
   let markedCount = 0;
 
@@ -176,7 +203,7 @@ export const getActivityAvailabilityFromDependency = (g, availableActivities = [
     }
   }
 
-  while ( markedCount < g.length ) {
+  while (markedCount < g.length) {
     let updated = false;
 
     for (let i = 0; i < g.length; i++) {
@@ -200,7 +227,51 @@ export const getActivityAvailabilityFromDependency = (g, availableActivities = [
     }
   }
 
-  return activities;
+  const hidden = [];
+  for (let i = 0; i < g.length; i++) {
+    hidden.push(false);
+  }
+
+  const recommendedActivities = [];
+  for (const activity of appletActivities) {
+    if (activity.messages) {
+      for (const message of activity.messages) {
+        if (message.nextActivity) {
+          const index = findActivityFromName(appletActivities, message.nextActivity);
+          if ((message.hideActivity || message.hideActivity === undefined) && index >= 0) {
+            hidden[index] = true;
+          }
+          if (message.isRecommended) {
+            if (availableActivities.includes(index)) {
+              const id = findActivityIdByName(appletActivities, message.nextActivity);
+              recommendedActivities.push(id);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  for (let i = 0; i < hidden.length; i++) {
+    if (!hidden[i] && !activities.includes(i) && archievedActivities.includes(i)) {
+      try {
+        const activity = appletActivities[i];
+        for (const message of activity?.messages) {
+          if (message.nextActivity && !message.hideActivity) {
+            activities.push(i);
+            break;
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+
+    } else if (!hidden[i] && !activities.includes(i) && !archievedActivities.includes(i)) {
+      activities.push(i);
+    }
+  }
+
+  return { appletActivities: activities.sort(), recommendedActivities };
 }
 
 export const getDependency = (activities) => {
@@ -303,4 +374,3 @@ export const getChainedActivities = (activities, currentActivity) => {
 
   return chainedActivities;
 }
-

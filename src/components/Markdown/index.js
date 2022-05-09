@@ -48,12 +48,12 @@ const parser = new Parser();
 const Markdown = (props) => {
   const { markdown } = props;
 
-  let htmlInput = md.render(markdown);
+  let htmlInput = md.render(markdown || '');
 
   if (props.useCORS) {
     htmlInput = htmlInput.replace(
       /<img src="(.*?)" (.*?)>/g,
-      `<img src="$1?time=${new Date().getTime()}" crossorigin="anonymous" $2>`
+      `<img src="$1?not-from-cache-please" width="200" height="200" crossOrigin="anonymous" $2 />`
     )
   }
 

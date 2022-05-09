@@ -38,7 +38,7 @@ const TextInput = ({
   const lastResponseTime = useSelector(activityLastResponseTimeSelector);
   const profile = useSelector(profileSelector);
   const markdown = useRef(parseMarkdown(item.question.en, lastResponseTime, profile, activity, answers)).current;
-
+  const maxLength = item.valueConstraints.maxLength;
   const [show, setShow] = useState(false);
   const [value, setValue] = useState(answer && typeof answer === "object" ? answer.value : (answer || ''));
 
@@ -67,6 +67,7 @@ const TextInput = ({
                 type="text"
                 style={{ width: '80%', margin: 'auto' }}
                 value={value}
+                maxlength={maxLength}
                 onChange={e => {
                   setValue(e.target.value);
                   handleChange(e.target.value);

@@ -87,13 +87,18 @@ import {
   RESPONSE_ALERT,
   RANDOMIZE_OPTIONS,
   CONTINOUS_SLIDER,
+  TIME_DURATION,
   SHOW_TICK_MARKS,
+  SHOW_TICK_LABEL,
+  SHOW_TEXT_ANCHORS,
   IS_OPTIONAL_TEXT,
   IS_OPTIONAL_TEXT_REQUIRED,
   RESPONSE_ALERT_MESSAGE,
   MIN_ALERT_VALUE,
   MAX_ALERT_VALUE,
   ORDER,
+  SECTION,
+  HEADER,
   HAS_RESPONSE_IDENTIFIER,
   IS_RESPONSE_IDENTIFIER,
   IS_REVIEWER_ACTIVITY,
@@ -101,7 +106,10 @@ import {
   NEXT_ACTIVITY,
   REMOVE_BACK_OPTION,
   IS_ONE_PAGE_ASSESSMENT,
-  COMBINE_REPORTS
+  COMBINE_REPORTS,
+  HIDE_ACTIVITY,
+  MAX_LENGTH,
+  IS_RECOMMENDED,
 } from '../constants';
 
 export const languageListToObject = (list) => {
@@ -168,6 +176,9 @@ export const flattenValueConstraints = (vcObj) =>
     if (key === MAX_VALUE) {
       return { ...accumulator, maxValue: R.path([key, 0, "@value"], vcObj) };
     }
+    if (key === TIME_DURATION) {
+      return { ...accumulator, timeDuration: R.path([key, 0, "@value"], vcObj) };
+    }
     if (key === MIN_VALUE) {
       return { ...accumulator, minValue: R.path([key, 0, "@value"], vcObj) };
     }
@@ -203,12 +214,48 @@ export const flattenValueConstraints = (vcObj) =>
         scoring: R.path([key, 0, "@value"], vcObj),
       };
     }
+
+    if (key == MAX_LENGTH) {
+      return {
+        ...accumulator,
+        maxLength: R.path([key, 0, "@value"], vcObj),
+      }
+    }
+
     if (key === SHOW_TICK_MARKS) {
       return {
         ...accumulator,
         showTickMarks: R.path([key, 0, "@value"], vcObj),
       }
 
+    }
+
+    if (key == SHOW_TICK_LABEL) {
+      return {
+        ...accumulator,
+        showTickLabel: R.path([key, 0, "@value"], vcObj),
+      }
+    }
+
+    if (key == SHOW_TEXT_ANCHORS) {
+      return {
+        ...accumulator,
+        showTextAnchors: R.path([key, 0, "@value"], vcObj),
+      }
+    }
+
+    if (key == MIN_VALUE_IMAGE) {
+      return {
+        ...accumulator,
+        minValueImg: R.path([key, 0, "@value"], vcObj)
+      }
+    }
+
+    if (key == MAX_VALUE_IMAGE) {
+      return {
+        ...accumulator,
+        maxValueImg: R.path([key, 0, "@value"], vcObj)
+      }
     }
 
     /*  if (key === IS_OPTIONAL_TEXT) {
@@ -514,6 +561,8 @@ const transformPureActivity = (activityJson) => {
       jsExpression: R.path([JS_EXPRESSION, 0, "@value"], item),
       outputType: R.path([OUTPUT_TYPE, 0, "@value"], item),
       nextActivity: R.path([NEXT_ACTIVITY, 0, "@value"], item),
+      hideActivity: R.path([HIDE_ACTIVITY, 0, "@value"], item),
+      isRecommended: R.path([IS_RECOMMENDED, 0, "@value"], item),
     }
   }, activityJson[MESSAGES]) || [];
 
@@ -559,7 +608,8 @@ export const itemTransformJson = (itemJson) => {
   const valueConstraintsObj = R.pathOr({}, [RESPONSE_OPTIONS, 0], itemJson);
   const valueConstraints = flattenValueConstraints(valueConstraintsObj);
   const isVis = itemJson[IS_VIS] ? R.path([IS_VIS, 0, "@value"], itemJson) : undefined;
-
+  const header = itemJson[HEADER] ? R.path([HEADER, 0, "@value"], itemJson) : "";
+  const section = itemJson[SECTION] ? R.path([SECTION, 0, "@value"], itemJson) : "";
   const inputs = R.pathOr([], [INPUTS], itemJson);
   const inputsObj = transformInputs(inputs);
 
@@ -580,6 +630,8 @@ export const itemTransformJson = (itemJson) => {
     timer: R.path([TIMER, 0, "@value"], itemJson),
     delay: R.path([DELAY, 0, "@value"], itemJson),
     isVis,
+    section,
+    header,
     valueConstraints,
     skippable,
     fullScreen: allowList.includes(FULL_SCREEN),
@@ -629,6 +681,7 @@ export const appletTransformJson = (appletJson) => {
 export const activityTransformJson = (activityJson, itemsJson) => {
   const activity = transformPureActivity(activityJson);
   let itemIndex = -1, itemData;
+  let isHeaderAdded = false;
 
   const mapItems = R.map((itemKey) => {
     itemIndex += 1;
@@ -641,13 +694,27 @@ export const activityTransformJson = (activityJson, itemsJson) => {
       return null;
     }
     const item = itemTransformJson(itemsJson[itemKey]);
+
+    if (item.header || item.section) isHeaderAdded = true;
     return itemAttachExtras(item, itemKey, activity.addProperties);
   });
   const nonEmptyItems = R.filter(item => item, mapItems(activity.order));
   const items = attachPreamble(activity.preamble, nonEmptyItems);
+  let { addProperties } = activity;
+
+  if (isHeaderAdded) {
+    addProperties = addProperties.map(property => {
+      const isVis = property[IS_VIS][0]["@value"] = true;
+      return {
+        ...property,
+        IS_VIS: isVis
+      };
+    })
+  }
 
   return {
     ...activity,
+    addProperties,
     items,
   };
 };
@@ -866,18 +933,18 @@ export const parseAppletEvents = (applet) => {
     if (applet.schedule) {
       for (let eventId in applet.schedule.events) {
         const event = { ...applet.schedule.events[eventId] };
-        const futureSchedule = Parse.schedule(event.schedule).forecast(
-          Day.fromDate(new Date()),
-          true,
-          1,
-          0,
-          true,
-        );
+        if (event.data.activity_id === act.id.substring(9) && !act.hasResponseIdentifier) {
+          const futureSchedule = Parse.schedule(event.schedule).forecast(
+            Day.fromDate(new Date()),
+            true,
+            1,
+            0,
+            true,
+          );
 
-        if (futureSchedule.array().length) {
-          event.scheduledTime = getStartOfInterval(futureSchedule.array()[0]).getTime();
+          if (futureSchedule.array().length) {
+            event.scheduledTime = getStartOfInterval(futureSchedule.array()[0]).getTime();
 
-          if (event.data.activity_id === act.id.substring(9) && !act.hasResponseIdentifier) {
             events.push(event);
           }
         }

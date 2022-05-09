@@ -45,9 +45,8 @@
 }
 
 .markdown-body table {
-  display: block;
+  display: table;
   width: 100%;
-  overflow: auto;
 }
 
 .markdown-body * {

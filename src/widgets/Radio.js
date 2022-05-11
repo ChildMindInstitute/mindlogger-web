@@ -107,7 +107,7 @@ const Radio = (props) => {
   );
 
   const itemCount = item.valueConstraints.itemList.length;
-  console.log('item------->', item);
+
   return (
     <Card className={`${invalid ? 'invalid' : ''} mb-3`} style={{ maxWidth: "auto" }}>
       <Row className="no-gutters">

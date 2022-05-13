@@ -31,7 +31,8 @@ const responseSlice = createSlice({
         subjectId: subjectId,
         timeStarted: timeStarted,
         screenIndex: 0,
-        activity: activity
+        activity: activity,
+        events: []
       }
     },
 
@@ -41,7 +42,9 @@ const responseSlice = createSlice({
 
     setCurrentScreen: (state, action) => {
       const { screenIndex, activityId } = action.payload;
-      state.inProgress[activityId + (state.currentEvent || '')].screenIndex = screenIndex;
+      const currentEvent = state.currentEvent || '';
+      state.inProgress[activityId + currentEvent].screenIndex = screenIndex;
+      state.inProgress[activityId + currentEvent].responseTime = null;
     },
 
     setAnswer: (state, action) => {
@@ -49,21 +52,16 @@ const responseSlice = createSlice({
       const currentEvent = state.currentEvent || '';
 
       state.inProgress[activityId + currentEvent].responses[screenIndex] = answer;
+      state.inProgress[activityId + currentEvent].responseTime = Date.now();
     },
-    setEndTime: (state, action) => {
-      const { screenIndex, activityId } = action.payload;
+
+    addUserActivityEvent: (state, action) => {
+      const { activityId, event } = action.payload;
       const currentEvent = state.currentEvent || '';
 
-      if (state.inProgress[activityId + currentEvent]?.nextsAt)
-        state.inProgress[activityId + currentEvent].nextsAt[screenIndex] = new Date().getTime();
-      else
-        state.inProgress[activityId + currentEvent] = {
-          ...state.inProgress[activityId + currentEvent],
-          nextsAt: {
-            [screenIndex]: new Date().getTime()
-          }
-        };
+      state.inProgress[activityId + currentEvent].events.push(event);
     },
+
     setInProgress: (state, action) => { state.inProgress = action.payload },
     addToUploadQueue: (state, action) => {
       state.uploadQueue.push(action.payload);
@@ -108,9 +106,9 @@ export const {
   setResponsesDownloadProgress,
   replaceResponses,
   setLastResponseTime,
-  setEndTime,
   replaceAppletResponse,
   shiftUploadQueue,
   removeResponseInProgress,
+  addUserActivityEvent,
 } = responseSlice.actions;
 export default responseSlice.reducer;

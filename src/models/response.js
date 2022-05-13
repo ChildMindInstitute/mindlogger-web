@@ -33,7 +33,7 @@ export const prepareResponseForUpload = (
   const scheduledTime = activity.event && activity.event.scheduledTime;
   let cumulative = responseHistory.tokens?.cumulativeToken || 0;
 
-  const alerts = [], nextsAt = {};
+  const alerts = [];
 
   for (let i = 0; i < responses.length; i += 1) {
     const item = activity.items[i];
@@ -128,6 +128,11 @@ export const prepareResponseForUpload = (
     responseData['responses'] = formattedResponses;
     responseData['dataSource'] = dataSource;
 
+    responseData['events'] = getEncryptedData(events.map(event => ({
+      ...event,
+      screen: activity.items[event.screen].schema
+    })), appletMetaData.AESKey);
+
     if (activity.finalSubScale) {
       subScaleResult.push(getFinalSubScale(responses, activity.items, activity.finalSubScale.isAverageScore, activity.finalSubScale.lookupTable));
     }
@@ -155,6 +160,10 @@ export const prepareResponseForUpload = (
       };
     }, {});
     responseData['responses'] = formattedResponses;
+    responseData['events'] = events.map(event => ({
+      ...event,
+      screen: activity.items[event.screen].schema
+    }));
 
     if (activity.subScales) {
       responseData['subScales'] = activity.subScales.reduce((accumulator, subScale, index) => {
@@ -175,13 +184,6 @@ export const prepareResponseForUpload = (
       value: cumulative
     };
   }
-
-  let i = 0;
-  for (const key in responseData.responses) {
-    nextsAt[key] = inProgressResponse.nextsAt && inProgressResponse.nextsAt[i] || Date.now();
-    i++;
-  }
-  responseData['nextsAt'] = nextsAt;
 
   return responseData;
 };

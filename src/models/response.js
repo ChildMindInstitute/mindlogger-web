@@ -27,7 +27,7 @@ export const prepareResponseForUpload = (
   finishedTime
 ) => {
   const languageKey = "en";
-  const { activity, responses, subjectId } = inProgressResponse;
+  const { activity, responses, subjectId, events } = inProgressResponse;
   const { cumActivities, nonHiddenCumActivities } = evaluateCumulatives(responses, activity);
   const appletVersion = appletMetaData.schemaVersion[languageKey];
   const scheduledTime = activity.event && activity.event.scheduledTime;

@@ -107,11 +107,11 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
         return index;
       })
       ?.filter(index => index >= 0)
-  
+
     let { appletActivities, recommendedActivities } = getActivityAvailabilityFromDependency(
       appletData.activities,
-      convertToIndexes(cumulativeActivities[appletData.id]?.available),
-      convertToIndexes(cumulativeActivities[appletData.id]?.archieved)
+      convertToIndexes(cumulativeActivities[appletData.id]?.available || []),
+      convertToIndexes(cumulativeActivities[appletData.id]?.archieved || [])
     )
     appletActivities = appletActivities
       .map(index => appletData.activities[index])

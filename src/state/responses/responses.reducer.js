@@ -60,6 +60,7 @@ const responseSlice = createSlice({
       const currentEvent = state.currentEvent || '';
 
       state.inProgress[activityId + currentEvent].events.push(event);
+      state.inProgress[activityId + currentEvent].responseTime = null;
     },
 
     setInProgress: (state, action) => { state.inProgress = action.payload },

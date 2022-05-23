@@ -217,7 +217,7 @@ export const getTokenUpdateInfo = (
 };
 
 export const mergeResponses = (old, latest) => {
-  if (old.dataSources) {
+  if (old.dataSources && latest.dataSources) {
     Object.keys(old.dataSources).forEach(key => {
       if (!latest.dataSources[key]) {
         latest.dataSources[key] = old.dataSources[key];
@@ -225,7 +225,7 @@ export const mergeResponses = (old, latest) => {
     })
   }
 
-  if (old.responses) {
+  if (old.responses && latest.responses) {
     Object.keys(old.responses).forEach(item => {
       if (!latest.responses[item]) {
         latest.responses[item] = old.responses[item];

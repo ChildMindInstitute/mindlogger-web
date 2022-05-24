@@ -210,17 +210,6 @@ const Screens = (props) => {
       [currentNext] = getVisibility(responses);
     }
 
-    if (inProgress?.responseTime || autoAdvance) {
-      dispatch(addUserActivityEvent({
-        event: {
-          type: 'SET_ANSWER',
-          time: inProgress?.responseTime || Date.now(),
-          screen: screenIndex
-        },
-        activityId: activityAccess.id
-      }));
-    }
-
     if (!autoAdvance) {
       const response = inProgress?.responses[screenIndex];
       let eventType = 'NEXT';
@@ -284,6 +273,17 @@ const Screens = (props) => {
       })
     )
 
+    dispatch(addUserActivityEvent({
+      event: {
+        type: 'SET_ANSWER',
+        time: Date.now(),
+        screen: index,
+        response: JSON.parse(JSON.stringify(answer))
+      },
+      activityId: activityAccess.id
+    }));
+
+
     validateResponses(responses);
   }
 
@@ -293,17 +293,6 @@ const Screens = (props) => {
 
   const handleBack = () => {
     if (screenIndex >= 0 && prev >= 0) {
-      if (inProgress?.responseTime) {
-        dispatch(addUserActivityEvent({
-          event: {
-            type: 'SET_ANSWER',
-            time: inProgress.responseTime,
-            screen: screenIndex
-          },
-          activityId: activityAccess.id
-        }));
-      }
-
       dispatch(addUserActivityEvent({
         event: {
           type: 'PREV',

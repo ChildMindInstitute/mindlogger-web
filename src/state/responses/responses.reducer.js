@@ -44,7 +44,6 @@ const responseSlice = createSlice({
       const { screenIndex, activityId } = action.payload;
       const currentEvent = state.currentEvent || '';
       state.inProgress[activityId + currentEvent].screenIndex = screenIndex;
-      state.inProgress[activityId + currentEvent].responseTime = null;
     },
 
     setAnswer: (state, action) => {
@@ -52,7 +51,6 @@ const responseSlice = createSlice({
       const currentEvent = state.currentEvent || '';
 
       state.inProgress[activityId + currentEvent].responses[screenIndex] = answer;
-      state.inProgress[activityId + currentEvent].responseTime = Date.now();
     },
 
     addUserActivityEvent: (state, action) => {
@@ -60,7 +58,6 @@ const responseSlice = createSlice({
       const currentEvent = state.currentEvent || '';
 
       state.inProgress[activityId + currentEvent].events.push(event);
-      state.inProgress[activityId + currentEvent].responseTime = null;
     },
 
     setInProgress: (state, action) => { state.inProgress = action.payload },

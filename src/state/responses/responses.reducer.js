@@ -56,8 +56,21 @@ const responseSlice = createSlice({
     addUserActivityEvent: (state, action) => {
       const { activityId, event } = action.payload;
       const currentEvent = state.currentEvent || '';
+      const inProgress = state.inProgress[activityId + currentEvent];
 
-      state.inProgress[activityId + currentEvent].events.push(event);
+      const currentActivity = inProgress.activity;
+      if (
+        currentActivity.items[event.screen].inputType == 'text' &&
+        inProgress.events.length > 0
+      ) {
+        const lastEvent = inProgress.events[inProgress.events.length-1];
+
+        if (lastEvent.screen == event.screen && event.type == 'SET_ANSWER' && lastEvent.type == 'SET_ANSWER') {
+          inProgress.events.pop();
+        }
+      }
+
+      inProgress.events.push(event);
     },
 
     setInProgress: (state, action) => { state.inProgress = action.payload },

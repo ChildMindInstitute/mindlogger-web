@@ -42,7 +42,7 @@ export const parseMarkdown = (markdown, lastResponseTime = 0, profile = {}, acti
     markdown = replaceItemVariableWithName(markdown, activity, answers)
     return markdown
       .replace(/(!\[.*\]\s*\(.*?) =\d*x\d*(\))/g, '$1$2')
-      .replace(/\[Nickname\]/i, profile.nickName || profile.firstName)
+      .replace(/\[Nickname\]/i, profile.nickName || '')
       .replace(/\[\[/i, '')
       .replace(/\]\]/i, '');
   }

@@ -107,6 +107,8 @@ const Summary = styled(({ className, ...props }) => {
 
           if (itemResponses && itemResponses.length) {
             lastResponse.push(itemResponses[itemResponses.length - 1]);
+          } else {
+            lastResponse.push(null);
           }
         }
       }

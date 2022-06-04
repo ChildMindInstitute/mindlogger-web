@@ -2,6 +2,7 @@ import React from 'react';
 import { Row, Card, Col, Image } from 'react-bootstrap';
 import Multiselect from 'multiselect-react-dropdown';
 import _ from 'lodash';
+import moment from "moment";
 import { isArray } from 'util';
 
 import Navigator from './Navigator';
@@ -48,7 +49,7 @@ const Dropdown = (props) => {
             <Card.Title className="question">
               {watermark && <Image className="watermark" src={watermark} alt="watermark" rounded />}
               <div className="markdown">
-                <Markdown markdown={item.question.en.replace(/(!\[.*\]\s*\(.*?) =\d*x\d*(\))/g, '$1$2')} />
+                <Markdown markdown={item.question.en.replace(/(!\[.*\]\s*\(.*?) =\d*x\d*(\))/g, '$1$2').replace(/\[\[sys.date]\]/i, moment().format('MM/DD/YYYY'))} />
               </div>
             </Card.Title>
             <div className="no-gutters">

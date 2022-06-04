@@ -5,6 +5,7 @@ import { Card, Row, Col } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { PDFExport } from '@progress/kendo-react-pdf';
 import { drawDOM, exportPDF } from "@progress/kendo-drawing";
+import moment from "moment";
 
 import styled from 'styled-components';
 import cn from 'classnames';
@@ -165,7 +166,7 @@ const Summary = styled(({ className, ...props }) => {
                 <div key={i}>
                   <div className="message-category">{item.category.replace(/_/g, ' ')}</div>
                   <div className="message-score">{item.score}</div>
-                  <Markdown markdown={item.message.replace(MARKDOWN_REGEX, '$1$2')} />
+                  <Markdown markdown={item.message.replace(MARKDOWN_REGEX, '$1$2').replace(/\[\[sys.date]\]/i, moment().format('MM/DD/YYYY'))} />
                   {messages.length > 1 && <div className="hr" />}
                 </div>
               ))}
@@ -213,7 +214,7 @@ const Summary = styled(({ className, ...props }) => {
                     id={`overview-${activity.id}`} key={activity.id}
                     className="score-overview"
                   >
-                    <Markdown useCORS={true} markdown={scoreOverview.replace(MARKDOWN_REGEX, '$1$2')} />
+                    <Markdown useCORS={true} markdown={scoreOverview.replace(MARKDOWN_REGEX, '$1$2').replace(/\[\[sys.date]\]/i, moment().format('MM/DD/YYYY'))} />
                   </div>
                   {
                     messages && messages.map((item, i) => (<img key={i} src={images.current[`message-${activity.id}-${i}`] || null} className="pdf-message" />))
@@ -243,7 +244,7 @@ const Summary = styled(({ className, ...props }) => {
                     </p>
                     <div className="mb-4">
                       <Markdown
-                        markdown={_.get(item, 'compute.description', '').replace(MARKDOWN_REGEX, '$1$2')}
+                        markdown={_.get(item, 'compute.description', '').replace(MARKDOWN_REGEX, '$1$2').replace(/\[\[sys.date]\]/i, moment().format('MM/DD/YYYY'))}
                         useCORS={true}
                       />
                     </div>
@@ -282,7 +283,7 @@ const Summary = styled(({ className, ...props }) => {
                       {' '}
                       <span className="text-danger">{item.scoreValue}</span>.
                       <Markdown
-                        markdown={item.message.replace(MARKDOWN_REGEX, '$1$2')}
+                        markdown={item.message.replace(MARKDOWN_REGEX, '$1$2').replace(/\[\[sys.date]\]/i, moment().format('MM/DD/YYYY'))}
                         useCORS={true}
                       />
                     </div>

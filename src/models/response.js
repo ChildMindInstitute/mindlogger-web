@@ -27,13 +27,13 @@ export const prepareResponseForUpload = (
   finishedTime
 ) => {
   const languageKey = "en";
-  const { activity, responses, subjectId } = inProgressResponse;
+  const { activity, responses, subjectId, events } = inProgressResponse;
   const { cumActivities, nonHiddenCumActivities } = evaluateCumulatives(responses, activity);
   const appletVersion = appletMetaData.schemaVersion[languageKey];
   const scheduledTime = activity.event && activity.event.scheduledTime;
   let cumulative = responseHistory.tokens?.cumulativeToken || 0;
 
-  const alerts = [], nextsAt = {};
+  const alerts = [];
 
   for (let i = 0; i < responses.length; i += 1) {
     const item = activity.items[i];
@@ -128,6 +128,11 @@ export const prepareResponseForUpload = (
     responseData['responses'] = formattedResponses;
     responseData['dataSource'] = dataSource;
 
+    responseData['events'] = getEncryptedData(events.map(event => ({
+      ...event,
+      screen: activity.items[event.screen].schema
+    })), appletMetaData.AESKey);
+
     if (activity.finalSubScale) {
       subScaleResult.push(getFinalSubScale(responses, activity.items, activity.finalSubScale.isAverageScore, activity.finalSubScale.lookupTable));
     }
@@ -155,6 +160,10 @@ export const prepareResponseForUpload = (
       };
     }, {});
     responseData['responses'] = formattedResponses;
+    responseData['events'] = events.map(event => ({
+      ...event,
+      screen: activity.items[event.screen].schema
+    }));
 
     if (activity.subScales) {
       responseData['subScales'] = activity.subScales.reduce((accumulator, subScale, index) => {
@@ -175,13 +184,6 @@ export const prepareResponseForUpload = (
       value: cumulative
     };
   }
-
-  let i = 0;
-  for (const key in responseData.responses) {
-    nextsAt[key] = inProgressResponse.nextsAt && inProgressResponse.nextsAt[i] || Date.now();
-    i++;
-  }
-  responseData['nextsAt'] = nextsAt;
 
   return responseData;
 };
@@ -215,7 +217,7 @@ export const getTokenUpdateInfo = (
 };
 
 export const mergeResponses = (old, latest) => {
-  if (old.dataSources) {
+  if (old.dataSources && latest.dataSources) {
     Object.keys(old.dataSources).forEach(key => {
       if (!latest.dataSources[key]) {
         latest.dataSources[key] = old.dataSources[key];
@@ -223,7 +225,7 @@ export const mergeResponses = (old, latest) => {
     })
   }
 
-  if (old.responses) {
+  if (old.responses && latest.responses) {
     Object.keys(old.responses).forEach(item => {
       if (!latest.responses[item]) {
         latest.responses[item] = old.responses[item];

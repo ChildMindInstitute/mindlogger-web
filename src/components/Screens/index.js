@@ -18,8 +18,8 @@ import { completeResponse } from '../../state/responses/responses.actions';
 import { clearActivityStartTime } from '../../state/app/app.reducer';
 import {
   setAnswer,
-  setEndTime,
   setCurrentScreen,
+  addUserActivityEvent,
 } from '../../state/responses/responses.reducer';
 import {
   // responsesSelector,
@@ -196,7 +196,7 @@ const Screens = (props) => {
 
   const [next, prev] = getVisibility(inProgress?.responses);
 
-  const handleNext = (e) => {
+  const handleNext = (e, autoAdvance=false) => {
     let currentNext = next;
 
     if (isSplashScreen) {
@@ -210,7 +210,28 @@ const Screens = (props) => {
       [currentNext] = getVisibility(responses);
     }
 
-    dispatch(setEndTime({ activityId: activityAccess.id, screenIndex: screenIndex }));
+    if (!autoAdvance) {
+      const response = inProgress?.responses[screenIndex];
+      let eventType = 'NEXT';
+
+      if (next == -1) {
+        eventType = 'DONE';
+      } else if (
+        !response && response!==0 ||
+        typeof response == 'object' && (!response.value && response.value !== 0 || Array.isArray(response.value) && response.value.length==0)
+      ) {
+        eventType = 'SKIP';
+      }
+
+      dispatch(addUserActivityEvent({
+        event: {
+          type: eventType,
+          time: Date.now(),
+          screen: screenIndex
+        },
+        activityId: activityAccess.id
+      }));
+    }
 
     if (currentNext === -1 || isOnePageAssessment) {
       if (errors.includes(true) && isOnePageAssessment) {
@@ -252,6 +273,17 @@ const Screens = (props) => {
       })
     )
 
+    dispatch(addUserActivityEvent({
+      event: {
+        type: 'SET_ANSWER',
+        time: Date.now(),
+        screen: index,
+        response: JSON.parse(JSON.stringify(answer))
+      },
+      activityId: activityAccess.id
+    }));
+
+
     validateResponses(responses);
   }
 
@@ -261,6 +293,15 @@ const Screens = (props) => {
 
   const handleBack = () => {
     if (screenIndex >= 0 && prev >= 0) {
+      dispatch(addUserActivityEvent({
+        event: {
+          type: 'PREV',
+          time: Date.now(),
+          screen: screenIndex
+        },
+        activityId: activityAccess.id
+      }));
+
       dispatch(
         setCurrentScreen({
           activityId: activityAccess.id,

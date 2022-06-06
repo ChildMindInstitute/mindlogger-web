@@ -18,9 +18,9 @@ export const getLocalInfo = (currentApplets, currentResponses) => {
       localInfo[id.split("/").pop()] = {
         appletVersion: applet.schemaVersion.en,
         contentUpdateTime,
-        localItems: response ? Object.keys(response.items) : [],
-        localActivities: response ? Object.keys(response.activities) : [],
-        localResponses: response ? Object.keys(response.dataSources) : [],
+        localItems: response && response.items ? Object.keys(response.items) : [],
+        localActivities: response && response.activities ? Object.keys(response.activities) : [],
+        localResponses: response && response.dataSources ? Object.keys(response.dataSources) : [],
         localEvents,
         startDate: new Date().toISOString().slice(0, -5) // we don't need to display responses on web
       }

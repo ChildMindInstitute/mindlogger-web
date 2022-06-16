@@ -155,7 +155,7 @@ const Screens = (props) => {
     const { activity } = inProgress;
     clearActivityStartTime(activity.event ? activity.id + activity.event.id : activity.id)
 
-    if (activityAccess.compute?.length > 0 && !isSummaryScreen) {
+    if ((activityAccess.compute?.length || activityAccess.reports?.length) && !isSummaryScreen) {
       setIsSummaryScreen(true);
       setShow(false);
 

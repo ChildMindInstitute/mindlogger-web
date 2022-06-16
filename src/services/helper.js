@@ -159,6 +159,26 @@ export const replaceItemVariableWithName = (markdown, activity, answers) => {
   return markdown;
 }
 
+// use this method for reports score replacement
+export const replaceItemVariableWithScore = (markdown, reports) => {
+  try {
+    const variableNames = getTextBetweenBrackets(markdown);
+    if (variableNames?.length) {
+      variableNames.forEach(variableName => {
+        const index = _.findIndex(reports, { category: variableName });
+        const reg = new RegExp(`\\[\\[${variableName}\\]\\]`, "gi");
+
+        if (reports[index]?.score) {
+          markdown = markdown.replace(reg, reports[index]?.score);
+        }
+      });
+    }
+  } catch (error) {
+    console.warn(error)
+  }
+  return markdown;
+}
+
 export const handleReplaceBehaviourResponse = (text, activity, answers) => {
   return replaceItemVariableWithName(text, activity, answers)
     .replace(/\[\[/i, '')

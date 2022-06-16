@@ -110,6 +110,10 @@ import {
   HIDE_ACTIVITY,
   MAX_LENGTH,
   IS_RECOMMENDED,
+  REPORTS,
+  PRINT_ITEMS,
+  CONDITIONALS,
+  FLAG_SCORE
 } from '../constants';
 
 export const languageListToObject = (list) => {
@@ -566,6 +570,32 @@ const transformPureActivity = (activityJson) => {
     }
   }, activityJson[MESSAGES]) || [];
 
+  const reports = activityJson[REPORTS] && R.map((item) => {
+    item = item['@list'];
+    return R.map((itemJson) => {
+      return {
+        variableName: itemJson['@id'],
+        label: R.path([PREF_LABEL, 0, "@value"], itemJson),
+        message: R.path([MESSAGE, 0, "@value"], itemJson),
+        conditionals: R.map((cond) => {
+          cond = cond['@list'];
+          return R.map((condJson) => ({
+            variableName: condJson['@id'],
+            label: R.path([PREF_LABEL, 0, "@value"], condJson),
+            message: R.path([MESSAGE, 0, "@value"], condJson),
+            jsExpression: R.path([IS_VIS, 0, "@value"], condJson),
+            flagScore: R.path([FLAG_SCORE, 0, "@value"], condJson),
+            printItems: R.map(pItem => pItem['@value'], R.path([PRINT_ITEMS, 0, "@list"], condJson) || []),
+          }), cond)
+        }, itemJson[CONDITIONALS] || []),
+        jsExpression: R.path([IS_VIS, 0, "@value"], itemJson) || R.path([JS_EXPRESSION, 0, "@value"], itemJson),
+        outputType: R.path([OUTPUT_TYPE, 0, "@value"], itemJson),
+        printItems: R.map(pItem => pItem['@value'], R.path([PRINT_ITEMS, 0, "@list"], itemJson) || []),
+      }
+    }, item)
+
+  }, activityJson[REPORTS]) || [];
+
   return {
     id: activityJson._id,
     name: languageListToObject(activityJson[PREF_LABEL]),
@@ -597,6 +627,7 @@ const transformPureActivity = (activityJson) => {
     scoringLogic,
     notification,
     info,
+    reports
   };
 };
 

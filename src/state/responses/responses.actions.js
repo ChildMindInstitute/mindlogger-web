@@ -24,6 +24,7 @@ import {
   setLastResponseTime,
   shiftUploadQueue,
   removeResponseInProgress,
+  setAlerts
 } from './responses.reducer';
 import { appletsSelector } from '../applet/applet.selectors';
 
@@ -157,6 +158,8 @@ export const completeResponse = createAsyncThunk(RESPONSE_CONSTANTS.COMPLETE_RES
     }
 
     const preparedResponse = prepareResponseForUpload(inProgressResponse, applet, responseHistory, isTimeout, finishedTime);
+
+    dispatch(setAlerts(preparedResponse.alerts));
 
     dispatch(addToUploadQueue(preparedResponse));
     await dispatch(startUploadQueue());

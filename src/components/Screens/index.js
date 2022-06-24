@@ -288,7 +288,11 @@ const Screens = (props) => {
   }
 
   const handleBackScreen = () => {
-    history.push(`/applet/${appletId}/dashboard`);
+    if (applet.publicId) {
+      history.push(`/applet/public/${applet.publicId}`);
+    } else {
+      history.push(`/applet/${appletId}/dashboard`);
+    }
   }
 
   const handleBack = () => {

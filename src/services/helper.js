@@ -43,6 +43,7 @@ export const parseMarkdown = (markdown, lastResponseTime = 0, profile = {}, acti
     return markdown
       .replace(/(!\[.*\]\s*\(.*?) =\d*x\d*(\))/g, '$1$2')
       .replace(/\[Nickname\]/i, profile.nickName || '')
+      .replace(/\[\[sys.date]\]/i, moment().format('MM/DD/YYYY'))
       .replace(/\[\[/i, '')
       .replace(/\]\]/i, '');
   }
@@ -91,6 +92,7 @@ export const parseMarkdown = (markdown, lastResponseTime = 0, profile = {}, acti
     .replace(/\[Time_Elapsed_Activity_Last_Completed\]/i, formatElapsedTime(now.getTime() - responseTime.getTime()))
     .replace(/\[Time_Activity_Last_Completed\]/i, formatLastResponseTime(moment(responseTime), moment(now)))
     .replace(/\[Nickname\]/i, profile.nickName || profile.firstName)
+    .replace(/\[\[sys.date]\]/i, moment().format('MM/DD/YYYY'))
     .replace(/\[\[/i, '')
     .replace(/\]\]/i, '');
 }

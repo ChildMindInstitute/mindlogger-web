@@ -5,6 +5,7 @@ import { Card, Row, Col } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { PDFExport } from '@progress/kendo-react-pdf';
 import { drawDOM, exportPDF } from "@progress/kendo-drawing";
+import moment from "moment";
 
 import styled from 'styled-components';
 import cn from 'classnames';
@@ -174,13 +175,13 @@ const Summary = styled(({ className, ...props }) => {
                   <div className="row">
                     <div className="col-md-9">
                       <p className="message-category">{item.label ? item.label : item.category.replace(/_/g, ' ')}</p>
-                      <Markdown markdown={replaceItemVariableWithScore(item.message, messages).replace(`[[${item.category}]]`, item.score).replace(MARKDOWN_REGEX, '$1$2')} />
+                      <Markdown markdown={replaceItemVariableWithScore(item.message, messages).replace(`[[${item.category}]]`, item.score).replace(MARKDOWN_REGEX, '$1$2').replace(/\[\[sys.date]\]/i, moment().format('MM/DD/YYYY'))} />
                     </div>
                     {typeof item.scoreValue !== "boolean" && <div className="col-md-3"><p className="message-score float-right">{item.score}</p></div>}
                     {item.conditionals?.map((conditional) => (
                         <div className={`col-md-10 ${conditional.flagScore ? 'text-danger' : ""}`} >
                           <p className="message-category">{conditional.label}</p>
-                          <Markdown markdown={replaceItemVariableWithScore(conditional.message, messages).replace(MARKDOWN_REGEX, '$1$2')} />
+                          <Markdown markdown={replaceItemVariableWithScore(conditional.message, messages).replace(MARKDOWN_REGEX, '$1$2').replace(/\[\[sys.date]\]/i, moment().format('MM/DD/YYYY'))} />
                         </div>
                     ))}
                   </div>

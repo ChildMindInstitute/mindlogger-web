@@ -19,7 +19,15 @@ import markdownItImSize from 'markdown-it-imsize';
 
 import './style.css'
 
-const md = markdownIt();
+const md = markdownIt({
+  html: true,        // Enable HTML tags in source
+  xhtmlOut: true,        // Use '/' to close single tags (<br />).
+  breaks: true,        // Convert '\n' in paragraphs into <br>
+  langPrefix: 'lang-',  // CSS language prefix for fenced blocks. Can be
+  linkify: false,
+  typographer: true,
+  quotes: '“”‘’'
+});
 
 md.use(emoji)
     .use(taskLists)

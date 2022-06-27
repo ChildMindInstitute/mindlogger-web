@@ -103,6 +103,10 @@ export const IS_ONE_PAGE_ASSESSMENT = "reprolib:terms/isOnePageAssessment";
 export const COMBINE_REPORTS = "reprolib:terms/combineReports";
 export const HIDE_ACTIVITY = "reprolib:terms/hideActivity";
 export const IS_RECOMMENDED = "reprolib:terms/isRecommended";
+export const REPORTS = "reprolib:terms/reports";
+export const PRINT_ITEMS = "reprolib:terms/printItems";
+export const CONDITIONALS = "reprolib:terms/conditionals";
+export const FLAG_SCORE = "reprolib:terms/flagScore";
 
 export const Statuses = {
   LOADING: 'loading',

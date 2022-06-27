@@ -155,7 +155,7 @@ const Screens = (props) => {
     const { activity } = inProgress;
     clearActivityStartTime(activity.event ? activity.id + activity.event.id : activity.id)
 
-    if (activityAccess.compute?.length > 0 && !isSummaryScreen) {
+    if ((activityAccess.compute?.length || activityAccess.reports?.length) && !isSummaryScreen) {
       setIsSummaryScreen(true);
       setShow(false);
 
@@ -288,7 +288,11 @@ const Screens = (props) => {
   }
 
   const handleBackScreen = () => {
-    history.push(`/applet/${appletId}/dashboard`);
+    if (applet.publicId) {
+      history.push(`/applet/public/${applet.publicId}`);
+    } else {
+      history.push(`/applet/${appletId}/dashboard`);
+    }
   }
 
   const handleBack = () => {

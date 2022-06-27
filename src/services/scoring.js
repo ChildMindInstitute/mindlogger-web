@@ -339,7 +339,7 @@ export const evaluateCumulatives = (responses, activity) => {
 
         const compute = activity?.compute?.find((itemCompute) => itemCompute.variableName.trim() == variableName.trim());
 
-        reportMessages.push({
+        const obj = {
           category: scoreCategory,
           message: replaceItemVariableWithName(message, activity, responses),
           score: variableScores[key ? key : scoreCategory] + (outputType == 'percentage' ? '%' : ''),
@@ -351,7 +351,8 @@ export const evaluateCumulatives = (responses, activity) => {
           scoreValue: cumulativeScores[category],
           maxScoreValue: cumulativeMaxScores[category],
           exprValue: outputType == 'percentage' ? (exprValue * cumulativeMaxScores[category]) / 100 : exprValue,
-        });
+        }
+        reportMessages.push(obj);
       }
     });
   }
@@ -361,4 +362,167 @@ export const evaluateCumulatives = (responses, activity) => {
     scoreOverview: replaceItemVariableWithName(activity.scoreOverview || '', activity, responses),
     nonHiddenCumActivities
   }
+}
+
+export const evaluateReports = (responses, activity) => {
+  const parser = new Parser({
+    logical: true,
+    comparison: true,
+  });
+
+  let scores = [],
+    maxScores = [];
+
+  for (let i = 0; i < activity.items.length; i++) {
+    if (!activity.items[i] || !responses[i]) continue;
+    const { variableName } = activity.items[i];
+    let score = getScoreFromResponse(
+      activity.items[i],
+      responses[i][variableName] ? responses[i][variableName] : responses[i],
+    );
+    scores.push(score);
+    maxScores.push(getMaxScore(activity.items[i]));
+  }
+
+  const reportMessages = [];
+  if (activity.reports?.length) {
+    const cumulativeScores = activity.reports[0].reduce((accumulator, itemCompute) => {
+      return {
+        ...accumulator,
+        [itemCompute.variableName.trim().replace(/[\s\/]/g, '__')]: evaluateScore(
+          itemCompute.jsExpression,
+          activity.items,
+          scores,
+        ),
+      };
+    }, {});
+
+    const cumulativeMaxScores = activity.reports[0].reduce((accumulator, itemCompute) => {
+      return {
+        ...accumulator,
+        [itemCompute.variableName.trim().replace(/[\s\/]/g, '__')]: evaluateScore(
+          itemCompute.jsExpression,
+          activity.items,
+          maxScores,
+        ),
+      };
+    }, {});
+
+    activity.reports[0]?.forEach((msg) => {
+      let { variableName, jsExpression, message, outputType, label, conditionals } = msg;
+
+      let category = variableName.trim().replace(/[\s\/]/g, '__');
+      const scoreCategory = replaceItemVariableWithName(category, activity, responses).replace(/\s/g, '__');
+
+      const exprArr = jsExpression.split(/[><]/g);
+      let exprValue;
+      if (exprArr.length && exprArr[1]) {
+        variableName = exprArr[0];
+        exprValue = parseFloat(exprArr[1].split(' ')[1]);
+      }
+
+      let expr, key;
+      try {
+        expr = parser.parse(scoreCategory);
+      } catch (error) {
+        if (scoreCategory.match(/[&\/\\#,+()$~%.'":*?<>{}]/g)) {
+          key = scoreCategory.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
+          expr = parser.parse(key);
+        }
+      }
+
+      const variableScores = {
+        [key ? key : scoreCategory]:
+          outputType == 'percentage'
+            ? Math.round(
+              cumulativeMaxScores[category]
+                ? (cumulativeScores[category] * 100) / cumulativeMaxScores[category]
+                : 0,
+            )
+            : cumulativeScores[category],
+      };
+
+      if (typeof variableScores[scoreCategory] === 'boolean') {
+        if (!variableScores[scoreCategory]) return;
+        try {
+          const obj = {
+            label,
+            category: scoreCategory,
+            message: replaceItemVariableWithName(message, activity, responses),
+            score: variableScores[key ? key : scoreCategory] + (outputType == 'percentage' ? '%' : ''),
+            jsExpression: jsExpression.substr(variableName.length),
+            scoreValue: cumulativeScores[category],
+            maxScoreValue: cumulativeMaxScores[category],
+          }
+          obj['conditionals'] = conditionals && evaluateReportConditional(conditionals, obj, activity, responses);
+          reportMessages.push(obj);
+        } catch (error) {
+          console.log("Error: ", error);
+        }
+
+      } else {
+        try {
+          const obj = {
+            label,
+            category: scoreCategory,
+            message: replaceItemVariableWithName(message, activity, responses),
+            score: variableScores[key ? key : scoreCategory] + (outputType == 'percentage' ? '%' : ''),
+            jsExpression: jsExpression.substr(variableName.length),
+            scoreValue: cumulativeScores[category],
+            maxScoreValue: cumulativeMaxScores[category],
+          }
+          obj['conditionals'] = conditionals && evaluateReportConditional(conditionals, obj, activity, responses);
+          reportMessages.push(obj);
+        } catch (error) {
+          console.log("Error: ", error);
+        }
+      }
+    });
+  }
+  return {
+    reportMessages,
+    scoreOverview: replaceItemVariableWithName(activity.scoreOverview || '', activity, responses),
+  }
+}
+
+const evaluateReportConditional = (conditionals = [], report, activity, responses) => {
+  const parser = new Parser({
+    logical: true,
+    comparison: true,
+  });
+
+  const reportMessages = [];
+  conditionals[0]?.forEach((msg) => {
+    let { variableName, jsExpression, message, label, flagScore } = msg;
+    const exprArr = jsExpression.split(/[><]/g);
+    const category = variableName;
+    variableName = exprArr[0];
+
+    let expr;
+    try {
+      expr = parser.parse(category + jsExpression.substr(variableName.length));
+    } catch (error) {
+      console.log(error);
+    }
+
+    const variableScores = {
+      [category]: report.scoreValue,
+    };
+
+    if (expr.evaluate(variableScores)) {
+      try {
+        const obj = {
+          label,
+          category,
+          message: replaceItemVariableWithName(message, activity, responses),
+          jsExpression: jsExpression.substr(variableName.length),
+          flagScore,
+        }
+        reportMessages.push(obj);
+      } catch (error) {
+        console.log("Error: ", error);
+      }
+    }
+  });
+  return reportMessages;
 }

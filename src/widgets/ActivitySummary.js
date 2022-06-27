@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import { Card, Row, Col } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
@@ -14,13 +14,14 @@ import domtoimage from 'dom-to-image';
 // Component
 import MyButton from '../components/Button';
 import Markdown from '../components/Markdown';
+import SummaryAlert from '../components/SummaryAlert';
 
 // State
-import { inProgressSelector, currentAppletResponsesSelector } from '../state/responses/responses.selectors';
+import { inProgressSelector, currentAppletResponsesSelector, currentAlertsSelector } from '../state/responses/responses.selectors';
 
 // services
-import { evaluateCumulatives } from '../services/scoring';
-import { getChainedActivities } from '../services/helper';
+import { evaluateCumulatives, evaluateReports } from '../services/scoring';
+import { getChainedActivities, replaceItemVariableWithScore } from '../services/helper';
 import { currentActivitySelector, currentAppletSelector } from '../state/app/app.selectors';
 
 const MARKDOWN_REGEX = /(!\[.*\]\s*\(.*?) =\d*x\d*(\))/g;
@@ -34,14 +35,13 @@ const Summary = styled(({ className, ...props }) => {
   const [titleWidth, setTitleWidth] = useState(0);
   const [shareAllReports, setShareAllReports] = useState(false);
   const [, setRefresh] = useState(0);
-  const { messages } = reports.find(report => report.activity.id.split('/').pop() == activityId) || { messages: [] };
-
-  const dispatch = useDispatch();
+  const { messages, ...restAct } = reports.find(report => report.activity.id.split('/').pop() == activityId) || { messages: [] };
 
   const responseHistory = useSelector(currentAppletResponsesSelector);
   const applet = useSelector(currentAppletSelector);
   const response = useSelector(inProgressSelector);
   const activityAccess = useSelector(currentActivitySelector);
+  const alerts = useSelector(currentAlertsSelector);
 
   const ref = useRef(null);
   const images = useRef({});
@@ -113,7 +113,7 @@ const Summary = styled(({ className, ...props }) => {
         }
       }
 
-      let { reportMessages, scoreOverview } = evaluateCumulatives(lastResponse, chainedActivity);
+      let { reportMessages, scoreOverview } = evaluateReports(lastResponse, chainedActivity);
 
       reports.push({
         activity: chainedActivity,
@@ -159,13 +159,31 @@ const Summary = styled(({ className, ...props }) => {
     <Card className={cn('mb-3', className)}>
       <Row className="no-gutters">
         <Col md={12}>
+          <Card.Header>
+            <h2>Report Summary</h2>
+          </Card.Header>
+        </Col>
+        <Col md={12}>
           <Card.Body>
+            {alerts && alerts.length ?
+              <SummaryAlert text={alerts.map(al => al.message)} /> : <></>
+            }
             {messages &&
               messages.map((item, i) => (
                 <div key={i}>
-                  <div className="message-category">{item.category.replace(/_/g, ' ')}</div>
-                  <div className="message-score">{item.score}</div>
-                  <Markdown markdown={item.message.replace(MARKDOWN_REGEX, '$1$2')} />
+                  <div className="row">
+                    <div className="col-md-9">
+                      <p className="message-category">{item.label ? item.label : item.category.replace(/_/g, ' ')}</p>
+                      <Markdown markdown={replaceItemVariableWithScore(item.message, messages).replace(`[[${item.category}]]`, item.score).replace(MARKDOWN_REGEX, '$1$2')} />
+                    </div>
+                    {typeof item.scoreValue !== "boolean" && <div className="col-md-3"><p className="message-score float-right">{item.score}</p></div>}
+                    {item.conditionals?.map((conditional) => (
+                        <div className={`col-md-10 ${conditional.flagScore ? 'text-danger' : ""}`} >
+                          <p className="message-category">{conditional.label}</p>
+                          <Markdown markdown={replaceItemVariableWithScore(conditional.message, messages).replace(MARKDOWN_REGEX, '$1$2')} />
+                        </div>
+                    ))}
+                  </div>
                   {messages.length > 1 && <div className="hr" />}
                 </div>
               ))}
@@ -173,164 +191,12 @@ const Summary = styled(({ className, ...props }) => {
         </Col>
       </Row>
       <div>
-        <div className="pdf-container">
-          <div id="PDF" ref={ref}>
-            {
-              reports.map(({ activity, messages, scoreOverview }, index) => {
-                if (!shareAllReports && activity.id.split('/').pop() != activityId) {
-                  return <></>;
-                }
-
-                let url = "";
-                if (activity.splash && activity.splash.en) {
-                  url = activity.splash.en;
-                }
-
-                return <>
-                  {url.match(/\.(jpeg|jpg|gif|png)$/) != null &&
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                      <img
-                        src={url + '?not-from-cache-please'}
-                        className="splash-image"
-                        crossOrigin="anonymous"
-                        alt=''
-                      />
-                      <div className="page-break" />
-                    </div>
-                  }
-                  {applet.image && (!shareAllReports || !index) &&
-                    <div style={{ float: 'right', marginBottom: 10 }}>
-                      <img
-                        src={applet.image + '?not-from-cache-please'}
-                        style={{ objectFit: 'contain' }}
-                        width="100"
-                        crossOrigin="anonymous"
-                        alt=''
-                      />
-                    </div>
-                  }
-                  <div
-                    id={`overview-${activity.id}`} key={activity.id}
-                    className="score-overview"
-                  >
-                    <Markdown useCORS={true} markdown={scoreOverview.replace(MARKDOWN_REGEX, '$1$2')} />
-                  </div>
-                  {
-                    messages && messages.map((item, i) => (<img key={i} src={images.current[`message-${activity.id}-${i}`] || null} className="pdf-message" />))
-                  }
-                </>
-              })
-            }
-            <div style={{ border: '1px solid black', marginTop: 36, marginBottom: 36 }} />
-            <img src={images.current['footer-text'] || null}></img>
-          </div>
-
-          <span id="score-title">
-            <span
-              className="score-title text-nowrap"
-            >
-              <b>{t("additional.child_score")}</b>
-            </span>
-          </span>
-
-          <div>
-            {
-              reports.map(({ activity, messages }) => (
-                (messages || []).map((item, i) => (
-                  <div id={`message-${activity.id}-${i}`} key={i} className="report-message">
-                    <p className="text-primary mb-1">
-                      <b>{item.category.replace(/_/g, ' ')}</b>
-                    </p>
-                    <div className="mb-4">
-                      <Markdown
-                        markdown={_.get(item, 'compute.description', '').replace(MARKDOWN_REGEX, '$1$2')}
-                        useCORS={true}
-                      />
-                    </div>
-
-                    <div className="score-area">
-                      <p
-                        className="score-title text-nowrap"
-                        style={{
-                          left: `max(${titleWidth / 2}px, ${(item.scoreValue / item.maxScoreValue) * 100}%)`,
-                        }}>
-                        <b>{t("additional.child_score")}</b>
-                      </p>
-                      <div
-                        className={cn('score-bar score-below', {
-                          'score-positive': item.compute.direction,
-                          'score-negative': !item.compute.direction,
-                        })}
-                        style={{ width: `${(item.exprValue / item.maxScoreValue) * 100}%` }}
-                      />
-                      <div
-                        className={cn('score-bar score-above', {
-                          'score-positive': !item.compute.direction,
-                          'score-negative': item.compute.direction,
-                        })}
-                      />
-                      <div
-                        className="score-spliter"
-                        style={{ left: `${(item.scoreValue / item.maxScoreValue) * 100}%` }}
-                      />
-                      <p className="score-max-value">
-                        <b>{item.maxScoreValue}</b>
-                      </p>
-                    </div>
-                    <div className="mb-4">
-                      {t("additional.child_score_on_subscale", { name: item.category.replace(/_/g, ' ') })}
-                      {' '}
-                      <span className="text-danger">{item.scoreValue}</span>.
-                      <Markdown
-                        markdown={item.message.replace(MARKDOWN_REGEX, '$1$2')}
-                        useCORS={true}
-                      />
-                    </div>
-                  </div>
-                ))
-              ))
-            }
-
-            <div id="footer-text">
-              <p className="mb-4 terms-font">{termsText}</p>
-              <p className="terms-footer">{footerText}</p>
-            </div>
-          </div>
-        </div>
         <MyButton
           type="submit"
           label={t('Consent.next')}
           classes="mr-5 mb-2 float-right"
           handleClick={(e) => history.push(`/applet/${appletId}/activity_thanks`)}
         />
-
-        {
-          reports.length > 1 ? (<MyButton
-            type="button"
-            label={t('additional.share_all_reports')}
-            classes="mr-5 mb-2 float-right"
-            handleClick={(e) => {
-              setShareAllReports(true);
-
-              setTimeout(() => {
-                handlePDFSave()
-              })
-            }}
-          />) : (
-            <MyButton
-              type="button"
-              label={t('additional.share_report')}
-              classes="mr-5 mb-2 float-right"
-              handleClick={(e) => {
-                setShareAllReports(false);
-
-                setTimeout(() => {
-                  handlePDFSave()
-                })
-              }}
-            />
-          )
-        }
       </div>
     </Card>
   );

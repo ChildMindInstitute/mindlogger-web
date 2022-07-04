@@ -107,6 +107,8 @@ export const REPORTS = "reprolib:terms/reports";
 export const PRINT_ITEMS = "reprolib:terms/printItems";
 export const CONDITIONALS = "reprolib:terms/conditionals";
 export const FLAG_SCORE = "reprolib:terms/flagScore";
+export const ALLOW_EXPORT = "reprolib:terms/allow_export";
+export const REPORT_CONFIGS = "reprolib:terms/reportConfigs";
 
 export const Statuses = {
   LOADING: 'loading',

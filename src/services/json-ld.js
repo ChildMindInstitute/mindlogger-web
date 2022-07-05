@@ -113,7 +113,9 @@ import {
   REPORTS,
   PRINT_ITEMS,
   CONDITIONALS,
-  FLAG_SCORE
+  FLAG_SCORE,
+  ALLOW_EXPORT,
+  REPORT_CONFIGS,
 } from '../constants';
 
 export const languageListToObject = (list) => {
@@ -397,7 +399,13 @@ export const flattenValueConstraints = (vcObj) =>
 export const transformInputs = (inputs) =>
   inputs.reduce((accumulator, inputObj) => {
     const key = R.path([NAME, 0, "@value"], inputObj);
-    let val = R.path([VALUE, 0, "@value"], inputObj);
+    const type = R.path(["@type", 0], inputObj);
+
+    let val = (R.path([VALUE], inputObj) || []).map(d => d["@value"]);
+
+    if (type !== 'http://schema.org/List') {
+      val = val[0];
+    }
 
     if (typeof val === "undefined" && inputObj[ITEM_LIST_ELEMENT]) {
       const itemList = R.path([ITEM_LIST_ELEMENT], inputObj);
@@ -611,6 +619,7 @@ const transformPureActivity = (activityJson) => {
     disableSummary: allowList.includes(DISABLE_SUMMARY),
     fullScreen: allowList.includes(FULL_SCREEN),
     autoAdvance: allowList.includes(AUTO_ADVANCE),
+    allowExport: allowList.includes(ALLOW_EXPORT),
     isPrize: R.path([ISPRIZE, 0, "@value"], activityJson) || false,
     isOnePageAssessment: R.path([IS_ONE_PAGE_ASSESSMENT, 0, "@value"], activityJson) || false,
     isReviewerActivity: R.path([IS_REVIEWER_ACTIVITY, 0, '@value'], activityJson) || false,
@@ -627,7 +636,7 @@ const transformPureActivity = (activityJson) => {
     scoringLogic,
     notification,
     info,
-    reports
+    reports,
   };
 };
 
@@ -702,6 +711,7 @@ export const appletTransformJson = (appletJson) => {
     responseDates: applet.responseDates,
     shuffle: R.path([SHUFFLE, 0, "@value"], applet),
     combineReports: R.path([COMBINE_REPORTS, 0, "@value"], applet) || false,
+    reportConfigs: transformInputs(R.path([REPORT_CONFIGS, 0, '@list'], applet) || []),
   };
   if (applet.encryption && Object.keys(applet.encryption).length) {
     res.encryption = applet.encryption;

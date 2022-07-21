@@ -296,8 +296,11 @@ export const decryptAppletResponses = (applet, responses) => {
           response.value.src &&
           response.value.ptr !== undefined
         ) {
+          response.id = response.value.src;
+
           response.value =
             responses.dataSources[response.value.src][response.value.ptr];
+
           if (response.value && response.value.value !== undefined) {
             response.value = response.value.value;
           }

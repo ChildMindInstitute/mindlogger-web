@@ -9,6 +9,7 @@ import { setFinishedEvents } from '../app/app.reducer';
 import { currentAppletSelector, currentActivitySelector, currentEventSelector } from '../app/app.selectors';
 import { getPrivateKey } from '../../services/encryption';
 import { evaluateCumulatives } from '../../services/scoring';
+import { sendPDFExport } from '../../services/reports';
 import {
   currentResponsesSelector,
   currentAppletResponsesSelector,
@@ -24,6 +25,7 @@ import {
   setLastResponseTime,
   shiftUploadQueue,
   removeResponseInProgress,
+  setAlerts
 } from './responses.reducer';
 import { appletsSelector } from '../applet/applet.selectors';
 
@@ -158,6 +160,8 @@ export const completeResponse = createAsyncThunk(RESPONSE_CONSTANTS.COMPLETE_RES
 
     const preparedResponse = prepareResponseForUpload(inProgressResponse, applet, responseHistory, isTimeout, finishedTime);
 
+    dispatch(setAlerts(preparedResponse.alerts));
+
     dispatch(addToUploadQueue(preparedResponse));
     await dispatch(startUploadQueue());
   }
@@ -173,6 +177,16 @@ export const completeResponse = createAsyncThunk(RESPONSE_CONSTANTS.COMPLETE_RES
     dispatch(
       removeResponseInProgress(activity.event ? activity.id + activity.event.id : activity.id)
     );
+
+    if (activity.allowExport) {
+      sendPDFExport(
+        authToken,
+        applet,
+        [activity],
+        currentAppletResponsesSelector(state),
+        activity.id,
+      );
+    }
   }, 200);
 })
 

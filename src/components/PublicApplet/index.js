@@ -40,8 +40,11 @@ export default function PublicApplet() {
     fetchApplets();
   }, [])
 
-  return (
-      isLoading && <div className="text-center mt-4"><Spinner animation="border"></Spinner></div> ||
-      error ? <div className="mt-4 invalid-url">{t('additional.invalid_public_url')}</div> : <ActivityList />
-  )
+  if (isLoading) {
+    return (
+      <div className="text-center mt-4"><Spinner animation="border"></Spinner></div>
+    )
+  }
+
+  return error ? <div className="mt-4 invalid-url">{t('additional.invalid_public_url')}</div> : <ActivityList />;
 }

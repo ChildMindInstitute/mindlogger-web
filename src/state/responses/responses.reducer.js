@@ -13,6 +13,7 @@ export const initialState = {
   },
   uploadQueue: [],
   schedule: {},
+  alerts: [],
   activityOpened: false,
   currentEvent: null,
 };
@@ -98,6 +99,9 @@ const responseSlice = createSlice({
     shiftUploadQueue: (state, action) => {
       state.uploadQueue = R.remove(0, 1, state.uploadQueue);
     },
+    setAlerts: (state, action) => {
+      state.alerts = action.payload;
+    },
     removeResponseInProgress: (state, action) => {
       delete state.inProgress[action.payload];
     },
@@ -121,5 +125,6 @@ export const {
   shiftUploadQueue,
   removeResponseInProgress,
   addUserActivityEvent,
+  setAlerts,
 } = responseSlice.actions;
 export default responseSlice.reducer;

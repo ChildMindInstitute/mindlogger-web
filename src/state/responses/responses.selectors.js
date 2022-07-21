@@ -19,6 +19,8 @@ export const downloadProgressSelector = R.path([
 
 export const inProgressSelector = R.path(["responses", "inProgress"]);
 
+export const currentAlertsSelector = R.path(["responses", "alerts"]);
+
 export const activityOpenedSelector = R.path(["responses", "activityOpened"]);
 
 export const lastResponseTimeSelector = R.path(["responses", "lastResponseTime"]);

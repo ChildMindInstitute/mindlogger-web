@@ -77,6 +77,24 @@ export const getTargetApplet = (authToken, appletId) =>
     getAllApplets: true,
   });
 
+export const exportPDF = (serverIP, authToken, responses, appletId, activityFlowId, activityId, responseId) => {
+  const queryParams = objectToQueryParams({ appletId, activityFlowId, activityId, responseId });
+  const url = serverIP + (serverIP.endsWith('/') ? '' : '/') + 'send-pdf-report';
+
+  return fetch(`${url}/?${queryParams}`, {
+    method: "post",
+    mode: "cors",
+    headers: {
+      'Content-Type': 'application/json',
+      token: authToken
+    },
+    body: JSON.stringify({
+      responses
+    })
+  })
+}
+
+
 export const postResponse = ({ authToken, response }) =>
   postFormData(
     `response/${response.applet.id}/${response.activity.id}`,

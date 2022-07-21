@@ -110,6 +110,12 @@ import {
   HIDE_ACTIVITY,
   MAX_LENGTH,
   IS_RECOMMENDED,
+  REPORTS,
+  PRINT_ITEMS,
+  CONDITIONALS,
+  FLAG_SCORE,
+  ALLOW_EXPORT,
+  REPORT_CONFIGS,
 } from '../constants';
 
 export const languageListToObject = (list) => {
@@ -393,7 +399,13 @@ export const flattenValueConstraints = (vcObj) =>
 export const transformInputs = (inputs) =>
   inputs.reduce((accumulator, inputObj) => {
     const key = R.path([NAME, 0, "@value"], inputObj);
-    let val = R.path([VALUE, 0, "@value"], inputObj);
+    const type = R.path(["@type", 0], inputObj);
+
+    let val = (R.path([VALUE], inputObj) || []).map(d => d["@value"]);
+
+    if (type !== 'http://schema.org/List') {
+      val = val[0];
+    }
 
     if (typeof val === "undefined" && inputObj[ITEM_LIST_ELEMENT]) {
       const itemList = R.path([ITEM_LIST_ELEMENT], inputObj);
@@ -566,6 +578,32 @@ const transformPureActivity = (activityJson) => {
     }
   }, activityJson[MESSAGES]) || [];
 
+  const reports = activityJson[REPORTS] && R.map((item) => {
+    item = item['@list'];
+    return R.map((itemJson) => {
+      return {
+        variableName: itemJson['@id'],
+        label: R.path([PREF_LABEL, 0, "@value"], itemJson),
+        message: R.path([MESSAGE, 0, "@value"], itemJson),
+        conditionals: R.map((cond) => {
+          cond = cond['@list'];
+          return R.map((condJson) => ({
+            variableName: condJson['@id'],
+            label: R.path([PREF_LABEL, 0, "@value"], condJson),
+            message: R.path([MESSAGE, 0, "@value"], condJson),
+            jsExpression: R.path([IS_VIS, 0, "@value"], condJson),
+            flagScore: R.path([FLAG_SCORE, 0, "@value"], condJson),
+            printItems: R.map(pItem => pItem['@value'], R.path([PRINT_ITEMS, 0, "@list"], condJson) || []),
+          }), cond)
+        }, itemJson[CONDITIONALS] || []),
+        jsExpression: R.path([IS_VIS, 0, "@value"], itemJson) || R.path([JS_EXPRESSION, 0, "@value"], itemJson),
+        outputType: R.path([OUTPUT_TYPE, 0, "@value"], itemJson),
+        printItems: R.map(pItem => pItem['@value'], R.path([PRINT_ITEMS, 0, "@list"], itemJson) || []),
+      }
+    }, item)
+
+  }, activityJson[REPORTS]) || [];
+
   return {
     id: activityJson._id,
     name: languageListToObject(activityJson[PREF_LABEL]),
@@ -581,6 +619,7 @@ const transformPureActivity = (activityJson) => {
     disableSummary: allowList.includes(DISABLE_SUMMARY),
     fullScreen: allowList.includes(FULL_SCREEN),
     autoAdvance: allowList.includes(AUTO_ADVANCE),
+    allowExport: allowList.includes(ALLOW_EXPORT),
     isPrize: R.path([ISPRIZE, 0, "@value"], activityJson) || false,
     isOnePageAssessment: R.path([IS_ONE_PAGE_ASSESSMENT, 0, "@value"], activityJson) || false,
     isReviewerActivity: R.path([IS_REVIEWER_ACTIVITY, 0, '@value'], activityJson) || false,
@@ -597,6 +636,7 @@ const transformPureActivity = (activityJson) => {
     scoringLogic,
     notification,
     info,
+    reports,
   };
 };
 
@@ -671,6 +711,7 @@ export const appletTransformJson = (appletJson) => {
     responseDates: applet.responseDates,
     shuffle: R.path([SHUFFLE, 0, "@value"], applet),
     combineReports: R.path([COMBINE_REPORTS, 0, "@value"], applet) || false,
+    reportConfigs: transformInputs(R.path([REPORT_CONFIGS, 0, '@list'], applet) || []),
   };
   if (applet.encryption && Object.keys(applet.encryption).length) {
     res.encryption = applet.encryption;

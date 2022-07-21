@@ -16,37 +16,51 @@ import katex from 'markdown-it-katex-external';
 import miip from 'markdown-it-images-preview';
 import html5Embed from 'markdown-it-html5-embed';
 import markdownItImSize from 'markdown-it-imsize';
-
+import $ from "jquery";
 import './style.css'
 
-const md = markdownIt();
+const md = markdownIt({
+  html: true,        // Enable HTML tags in source
+  xhtmlOut: true,        // Use '/' to close single tags (<br />).
+  breaks: true,        // Convert '\n' in paragraphs into <br>
+  langPrefix: 'lang-',  // CSS language prefix for fenced blocks. Can be
+  linkify: false,
+  typographer: true,
+  quotes: '“”‘’'
+});
 
 md.use(emoji)
-    .use(taskLists)
-    .use(sup)
-    .use(sub)
-    .use(container)
-    .use(container, 'hljs-left') /* align left */
-    .use(container, 'hljs-center')/* align center */
-    .use(container, 'hljs-right')/* align right */
-    .use(deflist)
-    .use(abbr)
-    .use(footnote)
-    .use(insert)
-    .use(mark)
-    .use(container)
-    .use(miip)
-    .use(katex)
-    .use(html5Embed, {
-      html5embed: {
-        useImageSyntax: true
-      }
-    }).use(markdownItImSize)
+  .use(taskLists)
+  .use(sup)
+  .use(sub)
+  .use(container)
+  .use(container, 'hljs-left') /* align left */
+  .use(container, 'hljs-center')/* align center */
+  .use(container, 'hljs-right')/* align right */
+  .use(deflist)
+  .use(abbr)
+  .use(footnote)
+  .use(insert)
+  .use(mark)
+  .use(container)
+  .use(miip)
+  .use(katex)
+  .use(html5Embed, {
+    html5embed: {
+      useImageSyntax: true
+    }
+  }).use(markdownItImSize)
 
 const parser = new Parser();
 
 const Markdown = (props) => {
   const { markdown } = props;
+
+  React.useEffect(() => {
+    $(document.links).filter(function () {
+      return this.hostname != window.location.hostname;
+    }).attr('target', '_blank');
+  }, [])
 
   let htmlInput = md.render(markdown || '');
 

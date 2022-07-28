@@ -975,8 +975,11 @@ export const parseAppletEvents = (applet) => {
       for (let eventId in applet.schedule.events) {
         const event = { ...applet.schedule.events[eventId] };
         if (event.data.activity_id === act.id.substring(9) && !act.hasResponseIdentifier) {
+          const date = new Date();
+          date.setHours(0); date.setMinutes(0); date.setSeconds(0);
+
           const futureSchedule = Parse.schedule(event.schedule).forecast(
-            Day.fromDate(new Date()),
+            Day.fromDate(date),
             true,
             1,
             0,

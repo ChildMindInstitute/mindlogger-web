@@ -36,7 +36,7 @@ export const sendPDFExport = (authToken, applet, activities, appletResponse, cur
             }
 
             return {
-              value: response && response.value || null
+              value: response && (response.value === null || response.value === undefined ? null : response.value)
             }
           }
 
@@ -44,6 +44,7 @@ export const sendPDFExport = (authToken, applet, activities, appletResponse, cur
         })
       })
     }
+
 
     const encrypted = crypto.publicEncrypt(configs.publicEncryptionKey, Buffer.from(JSON.stringify(params)));
     exportPDF(

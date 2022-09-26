@@ -172,8 +172,11 @@ export const completeResponse = createAsyncThunk(RESPONSE_CONSTANTS.COMPLETE_RES
     }));
   }
 
+  state = getState();
+
   setTimeout(() => {
     const { activity } = inProgressResponse;
+
     dispatch(
       removeResponseInProgress(activity.event ? activity.id + activity.event.id : activity.id)
     );

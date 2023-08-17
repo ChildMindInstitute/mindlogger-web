@@ -1,4 +1,5 @@
 import mixpanel from 'mixpanel-browser';
+import UserAgentParser from 'ua-parser-js';
 
 mixpanel.init('YOUR_MIXPANEL_TOKEN');
 
@@ -7,7 +8,7 @@ let isProduction = process.env.NODE_ENV === 'production';
 export let Mixpanel = {
   init() {
     this.track('INFO', {
-      os: navigator.userAgentData.platform,
+      os: new UserAgentParser().getOS().name,
       width: window.innerWidth,
       height: window.innerHeight,
     })

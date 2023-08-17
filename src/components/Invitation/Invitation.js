@@ -10,6 +10,7 @@ import { loggedInSelector } from '../../state/user/user.selectors';
 import { getInvitation, acceptInvitation, declineInvitation } from '../../state/app/app.actions';
 
 import './style.css';
+import { Mixpanel } from '../../services/mixpanel';
 
 const Invitation = () => {
   const { invitationId } = useParams();
@@ -64,6 +65,7 @@ const Invitation = () => {
       setStatus(Statuses.ACCEPTED);
       setInvitationText(body);
       dispatch(setRedirectUrl(null));
+      Mixpanel.track('Invitations Accepted');
     } catch (error) {
       setStatus(Statuses.ERROR);
     }

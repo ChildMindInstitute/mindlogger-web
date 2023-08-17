@@ -8,6 +8,7 @@ import { forgotPasswordAPI, deleteUserAccount } from '../../services/network';
 import { signInAPI, signUpAPI, updatePasswordAPI, signOutAPI } from '../../services/authentication.service';
 
 import USER_CONSTANTS from './user.constants';
+import { Mixpanel } from '../../services/mixpanel';
 
 
 export const signIn = createAsyncThunk(USER_CONSTANTS.SIGNIN, async (user) => {
@@ -18,6 +19,8 @@ export const signIn = createAsyncThunk(USER_CONSTANTS.SIGNIN, async (user) => {
       email: user.email,
       password: user.password
     });
+
+    Mixpanel.track('Login Successful');
 
     return {
       ...response,
@@ -71,7 +74,7 @@ export const doLogout = createAsyncThunk(USER_CONSTANTS.LOGOUT, async (args, { g
 
     dispatch(clearUser());
     dispatch(clearApplets());
-
+    Mixpanel.logout();
   } catch (error) {
     throw new Error(error);
   }

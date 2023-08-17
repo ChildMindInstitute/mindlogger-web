@@ -9,6 +9,7 @@ import { signIn } from '../../state/user/user.actions'
 import { setRedirectUrl } from '../../state/app/app.reducer'
 
 import './styles.css'
+import { Mixpanel } from '../../services/mixpanel'
 
 /**
  * Component for Logging in the User
@@ -50,6 +51,10 @@ export default function Login() {
     }
   }, [location])
 
+  useEffect(() => {
+    Mixpanel.trackPageView('Login');
+  }, []);
+
   if (isStarted && error) {
     let errorMsg = "";
     const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -76,6 +81,7 @@ export default function Login() {
     setIsStarted(true);
     event.preventDefault()
     dispatch(signIn(user));
+    Mixpanel.track('Login Button click');
   }
 
   return (

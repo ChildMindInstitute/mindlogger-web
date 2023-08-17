@@ -15,7 +15,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min'
 import './index.css'
 
 import * as serviceWorker from './serviceWorker'
-
+import { Mixpanel } from './services/mixpanel'
 
 const checkAuthToken = (store) => {
   const state = store.getState()
@@ -31,6 +31,8 @@ const checkAuthToken = (store) => {
 }
 
 const { store, persist } = configureStore()
+
+Mixpanel.init();
 
 ReactDOM.render(
   <React.StrictMode>

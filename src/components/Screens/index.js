@@ -32,6 +32,7 @@ import {
 } from '../../state/responses/responses.selectors';
 
 import "./style.css";
+import { Mixpanel } from '../../services/mixpanel';
 
 const Screens = (props) => {
   const items = []
@@ -165,6 +166,8 @@ const Screens = (props) => {
       // history.push(`/applet/${appletId}/dashboard`);
       history.push(`/applet/${appletId}/activity_thanks`);
     }
+
+    Mixpanel.track('Assessment completed');
   };
 
   const getVisibility = (responses) => {

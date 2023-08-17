@@ -46,6 +46,7 @@
     "markdown-it-sub": "^1.0.0",
     "markdown-it-sup": "^1.0.0",
     "markdown-it-task-lists": "^2.1.1",
+    "mixpanel-browser": "^2.47.0",
     "moment": "^2.29.1",
     "multiselect-react-dropdown": "^2.0.21",
     "node-sass": "^6.0.1",

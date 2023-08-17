@@ -9,6 +9,7 @@ import { InviteLink } from './InviteLink';
 import { SignIn } from '../Signin/SignIn';
 import { loggedInSelector } from '../../state/user/user.selectors';
 import { acceptInviteLink, getInviteLinkInfo } from '../../state/app/app.actions';
+import { Mixpanel } from '../../services/mixpanel';
 
 export const Join = () => {
   const { t } = useTranslation();
@@ -60,6 +61,7 @@ export const Join = () => {
     try {
       await dispatch(acceptInviteLink(inviteLinkId));
       setStatus(Statuses.ACCEPTED);
+      Mixpanel.track('Invitations Accepted');
     } catch (error) {
       setStatus(Statuses.ERROR);
     }

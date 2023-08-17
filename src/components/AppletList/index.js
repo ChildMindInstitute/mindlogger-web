@@ -10,6 +10,7 @@ import { setCurrentApplet } from '../../state/app/app.reducer'
 import { appletsSelector } from '../../state/applet/applet.selectors';
 
 import './style.css'
+import { Mixpanel } from '../../services/mixpanel'
 
 /**
  * Component for the index page of the WebApp
@@ -29,6 +30,10 @@ export default function AppletList() {
       setIsLoading(false);
     }
     fetchApplets();
+  }, [])
+
+  useEffect(() => {
+    Mixpanel.trackPageView('Dashboard');
   }, [])
 
   const onSelectApplet = (appletId) => {

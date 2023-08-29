@@ -76,8 +76,7 @@
     "redux-thunk": "^2.3.0",
     "remark-gfm": "^1.0.0",
     "reselect": "^4.0.0",
-    "styled-components": "^5.2.0",
-    "ua-parser-js": "^1.0.35"
+    "styled-components": "^5.2.0"
   },
   "scripts": {
     "start": "react-scripts start",

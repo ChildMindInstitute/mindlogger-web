@@ -1,5 +1,4 @@
 import mixpanel from 'mixpanel-browser';
-import UserAgentParser from 'ua-parser-js';
 
 let isProduction = process.env.NODE_ENV === 'production';
 

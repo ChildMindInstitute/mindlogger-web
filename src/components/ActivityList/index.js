@@ -26,6 +26,7 @@ import { setCurrentEvent } from '../../state/responses/responses.reducer';
 import { createResponseInProgress } from '../../state/responses/responses.reducer';
 import { parseAppletEvents } from '../../services/json-ld';
 import { getActivityAvailabilityFromDependency } from '../../services/helper';
+import { Mixpanel } from '../../services/mixpanel'
 
 import AboutModal from '../AboutModal';
 import ActivityItem from './ActivityItem';
@@ -158,6 +159,8 @@ export const ActivityList = ({ inProgress, finishedEvents }) => {
       }));
 
       dispatch(setCurrentActivity(activity));
+
+      Mixpanel.track('Assessment Started');
 
       if (currentApplet.publicId) {
         history.push(`/applet/public/${currentApplet.id.split('/').pop()}/${activity.id}`);

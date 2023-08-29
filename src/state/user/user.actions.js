@@ -21,6 +21,7 @@ export const signIn = createAsyncThunk(USER_CONSTANTS.SIGNIN, async (user) => {
     });
 
     Mixpanel.track('Login Successful');
+    Mixpanel.login(response.user._id);
 
     return {
       ...response,
@@ -39,6 +40,11 @@ export const signUp = createAsyncThunk(USER_CONSTANTS.SIGNUP, async (user) => {
     email: user.email,
     password: user.password
   });
+
+  if (!response.error) {
+    Mixpanel.track('Account Creation complete');
+    Mixpanel.login(response._id);
+  }
 
   return { ...response, privateKey, email: user.email };
 });

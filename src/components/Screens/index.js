@@ -166,8 +166,6 @@ const Screens = (props) => {
       // history.push(`/applet/${appletId}/dashboard`);
       history.push(`/applet/${appletId}/activity_thanks`);
     }
-
-    Mixpanel.track('Assessment completed');
   };
 
   const getVisibility = (responses) => {

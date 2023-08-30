@@ -118,7 +118,7 @@ export default function Login() {
                 : t('Login.title')}
             </Button>
           </Form>
-          <p className="mt-3">
+          <p className="mt-3" onClick={() => Mixpanel.track('Create account button on login screen click')}>
             {t('Login.accountMessage')}{' '}
             <Link to="/signup">{t('Login.create')}</Link>
           </p>
